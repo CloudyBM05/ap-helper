@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 // Then use: const PDF_URL = "/apush-2014.pdf";
 // The public folder is at the root of your project, next to package.json and vite.config.ts
 
-const PDF_URL = "/apush-2014.pdf";
+// Use import.meta.env.BASE_URL for correct PDF path
+const PDF_URL = `${import.meta.env.BASE_URL}apush-2014.pdf`;
 
 // Example: 55 questions, 4 choices each (A-D)
 const NUM_QUESTIONS = 55;
@@ -123,7 +124,7 @@ const APUSHPracticeExamMCQ2014 = () => {
             className="w-full flex-1 min-h-[900px] border rounded-lg"
           />
           <div className="text-xs text-slate-500 mt-2 text-center">
-            If the PDF does not load, <a href={`${import.meta.env.BASE_URL}apush-2014.pdf`} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">click here to open in a new tab</a>.
+            If the PDF does not load, <a href={PDF_URL} target="_blank" rel="noopener noreferrer">Open 2014 APUSH Practice Exam PDF</a>.
           </div>
         </div>
         {/* Scantron */}
