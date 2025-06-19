@@ -25,7 +25,7 @@ const CORRECT_ANSWERS = [
 const Stopwatch: React.FC = () => {
   const [seconds, setSeconds] = useState(0);
   const [running, setRunning] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   React.useEffect(() => {
     if (running) {

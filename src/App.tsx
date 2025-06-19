@@ -19,14 +19,13 @@ import APUSHPracticeExamMCQ2014 from './pages/APUSHPracticeExamMCQ2014';
 import APUSHPracticeExamMCQ2014Results from './pages/APUSHPracticeExamMCQ2014Results';
 import APUSHPracticeExamSAQSelect from './pages/APUSHPracticeExamSAQSelect';
 import APUSHPracticeExamSAQ2025 from './pages/APUSHPracticeExamSAQ2025';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import { Register, Login } from './components/AuthForms';
 import NotesFeed, { EditNote } from './pages/NotesFeed';
 import GradeGames from './pages/GradeGames';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/AP-Helper/">
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <Navbar />
         <main>
@@ -48,8 +47,8 @@ function App() {
             <Route path="/apush-practice-exam/mcq/2014/results" element={<APUSHPracticeExamMCQ2014Results />} />
             <Route path="/apush-practice-exam/saq/select" element={<APUSHPracticeExamSAQSelect />} />
             <Route path="/apush-practice-exam/saq/2025" element={<APUSHPracticeExamSAQ2025 />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login onLogin={() => {}} />} />
             <Route path="/notes" element={<NotesFeed />} />
             <Route path="/notes/edit/:id" element={<EditNote />} />
             <Route path="/grade-games" element={<GradeGames />} />
