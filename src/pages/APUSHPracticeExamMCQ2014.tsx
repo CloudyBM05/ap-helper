@@ -123,7 +123,7 @@ const APUSHPracticeExamMCQ2014 = () => {
             className="w-full flex-1 min-h-[900px] border rounded-lg"
           />
           <div className="text-xs text-slate-500 mt-2 text-center">
-            If the PDF does not load, <a href={PDF_URL} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">click here to open in a new tab</a>.
+            If the PDF does not load, <a href={`${import.meta.env.BASE_URL}apush-2014.pdf`} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">click here to open in a new tab</a>.
           </div>
         </div>
         {/* Scantron */}

@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://your-backend.onrender.com';
 
 export function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '' });

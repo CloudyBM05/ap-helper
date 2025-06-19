@@ -6,18 +6,21 @@ const AP_CLASSES = [
   { value: 'APWorld', label: 'AP World History' }
 ];
 
-const BOSS_NAME = 'Boss 1';
-const BOSS_IMAGE = '/boss1.PNG';
-const USER_IMAGE = '/user-hero.png';
+// Use import.meta.env.BASE_URL for all public asset paths
+// Use lowercase for all asset filenames to avoid case-sensitivity issues on GitHub Pages
+const BOSS_IMAGE = `${import.meta.env.BASE_URL}boss1.png`;
+const USER_IMAGE = `${import.meta.env.BASE_URL}user-hero.png`;
+const SLASH_IMAGE = `${import.meta.env.BASE_URL}slashing.png`;
+const IMPACT_IMAGE = `${import.meta.env.BASE_URL}impact.png`;
 
-const getRandomBoss = () => ({ name: BOSS_NAME, img: BOSS_IMAGE });
+const getRandomBoss = () => ({ name: 'Boss 1', img: BOSS_IMAGE });
 
-const correctSoundUrl = '/sounds/correct.mp3';
-const wrongSoundUrl = '/sounds/wrong.mp3';
-const winSoundUrl = '/sounds/win.mp3';
-const loseSoundUrl = '/sounds/lose.mp3';
-const slashSE = '/slashse.mp3';
-const impactSE = '/impactse.mp3';
+const correctSoundUrl = `${import.meta.env.BASE_URL}sounds/correct.mp3`;
+const wrongSoundUrl = `${import.meta.env.BASE_URL}sounds/wrong.mp3`;
+const winSoundUrl = `${import.meta.env.BASE_URL}sounds/win.mp3`;
+const loseSoundUrl = `${import.meta.env.BASE_URL}sounds/lose.mp3`;
+const slashSE = `${import.meta.env.BASE_URL}slashse.mp3`;
+const impactSE = `${import.meta.env.BASE_URL}impactse.mp3`;
 
 const fetchAIQuestion = async (apClass: string) => {
   // Simulate OpenAI API call (replace with real API if desired)
@@ -74,7 +77,7 @@ const BeatTheBoss: React.FC<{ apClass: string; onExit: () => void }> = ({ apClas
   const [question, setQuestion] = useState<any>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [boss] = useState({ name: 'Boss 1', img: '/boss1.PNG' });
+  const [boss] = useState({ name: 'Boss 1', img: BOSS_IMAGE });
   const [round, setRound] = useState(1);
   const [anim, setAnim] = useState<'idle' | 'attack' | 'hurt' | 'win' | 'lose'>('idle');
   const [bossAnim, setBossAnim] = useState<'idle' | 'hurt' | 'lose' | 'attack'>('idle');
@@ -190,7 +193,7 @@ const BeatTheBoss: React.FC<{ apClass: string; onExit: () => void }> = ({ apClas
   return (
     <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-lg p-8 mt-8 flex flex-col items-center">
       {/* Background music */}
-      <audio ref={audioRef} src="/Age of War - Theme Soundtrack.mp3" loop autoPlay />
+      <audio ref={audioRef} src={`${import.meta.env.BASE_URL}Age of War - Theme Soundtrack.mp3`} loop autoPlay />
       <div className="relative flex items-end justify-between w-full mb-6" style={{ minHeight: 120 }}>
         {/* Hero */}
         <div className="flex flex-col items-center z-10" style={{ width: 120 }}>
@@ -214,7 +217,7 @@ const BeatTheBoss: React.FC<{ apClass: string; onExit: () => void }> = ({ apClas
         {/* Slash animation */}
         {showSlash && (
           <img
-            src="/slashing.png"
+            src={SLASH_IMAGE}
             alt="Slash Animation"
             className="absolute z-30 pointer-events-none w-24 h-24"
             style={{
@@ -248,7 +251,7 @@ const BeatTheBoss: React.FC<{ apClass: string; onExit: () => void }> = ({ apClas
         {/* Impact animation */}
         {showImpact && (
           <img
-            src="/impact.png"
+            src={IMPACT_IMAGE}
             alt="Impact Animation"
             className="absolute z-40 pointer-events-none w-20 h-20"
             style={{

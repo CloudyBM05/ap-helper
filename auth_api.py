@@ -10,7 +10,9 @@ from jose import JWTError, jwt
 import os
 
 # --- CONFIG ---
-DATABASE_URL = "postgresql://ap_helper_user:APHELPER%236532@localhost:5432/ap_helper_db"
+DATABASE_URL = os.environ.get("DATABASE_URL")
+if not DATABASE_URL:
+    raise Exception("DATABASE_URL environment variable not set")
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 1 week
