@@ -1,15 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-// To display your PDF, put it in the public folder:
-// Example: c:\Users\Brandon\Downloads\project\public\apush-2014.pdf
-// Then use: const PDF_URL = "/apush-2014.pdf";
-// The public folder is at the root of your project, next to package.json and vite.config.ts
+import React, { useState, useRef, useEffect } from 'react';
 
 // Use import.meta.env.BASE_URL for correct PDF path
 const PDF_URL = `${import.meta.env.BASE_URL}apush-2014.pdf`;
 
-// Example: 55 questions, 4 choices each (A-D)
 const NUM_QUESTIONS = 55;
 const CHOICES = ['A', 'B', 'C', 'D'];
 
@@ -26,11 +19,11 @@ const CORRECT_ANSWERS = [
 const Stopwatch: React.FC = () => {
   const [seconds, setSeconds] = useState(0);
   const [running, setRunning] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (running) {
-      intervalRef.current = setInterval(() => {
+      intervalRef.current = window.setInterval(() => {
         setSeconds((s) => s + 1);
       }, 1000);
     } else if (intervalRef.current) {
@@ -81,12 +74,10 @@ const Stopwatch: React.FC = () => {
   );
 };
 
-const APUSHPracticeExamMCQ2014 = () => {
+const APUSHPracticeExamMCQ2014: React.FC = () => {
   const [answers, setAnswers] = useState<(string | null)[]>(Array(NUM_QUESTIONS).fill(null));
-  const [crossed, setCrossed] = useState<boolean[]>(
-    Array(NUM_QUESTIONS).fill(false)
-  );
-  const navigate = useNavigate();
+  const [crossed, setCrossed] = useState<boolean[]>(Array(NUM_QUESTIONS).fill(false));
+  const [showPdf, setShowPdf] = useState(false);
 
   const handleSelect = (qIdx: number, choice: string) => {
     setAnswers((prev) => {
@@ -105,28 +96,13 @@ const APUSHPracticeExamMCQ2014 = () => {
   };
 
   const handleSubmit = () => {
-    // Use replace: false to push the results page onto the history stack
-    navigate('/apush-practice-exam/mcq/2014/results', { state: { answers }, replace: false });
+    setShowPdf(true);
   };
 
   return (
     <div className="min-h-screen py-12 px-4 bg-slate-50 flex flex-col items-center">
-      {/* Stopwatch at the top, above the PDF/scantron layout */}
       <Stopwatch />
-      {/* Main content: PDF left, Scantron right */}
       <div className="w-full flex flex-col md:flex-row gap-8 justify-center items-start">
-        {/* PDF Viewer */}
-        <div className="flex-1 min-w-[500px] max-w-4xl bg-white shadow-lg p-6 rounded-2xl">
-          <h2 className="text-xl font-bold mb-4 text-center">APUSH 2014 Official Exam PDF</h2>
-          <iframe
-            src={PDF_URL}
-            title="APUSH 2014 Exam PDF"
-            className="w-full flex-1 min-h-[900px] border rounded-lg"
-          />
-          <div className="text-xs text-slate-500 mt-2 text-center">
-            If the PDF does not load, <a href={PDF_URL} target="_blank" rel="noopener noreferrer">Open 2014 APUSH Practice Exam PDF</a>.
-          </div>
-        </div>
         {/* Scantron */}
         <div className="flex-1 min-w-[400px] max-w-2xl bg-white shadow-lg p-6 rounded-2xl">
           <h2 className="text-xl font-bold mb-4 text-center">Scantron</h2>
@@ -153,7 +129,7 @@ const APUSHPracticeExamMCQ2014 = () => {
                 {Array.from({ length: NUM_QUESTIONS }).map((_, qIdx) => (
                   <tr key={qIdx}>
                     <td className="font-bold pr-2">{qIdx + 1}</td>
-                    {CHOICES.map((c, cIdx) => (
+                    {CHOICES.map((c) => (
                       <td key={c} className="text-center">
                         <button
                           type="button"
@@ -181,6 +157,18 @@ const APUSHPracticeExamMCQ2014 = () => {
           </div>
         </div>
       </div>
+      {/* Show the PDF after submitting the exam */}
+      {showPdf && (
+        <div style={{ width: "100%", height: "80vh", marginTop: "2rem" }}>
+          <iframe
+            src={PDF_URL}
+            width="100%"
+            height="100%"
+            title="APUSH 2014 Practice Exam PDF"
+            style={{ border: "none" }}
+          />
+        </div>
+      )}
     </div>
   );
 };
