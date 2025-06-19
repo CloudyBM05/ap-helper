@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+  100% { transform: translateX(0); }
+}
+.animate-shake {
+  animation: shake 0.4s;
+}
+
+@keyframes run-to-boss {
+  0% { left: 0; }
+  100% { left: 180px; }
+}
+.run-to-boss {
+  animation: run-to-boss 0.35s linear forwards;
+}
+
+@keyframes slash-draw {
+  from {
+    stroke-dashoffset: 100;
+    opacity: 0.7;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes slash-fade {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.7) rotate(-10deg);}
+  50% { opacity: 1; transform: translateX(-50%) scale(1.1) rotate(0deg);}
+  100% { opacity: 0; transform: translateX(-50%) scale(1.2) rotate(10deg);}
+}
+
+@keyframes boss-attack {
+  0% { right: 0; }
+  100% { right: 260px; }
+}
+.boss-attack {
+  animation: boss-attack 0.35s linear forwards;
+}
+@keyframes impact-fade {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.7);}
+  50% { opacity: 1; transform: translateX(-50%) scale(1.1);}
+  100% { opacity: 0; transform: translateX(-50%) scale(1.2);}
+}
+.impact-fade {
+  animation: impact-fade 0.4s linear;
+}
