@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import EssayGrader from './pages/EssayGrader';
@@ -25,7 +25,7 @@ import GradeGames from './pages/GradeGames';
 
 function App() {
   return (
-    <Router basename="/AP-Helper/">
+    <>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <Navbar />
         <main>
@@ -56,7 +56,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </>
   );
 }
 
