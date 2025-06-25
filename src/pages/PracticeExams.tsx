@@ -132,13 +132,38 @@ const PracticeExams = () => {
                     <span className="font-semibold">AI Graded: SAQ, DBQ, and LEQ</span>
                   </div>
                 </div>
+                {/* New: APUSH Free Response Options */}
+                <div className="mb-4">
+                  <div className="font-semibold text-slate-800 mb-2">APUSH Free Response (AI Graded):</div>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      className="w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
+                      onClick={() => alert('DBQ Grader coming soon!')}
+                    >
+                      DBQ (Document-Based Question)
+                    </button>
+                    <button
+                      className="w-full bg-gradient-to-r from-teal-400 to-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-teal-500 hover:to-teal-700 transition-all duration-200"
+                      onClick={() => alert('LEQ Grader coming soon!')}
+                    >
+                      LEQ (Long Essay Question)
+                    </button>
+                    <button
+                      className="w-full bg-gradient-to-r from-purple-400 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-500 hover:to-purple-700 transition-all duration-200"
+                      onClick={() => navigate('/apush-practice-exam/saq/select')}
+                    >
+                      SAQ (Short Answer Question)
+                    </button>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-2">All free response questions are AI graded for instant feedback.</div>
+                </div>
                 
                 <button
                   className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-teal-600 transition-all duration-300 flex items-center justify-center space-x-2"
                   onClick={() => navigate('/apush-practice-exam/mcq/select')}
                 >
                   <Play className="w-5 h-5" />
-                  <span>Start Practice Exam</span>
+                  <span>Start MCQ Exam</span>
                 </button>
               </div>
             </div>

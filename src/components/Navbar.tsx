@@ -19,6 +19,7 @@ const Navbar = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const [userNotes, setUserNotes] = useState<any[]>([]);
   const [showNotes, setShowNotes] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   const navigation = [
     { name: 'Essay Grader', href: '/essay-grader', icon: FileText },
@@ -103,18 +104,27 @@ const Navbar = () => {
             </Link>
           );
         })}
-        <Link
-          to="/notes"
-          className="text-blue-700 font-semibold hover:underline transition"
-        >
-          Notes & Flashcards
-        </Link>
-        <Link
-          to="/grade-games"
-          className="text-blue-700 font-semibold hover:underline transition"
-        >
-          Grade Games
-        </Link>
+        <div className="relative">
+          <button
+            type="button"
+            className="text-blue-700 font-semibold hover:underline transition bg-transparent border-none outline-none cursor-pointer"
+            onClick={() => setShowComingSoon((v) => !v)}
+          >
+            Notes & Flashcards
+          </button>
+          {showComingSoon && (
+            <div className="absolute left-1/2 transform -translate-x-1/2 mt-4 bg-white border border-blue-200 rounded-xl shadow-lg px-8 py-6 z-50 text-center min-w-[250px]">
+              <div className="text-2xl font-bold text-blue-700 mb-2">Coming Soon!</div>
+              <div className="text-slate-600">Notes & Flashcards will be available in a future update.</div>
+              <button
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+                onClick={() => setShowComingSoon(false)}
+              >
+                Close
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       {/* Right: Profile/Login */}
       <div className="relative" ref={profileRef}>

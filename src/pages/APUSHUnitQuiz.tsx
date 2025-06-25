@@ -164,6 +164,7 @@ const APUSHUnitQuiz: React.FC = () => {
   const [selected, setSelected] = useState<number | null>(null);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(allQuestions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
+  const [crossedOut, setCrossedOut] = useState<number[][]>(Array(allQuestions.length).fill(null).map(() => []));
   const navigate = useNavigate();
 
   const handleSelect = (idx: number) => {
@@ -187,6 +188,26 @@ const APUSHUnitQuiz: React.FC = () => {
 
   const handleGoBack = () => {
     navigate('/apush-study-guide/unit/1');
+  };
+
+  const handleBack = () => {
+    if (current > 0) {
+      setCurrent((prev) => prev - 1);
+      setSelected(answers[current - 1]);
+    }
+  };
+
+  const handleCrossOut = (idx: number) => {
+    setCrossedOut((prev) => {
+      const copy = prev.map(arr => [...arr]);
+      const arr = copy[current];
+      if (arr.includes(idx)) {
+        copy[current] = arr.filter(i => i !== idx);
+      } else {
+        copy[current] = [...arr, idx];
+      }
+      return copy;
+    });
   };
 
   if (submitted) {
@@ -268,19 +289,37 @@ const APUSHUnitQuiz: React.FC = () => {
         <div className="text-lg font-semibold mb-4">{q.question}</div>
         <div className="space-y-3">
           {q.options.map((opt: string, idx: number) => (
-            <button
-              key={idx}
-              className={`px-4 py-2 rounded-lg border w-full text-left transition-all duration-200 ${
-                selected === idx ? 'bg-blue-500 text-white border-blue-600' : 'bg-white text-slate-800'
-              }`}
-              onClick={() => handleSelect(idx)}
-            >
-              {opt}
-            </button>
+            <div key={idx} className="flex items-center gap-2">
+              <button
+                type="button"
+                className={`px-4 py-2 rounded-lg border w-full text-left transition-all duration-200 ${
+                  selected === idx ? 'bg-blue-500 text-white border-blue-600' : 'bg-white text-slate-800'
+                } ${crossedOut[current]?.includes(idx) ? 'line-through opacity-50' : ''}`}
+                onClick={() => handleSelect(idx)}
+                disabled={crossedOut[current]?.includes(idx)}
+              >
+                {opt}
+              </button>
+              <button
+                type="button"
+                className={`ml-2 px-2 py-1 rounded border text-xs ${crossedOut[current]?.includes(idx) ? 'bg-red-200 text-red-700 border-red-400' : 'bg-slate-100 text-slate-500 border-slate-300'}`}
+                onClick={() => handleCrossOut(idx)}
+                aria-label="Cross out option"
+              >
+                {crossedOut[current]?.includes(idx) ? 'Uncross' : 'Cross out'}
+              </button>
+            </div>
           ))}
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-between mt-8">
+        <button
+          className="bg-slate-200 text-slate-700 px-6 py-3 rounded-xl font-bold text-lg shadow hover:bg-slate-300 transition-all duration-300"
+          onClick={handleBack}
+          disabled={current === 0}
+        >
+          Back
+        </button>
         {current < allQuestions.length - 1 ? (
           <button
             className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:from-blue-600 hover:to-teal-600 transition-all duration-300"

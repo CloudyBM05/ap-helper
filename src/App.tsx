@@ -21,7 +21,6 @@ import APUSHPracticeExamSAQSelect from './pages/APUSHPracticeExamSAQSelect';
 import APUSHPracticeExamSAQ2025 from './pages/APUSHPracticeExamSAQ2025';
 import { Register, Login } from './components/AuthForms';
 import NotesFeed, { EditNote } from './pages/NotesFeed';
-import GradeGames from './pages/GradeGames';
 
 function App() {
   return (
@@ -51,7 +50,6 @@ function App() {
             <Route path="/login" element={<Login onLogin={() => {}} />} />
             <Route path="/notes" element={<NotesFeed />} />
             <Route path="/notes/edit/:id" element={<EditNote />} />
-            <Route path="/grade-games" element={<GradeGames />} />
           </Routes>
         </main>
         <Footer />

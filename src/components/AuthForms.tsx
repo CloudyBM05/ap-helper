@@ -22,18 +22,16 @@ export function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
-      <input name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-      <input name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-      <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-      <button type="submit">Register</button>
-      <div>{message}</div>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <form className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <div className="text-lg text-blue-600 font-semibold">Coming soon!</div>
+      </form>
+    </div>
   );
 }
 
-export function Login({ onLogin }: { onLogin: (username: string) => void }) {
+export function Login({ onLogin }: { onLogin?: (username: string) => void }) {
   const [form, setForm] = useState({ username: '', password: '' });
   const [message, setMessage] = useState('');
 
@@ -50,17 +48,22 @@ export function Login({ onLogin }: { onLogin: (username: string) => void }) {
     const data = await res.json();
     if (res.ok) {
       setMessage('Login successful!');
-      onLogin && onLogin(form.username);
+      if (onLogin) {
+        onLogin(form.username);
+      } else {
+        // Default: set localStorage and redirect
+        localStorage.setItem('apush_user', form.username);
+        window.location.href = '/';
+      }
     } else setMessage(data.detail || 'Login failed.');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <input name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-      <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-      <button type="submit">Login</button>
-      <div>{message}</div>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <form className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
+        <div className="text-lg text-blue-600 font-semibold">Coming soon!</div>
+      </form>
+    </div>
   );
 }
