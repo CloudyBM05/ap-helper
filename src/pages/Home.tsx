@@ -39,13 +39,6 @@ const Home = () => {
       icon: BookOpen,
       link: '/study-guides',
       color: 'from-purple-500 to-pink-500'
-    },
-    {
-      title: 'Notes & Flashcards',
-      description: 'Get study material, notes, and flashcards shared by other students.',
-      icon: StickyNote,
-      link: '/notes',
-      color: 'from-yellow-400 to-orange-400'
     }
   ];
 
@@ -53,8 +46,8 @@ const Home = () => {
     { icon: Zap, title: 'Instant Feedback', description: 'Get results in seconds, not days' },
     { icon: Target, title: 'Rubric-Based', description: 'Aligned with official AP standards' },
     { icon: Clock, title: '24/7 Available', description: 'Study anytime, anywhere' },
-    { icon: Users, title: 'Trusted Platform', description: 'Used by thousands of students' },
-    { icon: TrendingUp, title: 'Track Progress', description: 'Monitor your improvement over time' },
+    { icon: Users, title: 'Trusted Platform', description: 'Used by highschool students' },
+    { icon: CheckCircle, title: 'Accurate Practice Exams', description: 'Realistic questions and scoring for AP success' },
     { icon: Award, title: 'Proven Results', description: 'Higher AP scores guaranteed' }
   ];
 
@@ -95,12 +88,12 @@ const Home = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">
               Master Your AP Exams
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500">
-                with AI Power
+                with AP Helper
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-4xl mx-auto leading-relaxed">
               Your comprehensive study companion featuring AI-powered essay grading, 
-              practice exams for 20+ AP courses, study guides, and personalized feedback 
+              practice exams, study guides, and personalized feedback 
               to help you achieve your best possible scores.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -113,10 +106,17 @@ const Home = () => {
               </Link>
               <Link 
                 to="/practice-exams" 
-                className="border-2 border-slate-300 text-slate-700 px-8 py-4 rounded-full font-semibold text-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2"
+                className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-green-500 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
               >
                 <span>Take Practice Exam</span>
                 <Brain className="w-5 h-5" />
+              </Link>
+              <Link
+                to="/study-guides"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+              >
+                <span>Study Guides</span>
+                <BookOpen className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -136,7 +136,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
@@ -194,7 +194,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
@@ -227,10 +227,10 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600">
+      {/* <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Ace Your AP Exams?
@@ -256,7 +256,7 @@ const Home = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

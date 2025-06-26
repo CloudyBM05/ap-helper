@@ -52,7 +52,6 @@ const Footer = () => {
               <li><Link to="/essay-grader" className="text-slate-300 hover:text-white transition-colors">Essay Grader</Link></li>
               <li><Link to="/study-guides" className="text-slate-300 hover:text-white transition-colors">Study Guides</Link></li>
               <li><Link to="/practice-exams" className="text-slate-300 hover:text-white transition-colors">Practice Exams</Link></li>
-              <li><Link to="/study-tools" className="text-slate-300 hover:text-white transition-colors">Study Tools</Link></li>
             </ul>
           </div>
 
@@ -70,7 +69,7 @@ const Footer = () => {
 
         <div className="border-t border-slate-800 mt-12 pt-8 text-center">
           <p className="text-slate-400">
-            © 2024 AP Helper. All rights reserved. Empowering students to achieve AP success.
+            © 2025 AP Helper. All rights reserved. Empowering students to achieve AP success.
           </p>
         </div>
       </div>

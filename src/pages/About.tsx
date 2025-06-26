@@ -78,6 +78,7 @@ const About = () => {
         </div>
 
         {/* Stats */}
+        {/*
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
@@ -92,6 +93,7 @@ const About = () => {
             );
           })}
         </div>
+        */}
 
         {/* Story Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
@@ -103,9 +105,10 @@ const About = () => {
               lacked access to quality preparation resources and personalized feedback.
             </p>
             <p className="text-slate-600 mb-6">
-              Our founder, Dr. Sarah Chen, spent over a decade teaching AP courses and noticed 
-              that students who received regular, detailed feedback on their practice essays 
-              consistently outperformed those who didn't. However, providing this level of 
+              Our founder, Brandon Hsieh, studied for his own AP courses and noticed 
+              that there were countless students who would benefit from personalized 
+              feedback on their essays and short answer questions. He himself needed
+              this kind of feedback to improve his score. However, providing this level of 
               individual attention to every student was impossible in traditional classroom settings.
             </p>
             <p className="text-slate-600">
