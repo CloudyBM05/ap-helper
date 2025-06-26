@@ -22,27 +22,18 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
     setError(null);
     setGrades(null);
 
+    // Define prompt, sources, and questions for 2025 SAQ Q1
+    const prompt_intro = "You are an APUSH teacher. Grade parts A, B, and C (0 or 1 point each) based on: (1) historically accurate info, (2) clarity, (3) correct use of “describe” (more than naming) and “explain” (why or how). Give a short explanation for each score.";
+    const sources = "Wilentz: The Revolution expanded democracy more than expected; Jeffersonians weakened elite control after 1800.\nBouton: Elites created a government to block democracy; even Democratic-Republicans kept those limits.";
+    const questions = "A. Describe one key difference in how Wilentz and Bouton view early U.S. politics.\nB. Explain one 1789–1820 event not mentioned that supports Wilentz.\nC. Explain one 1789–1820 event not mentioned that supports Bouton.";
+
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      const response = await fetch("https://projectsave-copy.fly.dev/api/grade-saq", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer enter key here"
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [
-            {
-              role: "system",
-              content: "You are an AP US History teacher. Grade each SAQ answer (A, B, C) out of 3 points based of the following: Accuracy: These scoring guidelines require that students demonstrate historically defensible contentknowledge. Given the timed nature of the exam, responses may contain errors that do not detract from their overall quality, as long as the historical content used to advance the argument is accurate. Clarity: Exam responses should be considered first drafts and thus may contain grammatical errors. Those errors will not be counted against a student unless they obscure the successful demonstration ofthe content knowledge, skills, and practices described below. Describe: Provide the relevant characteristics of a specified topic. Description requires more than simply mentioning an isolated term. Explain: Provide information about how or why a historical development or process occurs or how or why a relationship exists. Give a brief explanation for each grade. Respond in JSON: [{score: number, explanation: string}] for each answer."
-            },
-            {
-              role: "user",
-              content: `SAQ A: ${answers[0]}\nSAQ B: ${answers[1]}\nSAQ C: ${answers[2]}`
-            }
-          ],
-          temperature: 0.2
-        })
+        body: JSON.stringify({ answers, prompt_intro, sources, questions })
       });
 
       if (!response.ok) {
@@ -50,17 +41,16 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
       }
 
       const data = await response.json();
-      // Try to extract the JSON from the AI's response
       let parsed: { score: number; explanation: string }[] = [];
       try {
-        const content = data.choices?.[0]?.message?.content;
-        parsed = JSON.parse(content);
+        const parsedResult = data.result;
+        parsed = parsedResult;
       } catch {
         setError("AI response could not be parsed. Please try again.");
         setGrading(false);
         return;
       }
-      setGrades(parsed.map((g, i) => `SAQ ${String.fromCharCode(65 + i)}: ${g.score}/3 - ${g.explanation}`));
+      setGrades(parsed.map((g, i) => `SAQ ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${g.explanation}`));
     } catch (err: any) {
       setError(err.message || "Unknown error.");
     }

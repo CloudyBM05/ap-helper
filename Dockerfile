@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.18.0
+ARG NODE_VERSION=22.16.0
 FROM node:${NODE_VERSION}-slim AS base
 
 LABEL fly_launch_runtime="Vite"
@@ -35,11 +35,14 @@ RUN npm prune --omit=dev
 
 
 # Final stage for app image
-FROM nginx
+FROM python:3.11-slim
 
-# Copy built application
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 80
-CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8080
+
+CMD ["python", "grader_api.py"]

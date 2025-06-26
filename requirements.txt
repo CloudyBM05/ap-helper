@@ -5,3 +5,7 @@ sqlalchemy
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
+flask
+flask-cors
+openai
+python-dotenv
