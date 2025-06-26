@@ -28,7 +28,7 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
     const questions = "A. Describe one key difference in how Wilentz and Bouton view early U.S. politics.\nB. Explain one 1789–1820 event not mentioned that supports Wilentz.\nC. Explain one 1789–1820 event not mentioned that supports Bouton.";
 
     try {
-      const response = await fetch("https://ap-helper.fly.dev/api/grade-saq", {
+      const response = await fetch("https://projectsave-copy.fly.dev/api/grade-saq", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
