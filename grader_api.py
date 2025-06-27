@@ -97,7 +97,9 @@ def grade_saq():
             return jsonify({"error": "AI response could not be parsed."}), 500
         return jsonify({"result": result_json})
     except Exception as e:
+        import traceback
         print("Error in /api/grade-saq:", e)
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":

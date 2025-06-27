@@ -19,14 +19,20 @@ import APUSHPracticeExamMCQ2014 from './pages/APUSHPracticeExamMCQ2014';
 import APUSHPracticeExamMCQ2014Results from './pages/APUSHPracticeExamMCQ2014Results';
 import APUSHPracticeExamSAQSelect from './pages/APUSHPracticeExamSAQSelect';
 import APUSHPracticeExamSAQ2025 from './pages/APUSHPracticeExamSAQ2025';
-import { Register, Login } from './components/AuthForms';
+import AuthForms from './components/AuthForms';
 import NotesFeed, { EditNote } from './pages/NotesFeed';
 
 function App() {
+  const [showAuth, setShowAuth] = React.useState(false);
+  const [showProfileEdit, setShowProfileEdit] = React.useState(false);
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <Navbar />
+        <Navbar
+          onShowAuth={() => setShowAuth(true)}
+          onEditProfile={() => setShowProfileEdit(true)}
+        />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -46,13 +52,29 @@ function App() {
             <Route path="/apush-practice-exam/mcq/2014/results" element={<APUSHPracticeExamMCQ2014Results />} />
             <Route path="/apush-practice-exam/saq/select" element={<APUSHPracticeExamSAQSelect />} />
             <Route path="/apush-practice-exam/saq/2025" element={<APUSHPracticeExamSAQ2025 />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login onLogin={() => {}} />} />
+            <Route path="/register" element={<AuthForms />} />
+            <Route path="/login" element={<AuthForms />} />
             <Route path="/notes" element={<NotesFeed />} />
             <Route path="/notes/edit/:id" element={<EditNote />} />
           </Routes>
         </main>
         <Footer />
+        {/* Auth modal (for login/signup/profile) */}
+        {(showAuth || showProfileEdit) && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-2xl shadow-2xl p-0 max-w-md w-full relative">
+              <button
+                className="absolute top-2 right-2 text-2xl text-slate-400 hover:text-slate-700"
+                onClick={() => { setShowAuth(false); setShowProfileEdit(false); }}
+                aria-label="Close"
+              >×</button>
+              <AuthForms
+                forceProfileEdit={showProfileEdit}
+                onClose={() => { setShowAuth(false); setShowProfileEdit(false); }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
