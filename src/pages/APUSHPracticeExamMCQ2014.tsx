@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Use import.meta.env.BASE_URL for correct PDF path, always ensure trailing slash
-const PDF_URL = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'}apush-2014.pdf`;
+// Use import.meta.env.BASE_URL for correct PDF path
+const PDF_URL = `${import.meta.env.BASE_URL}apush-2014.pdf`;
 
 const NUM_QUESTIONS = 55;
 const CHOICES = ['A', 'B', 'C', 'D'];

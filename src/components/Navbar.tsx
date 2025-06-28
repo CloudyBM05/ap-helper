@@ -92,18 +92,12 @@ const Navbar: React.FC<NavbarProps> = ({ onEditProfile, onShowAuth }) => {
             </Link>
           );
         })}
-        <Link
-          to="/notes"
-          className="text-blue-700 font-semibold hover:underline transition"
+        <span
+          className="text-blue-700 font-semibold opacity-60 cursor-not-allowed px-4 py-2 rounded-lg bg-slate-100 ml-2"
+          title="Coming Soon"
         >
-          Notes & Flashcards
-        </Link>
-        <Link
-          to="/grade-games"
-          className="text-blue-700 font-semibold hover:underline transition"
-        >
-          Grade Games
-        </Link>
+          Notes & Flashcards (Coming Soon)
+        </span>
       </div>
       {/* Right: Profile/Login */}
       <div className="relative" ref={profileRef}>
@@ -170,20 +164,12 @@ const Navbar: React.FC<NavbarProps> = ({ onEditProfile, onShowAuth }) => {
                 </Link>
               );
             })}
-            <Link
-              to="/notes"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 text-blue-700 font-semibold hover:underline transition"
+            <span
+              className="block px-4 py-3 text-blue-700 font-semibold opacity-60 cursor-not-allowed bg-slate-100 rounded-lg"
+              title="Coming Soon"
             >
-              Notes & Flashcards
-            </Link>
-            <Link
-              to="/grade-games"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 text-blue-700 font-semibold hover:underline transition"
-            >
-              Grade Games
-            </Link>
+              Notes & Flashcards (Coming Soon)
+            </span>
           </div>
         </div>
       )}

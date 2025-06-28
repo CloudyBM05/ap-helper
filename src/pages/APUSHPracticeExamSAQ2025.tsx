@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-// Use import.meta.env.BASE_URL for correct PDF path, always ensure trailing slash
-const PDF_URL = `${import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/'}apush-2025-SAQ.pdf`;
+// Use import.meta.env.BASE_URL for correct PDF path
+const PDF_URL = `${import.meta.env.BASE_URL}apush-2025-SAQ.pdf`;
 
 const APUSHPracticeExamSAQ2025: React.FC = () => {
   const [answers, setAnswers] = useState(["", "", ""]);
