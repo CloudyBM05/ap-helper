@@ -7,7 +7,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=["https://cloudybm05.github.io"])
+CORS(app, origins=[
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech"
+])
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
