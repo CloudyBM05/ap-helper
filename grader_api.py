@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+from flask_cors import cross_origin
 import openai
 import os
 from dotenv import load_dotenv
@@ -7,11 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=[
-    "https://cloudybm05.github.io",
-    "https://aphelper.tech",
-    "https://www.aphelper.tech"
-], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
