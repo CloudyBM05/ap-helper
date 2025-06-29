@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import openai
 import os
 from dotenv import load_dotenv
@@ -16,7 +16,12 @@ CORS(app, origins=[
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-@app.route("/api/grade-saq", methods=["POST"])
+@app.route("/api/grade-saq", methods=["POST", "OPTIONS"])
+@cross_origin(origins=[
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_saq():
     import json
     data = request.json
