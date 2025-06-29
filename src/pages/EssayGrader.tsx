@@ -33,7 +33,7 @@ const EssayGrader = () => {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/grade', {
+      const response = await fetch('https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ essay: essayText, essay_type: essayType, subject }),
