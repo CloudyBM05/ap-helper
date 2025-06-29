@@ -11,7 +11,7 @@ CORS(app, origins=[
     "https://cloudybm05.github.io",
     "https://aphelper.tech",
     "https://www.aphelper.tech"
-])
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
