@@ -1,13 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  GraduationCap, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Mail,
-  Github
-} from 'lucide-react';
+import { GraduationCap, Instagram, Youtube, Music } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -27,20 +19,14 @@ const Footer = () => {
               From essay grading to practice exams, we've got you covered.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                <Facebook className="w-5 h-5" />
+              <a href="https://www.youtube.com/@ApHelper" aria-label="YouTube" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-red-600 transition-colors">
+                <Youtube className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-400 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-pink-500 transition-colors">
+              <a href="https://www.instagram.com/ap_helper" aria-label="Instagram" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-pink-500 transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-green-500 transition-colors">
-                <Mail className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-gray-600 transition-colors">
-                <Github className="w-5 h-5" />
+              <a href="https://www.tiktok.com/@ap.helper5" aria-label="TikTok" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-black transition-colors">
+                <Music className="w-5 h-5" />
               </a>
             </div>
           </div>

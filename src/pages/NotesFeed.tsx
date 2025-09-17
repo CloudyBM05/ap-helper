@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { auth } from '../firebase';
+import { User } from 'firebase/auth';
 
 type Note = {
   id: number;

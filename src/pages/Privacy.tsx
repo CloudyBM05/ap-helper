@@ -172,12 +172,6 @@ const Privacy = () => {
             >
               Contact Us
             </a>
-            <a
-              href="mailto:privacy@aphelper.com"
-              className="border-2 border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
-            >
-              privacy@aphelper.com
-            </a>
           </div>
         </div>
       </div>

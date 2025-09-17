@@ -107,7 +107,15 @@ const Navbar: React.FC<NavbarProps> = ({ onEditProfile, onShowAuth }) => {
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition focus:outline-none"
               onClick={() => setProfileOpen((open) => !open)}
             >
-              <span className="mr-2">👤</span>
+              <span className="mr-2 text-2xl">
+                {firebaseUser.photoURL && /^[^\w\s]{1,2}$/u.test(firebaseUser.photoURL) ? (
+                  <span>{firebaseUser.photoURL}</span> // emoji
+                ) : firebaseUser.photoURL && firebaseUser.photoURL.startsWith('http') ? (
+                  <img src={firebaseUser.photoURL} alt="Profile" className="w-7 h-7 rounded-full bg-white object-cover" />
+                ) : (
+                  <span>👤</span>
+                )}
+              </span>
               <span>{firebaseUser.displayName || firebaseUser.email}</span>
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />

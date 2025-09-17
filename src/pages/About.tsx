@@ -9,29 +9,14 @@ const About = () => {
     { icon: Target, value: '4.9', label: 'Average Rating' }
   ];
 
-  const team = [
-    {
-      name: 'Dr. Sarah Chen',
-      role: 'Founder & CEO',
-      background: 'Former AP Teacher & Educational Technology Expert',
-      initials: 'SC',
-      color: 'from-blue-500 to-purple-500'
-    },
-    {
-      name: 'Michael Rodriguez',
-      role: 'Head of AI Development',
-      background: 'Machine Learning Engineer with 8+ years experience',
-      initials: 'MR',
-      color: 'from-green-500 to-teal-500'
-    },
-    {
-      name: 'Dr. Emily Johnson',
-      role: 'Chief Academic Officer',
-      background: 'AP Curriculum Specialist & Former College Board Consultant',
-      initials: 'EJ',
-      color: 'from-purple-500 to-pink-500'
-    }
-  ];
+  const founder = {
+    name: 'Brandon Hsieh',
+    role: 'Founder & CEO',
+    background:
+      'Founder of AP Helper who built the platform to provide personalized AI feedback for AP exams.',
+    initials: 'BH',
+    color: 'from-blue-500 to-teal-500'
+  };
 
   return (
     <div className="min-h-screen py-12">
@@ -119,20 +104,18 @@ const About = () => {
           </div>
         </div>
 
-        {/* Team Section */}
+        {/* Team Section - simplified to a single Founder profile */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Meet Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg p-6 text-center">
-                <div className={`w-20 h-20 bg-gradient-to-br ${member.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <span className="text-white font-bold text-xl">{member.initials}</span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-1">{member.name}</h3>
-                <p className="text-blue-600 font-semibold mb-3">{member.role}</p>
-                <p className="text-slate-600">{member.background}</p>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Founder & CEO</h2>
+          <div className="flex justify-center">
+            <div className="bg-white rounded-2xl shadow-lg p-6 text-center max-w-md">
+              <div className={`w-24 h-24 bg-gradient-to-br ${founder.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                <span className="text-white font-bold text-2xl">{founder.initials}</span>
               </div>
-            ))}
+              <h3 className="text-xl font-bold text-slate-900 mb-1">{founder.name}</h3>
+              <p className="text-blue-600 font-semibold mb-3">{founder.role}</p>
+              <p className="text-slate-600">{founder.background}</p>
+            </div>
           </div>
         </div>
 

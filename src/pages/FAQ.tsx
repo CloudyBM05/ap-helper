@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 
 const FAQ = () => {
@@ -26,11 +27,11 @@ const FAQ = () => {
         },
         {
           question: 'Which AP courses do you support?',
-          answer: 'We support 20+ AP courses including Biology, Chemistry, Physics, Calculus, Statistics, US History, World History, English Language & Literature, Spanish, and many more. We\'re constantly adding new courses.'
+          answer: 'We support 10+ AP courses including Biology, Chemistry, Physics, Statistics, US History, World History and many more. We\'re constantly adding new courses.'
         },
         {
           question: 'Is AP Helper free to use?',
-          answer: 'We offer both free and premium features. Basic essay grading and some practice questions are free, while advanced features like unlimited practice exams and detailed analytics require a subscription.'
+          answer: 'We offer both free and premium features. Basic essay grading and some practice questions are free, while advanced features like unlimited AI grading and detailed analytics require a subscription.'
         }
       ]
     },
@@ -65,23 +66,6 @@ const FAQ = () => {
         {
           question: 'Do you provide explanations for answers?',
           answer: 'Yes, every practice question comes with detailed explanations for both correct and incorrect answers to help you understand the concepts better.'
-        }
-      ]
-    },
-    {
-      category: 'Study Tools',
-      questions: [
-        {
-          question: 'Can I create my own flashcards?',
-          answer: 'Currently, we provide pre-made flashcard sets for all AP courses. Custom flashcard creation is a feature we\'re planning to add in the future.'
-        },
-        {
-          question: 'Are the formula sheets official?',
-          answer: 'Our formula sheets are based on official AP course descriptions and include all formulas and constants you\'ll need for your exams.'
-        },
-        {
-          question: 'Can I download study materials for offline use?',
-          answer: 'Yes, many of our study materials including formula sheets and reference guides can be downloaded as PDFs for offline studying.'
         }
       ]
     },
@@ -166,12 +150,12 @@ const FAQ = () => {
           <p className="text-slate-600 mb-6">
             Can't find the answer you're looking for? Our support team is here to help.
           </p>
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-teal-600 transition-all duration-300"
           >
             <span>Contact Support</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

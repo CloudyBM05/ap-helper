@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Star } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
 const studyGuides = [
   {
@@ -8,12 +8,103 @@ const studyGuides = [
     title: 'AP US History Study Guide',
     description: 'Comprehensive guide for APUSH, including all units, timelines, and practice questions.',
     category: 'social',
-    emoji: '🇺🇸',
     link: '/apush-study-guide',
     color: 'from-blue-500 to-indigo-500',
-    tags: ['Units 1-9', 'Timelines', 'Practice Questions'],
-    rating: 4.9,
-    reviews: 1200
+    tags: ['Units 1-9', 'Timelines', 'Practice Questions']
+  },
+  {
+    id: 'apgov',
+    title: 'AP US Government Study Guide',
+    description: 'Comprehensive guide for AP GOV, including all units, foundational documents, and practice questions.',
+    category: 'social',
+    link: '/ap-gov-study-guide',
+    color: 'from-red-500 to-orange-500',
+    tags: ['Units 1-5', 'Foundational Docs', 'Practice Questions']
+  },
+  {
+    id: 'apworld',
+    title: 'AP World History Study Guide',
+    description: 'Comprehensive guide for AP World, including all units, timelines, and practice questions.',
+    category: 'social',
+    link: '/ap-world-study-guide',
+    color: 'from-green-500 to-emerald-500',
+    tags: ['Units 1-9', 'Timelines', 'Practice Questions']
+  },
+  {
+    id: 'appsych',
+    title: 'AP Psychology Study Guide',
+    description: 'Comprehensive guide for AP Psychology, including all units, key terms, and practice questions.',
+    category: 'social',
+    link: '/ap-psychology-study-guide',
+    color: 'from-yellow-500 to-pink-500',
+    tags: ['Units 1-5', 'Key Terms', 'Practice Questions']
+  },
+  {
+    id: 'apmicro',
+    title: 'AP Microeconomics Study Guide',
+    description: 'Comprehensive guide for AP Microeconomics, including all units, key concepts, and practice questions.',
+    category: 'social',
+    link: '/ap-microeconomics-study-guide',
+    color: 'from-fuchsia-500 to-cyan-500',
+    tags: ['Units 1-6', 'Key Concepts', 'Practice Questions']
+  },
+  {
+    id: 'apmacro',
+    title: 'AP Macroeconomics Study Guide',
+    description: 'Comprehensive guide for AP Macroeconomics, including all units, key concepts, and practice questions.',
+    category: 'social',
+    link: '/ap-macroeconomics-study-guide',
+    color: 'from-cyan-500 to-fuchsia-500',
+    tags: ['Units 1-6', 'Key Concepts', 'Practice Questions']
+  },
+  {
+    id: 'aphug',
+    title: 'AP Human Geography Study Guide',
+    description: 'Comprehensive guide for AP Human Geography, including all units, key concepts, and practice questions.',
+    category: 'social',
+    link: '/ap-human-geography-study-guide',
+    color: 'from-emerald-500 to-blue-500',
+    tags: [
+      'Units 1-7',
+      'Key Concepts',
+      'Practice Questions'
+    ]
+  },
+  {
+    id: 'apstats',
+    title: 'AP Statistics Study Guide',
+    description: 'Comprehensive guide for AP Statistics, including all units, statistical concepts, and practice problems.',
+    category: 'stem',
+    link: '/ap-statistics-study-guide',
+    color: 'from-purple-500 to-indigo-500',
+    tags: ['Units 1-9', 'Statistical Tests', 'Practice Problems']
+  },
+  {
+    id: 'apphysics',
+    title: 'AP Physics Study Guide',
+    description: 'Comprehensive guide for AP Physics, including mechanics, electricity & magnetism, and modern physics concepts.',
+    category: 'stem',
+    link: '/ap-physics-study-guide',
+    color: 'from-teal-500 to-cyan-500',
+    tags: ['Units 1-8', 'Kinematics', 'Forces', 'Energy']
+  },
+  {
+    id: 'apcsp',
+    title: 'AP Computer Science Principles Study Guide',
+    description: 'Comprehensive guide for AP CSP, including computational thinking, programming concepts, and impact of computing.',
+    category: 'stem',
+    link: '/ap-computer-science-principles-study-guide',
+    color: 'from-violet-500 to-purple-500',
+    tags: ['Big Ideas 1-5', 'Programming', 'Data & Analysis', 'Algorithms']
+  },
+  {
+    id: 'apbiology',
+    title: 'AP Biology Study Guide',
+    description: 'Comprehensive guide for AP Biology, including all units, molecular biology, ecology, and laboratory practices.',
+    category: 'stem',
+    link: '/ap-biology-study-guide',
+    color: 'from-lime-500 to-green-500',
+    tags: ['Units 1-8', 'Cell Biology', 'Genetics', 'Evolution', 'Ecology']
   }
 ];
 
@@ -65,18 +156,40 @@ const StudyGuides: React.FC = () => {
                 onClick={() => navigate(guide.link)}
               >
                 {/* Color banner with icon */}
-                <div className={`h-28 bg-gradient-to-r ${guide.color} flex items-center justify-center`}>
+                <div
+                  className="h-28 flex items-center justify-center"
+                  style={{
+                    background:
+                      guide.id === 'apush'
+                        ? 'linear-gradient(to right, #3b82f6, #6366f1)' // blue-indigo
+                        : guide.id === 'apgov'
+                        ? 'linear-gradient(to right, #ef4444, #f59e42)' // red-orange
+                        : guide.id === 'apworld'
+                        ? 'linear-gradient(to right, #10b981, #059669)' // green-emerald
+                        : guide.id === 'appsych'
+                        ? 'linear-gradient(to right, #facc15, #ec4899)' // yellow-pink
+                        : guide.id === 'apmicro'
+                        ? 'linear-gradient(to right, #a21caf, #06b6d4)' // fuchsia-cyan
+                        : guide.id === 'apmacro'
+                        ? 'linear-gradient(to right, #06b6d4, #a21caf)' // cyan-fuchsia
+                        : guide.id === 'aphug'
+                        ? 'linear-gradient(to right, #34d399, #3b82f6)' // emerald-blue
+                        : guide.id === 'apstats'
+                        ? 'linear-gradient(to right, #8b5cf6, #6366f1)' // purple-indigo
+                        : guide.id === 'apphysics'
+                        ? 'linear-gradient(to right, #14b8a6, #06b6d4)' // teal-cyan
+                        : guide.id === 'apcsp'
+                        ? 'linear-gradient(to right, #8b5cf6, #a855f7)' // violet-purple
+                        : guide.id === 'apbiology'
+                        ? 'linear-gradient(to right, #84cc16, #22c55e)' // lime-green
+                        : '#fff',
+                  }}
+                >
                   <BookOpen className="w-12 h-12 text-white drop-shadow-lg" />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-center mb-2">
-                    <span className="text-3xl mr-2">{guide.emoji}</span>
                     <span className="text-lg font-bold text-blue-700">{guide.title}</span>
-                  </div>
-                  <div className="flex items-center mb-2">
-                    <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                    <span className="font-semibold text-yellow-600">{guide.rating}</span>
-                    <span className="ml-2 text-xs text-slate-500">{guide.reviews} reviews</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {guide.tags.map((tag, idx) => (

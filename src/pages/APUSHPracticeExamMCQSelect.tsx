@@ -1,13 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const examYears = [
-	{ year: 2014, label: 'AP Exam 2014' },
-	{ year: 2015, label: 'AP Exam 2015' },
-	{ year: 2016, label: 'AP Exam 2016' },
-	{ year: 2017, label: 'AP Exam 2017' },
-	{ year: 2018, label: 'AP Exam 2018' },
-	// Additional exam years can be added here in the future
+const exams = [
+	{ id: '2015', label: 'AP Exam 2015', description: 'Official APUSH MCQ from 2015', implemented: true },
+	{ id: 'ap-helper', label: 'AP-Helper Original', description: 'A custom exam created by AP-Helper.', implemented: true },
+	{ id: 'marco-apush', label: 'Marco-APUSH Exam', description: 'Due to copyright, we cannot host the PDF. We provide a link and a scantron.', implemented: true },
+	{ id: 'princeton', label: 'Princeton Review Exam', description: 'A 55-question exam from the Princeton Review.', implemented: true },
 ];
 
 const APUSHPracticeExamMCQSelect = () => {
@@ -24,24 +22,26 @@ const APUSHPracticeExamMCQSelect = () => {
 				</button>
 				<h1 className="text-3xl font-bold mb-8 text-center w-full">Select APUSH MCQ Exam</h1>
 				<div className="grid grid-cols-1 gap-6 w-full">
-					{examYears.map((exam) => (
+					{exams.map((exam) => (
 						<button
-							key={exam.year}
+							key={exam.id}
 							onClick={() => {
-								if (exam.year === 2014) {
-									navigate('/apush-practice-exam/mcq/2014');
+								if (exam.implemented) {
+									navigate(`/apush-practice-exam/mcq/${exam.id}`);
 								} else {
-									alert('Only 2014 is implemented. Add routes/components for other years.');
+									alert(`${exam.label} is not implemented yet.`);
 								}
 							}}
-							className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center text-center hover:shadow-xl transition-all duration-300 border-2 border-blue-100 hover:border-blue-400"
+							className={`bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center text-center transition-all duration-300 border-2 ${exam.implemented ? 'border-blue-100 hover:border-blue-400 hover:shadow-xl' : 'border-gray-100'}`}
+							disabled={!exam.implemented}
 						>
-							<span className="text-2xl font-bold text-blue-700 mb-2">{exam.label}</span>
-							<span className="text-slate-600">Official APUSH MCQ from {exam.year}</span>
+							<span className={`text-2xl font-bold mb-2 ${exam.implemented ? 'text-blue-700' : 'text-gray-400'}`}>{exam.label}</span>
+							<span className={`${exam.implemented ? 'text-slate-600' : 'text-gray-400'}`}>{exam.description}</span>
+							{!exam.implemented && <span className="text-xs text-red-500 mt-2">Coming Soon!</span>}
 						</button>
 					))}
 				</div>
-				{/* In the future, expand examYears array with additional test options */}
+				{/* In the future, expand exams array with additional test options */}
 			</div>
 		</div>
 	);
