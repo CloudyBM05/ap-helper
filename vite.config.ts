@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/', // Use root for custom domain
+  base: '/AP-Helper/', // Use repo subpath for GitHub Pages (case-sensitive)
   plugins: [react()],
   server: {
     proxy: {
