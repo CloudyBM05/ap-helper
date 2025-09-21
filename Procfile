@@ -1,1 +1,1 @@
-web: python grader_api.py
+web: gunicorn grader_api:app
