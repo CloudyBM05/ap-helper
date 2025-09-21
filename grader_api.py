@@ -18,7 +18,8 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
     "http://127.0.0.1:5173",
     "https://cloudybm05.github.io",
     "https://aphelper.tech",
-    "https://www.aphelper.tech"
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_saq():
     import json
@@ -110,7 +111,15 @@ def grade_saq():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/grade_essay", methods=["POST"])
-@cross_origin(origins=["http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "https://aphelper.tech", "https://www.aphelper.tech"])
+@cross_origin(origins=[
+    "http://localhost:5173", 
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173", 
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech", 
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+])
 def grade_essay():
     data = request.json
     prompt = data.get("prompt")
@@ -147,7 +156,8 @@ def grade_essay():
     "http://127.0.0.1:5173",
     "https://cloudybm05.github.io",
     "https://aphelper.tech",
-    "https://www.aphelper.tech"
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_apgov():
     # This endpoint is identical to /api/grade-saq but for AP Gov Concept Application
