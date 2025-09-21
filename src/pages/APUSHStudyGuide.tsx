@@ -21,17 +21,17 @@ const APUSHStudyGuide = () => {
       <div className="max-w-5xl mx-auto px-4">
         {/* Back Button */}
         <button
-          onClick={() => navigate('/apush-study-guide')}
+          onClick={() => navigate('/study-guides')}
           className="mb-8 px-4 py-2 rounded bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
         >
-          ← Back to All APUSH Units
+          ← Back to Study Guides
         </button>
         <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">AP US History Units</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {apushUnits.map((unit) => (
             <div
               key={unit.unit}
-              className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center text-center hover:shadow-xl transition-all duration-300 cursor-pointer"
+              className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center text-center hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-blue-300"
               onClick={() => navigate(`/apush-study-guide/unit/${unit.unit}`)}
             >
               <div className="text-4xl mb-2">{unit.emoji}</div>

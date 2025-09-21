@@ -26,7 +26,10 @@ const APUSHPracticeExamOptions = () => {
       label: 'FRQ (AI Graded) LEQ',
       description: 'Long Essay Question with instant AI feedback.',
       icon: <PenTool className="w-8 h-8 text-purple-600" />,
-      onClick: () => navigate('/apush-practice-exam/leq')
+      onClick: () => {
+        console.log("LEQ option clicked");
+        navigate('/apush-practice-exam/leq/select');
+      }
     },
     {
       label: 'FRQ (AI Graded) SAQ',
