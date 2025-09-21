@@ -35,7 +35,6 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Platform</h4>
             <ul className="space-y-2">
-              <li><Link to="/essay-grader" className="text-slate-300 hover:text-white transition-colors">Essay Grader</Link></li>
               <li><Link to="/study-guides" className="text-slate-300 hover:text-white transition-colors">Study Guides</Link></li>
               <li><Link to="/practice-exams" className="text-slate-300 hover:text-white transition-colors">Practice Exams</Link></li>
             </ul>

@@ -172,7 +172,7 @@ const APPsychUnit4Quiz = () => {
   const BackToGuideButton = (
     <button
       className="absolute top-4 left-4 px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg font-semibold text-yellow-700 shadow transition flex items-center gap-2 z-20"
-      onClick={() => navigate('/ap-psychology-study-guide')}
+      onClick={() => navigate('/ap-psychology/unit/4')}
     >
       <span className="text-xl">←</span> Back to Study Guide
     </button>

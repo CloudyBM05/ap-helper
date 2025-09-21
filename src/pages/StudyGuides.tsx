@@ -81,8 +81,8 @@ const studyGuides = [
   },
   {
     id: 'apphysics',
-    title: 'AP Physics Study Guide',
-    description: 'Comprehensive guide for AP Physics, including mechanics, electricity & magnetism, and modern physics concepts.',
+    title: 'AP Physics 1 Study Guide',
+    description: 'Comprehensive guide for AP Physics 1, including mechanics, electricity & magnetism, and modern physics concepts.',
     category: 'stem',
     link: '/ap-physics-study-guide',
     color: 'from-teal-500 to-cyan-500',

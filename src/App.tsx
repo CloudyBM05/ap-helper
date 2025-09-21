@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import EssayGrader from './pages/EssayGrader';
 import StudyGuides from './pages/StudyGuides';
@@ -75,8 +76,10 @@ import APPhysicsQualitativeQuantitative from './pages/APPhysicsQualitativeQuanti
 import APPhysicsQualitativeQuantitativeQ1 from './pages/APPhysicsQualitativeQuantitativeQ1';
 import APGovUnit from './pages/APGovUnit';
 import APGovUnit1 from './pages/APGovUnit1';
+import APGovUnit2 from './pages/APGovUnit2';
 import APGovUnit3 from './pages/APGovUnit3';
 import APGovUnit4 from './pages/APGovUnit4';
+import APGovUnit5 from './pages/APGovUnit5';
 import AuthForms from './components/AuthForms';
 import NotesFeed, { EditNote } from './pages/NotesFeed';
 import APGovUnit1QuizPage from './pages/APGovUnit1Quiz';
@@ -173,6 +176,9 @@ import APPsychPracticeExamAAQSelect from './pages/APPsychPracticeExamAAQSelect';
 import APWorldPracticeExamSAQSelect from './pages/APWorldPracticeExamSAQSelect';
 import APWorldPracticeExamDBQSelect from './pages/APWorldPracticeExamDBQSelect';
 import APWorldPracticeExamLEQSelect from './pages/APWorldPracticeExamLEQSelect';
+import APWorldPracticeExamSAQ2025 from './pages/APWorldPracticeExamSAQ2025';
+import APWorldPracticeExamDBQ2025 from './pages/APWorldPracticeExamDBQ2025';
+import APWorldPracticeExamLEQ2025 from './pages/APWorldPracticeExamLEQ2025';
 import APPsychPracticeExamEBQSelect from './pages/APPsychPracticeExamEBQSelect';
 import APMicroeconomicsStudyGuide from './pages/APMicroeconomicsStudyGuide';
 import APMicroeconomicsUnit1 from './pages/APMicroeconomicsUnit1';
@@ -230,6 +236,10 @@ import APMacroUnit4Quiz from './pages/APMacroUnit4Quiz';
 import APMacroUnit5Quiz from './pages/APMacroUnit5Quiz';
 import APMacroUnit6Quiz from './pages/APMacroUnit6Quiz';
 import APMacroPracticeExamMCQ from './pages/APMacroPracticeExamMCQ';
+import APMacroeconomicsMCQOptions from './pages/APMacroeconomicsMCQOptions';
+import APMacroPracticeExamMCQ2012 from './pages/APMacroPracticeExamMCQ2012';
+import APMacroPracticeExamMCQPrinceton from './pages/APMacroPracticeExamMCQPrinceton';
+import APMacroPracticeExamMCQ2010 from './pages/APMacroPracticeExamMCQ2010';
 import APMacroPracticeExamLongFRQ from './pages/APMacroPracticeExamLongFRQ';
 import APMacroPracticeExamShortFRQ from './pages/APMacroPracticeExamShortFRQ';
 import APMacroPracticeExamLongFRQExam from './pages/APMacroPracticeExamLongFRQExam';
@@ -292,12 +302,14 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <Navbar
           onShowAuth={() => setShowAuth(true)}
           onEditProfile={() => setShowProfileEdit(true)}
         />
         <main>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/essay-grader" element={<EssayGrader />} />
@@ -379,16 +391,14 @@ function App() {
             <Route path="/ap-gov-unit/:unitId" element={<APGovUnit />} />
             <Route path="/ap-gov-study-guide/unit/1" element={<APGovUnit1 />} />
             <Route path="/ap-gov-study-guide/unit/1/quiz" element={<APGovUnit1QuizPage />} />
+            <Route path="/ap-gov-study-guide/unit/2" element={<APGovUnit2 />} />
             <Route path="/ap-gov-study-guide/unit/2/quiz" element={<APGovUnit2QuizPage />} />
             <Route path="/ap-gov-study-guide/unit/3" element={<APGovUnit3 />} />
-            <Route path="/ap-gov-unit-3-quiz" element={<APGovUnit3QuizPage />} />
+            <Route path="/ap-gov-study-guide/unit/3/quiz" element={<APGovUnit3QuizPage />} />
             <Route path="/ap-gov-study-guide/unit/4" element={<APGovUnit4 />} />
-            <Route path="/ap-gov-unit-4-quiz" element={<APGovUnit4QuizPage />} />
-            <Route path="/ap-gov-study-guide/unit/5" element={<APUSHUnit5StudyGuide />} />
-            <Route path="/ap-gov-study-guide/unit/6" element={<APUSHUnit6StudyGuide />} />
-            <Route path="/ap-gov-study-guide/unit/7" element={<APUSHUnit7StudyGuide />} />
-            <Route path="/ap-gov-study-guide/unit/8" element={<APUSHUnit8StudyGuide />} />
-            <Route path="/ap-gov-study-guide/unit/9" element={<APUSHUnit9StudyGuide />} />
+            <Route path="/ap-gov-study-guide/unit/4/quiz" element={<APGovUnit4QuizPage />} />
+            <Route path="/ap-gov-study-guide/unit/5" element={<APGovUnit5 />} />
+            <Route path="/ap-gov-study-guide/unit/5/quiz" element={<APGovUnit5QuizPage />} />
             {/* APUSH Study Guide and Quizzes */}
             <Route path="/apush-study-guide" element={<APUSHStudyGuide />} />
             <Route path="/apush-study-guide/unit/1" element={<APUSHUnit1StudyGuide />} />
@@ -525,6 +535,9 @@ function App() {
             <Route path="/apworld-practice-exam/saq/select" element={<APWorldPracticeExamSAQSelect />} />
             <Route path="/apworld-practice-exam/dbq/select" element={<APWorldPracticeExamDBQSelect />} />
             <Route path="/apworld-practice-exam/leq/select" element={<APWorldPracticeExamLEQSelect />} />
+            <Route path="/apworld-practice-exam/saq/:questionId" element={<APWorldPracticeExamSAQ2025 />} />
+            <Route path="/apworld-practice-exam/dbq/2025" element={<APWorldPracticeExamDBQ2025 />} />
+            <Route path="/apworld-practice-exam/leq/2025" element={<APWorldPracticeExamLEQ2025 />} />
             <Route path="/ap-psychology-practice-exam/evidence-based" element={<APPsychPracticeExamEBQSelect />} />
             <Route path="/ap-microeconomics-study-guide" element={<APMicroeconomicsStudyGuide />} />
             <Route path="/ap-microeconomics/unit/1" element={<APMicroeconomicsUnit1 />} />
@@ -539,7 +552,7 @@ function App() {
             <Route path="/ap-microeconomics/unit/5/quiz" element={<APMicroeconomicsUnit5Quiz />} />
             <Route path="/ap-microeconomics/unit/6" element={<APMicroeconomicsUnit6 />} />
             <Route path="/ap-microeconomics/unit/6/quiz" element={<APMicroeconomicsUnit6Quiz />} />
-            <Route path="/ap-microeconomics-practice-exam/mcq" element={<APMicroeconomicsMCQOptions />} />
+            <Route path="/ap-microeconomics-practice-exam/mcq/select" element={<APMicroeconomicsMCQOptions />} />
             <Route path="/ap-microeconomics-practice-exam/mcq/2012" element={<APMicroPracticeExamMCQ2012 />} />
             <Route path="/ap-microeconomics-practice-exam/mcq/princeton" element={<APMicroPracticeExamMCQPrinceton />} />
             <Route path="/ap-microeconomics-practice-exam/mcq/2011" element={<APMicroPracticeExamMCQ2011 />} />
@@ -567,6 +580,10 @@ function App() {
             <Route path="/ap-macroeconomics/unit/6" element={<APMacroUnit6 />} />
             <Route path="/ap-macroeconomics/unit/6/quiz" element={<APMacroUnit6Quiz />} />
             <Route path="/ap-macro-practice-exam/mcq" element={<APMacroPracticeExamMCQ />} />
+            <Route path="/ap-macroeconomics-practice-exam/mcq/select" element={<APMacroeconomicsMCQOptions />} />
+            <Route path="/ap-macroeconomics-practice-exam/mcq/2012" element={<APMacroPracticeExamMCQ2012 />} />
+            <Route path="/ap-macroeconomics-practice-exam/mcq/princeton" element={<APMacroPracticeExamMCQPrinceton />} />
+            <Route path="/ap-macroeconomics-practice-exam/mcq/2010" element={<APMacroPracticeExamMCQ2010 />} />
             <Route path="/ap-macro-practice-exam/long-frq" element={<APMacroPracticeExamLongFRQ />} />
             <Route path="/ap-macro-practice-exam/long-frq/:setId" element={<APMacroPracticeExamLongFRQExam />} />
             <Route path="/ap-macroeconomics-practice-exam/long-frq" element={<APMacroPracticeExamLongFRQ />} />

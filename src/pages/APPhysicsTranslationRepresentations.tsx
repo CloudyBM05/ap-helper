@@ -16,10 +16,10 @@ const APPhysicsTranslationRepresentations = () => {
     <div className="min-h-screen py-16 px-4 bg-slate-50 flex items-center justify-center">
       <div className="w-full max-w-xl mx-auto flex flex-col items-center justify-center">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/practice-exams')}
           className="mb-8 px-4 py-2 text-teal-600 hover:text-teal-800 flex items-center gap-2"
         >
-          ← Back
+          ← Back to Practice Exams
         </button>
         <h1 className="text-3xl font-bold mb-8 text-center w-full">Select AP Physics Translation Between Representations FRQ</h1>
         <div className="grid grid-cols-1 gap-6 w-full">

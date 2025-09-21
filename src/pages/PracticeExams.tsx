@@ -139,14 +139,14 @@ const PracticeExams = () => {
     },
     {
       id: 9,
-      title: 'AP Physics Practice Test',
+      title: 'AP Physics 1 Practice Test',
       category: 'stem',
       questions: 50,
       duration: 90,
       difficulty: 'Advanced',
       attempts: 3800,
       avgScore: 71,
-      description: 'Full-length AP Physics exam with MCQ and comprehensive free response questions covering all major physics concepts.',
+      description: 'Full-length AP Physics 1 exam with MCQ and comprehensive free response questions covering all major physics concepts.',
       topics: [
         'MCQ Practice',
         'Mathematical Routines',
