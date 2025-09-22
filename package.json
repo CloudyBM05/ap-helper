@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:github": "GITHUB_PAGES=true vite build",
-    "build:custom": "vite build",
+    "build": "vite build --base=/",
+    "build:github": "GITHUB_PAGES=true vite build --base=/",
+    "build:custom": "vite build --base=/",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite",
