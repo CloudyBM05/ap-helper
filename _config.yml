@@ -1,0 +1,11 @@
+# GitHub Pages configuration
+include:
+  - "_*_.html"
+  - ".htaccess"
+
+# Enable plugins
+plugins:
+  - jekyll-optional-front-matter
+
+# Disable Jekyll processing for SPA
+jekyll: false
