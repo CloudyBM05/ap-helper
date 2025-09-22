@@ -39,8 +39,6 @@ jobs:
         
       - name: Build
         run: npm run build
-        env:
-          GITHUB_PAGES: true
           
       - name: List built files
         run: |
