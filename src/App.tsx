@@ -11,8 +11,6 @@ import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Footer from './components/Footer';
-
-console.log('App.tsx loading...');
 import APUSHStudyGuide from './pages/APUSHStudyGuide';
 import APUSHUnit1StudyGuide from './pages/APUSHUnit1StudyGuide';
 import APUSHUnit2StudyGuide from './pages/APUSHUnit2StudyGuide';
