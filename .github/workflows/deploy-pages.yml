@@ -35,7 +35,10 @@ jobs:
         run: npm ci
         
       - name: Clean build directory
-        run: rm -rf dist
+        run: |
+          rm -rf dist
+          rm -rf node_modules/.vite
+          npm cache clean --force
         
       - name: Build
         run: npm run build
@@ -44,10 +47,12 @@ jobs:
         run: |
           echo "=== Build directory contents ==="
           ls -la dist/
-          echo "=== index.html content ==="
-          cat dist/index.html
           echo "=== Assets directory ==="
           ls -la dist/assets/ || echo "No assets directory found"
+          echo "=== index.html content ==="
+          cat dist/index.html | head -20
+          echo "=== Checking for asset references ==="
+          grep -E "(src=|href=)" dist/index.html || echo "No asset references found"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
