@@ -40,7 +40,13 @@ jobs:
           GITHUB_PAGES: true
           
       - name: List built files
-        run: ls -la dist/
+        run: |
+          echo "=== Build directory contents ==="
+          ls -la dist/
+          echo "=== index.html content ==="
+          cat dist/index.html
+          echo "=== Assets directory ==="
+          ls -la dist/assets/ || echo "No assets directory found"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4

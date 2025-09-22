@@ -4,13 +4,25 @@ import { HashRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
-const root = document.getElementById('root');
-if (!root) throw new Error('Root element not found');
+console.log('Main.tsx loading...');
 
-createRoot(root).render(
-  <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </React.StrictMode>
-);
+const root = document.getElementById('root');
+if (!root) {
+  console.error('Root element not found');
+  throw new Error('Root element not found');
+}
+
+console.log('Root element found, creating React app...');
+
+try {
+  createRoot(root).render(
+    <React.StrictMode>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </React.StrictMode>
+  );
+  console.log('React app rendered successfully');
+} catch (error) {
+  console.error('Error rendering React app:', error);
+}
