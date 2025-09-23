@@ -47,7 +47,11 @@ const APPsychPracticeExamEBQSelect = () => {
       prompt_intro = `You are a strict AP Psychology grader. Grade the following student response to Free Response Question 1 from the 2025 exam using the AP FRQ rubric.\n\nAward 1 point per part (A–F) only if the answer is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for whether the point was earned.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n📘 Source Summary (from College Board 2025 AP Psychology FRQ #1):\n127 college students watched a 6.5-minute silent video of a mock crime.\n\nThen, they read a fake summary of the crime containing misinformation.\n\nThey were randomly assigned to:\n• Low: 20% of summary sentences were misleading\n• Medium: 50% misleading\n• High: 80% misleading\n\nLater, they answered 40 multiple-choice questions:\n• One correct answer (from the video)\n• One "misled" answer (from the misinformation)\n• One wrong/irrelevant answer\n\nResults: High misinformation group had fewer correct responses (63%) than the low group (74%).\n\nParticipants who distrusted the summary were more likely to resist misinformation.\n\nParticipants gave credibility ratings to the summaries.\n\n❓ Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of high misinformation in the study.\nC. Describe what the mean indicates for the percentage of correct responses between the high and low misinformation groups.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence.\nF. Explain how at least one of the research findings supports or refutes the misinformation effect.`;
     }
     try {
-      const response = await fetch('/api/grade-saq', {
+      const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers: ebqAnswers, prompt_intro }),

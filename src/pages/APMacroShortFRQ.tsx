@@ -173,7 +173,11 @@ D (1 pt):
     }
 
     try {
-      const response = await fetch('https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq', {
+      const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -181,6 +185,9 @@ D (1 pt):
         body: JSON.stringify({
           answers: PARTS.map(p => answers[p.id] || ''),
           prompt_intro: prompt_intro,
+          criteria: [],
+          sources: '',
+          questions: ''
         }),
       });
 

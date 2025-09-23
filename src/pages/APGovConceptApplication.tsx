@@ -88,22 +88,26 @@ const APGovConceptApplication: React.FC = () => {
     try {
       // Use the set-specific AI prompt
       const aiPrompt = AI_PROMPTS[String(set.id)] || AI_PROMPTS['1'];
-      const apiUrl = import.meta.env.DEV
-        ? '/api/grade-apgov'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apgov';
+      const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
       const answers = [responses['A'] || '', responses['B'] || '', responses['C'] || ''];
+      
+      const requestBody = {
+        answers,
+        prompt_intro: aiPrompt,
+        criteria: [],
+        sources: '',
+        questions: ''
+      };
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          answers,
-          prompt_intro: aiPrompt,
-          sources: '',
-          questions: ''
-        })
+        body: JSON.stringify(requestBody)
       });
       if (!response.ok) {
-        throw new Error('Failed to contact AI grading service.');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       let parsed = [];
@@ -115,9 +119,9 @@ const APGovConceptApplication: React.FC = () => {
         return;
       }
       setGrades(
-        parsed.map((g: any, i: number) =>
-          `Part ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${g.explanation}`
-        )
+        Array.isArray(parsed)
+          ? parsed.map(g => typeof g === 'string' ? g : JSON.stringify(g))
+          : [JSON.stringify(parsed)]
       );
     } catch (err: any) {
       setError('Failed to contact AI grading service.');
