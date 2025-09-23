@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:github": "vite build",
-    "build:custom": "vite build --base=/",
+    "build:custom": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite",
