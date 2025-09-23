@@ -24,23 +24,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'ap-helper/package-lock.json'
           
       - name: Install dependencies
-        run: npm ci
-        working-directory: ./ap-helper
-        
-      - name: Clean build directory
         run: |
-          rm -rf dist
-          rm -rf node_modules/.vite
-          npm cache clean --force
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
         working-directory: ./ap-helper
         
       - name: Build
