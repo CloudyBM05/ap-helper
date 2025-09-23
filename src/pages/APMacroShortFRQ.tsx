@@ -173,7 +173,7 @@ D (1 pt):
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/grade-saq', {
+      const response = await fetch('https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -188,12 +188,11 @@ D (1 pt):
         throw new Error('Network response was not ok');
       }
 
-      const result = await response.json();
-      setGrades(result.map((res: any) => `Part ${Object.keys(answers)[result.indexOf(res)]}: ${res.score}/1 - ${res.explanation}`));
-
-    } catch (err: any) {
+      const data = await response.json();
+      setGrades(data.result);
+    } catch (error) {
       setError('Failed to contact AI grading service.');
-      console.error(err);
+      console.error(error);
     }
     setGrading(false);
   };

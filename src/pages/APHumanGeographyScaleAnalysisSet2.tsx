@@ -40,47 +40,51 @@ const APHumanGeographyScaleAnalysisSet2 = () => {
   };
 
   const handleSubmit = async () => {
-    setGrading(true);
-    setError(null);
-    setGrades(null);
-    try {
-      const answersArray = PARTS.map(part => answers[part.id] || "");
-      const apiUrl = import.meta.env.DEV
-        ? '/api/grade-aphug'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-aphug';
+        setGrading(true);
+        setError(null);
+        setGrades(null);
+        try {
+            const answersArray = PARTS.map(part => answers[part.id] || "");
+            const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          answers: answersArray,
-          prompt_intro: `${GRADING_PROMPT}\n\nCRITERIA:\n${CRITERIA.join('\n')}`,
-          sources: '',
-          questions: ''
-        })
-      });
-      if (!response.ok) {
-        throw new Error('Failed to contact AI grading service.');
-      }
-      const data = await response.json();
-      // Defensive: always set grades as array
-      let result = data.result;
-      if (Array.isArray(result)) {
-        setGrades(result);
-      } else if (typeof result === 'string') {
-        // Split by newlines if possible
-        setGrades(result.split(/\r?\n/).filter((line) => line.trim() !== ''));
-      } else {
-        setGrades(["Grading failed: Unexpected response format."]);
-      }
-    } catch (err) {
-      setError('Failed to contact AI grading service.');
-    }
-    setGrading(false);
-  };
+            const requestBody = {
+                answers: answersArray,
+                prompt_intro: `${GRADING_PROMPT}\n\nCRITERIA:\n${CRITERIA.join('\n')}`,
+                sources: '',
+                questions: ''
+            };
 
-  return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            // Defensive: always set grades as array
+            let result = data.result;
+            if (Array.isArray(result)) {
+                setGrades(result);
+            } else if (typeof result === 'string') {
+                // Split by newlines if possible
+                setGrades(result.split(/\r?\n/).filter((line) => line.trim() !== ''));
+            } else {
+                setGrades(["Grading failed: Unexpected response format."]);
+            }
+        } catch (err) {
+            setError('Failed to contact AI grading service.');
+        }
+        setGrading(false);
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-human-geography-practice-exam/scale-analysis')}

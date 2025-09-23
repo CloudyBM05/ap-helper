@@ -45,22 +45,27 @@ const APHumanGeographySpatialRelationshipsSet2 = () => {
     setGrades(null);
     try {
       const answersArray = PARTS.map(part => answers[part.id] || "");
-      const apiUrl = import.meta.env.DEV
-        ? '/api/grade-aphug'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-aphug';
+      const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+
+      const requestBody = {
+        answers: answersArray,
+        prompt_intro: `${GRADING_PROMPT}\n\nCRITERIA:\n${CRITERIA.join('\n')}`,
+        sources: '',
+        questions: ''
+      };
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          answers: answersArray,
-          prompt_intro: `${GRADING_PROMPT}\n\nCRITERIA:\n${CRITERIA.join('\n')}`,
-          sources: '',
-          questions: ''
-        })
+        body: JSON.stringify(requestBody)
       });
+
       if (!response.ok) {
-        throw new Error('Failed to contact AI grading service.');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       const data = await response.json();
       // Defensive: always set grades as array
       let result = data.result;
@@ -79,7 +84,7 @@ const APHumanGeographySpatialRelationshipsSet2 = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-human-geography-practice-exam/spatial-relationships')}

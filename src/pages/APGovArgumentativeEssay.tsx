@@ -31,46 +31,49 @@ const APGovArgumentativeEssay: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
-    setGrading(true);
-    setError(null);
-    setGrades(null);
-    try {
-      const aiPrompt = AI_PROMPTS[String(set.id)] || AI_PROMPTS['1'];
-      const apiUrl = import.meta.env.DEV
-        ? '/api/grade-apgov'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apgov';
-      const answers = [response];
-      const responseApi = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          answers,
+        setGrading(true);
+        setError(null);
+        setGrades(null);
+        try {
+          const aiPrompt = AI_PROMPTS[String(set.id)] || AI_PROMPTS['1'];
+          const apiUrl = import.meta.env.PROD
+        ? '/api/grade-saq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+
+        const requestBody = {
+          answers: [response],
           prompt_intro: aiPrompt,
           sources: '',
           questions: ''
-        })
-      });
-      if (!responseApi.ok) {
-        throw new Error('Failed to contact AI grading service.');
-      }
-      const data = await responseApi.json();
-      let parsed = [];
-      try {
-        parsed = data.result;
-      } catch {
-        setError('Failed to contact AI grading service.');
-        setGrading(false);
-        return;
-      }
-      setGrades(parsed);
-    } catch (err: any) {
-      setError('Failed to contact AI grading service.');
-    }
-    setGrading(false);
-  };
+        };
 
-  return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            let parsed = [];
+            try {
+              parsed = data.result;
+            } catch {
+              setError('Failed to contact AI grading service.');
+              setGrading(false);
+              return;
+            }
+            setGrades(parsed);
+        } catch (err: any) {
+          setError('Failed to contact AI grading service.');
+        }
+        setGrading(false);
+      };
+
+    return (
+        <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-gov-practice-exam/argumentative-essay')}
@@ -145,7 +148,7 @@ const APGovArgumentativeEssay: React.FC = () => {
         </div>
       </div>
     </div>
-  );
+    );
 };
 
 export default APGovArgumentativeEssay;
