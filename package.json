@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/",
-    "build:github": "GITHUB_PAGES=true vite build --base=/",
+    "build": "vite build",
+    "build:github": "vite build",
     "build:custom": "vite build --base=/",
     "lint": "eslint .",
     "preview": "vite preview",
