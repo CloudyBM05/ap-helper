@@ -45,9 +45,7 @@ const APHumanGeographyScaleAnalysisSet1 = () => {
         setGrades(null);
         try {
           const answersArray = PARTS.map(part => answers[part.id] || "");
-          const apiUrl = import.meta.env.PROD
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+          const apiUrl = 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
 
         const requestBody = {
           answers: answersArray,
