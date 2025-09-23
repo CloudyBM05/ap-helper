@@ -18,7 +18,6 @@ const APPsychPracticeExamAAQSelect = () => {
   const [grading, setGrading] = useState(false);
   const [gradeResult, setGradeResult] = useState<string | null>(null);
   const [gradeError, setGradeError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleBackToPracticeExams = () => {
     navigate('/practice-exams');
@@ -47,24 +46,35 @@ const APPsychPracticeExamAAQSelect = () => {
     });
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
+  const handleGrade = async () => {
+    setGrading(true);
+    setGradeError(null);
+    setGradeResult(null);
+    let prompt_intro = '';
+    if (selectedSet === 2025) {
+      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the answer is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for whether the point was earned.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n127 college students watched a 6.5-minute silent video of a mock crime.\n\nThen, they read a fake summary of the crime containing misinformation.\n\nThey were randomly assigned to:\n• Low: 20% of summary sentences were misleading\n• Medium: 50% misleading\n• High: 80% misleading\n\nLater, they answered 40 multiple-choice questions:\n• One correct answer (from the video)\n• One "misled" answer (from the misinformation)\n• One wrong/irrelevant answer\n\nResults: High misinformation group had fewer correct responses (63%) than the low group (74%).\n\nParticipants who distrusted the summary were more likely to resist misinformation.\n\nParticipants gave credibility ratings to the summaries.\n\nPrompt:\nA. Identify the research method used in the study.\nB. State the operational definition of high misinformation in the study.\nC. Describe what the mean indicates for the percentage of correct responses between the high and low misinformation groups.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence.\nF. Explain how at least one of the research findings supports or refutes the misinformation effect.`;
+    } else if (selectedSet === 20252) {
+      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the response is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for each point.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n16 dog-owner pairs participated. Each dog completed four 20-second trials:\n• Owner crying\n• Stranger crying\n• Owner laughing\n• Stranger laughing\n\nTrials used a within-subjects design and were counterbalanced in order.\n\nDogs could not be interacted with during trials.\n\nDogs' person-oriented behaviors (looking at, touching, approaching, vocalizing at a person) were counted.\n\nDogs showed significantly more person-oriented behaviors during crying than laughing/talking.\n• Owner crying: 42 behaviors (75%)\n• Stranger crying: 46 behaviors (73%)\n• Owner laughing: 15 behaviors\n• Stranger laughing: 20 behaviors\n\nThe mean for crying trials was significantly higher (p < 0.001). Dogs responded more to emotion (crying) than familiarity (owner vs. stranger).\n\n Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of person-oriented dog behaviors.\nC. Describe what the mean of the person-oriented behaviors indicates for the laughing trials as compared to the talking trials.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence from the study.\nF. Explain how at least one of the research findings supports or refutes the idea that dogs’ expressions of the person-oriented behaviors demonstrate stimulus discrimination in operant conditioning.`;
+    }
     try {
-      const apiUrl = import.meta.env.PROD
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
-      const response = await fetch(apiUrl, {
+      const response = await fetch('/api/grade-aaq', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers, prompt_intro }),
       });
       if (!response.ok) throw new Error('Failed to contact AI grading service.');
       const data = await response.json();
-      setGrades(data.result);
-    } catch (error) {
-      setGradeError(error.message || 'Unknown error.');
+      let parsed = data.result;
+      setGradeResult(
+        parsed.map((g: { score: number; explanation: string }, i: number) =>
+          `Part ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${g.explanation}`
+        ).join('\n') +
+        (parsed.total !== undefined ? `\n\nTotal: ${parsed.total}/${selectedSet === 3030 ? 3 : 6}` : '')
+      );
+    } catch (err: any) {
+      setGradeError(err.message || 'Unknown error.');
     }
-    setLoading(false);
+    setGrading(false);
   };
 
   React.useEffect(() => {
@@ -134,11 +144,11 @@ const APPsychPracticeExamAAQSelect = () => {
                   ))}
                 </div>
                 <button
-                  onClick={handleSubmit}
+                  onClick={handleGrade}
                   className="mt-8 px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow transition flex items-center gap-2"
-                  disabled={loading}
+                  disabled={grading}
                 >
-                  {loading ? 'Grading...' : 'GRADE'}
+                  {grading ? 'Grading...' : 'GRADE'}
                 </button>
                 {gradeResult && (
                   <div className="mt-6 w-full bg-green-50 border border-green-200 rounded-lg p-4 text-green-800">

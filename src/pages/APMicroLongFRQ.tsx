@@ -55,9 +55,9 @@ const APMicroLongFRQ = () => {
       }
       if (prompt) {
         // Example API endpoint, replace with your actual endpoint
-        const apiUrl = import.meta.env.PROD
-          ? '/api/grade-saq'
-          : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+        const apiUrl = import.meta.env.DEV
+          ? '/api/grade-apmicro'
+          : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmicro';
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -69,7 +69,7 @@ const APMicroLongFRQ = () => {
           })
         });
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error('Failed to contact AI grading service.');
         }
         const data = await response.json();
         let parsed = [];
@@ -96,7 +96,7 @@ const APMicroLongFRQ = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-microeconomics-practice-exam/long-frq')}

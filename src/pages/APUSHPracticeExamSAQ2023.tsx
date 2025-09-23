@@ -113,7 +113,7 @@ const APUSHPracticeExamSAQ2023: React.FC = () => {
 
 		const { sources, questions, prompt } = questionData;
 
-		const apiUrl = import.meta.env.PROD
+		const apiUrl = import.meta.env.DEV
 			? '/api/grade-saq'
 			: 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
 
@@ -139,7 +139,22 @@ const APUSHPracticeExamSAQ2023: React.FC = () => {
 			}
 
 			const data = await response.json();
-			setGrades(data.result);
+			let parsed: { score: number; explanation: string }[] = [];
+			try {
+				parsed = data.result;
+			} catch {
+				setError('Failed to contact AI grading service.');
+				setGrading(false);
+				return;
+			}
+			setGrades(
+				parsed.map(
+					(g, i) =>
+						`Part ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${
+							g.explanation
+						}`
+				)
+			);
 		} catch (err: any) {
 			setError(err.message || 'An unknown error occurred. Please try again.');
 		}

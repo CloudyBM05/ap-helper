@@ -31,54 +31,50 @@ const APMacroLongFRQ = () => {
   };
 
   const handleSubmit = async () => {
-        setGrading(true);
-        setError(null);
-        setGrades(null);
-        try {
-            const answersArray = frq.parts.map(part => answers[part.id] || "");
-            const apiUrl = import.meta.env.PROD
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
-
-        const requestBody = {
+    setGrading(true);
+    setError(null);
+    setGrades(null);
+    try {
+      const answersArray = frq.parts.map(part => answers[part.id] || "");
+      // Example API endpoint, replace with your actual endpoint
+      const apiUrl = import.meta.env.DEV
+        ? '/api/grade-apmacro'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmacro';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           answers: answersArray,
           prompt_intro: MACRO_LONG_FRQ_AI_PROMPT,
           sources: '',
           questions: ''
-        };
-
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            let parsed = [];
-            try {
-                parsed = data.result;
-            } catch {
-                setError('Failed to contact AI grading service.');
-                setGrading(false);
-                return;
-            }
-            setGrades(
-                Array.isArray(parsed)
-                    ? parsed.map((g, i) => typeof g === 'string' ? g : JSON.stringify(g))
-                    : [JSON.stringify(parsed)]
-            );
-        } catch (err: any) {
-            setError('Failed to contact AI grading service.');
-        }
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Failed to contact AI grading service.');
+      }
+      const data = await response.json();
+      let parsed = [];
+      try {
+        parsed = data.result;
+      } catch {
+        setError('Failed to contact AI grading service.');
         setGrading(false);
+        return;
+      }
+      setGrades(
+        Array.isArray(parsed)
+          ? parsed.map((g, i) => typeof g === 'string' ? g : JSON.stringify(g))
+          : [JSON.stringify(parsed)]
+      );
+    } catch (err: any) {
+      setError('Failed to contact AI grading service.');
+    }
+    setGrading(false);
   };
 
-    return (
-        <div className="min-h-screen bg-gray-100 py-8 px-4">
+  return (
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-macroeconomics/practice-exam/long-frq')}

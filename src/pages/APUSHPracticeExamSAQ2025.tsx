@@ -65,7 +65,7 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
 				'You are an APUSH teacher. Grade parts A, B, and C (0 or 1 point each) based on: (1) historically accurate info, (2) clarity, (3) correct use of “describe” (more than naming) and “explain” (why or how). Give a short explanation for each score.';
 		}
 
-		const apiUrl = import.meta.env.PROD
+		const apiUrl = import.meta.env.DEV
 			? '/api/grade-saq'
 			: 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
 
@@ -88,9 +88,25 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
 			}
 
 			const data = await response.json();
-			setGrades(data.result);
-		} catch (error) {
-			setError(error.message || "Unknown error.");
+			let parsed: { score: number; explanation: string }[] = [];
+			try {
+				const parsedResult = data.result;
+				parsed = parsedResult;
+			} catch {
+				setError("Failed to contact AI grading service.");
+				setGrading(false);
+				return;
+			}
+			setGrades(
+				parsed.map(
+					(g, i) =>
+						`Part ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${
+							g.explanation
+						}`
+				)
+			);
+		} catch (err: any) {
+			setError(err.message || "Unknown error.");
 		}
 		setGrading(false);
 	};

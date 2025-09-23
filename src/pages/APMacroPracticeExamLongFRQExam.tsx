@@ -41,27 +41,22 @@ const APMacroPracticeExamLongFRQExam = () => {
     setGrades(null);
     try {
       const answersArray = parts.map((part) => answers[part] || '');
-      const apiUrl = import.meta.env.PROD
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
-
-      const requestBody = {
-        answers: answersArray,
-        prompt_intro: frq.aiPrompt,
-        sources: '',
-        questions: ''
-      };
-
+      const apiUrl = import.meta.env.DEV
+        ? '/api/grade-apmacro'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmacro';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({
+          answers: answersArray,
+          prompt_intro: frq.aiPrompt,
+          sources: '',
+          questions: ''
+        })
       });
-
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error('Failed to contact AI grading service.');
       }
-
       const data = await response.json();
       setGrades(data.result);
     } catch (err: any) {
@@ -71,7 +66,7 @@ const APMacroPracticeExamLongFRQExam = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-macroeconomics-practice-exam/long-frq')}

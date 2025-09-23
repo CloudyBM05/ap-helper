@@ -173,11 +173,7 @@ D (1 pt):
     }
 
     try {
-      const apiUrl = import.meta.env.PROD
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
-      
-      const response = await fetch(apiUrl, {
+      const response = await fetch('http://localhost:5000/api/grade-saq', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,9 +181,6 @@ D (1 pt):
         body: JSON.stringify({
           answers: PARTS.map(p => answers[p.id] || ''),
           prompt_intro: prompt_intro,
-          criteria: [],
-          sources: '',
-          questions: ''
         }),
       });
 
@@ -195,11 +188,12 @@ D (1 pt):
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
-      setGrades(data.result);
-    } catch (error) {
+      const result = await response.json();
+      setGrades(result.map((res: any) => `Part ${Object.keys(answers)[result.indexOf(res)]}: ${res.score}/1 - ${res.explanation}`));
+
+    } catch (err: any) {
       setError('Failed to contact AI grading service.');
-      console.error(error);
+      console.error(err);
     }
     setGrading(false);
   };
