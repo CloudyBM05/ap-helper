@@ -76,7 +76,6 @@ def grade_saq():
         print("OpenAI raw response:", response)
         content = response.choices[0].message.content
         print("OpenAI message content:", content)
-        
         try:
             result_json = parse_ai_json(content)
             # Repair step: fix common key typos and filter for objects with both 'score' and 'explanation', only keep first 3
@@ -183,10 +182,17 @@ def grade_essay():
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_dbq():
     data = request.json
+    
+    # Handle different frontend data structures
     prompt = data.get("prompt")
-
     if not prompt:
-        return jsonify({"error": "Prompt is required."}), 400
+        # Alternative structure: { answer, prompt_intro }
+        answer = data.get("answer", "")
+        prompt_intro = data.get("prompt_intro", "")
+        if answer and prompt_intro:
+            prompt = f"{prompt_intro}\n\nStudent's DBQ Essay:\n{answer}"
+        else:
+            return jsonify({"error": "Prompt or essay content is required."}), 400
 
     try:
         response = openai.chat.completions.create(
@@ -222,10 +228,17 @@ def grade_dbq():
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_leq():
     data = request.json
+    
+    # Handle different frontend data structures
     prompt = data.get("prompt")
-
     if not prompt:
-        return jsonify({"error": "Prompt is required."}), 400
+        # Alternative structure: { answer, prompt_intro }
+        answer = data.get("answer", "")
+        prompt_intro = data.get("prompt_intro", "")
+        if answer and prompt_intro:
+            prompt = f"{prompt_intro}\n\nStudent's LEQ Essay:\n{answer}"
+        else:
+            return jsonify({"error": "Prompt or essay content is required."}), 400
 
     try:
         response = openai.chat.completions.create(
