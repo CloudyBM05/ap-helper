@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 import openai
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,6 +11,26 @@ app = Flask(__name__)
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+def parse_ai_json(content_str):
+    """
+    Robustly parse JSON from AI response that might use single quotes instead of double quotes
+    """
+    try:
+        # First try standard JSON parsing
+        return json.loads(content_str)
+    except json.JSONDecodeError:
+        try:
+            # Try using ast.literal_eval for single-quoted JSON
+            import ast
+            return ast.literal_eval(content_str)
+        except (ValueError, SyntaxError):
+            # If that fails, try converting single quotes to double quotes
+            import re
+            # Replace single quotes with double quotes, but be careful about apostrophes in strings
+            fixed_content = re.sub(r"'([^']*)':", r'"\1":', content_str)  # Fix keys
+            fixed_content = re.sub(r":\s*'([^']*)'", r': "\1"', fixed_content)  # Fix string values
+            return json.loads(fixed_content)
 
 @app.route("/api/grade-saq", methods=["POST", "OPTIONS"])
 @cross_origin(origins=[
@@ -55,8 +76,9 @@ def grade_saq():
         print("OpenAI raw response:", response)
         content = response.choices[0].message.content
         print("OpenAI message content:", content)
+        
         try:
-            result_json = json.loads(content)
+            result_json = parse_ai_json(content)
             # Repair step: fix common key typos and filter for objects with both 'score' and 'explanation', only keep first 3
             def fix_keys(obj):
                 if isinstance(obj, dict):
@@ -82,7 +104,7 @@ def grade_saq():
             if match:
                 json_str = match.group(1)
                 try:
-                    result_json = json.loads(json_str)
+                    result_json = parse_ai_json(json_str)
                     # Repair step as above
                     def fix_keys(obj):
                         if isinstance(obj, dict):
@@ -271,7 +293,7 @@ def grade_apgov():
         )
         content = response.choices[0].message.content
         try:
-            result_json = json.loads(content)
+            result_json = parse_ai_json(content)
             def fix_keys(obj):
                 if isinstance(obj, dict):
                     new_obj = {}
@@ -293,7 +315,7 @@ def grade_apgov():
             if match:
                 json_str = match.group(1)
                 try:
-                    result_json = json.loads(json_str)
+                    result_json = parse_ai_json(json_str)
                     def fix_keys(obj):
                         if isinstance(obj, dict):
                             new_obj = {}
