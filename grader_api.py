@@ -4,6 +4,11 @@ import openai
 import os
 import json
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
+import threading
+import time
+import jwt
+from functools import wraps
 
 load_dotenv()
 
@@ -12,6 +17,113 @@ app = Flask(__name__)
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+# Authentication configuration
+SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
+ALGORITHM = "HS256"
+
+# Rate limiting storage
+RATE_LIMIT_FILE = "daily_usage.json"
+rate_limit_lock = threading.Lock()
+
+def verify_jwt_token(token):
+    """Verify JWT token and return username if valid"""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            return None
+        return username
+    except jwt.PyJWTError:
+        return None
+
+def require_auth(f):
+    """Decorator to require authentication for endpoints"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return jsonify({"error": "Authentication required. Please log in to use AI grading."}), 401
+        
+        try:
+            # Extract token from "Bearer <token>" format
+            token = auth_header.split(" ")[1]
+        except IndexError:
+            return jsonify({"error": "Invalid authorization header format."}), 401
+        
+        username = verify_jwt_token(token)
+        if not username:
+            return jsonify({"error": "Invalid or expired authentication token."}), 401
+        
+        # Add username to request context for rate limiting
+        request.authenticated_user = username
+        return f(*args, **kwargs)
+    return decorated_function
+
+def get_client_ip():
+    """Get client IP address, handling proxies"""
+    if request.headers.get('X-Forwarded-For'):
+        return request.headers.get('X-Forwarded-For').split(',')[0].strip()
+    elif request.headers.get('X-Real-IP'):
+        return request.headers.get('X-Real-IP')
+    else:
+        return request.remote_addr
+
+def load_daily_usage():
+    """Load daily usage data from file"""
+    try:
+        with open(RATE_LIMIT_FILE, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+def save_daily_usage(usage_data):
+    """Save daily usage data to file"""
+    with open(RATE_LIMIT_FILE, 'w') as f:
+        json.dump(usage_data, f, indent=2)
+
+def clean_old_entries(usage_data):
+    """Remove entries older than 24 hours"""
+    current_time = datetime.now()
+    cutoff_time = current_time - timedelta(days=1)
+    
+    cleaned_data = {}
+    for ip, data in usage_data.items():
+        if isinstance(data, dict) and 'timestamp' in data:
+            try:
+                entry_time = datetime.fromisoformat(data['timestamp'])
+                if entry_time > cutoff_time:
+                    cleaned_data[ip] = data
+            except ValueError:
+                continue
+        elif isinstance(data, str):
+            try:
+                entry_time = datetime.fromisoformat(data)
+                if entry_time > cutoff_time:
+                    cleaned_data[ip] = {'timestamp': data, 'count': 1}
+            except ValueError:
+                continue
+    
+    return cleaned_data
+
+def check_and_update_rate_limit(user_identifier):
+    """Check if user has exceeded daily limit and update usage"""
+    with rate_limit_lock:
+        usage_data = load_daily_usage()
+        usage_data = clean_old_entries(usage_data)
+        
+        current_time = datetime.now().isoformat()
+        
+        if user_identifier in usage_data:
+            # User has already used their daily allowance
+            return False, "Daily limit reached. You can submit 1 assignment for AI grading per day."
+        else:
+            # Record this usage
+            usage_data[user_identifier] = {
+                'timestamp': current_time,
+                'count': 1
+            }
+            save_daily_usage(usage_data)
+            return True, None
 def parse_ai_json(content_str):
     """
     Robustly parse JSON from AI response that might use single quotes instead of double quotes
@@ -42,7 +154,19 @@ def parse_ai_json(content_str):
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_saq():
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"})
+    
+    # Check rate limit for AI grading using authenticated username
+    user_identifier = getattr(request, 'authenticated_user', None)
+    allowed, error_msg = check_and_update_rate_limit(user_identifier)
+    
+    if not allowed:
+        return jsonify({"error": error_msg}), 429
+    
     import json
     data = request.json
     answers = data.get("answers", ["", "", ""])
@@ -141,7 +265,19 @@ def grade_saq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_essay():
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"})
+    
+    # Check rate limit for AI grading using authenticated username
+    user_identifier = getattr(request, 'authenticated_user', None)
+    allowed, error_msg = check_and_update_rate_limit(user_identifier)
+    
+    if not allowed:
+        return jsonify({"error": error_msg}), 429
+    
     data = request.json
     prompt = data.get("prompt")
 
@@ -180,7 +316,19 @@ def grade_essay():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_dbq():
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"})
+    
+    # Check rate limit for AI grading using authenticated username
+    user_identifier = getattr(request, 'authenticated_user', None)
+    allowed, error_msg = check_and_update_rate_limit(user_identifier)
+    
+    if not allowed:
+        return jsonify({"error": error_msg}), 429
+    
     data = request.json
     
     # Handle different frontend data structures
@@ -226,7 +374,19 @@ def grade_dbq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_leq():
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"})
+    
+    # Check rate limit for AI grading using authenticated username
+    user_identifier = getattr(request, 'authenticated_user', None)
+    allowed, error_msg = check_and_update_rate_limit(user_identifier)
+    
+    if not allowed:
+        return jsonify({"error": error_msg}), 429
+    
     data = request.json
     
     # Handle different frontend data structures
@@ -272,7 +432,19 @@ def grade_leq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_apgov():
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"})
+    
+    # Check rate limit for AI grading using authenticated username
+    user_identifier = getattr(request, 'authenticated_user', None)
+    allowed, error_msg = check_and_update_rate_limit(user_identifier)
+    
+    if not allowed:
+        return jsonify({"error": error_msg}), 429
+    
     # This endpoint is identical to /api/grade-saq but for AP Gov Concept Application
     import json
     data = request.json

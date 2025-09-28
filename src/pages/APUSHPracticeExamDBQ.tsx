@@ -196,6 +196,9 @@ For each point, state whether the student earned the point and provide a concise
 
 			if (!response.ok) {
 				const errorData = await response.json();
+				if (response.status === 429) {
+					throw new Error(errorData.error || 'Daily limit reached. You can submit 1 assignment for AI grading per day.');
+				}
 				throw new Error(errorData.error || 'An unknown error occurred.');
 			}
 
@@ -251,7 +254,20 @@ For each point, state whether the student earned the point and provide a concise
 							{grading ? 'Grading...' : 'SUBMIT FOR AI GRADE'}
 						</button>
 						{error && (
-							<div className='mt-6 text-red-600 font-semibold'>{error}</div>
+							<div className={`mt-6 font-semibold ${error.includes('Daily limit') ? 'text-orange-600 bg-orange-50 border border-orange-200 rounded-lg p-4' : 'text-red-600'}`}>
+								{error.includes('Daily limit') && (
+									<div className='flex items-center mb-2'>
+										<span className='text-orange-500 mr-2'>⏰</span>
+										<span className='font-bold'>Rate Limit Reached</span>
+									</div>
+								)}
+								{error}
+								{error.includes('Daily limit') && (
+									<div className='mt-2 text-sm text-orange-700'>
+										This helps keep the service available for everyone. Try again tomorrow!
+									</div>
+								)}
+							</div>
 						)}
 						{grade && (
 							<div className='mt-8 w-full bg-green-50 border border-green-200 rounded-lg p-4'>
