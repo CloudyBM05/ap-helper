@@ -5,13 +5,13 @@ const ARGUMENT_SETS = [
   {
     id: 1,
     label: '2025 Argumentative Essay Set 1',
-    file: '/public/APGOV-2025AE1.pdf',
+    file: 'APGOV-2025AE1.pdf',
     description: 'Practice AP Gov Argumentative Essay. Set 1.'
   },
   {
     id: 2,
     label: '2025 Argumentative Essay Set 2',
-    file: '/public/APGOV-2025AE2.pdf',
+    file: 'APGOV-2025AE2.pdf',
     description: 'Practice AP Gov Argumentative Essay. Set 2.'
   }
 ];
@@ -85,14 +85,14 @@ const APGovArgumentativeEssay: React.FC = () => {
               {set.label}
             </h2>
             <iframe
-              src={set.file}
+              src={`${import.meta.env.BASE_URL}${set.file}`}
               title={set.label}
               className="w-full flex-1 min-h-[1000px] border rounded-lg"
             />
             <div className="text-xs text-slate-500 mt-2 text-center">
               If the PDF does not load,{' '}
               <a
-                href={set.file}
+                href={`${import.meta.env.BASE_URL}${set.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-blue-600"

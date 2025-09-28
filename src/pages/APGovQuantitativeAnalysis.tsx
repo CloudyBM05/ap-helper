@@ -5,13 +5,13 @@ const QUANT_SETS = [
   {
     id: 1,
     label: '2025 Quantitative Analysis Set 1',
-    file: '/public/APGOV-2025QA1.pdf',
+    file: 'APGOV-2025QA1.pdf',
     description: 'Practice AP Gov Quantitative Analysis. Set 1.'
   },
   {
     id: 2,
     label: '2025 Quantitative Analysis Set 2',
-    file: '/public/APGOV-2025QA2.pdf',
+    file: 'APGOV-2025QA2.pdf',
     description: 'Practice AP Gov Quantitative Analysis. Set 2.'
   }
 ];
@@ -101,14 +101,14 @@ const APGovQuantitativeAnalysis: React.FC = () => {
               {set.label}
             </h2>
             <iframe
-              src={set.file}
+              src={`${import.meta.env.BASE_URL}${set.file}`}
               title={set.label}
               className="w-full flex-1 min-h-[1000px] border rounded-lg"
             />
             <div className="text-xs text-slate-500 mt-2 text-center">
               If the PDF does not load,{' '}
               <a
-                href={set.file}
+                href={`${import.meta.env.BASE_URL}${set.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-blue-600"

@@ -5,13 +5,13 @@ const SCOTUS_SETS = [
   {
     id: 1,
     label: '2025 SCOTUS Case Set 1',
-    file: '/public/APGOV-2025SC1.pdf',
+    file: 'APGOV-2025SC1.pdf',
     description: 'Practice AP Gov SCOTUS Case Analysis. Set 1.'
   },
   {
     id: 2,
     label: '2025 SCOTUS Case Set 2',
-    file: '/public/APGOV-2025SC2.pdf',
+    file: 'APGOV-2025SC2.pdf',
     description: 'Practice AP Gov SCOTUS Case Analysis. Set 2.'
   }
 ];
@@ -99,14 +99,14 @@ const APGovSCOTUSCase: React.FC = () => {
               {set.label}
             </h2>
             <iframe
-              src={set.file}
+              src={`${import.meta.env.BASE_URL}${set.file}`}
               title={set.label}
               className="w-full flex-1 min-h-[1000px] border rounded-lg"
             />
             <div className="text-xs text-slate-500 mt-2 text-center">
               If the PDF does not load,{' '}
               <a
-                href={set.file}
+                href={`${import.meta.env.BASE_URL}${set.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-blue-600"
