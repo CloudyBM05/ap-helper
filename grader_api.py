@@ -14,7 +14,7 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 @app.route("/api/grade-saq", methods=["POST", "OPTIONS"])
 @cross_origin(origins=[
     "http://localhost:5173",
-    "http://localhost:5174",
+    "http://localhost:5174", 
     "http://127.0.0.1:5173",
     "https://cloudybm05.github.io",
     "https://aphelper.tech",
@@ -240,6 +240,84 @@ def grade_apgov():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+@app.route("/api/grade-dbq", methods=["POST", "OPTIONS"])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173",
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+def grade_dbq():
+    data = request.json
+    prompt = data.get("prompt")
+
+    if not prompt:
+        return jsonify({"error": "Prompt is required."}), 400
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert APUSH DBQ grader. Your response will be shown directly to the student."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.2,
+        )
+        grade = response.choices[0].message.content.strip()
+        return jsonify({"grade": grade})
+
+    except Exception as e:
+        print(f"Error calling OpenAI: {e}")
+        return jsonify({"error": "Failed to get grade from AI."}), 500
+
+@app.route("/api/grade-leq", methods=["POST", "OPTIONS"])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173",
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+def grade_leq():
+    data = request.json
+    prompt = data.get("prompt")
+
+    if not prompt:
+        return jsonify({"error": "Prompt is required."}), 400
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an expert APUSH LEQ grader. Your response will be shown directly to the student."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.2,
+        )
+        grade = response.choices[0].message.content.strip()
+        return jsonify({"grade": grade})
+
+    except Exception as e:
+        print(f"Error calling OpenAI: {e}")
+        return jsonify({"error": "Failed to get grade from AI."}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
