@@ -300,7 +300,9 @@ Justification: [brief reason for each score]`
 		setGrade(null);
 
 		const prompt = getGradingPrompt();
-		const apiUrl = '/api/grade_essay';
+		const apiUrl = import.meta.env.DEV
+			? '/api/grade_essay'
+			: 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade_essay';
 
 		try {
 			const response = await fetch(apiUrl, {
