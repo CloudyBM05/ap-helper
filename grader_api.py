@@ -131,7 +131,7 @@ def grade_saq():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-@app.route("/api/grade_essay", methods=["POST"])
+@app.route("/api/grade_essay", methods=["POST", "OPTIONS"])
 @cross_origin(origins=[
     "http://localhost:5173", 
     "http://localhost:5174", 
@@ -140,7 +140,7 @@ def grade_saq():
     "https://aphelper.tech", 
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
-])
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 def grade_essay():
     data = request.json
     prompt = data.get("prompt")
