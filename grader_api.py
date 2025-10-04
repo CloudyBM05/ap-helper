@@ -4,6 +4,8 @@ import openai
 import os
 import json
 from dotenv import load_dotenv
+import jwt
+from functools import wraps
 
 load_dotenv()
 
@@ -11,6 +13,120 @@ app = Flask(__name__)
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+# Initialize Firebase Admin SDK - Make it completely optional
+FIREBASE_ENABLED = False
+try:
+    import firebase_admin
+    from firebase_admin import credentials, auth as firebase_auth
+    
+    # Check if Firebase credentials are available
+    if os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        if not firebase_admin._apps:
+            # Use service account key from environment variable
+            service_account_key = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY")
+            if service_account_key:
+                import json
+                cred = credentials.Certificate(json.loads(service_account_key))
+                firebase_admin.initialize_app(cred)
+            else:
+                # Use default credentials (for deployed environments)
+                firebase_admin.initialize_app()
+        FIREBASE_ENABLED = True
+        print("Firebase Admin SDK initialized successfully")
+    else:
+        print("Firebase credentials not found - using JWT-only authentication")
+except ImportError:
+    print("firebase-admin not installed - using JWT-only authentication")
+    firebase_auth = None
+except Exception as e:
+    print(f"Warning: Firebase Admin SDK initialization failed: {e}")
+    print("Falling back to JWT-only authentication")
+    firebase_auth = None
+
+# Authentication configuration (keeping JWT as fallback)
+SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
+ALGORITHM = "HS256"
+
+def verify_jwt_token(token):
+    """Verify JWT token and return username if valid"""
+    try:
+        # First try to decode as a proper JWT
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            return None
+        return username
+    except jwt.PyJWTError:
+        try:
+            # Fallback: try to decode as base64 encoded JSON (for mock tokens)
+            import base64
+            decoded_bytes = base64.b64decode(token + '==')  # Add padding if needed
+            payload = json.loads(decoded_bytes.decode('utf-8'))
+            username = payload.get("sub") or payload.get("email")
+            if username:
+                return username
+        except Exception:
+            pass
+        return None
+
+def verify_firebase_token(token):
+    """Verify Firebase ID token and return user info if valid"""
+    if not FIREBASE_ENABLED:
+        print("DEBUG: Firebase not enabled, skipping Firebase verification")
+        return None
+    
+    try:
+        print("DEBUG: Attempting Firebase token verification...")
+        # Verify the Firebase ID token using the imported auth module
+        decoded_token = firebase_auth.verify_id_token(token)
+        uid = decoded_token['uid']
+        email = decoded_token.get('email')
+        # Use email as user identifier, fallback to UID
+        user_id = email or uid
+        print(f"DEBUG: Firebase token verification successful for user: {user_id}")
+        return user_id
+    except Exception as e:
+        print(f"DEBUG: Firebase token verification failed: {e}")
+        return None
+
+def require_auth(f):
+    """Decorator to require authentication for endpoints"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        auth_header = request.headers.get('Authorization')
+        print(f"DEBUG: Auth header received: {auth_header}")
+        
+        if not auth_header:
+            print("DEBUG: No auth header found")
+            return jsonify({"error": "Authentication required. Please log in to use AI grading."}), 401
+        
+        try:
+            # Extract token from "Bearer <token>" format
+            token = auth_header.split(" ")[1]
+            print(f"DEBUG: Extracted token (first 50 chars): {token[:50]}...")
+        except IndexError:
+            print("DEBUG: Invalid auth header format")
+            return jsonify({"error": "Invalid authorization header format."}), 401
+        
+        # Try Firebase token verification first, then fallback to JWT
+        print("DEBUG: Trying Firebase token verification...")
+        username = verify_firebase_token(token)
+        if not username:
+            print("DEBUG: Firebase verification failed, trying JWT...")
+            username = verify_jwt_token(token)
+        
+        print(f"DEBUG: Final username: {username}")
+        
+        if not username:
+            print("DEBUG: All token verification methods failed")
+            return jsonify({"error": "Invalid or expired authentication token."}), 401
+        
+        # Add username to request context
+        request.authenticated_user = username
+        print(f"DEBUG: Authentication successful for user: {username}")
+        return f(*args, **kwargs)
+    return decorated_function
 
 def parse_ai_json(content_str):
     """
@@ -42,6 +158,7 @@ def parse_ai_json(content_str):
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_saq():
     import json
     data = request.json
@@ -141,6 +258,7 @@ def grade_saq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_essay():
     data = request.json
     prompt = data.get("prompt")
@@ -180,6 +298,7 @@ def grade_essay():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_dbq():
     data = request.json
     
@@ -226,6 +345,7 @@ def grade_dbq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_leq():
     data = request.json
     
@@ -272,6 +392,7 @@ def grade_leq():
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
 def grade_apgov():
     # This endpoint is identical to /api/grade-saq but for AP Gov Concept Application
     import json

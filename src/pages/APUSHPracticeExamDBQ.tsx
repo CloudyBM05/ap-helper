@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const APUSHPracticeExamDBQ: React.FC = () => {
 	const { setId } = useParams<{ setId: string }>();
 	const navigate = useNavigate();
+	const { isAuthenticated, getAuthHeaders } = useAuth();
 	const [answer, setAnswer] = useState('');
 	const [grading, setGrading] = useState(false);
 	const [grade, setGrade] = useState<string | null>(null);
@@ -176,6 +178,13 @@ For each point, state whether the student earned the point and provide a concise
 			setError('Please write an essay before submitting.');
 			return;
 		}
+
+		// Check if user is authenticated
+		if (!isAuthenticated) {
+			setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+			return;
+		}
+
 		setGrading(true);
 		setError(null);
 		setGrade(null);
@@ -190,6 +199,7 @@ For each point, state whether the student earned the point and provide a concise
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					...getAuthHeaders(),
 				},
 				body: JSON.stringify({ prompt }),
 			});

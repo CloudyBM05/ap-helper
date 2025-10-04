@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const saqQuestions = {
 	1: {
@@ -61,6 +62,7 @@ For each part, provide a score (0 or 1) and a concise explanation for your reaso
 const APUSHPracticeExamSAQ2023: React.FC = () => {
 	const { questionId } = useParams<{ questionId: string }>();
 	const navigate = useNavigate();
+	const { isAuthenticated, getAuthHeaders } = useAuth();
 	const [answers, setAnswers] = useState(['', '', '']);
 	const [grading, setGrading] = useState(false);
 	const [grades, setGrades] = useState<string[] | null>(null);
@@ -107,6 +109,12 @@ const APUSHPracticeExamSAQ2023: React.FC = () => {
 	};
 
 	const handleSubmit = async () => {
+		// Check if user is authenticated
+		if (!isAuthenticated) {
+			setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+			return;
+		}
+
 		setGrading(true);
 		setError(null);
 		setGrades(null);
@@ -122,6 +130,7 @@ const APUSHPracticeExamSAQ2023: React.FC = () => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					...getAuthHeaders(),
 				},
 				body: JSON.stringify({
 					answers,

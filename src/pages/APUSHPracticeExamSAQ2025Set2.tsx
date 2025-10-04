@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 	const { questionId } = useParams<{ questionId: string }>();
 	const navigate = useNavigate();
+	const { isAuthenticated, getAuthHeaders } = useAuth();
 	const [answers, setAnswers] = useState(['', '', '']);
 	const [grading, setGrading] = useState(false);
 	const [grades, setGrades] = useState<string[] | null>(null);
@@ -43,6 +45,12 @@ const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 	};
 
 	const handleSubmit = async () => {
+		// Check if user is authenticated
+		if (!isAuthenticated) {
+			setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+			return;
+		}
+
 		setGrading(true);
 		setError(null);
 		setGrades(null);
@@ -74,6 +82,7 @@ const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					...getAuthHeaders(),
 				},
 				body: JSON.stringify({
 					answers,
