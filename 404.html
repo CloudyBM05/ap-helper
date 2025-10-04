@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/AP-Helper-Logo.png?v=2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AP Helper - AI-Powered Essay Evaluation for AP Success</title>
+    <meta name="description" content="Ace your AP essays with AI-powered evaluation and feedback. Get instant, rubric-based grading for IWA, IRR, and other AP exam essays." />
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfZNHArAAAAAHhZPw3TlzfM786B3gFl3NtCBp0h"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5029353602304040"
+     crossorigin="anonymous"></script>
+    <!-- SPA redirect script for GitHub Pages -->
+    <script>
+      // GitHub Pages SPA redirect
+      // This script redirects all requests to index.html for client-side routing
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" crossorigin src="/assets/app.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/app.css" />
+  </body>
+</html>

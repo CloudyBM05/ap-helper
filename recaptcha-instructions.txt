@@ -1,0 +1,2 @@
+<!-- Add this script before the closing </body> tag for Firebase Phone Auth reCAPTCHA -->
+<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
