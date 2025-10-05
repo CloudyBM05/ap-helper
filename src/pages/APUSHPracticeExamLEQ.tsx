@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import AuthModal from '../components/AuthModal';
+import { useAuth } from '../hooks/useAuth';
 
 const APUSHPracticeExamLEQ: React.FC = () => {
 	const { setId, questionId } = useParams<{ setId: string; questionId: string }>();
@@ -8,6 +10,9 @@ const APUSHPracticeExamLEQ: React.FC = () => {
 	const [grading, setGrading] = useState(false);
 	const [grade, setGrade] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [showAuthModal, setShowAuthModal] = useState(false);
+	
+	const { isAuthenticated, getAuthHeaders, login } = useAuth();
 
 	const getPdfUrl = () => {
 		if (setId === '1') {
@@ -295,6 +300,13 @@ Justification: [brief reason for each score]`
 			setError('Please write an essay before submitting.');
 			return;
 		}
+		
+		// Check if user is authenticated
+		if (!isAuthenticated) {
+			setShowAuthModal(true);
+			return;
+		}
+		
 		setGrading(true);
 		setError(null);
 		setGrade(null);
@@ -305,16 +317,27 @@ Justification: [brief reason for each score]`
 			: 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade_essay';
 
 		try {
+			const headers: Record<string, string> = {
+				'Content-Type': 'application/json',
+				...getAuthHeaders(),
+			};
+			
 			const response = await fetch(apiUrl, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				headers,
 				body: JSON.stringify({ prompt }),
 			});
 
 			if (!response.ok) {
 				const errorData = await response.json();
+				if (response.status === 429) {
+					throw new Error(errorData.error || 'Daily limit reached. You can submit 1 assignment for AI grading per day.');
+				}
+				if (response.status === 401) {
+					// Token expired or invalid
+					setShowAuthModal(true);
+					return;
+				}
 				throw new Error(errorData.error || 'An unknown error occurred.');
 			}
 
@@ -373,7 +396,38 @@ Justification: [brief reason for each score]`
 							{grading ? 'Grading...' : 'SUBMIT FOR AI GRADE'}
 						</button>
 						{error && (
-							<div className='mt-6 text-red-600 font-semibold'>{error}</div>
+							<div className={`mt-6 font-semibold ${
+								error.includes('Daily limit') ? 'text-orange-600 bg-orange-50 border border-orange-200 rounded-lg p-4' :
+								error.includes('Authentication') || error.includes('login') ? 'text-blue-600 bg-blue-50 border border-blue-200 rounded-lg p-4' :
+								'text-red-600'
+							}`}>
+								{(error.includes('Daily limit') || error.includes('Authentication') || error.includes('login')) && (
+									<div className='flex items-center mb-2'>
+										<span className={`mr-2 ${error.includes('Daily limit') ? 'text-orange-500' : 'text-blue-500'}`}>
+											{error.includes('Daily limit') ? '⏰' : '🔒'}
+										</span>
+										<span className='font-bold'>
+											{error.includes('Daily limit') ? 'Rate Limit Reached' : 'Authentication Required'}
+										</span>
+									</div>
+								)}
+								{error}
+								{error.includes('Daily limit') && (
+									<div className='mt-2 text-sm text-orange-700'>
+										This helps keep the service available for everyone. Try again tomorrow!
+									</div>
+								)}
+								{(error.includes('Authentication') || error.includes('login')) && (
+									<div className='mt-2 text-sm text-blue-700'>
+										<button 
+											onClick={() => setShowAuthModal(true)}
+											className='underline hover:no-underline'
+										>
+											Click here to log in or create a free account
+										</button>
+									</div>
+								)}
+							</div>
 						)}
 						{grade && (
 							<div className='mt-8 w-full bg-green-50 border border-green-200 rounded-lg p-4'>
@@ -386,6 +440,15 @@ Justification: [brief reason for each score]`
 					</div>
 				</div>
 			</div>
+			
+			<AuthModal 
+				isOpen={showAuthModal}
+				onClose={() => setShowAuthModal(false)}
+				onSuccess={(token) => {
+					login(token);
+					setShowAuthModal(false);
+				}}
+			/>
 		</div>
 	);
 };

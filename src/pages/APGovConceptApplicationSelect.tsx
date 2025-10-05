@@ -6,13 +6,13 @@ const conceptSets = [
 		id: 1,
 		label: '2025 Concept Application Set 1',
 		description: 'Practice applying AP Gov concepts to real-world scenarios. Set 1.',
-		pdf: '/public/APGOV-2025CA1.pdf',
+		pdf: 'APGOV-2025CA1.pdf',
 	},
 	{
 		id: 2,
 		label: '2025 Concept Application Set 2',
 		description: 'Practice applying AP Gov concepts to real-world scenarios. Set 2.',
-		pdf: '/public/APGOV-2025CA2.pdf',
+		pdf: 'APGOV-2025CA2.pdf',
 	},
 ];
 

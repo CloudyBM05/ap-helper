@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PDF_URL = `${import.meta.env.BASE_URL}APGOV-PracticeExan1.pdf`;
+const PDF_URL = `${import.meta.env.BASE_URL}APGOV-PracticeExam1.pdf`;
 const NUM_QUESTIONS = 55;
 const CHOICES = ['A', 'B', 'C', 'D'];
 const CORRECT_ANSWERS = [

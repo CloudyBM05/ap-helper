@@ -5,13 +5,13 @@ const CONCEPT_APP_SETS = [
   {
     id: 1,
     label: '2025 Concept Application Set 1',
-    file: '/public/APGOV-2025CA1.pdf',
+    file: 'APGOV-2025CA1.pdf',
     description: 'Practice applying AP Gov concepts to real-world scenarios. Set 1.',
   },
   {
     id: 2,
     label: '2025 Concept Application Set 2',
-    file: '/public/APGOV-2025CA2.pdf',
+    file: 'APGOV-2025CA2.pdf',
     description: 'Practice applying AP Gov concepts to real-world scenarios. Set 2.',
   },
 ];
@@ -103,7 +103,11 @@ const APGovConceptApplication: React.FC = () => {
         })
       });
       if (!response.ok) {
-        throw new Error('Failed to contact AI grading service.');
+        const errorData = await response.json();
+        if (response.status === 429) {
+          throw new Error(errorData.error || 'Daily limit reached. You can submit 1 assignment for AI grading per day.');
+        }
+        throw new Error(errorData.error || 'Failed to contact AI grading service.');
       }
       const data = await response.json();
       let parsed = [];
@@ -141,14 +145,14 @@ const APGovConceptApplication: React.FC = () => {
               {set.label}
             </h2>
             <iframe
-              src={set.file}
+              src={`${import.meta.env.BASE_URL}${set.file}`}
               title={set.label}
               className="w-full flex-1 min-h-[1000px] border rounded-lg"
             />
             <div className="text-xs text-slate-500 mt-2 text-center">
               If the PDF does not load,{' '}
               <a
-                href={set.file}
+                href={`${import.meta.env.BASE_URL}${set.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline text-blue-600"
@@ -188,7 +192,20 @@ const APGovConceptApplication: React.FC = () => {
               ))}
             </div>
             {error && (
-              <div className="mt-6 text-red-600 font-semibold">{error}</div>
+              <div className={`mt-6 font-semibold ${error.includes('Daily limit') ? 'text-orange-600 bg-orange-50 border border-orange-200 rounded-lg p-4' : 'text-red-600'}`}>
+                {error.includes('Daily limit') && (
+                  <div className='flex items-center mb-2'>
+                    <span className='text-orange-500 mr-2'>⏰</span>
+                    <span className='font-bold'>Rate Limit Reached</span>
+                  </div>
+                )}
+                {error}
+                {error.includes('Daily limit') && (
+                  <div className='mt-2 text-sm text-orange-700'>
+                    This helps keep the service available for everyone. Try again tomorrow!
+                  </div>
+                )}
+              </div>
             )}
             {grades && (
               <div className="mt-8 w-full bg-green-50 border border-green-200 rounded-lg p-4">
