@@ -152,38 +152,40 @@ def save_usage_data(data):
 
 def check_daily_limit(user_email, endpoint_type):
     """
-    Check if user has reached daily limit for ANY FRQ type
-    endpoint_type: 'saq', 'dbq', or 'leq' (for logging purposes)
+    Check if user has reached daily limit for ANY grading type
+    endpoint_type: 'saq', 'dbq', 'leq', or 'apgov' (for logging purposes)
     Returns: (allowed: bool, message: str)
     
-    User gets 1 FRQ grading per day total (not per type)
+    User gets 1 grading per day total (across ALL types: SAQ, DBQ, LEQ, AP Gov)
     """
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     usage_data = load_usage_data()
     
     # Get or create user's usage record
     if user_email not in usage_data:
-        usage_data[user_email] = {"date": today, "total_frq_count": 0, "last_type": None}
+        usage_data[user_email] = {"date": today, "count": 0, "last_type": None}
     
     user_usage = usage_data[user_email]
     
     # Reset counts if it's a new day
     if user_usage.get("date") != today:
-        user_usage = {"date": today, "total_frq_count": 0, "last_type": None}
+        user_usage = {"date": today, "count": 0, "last_type": None}
         usage_data[user_email] = user_usage
     
-    # Check total FRQ limit (1 per day across all types)
-    current_count = user_usage.get("total_frq_count", 0)
+    # Check daily limit (1 grading per day across ALL types)
+    current_count = user_usage.get("count", 0)
     
     if current_count >= 1:
-        last_type = user_usage.get("last_type", "FRQ")
-        return False, f"Daily limit reached. You already graded 1 {last_type.upper()} today. You can grade 1 FRQ per day (SAQ, DBQ, or LEQ). Try again tomorrow!"
+        last_type = user_usage.get("last_type", "question")
+        return False, f"Daily limit reached. You already used your 1 free AI grading today ({last_type.upper()}). Try again tomorrow!"
     
-    # Increment total count and save which type was used
-    user_usage["total_frq_count"] = current_count + 1
+    # Increment count and save which type was used
+    user_usage["count"] = current_count + 1
     user_usage["last_type"] = endpoint_type
     usage_data[user_email] = user_usage
     save_usage_data(usage_data)
+    
+    print(f"DEBUG: Usage saved for {user_email}: count={user_usage['count']}, type={endpoint_type}, date={today}")
     
     return True, "OK"
 
@@ -339,6 +341,7 @@ def grade_saq():
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
+@track_usage('essay')
 def grade_essay():
     data = request.json
     prompt = data.get("prompt")
@@ -475,7 +478,7 @@ def grade_leq():
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
-@track_usage('saq')
+@track_usage('apgov')
 def grade_apgov():
     # This endpoint is identical to /api/grade-saq but for AP Gov Concept Application
     import json
