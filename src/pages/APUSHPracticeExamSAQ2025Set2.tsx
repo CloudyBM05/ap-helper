@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
@@ -12,6 +12,22 @@ const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 
 	const qId = parseInt(questionId || '1', 10);
+	const STORAGE_KEY = `apush-saq-2025-set2-q${qId}-answers`;
+
+	// Load saved answers from localStorage on mount or question change
+	useEffect(() => {
+		const saved = localStorage.getItem(STORAGE_KEY);
+		if (saved) {
+			try {
+				const parsedAnswers = JSON.parse(saved);
+				if (Array.isArray(parsedAnswers) && parsedAnswers.length === 3) {
+					setAnswers(parsedAnswers);
+				}
+			} catch (e) {
+				console.error('Failed to load saved answers:', e);
+			}
+		}
+	}, [qId, STORAGE_KEY]);
 
 	const getPdfUrlForQuestion = (questionId: number) => {
 		let pdfFile = '';
@@ -40,6 +56,8 @@ const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 		setAnswers((prev) => {
 			const copy = [...prev];
 			copy[idx] = value;
+			// Save to localStorage immediately as user types
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(copy));
 			return copy;
 		});
 	};
@@ -118,6 +136,8 @@ const APUSHPracticeExamSAQ2025Set2: React.FC = () => {
 						}`
 				)
 			);
+			// Clear saved answers after successful grading
+			localStorage.removeItem(STORAGE_KEY);
 		} catch (err: any) {
 			setError(err.message || "Unknown error.");
 		}
