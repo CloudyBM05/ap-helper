@@ -6,6 +6,7 @@ import json
 from dotenv import load_dotenv
 import jwt
 from functools import wraps
+from datetime import datetime, timezone
 
 load_dotenv()
 
@@ -128,6 +129,84 @@ def require_auth(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Daily usage tracking
+USAGE_FILE = "daily_usage.json"
+
+def load_usage_data():
+    """Load daily usage data from file"""
+    try:
+        if os.path.exists(USAGE_FILE):
+            with open(USAGE_FILE, 'r') as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"Error loading usage data: {e}")
+    return {}
+
+def save_usage_data(data):
+    """Save daily usage data to file"""
+    try:
+        with open(USAGE_FILE, 'w') as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        print(f"Error saving usage data: {e}")
+
+def check_daily_limit(user_email, endpoint_type):
+    """
+    Check if user has reached daily limit for ANY FRQ type
+    endpoint_type: 'saq', 'dbq', or 'leq' (for logging purposes)
+    Returns: (allowed: bool, message: str)
+    
+    User gets 1 FRQ grading per day total (not per type)
+    """
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    usage_data = load_usage_data()
+    
+    # Get or create user's usage record
+    if user_email not in usage_data:
+        usage_data[user_email] = {"date": today, "total_frq_count": 0, "last_type": None}
+    
+    user_usage = usage_data[user_email]
+    
+    # Reset counts if it's a new day
+    if user_usage.get("date") != today:
+        user_usage = {"date": today, "total_frq_count": 0, "last_type": None}
+        usage_data[user_email] = user_usage
+    
+    # Check total FRQ limit (1 per day across all types)
+    current_count = user_usage.get("total_frq_count", 0)
+    
+    if current_count >= 1:
+        last_type = user_usage.get("last_type", "FRQ")
+        return False, f"Daily limit reached. You already graded 1 {last_type.upper()} today. You can grade 1 FRQ per day (SAQ, DBQ, or LEQ). Try again tomorrow!"
+    
+    # Increment total count and save which type was used
+    user_usage["total_frq_count"] = current_count + 1
+    user_usage["last_type"] = endpoint_type
+    usage_data[user_email] = user_usage
+    save_usage_data(usage_data)
+    
+    return True, "OK"
+
+def track_usage(endpoint_type):
+    """Decorator to track and limit daily usage for specific endpoint types"""
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            # User must be authenticated first (require_auth already applied)
+            user_email = request.authenticated_user
+            
+            # Check daily limit
+            allowed, message = check_daily_limit(user_email, endpoint_type)
+            
+            if not allowed:
+                print(f"DEBUG: Daily limit reached for {user_email} on {endpoint_type}")
+                return jsonify({"error": message}), 429  # 429 = Too Many Requests
+            
+            print(f"DEBUG: Usage tracked for {user_email} on {endpoint_type}")
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 def parse_ai_json(content_str):
     """
     Robustly parse JSON from AI response that might use single quotes instead of double quotes
@@ -159,6 +238,7 @@ def parse_ai_json(content_str):
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
+@track_usage('saq')
 def grade_saq():
     import json
     data = request.json
@@ -299,6 +379,7 @@ def grade_essay():
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
+@track_usage('dbq')
 def grade_dbq():
     data = request.json
     
@@ -346,6 +427,7 @@ def grade_dbq():
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
+@track_usage('leq')
 def grade_leq():
     data = request.json
     
@@ -393,6 +475,7 @@ def grade_leq():
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
+@track_usage('saq')
 def grade_apgov():
     # This endpoint is identical to /api/grade-saq but for AP Gov Concept Application
     import json
