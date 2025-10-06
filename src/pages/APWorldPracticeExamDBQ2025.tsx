@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const APWorldPracticeExamDBQ2025: React.FC = () => {
@@ -11,6 +11,31 @@ const APWorldPracticeExamDBQ2025: React.FC = () => {
   const [grading, setGrading] = useState(false);
   const [grade, setGrade] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // localStorage key for persistence
+  const STORAGE_KEY = `apworld_dbq_2025_${set}_answer`;
+
+  // Load answer from localStorage on mount
+  useEffect(() => {
+    const savedAnswer = localStorage.getItem(STORAGE_KEY);
+    if (savedAnswer) {
+      setAnswer(savedAnswer);
+    }
+  }, [STORAGE_KEY]);
+
+  // Save answer to localStorage on change
+  useEffect(() => {
+    if (answer) {
+      localStorage.setItem(STORAGE_KEY, answer);
+    }
+  }, [answer, STORAGE_KEY]);
+
+  // Word and character count
+  const wordCount = answer.trim() ? answer.trim().split(/\s+/).length : 0;
+  const charCount = answer.length;
+  const MIN_WORDS = 400;
+  const MAX_WORDS = 1000;
+  const MAX_CHARS = 6000;
 
   const getPrompt = () => {
     if (set === 'set1') {
@@ -26,6 +51,30 @@ const APWorldPracticeExamDBQ2025: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    // Validation: Check authentication
+    const username = localStorage.getItem('username');
+    const authToken = localStorage.getItem('authToken');
+    if (!username || !authToken) {
+      setError('You must be logged in to submit an assignment for grading.');
+      return;
+    }
+
+    // Validation: Check word count
+    if (wordCount < MIN_WORDS) {
+      setError(`Your essay must be at least ${MIN_WORDS} words. Current count: ${wordCount} words.`);
+      return;
+    }
+    if (wordCount > MAX_WORDS) {
+      setError(`Your essay exceeds the maximum of ${MAX_WORDS} words. Current count: ${wordCount} words.`);
+      return;
+    }
+
+    // Validation: Check character count
+    if (charCount > MAX_CHARS) {
+      setError(`Your essay exceeds the maximum of ${MAX_CHARS} characters. Current count: ${charCount} characters.`);
+      return;
+    }
+
     setGrading(true);
     setError(null);
     setGrade(null);
@@ -36,7 +85,11 @@ const APWorldPracticeExamDBQ2025: React.FC = () => {
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Username': username,
+          'X-Auth-Token': authToken,
+        },
         body: JSON.stringify({ answer, prompt_intro }),
       });
       
@@ -45,12 +98,18 @@ const APWorldPracticeExamDBQ2025: React.FC = () => {
         if (response.status === 429) {
           throw new Error(errorData.error || 'Daily limit reached. You can submit 1 assignment for AI grading per day.');
         }
+        if (response.status === 401) {
+          throw new Error(errorData.error || 'Authentication failed. Please log in again.');
+        }
         throw new Error(errorData.error || 'An unknown error occurred.');
       }
       
       const data = await response.json();
       if (data && data.grade) {
         setGrade(data.grade);
+        // Clear localStorage after successful grading
+        localStorage.removeItem(STORAGE_KEY);
+        setAnswer('');
       } else {
         setError('Failed to contact AI grading service.');
       }
@@ -110,10 +169,19 @@ const APWorldPracticeExamDBQ2025: React.FC = () => {
               placeholder="Type your DBQ essay here..."
               disabled={grading}
             />
+            {/* Word and Character Count Display */}
+            <div className="mt-2 w-full text-sm text-slate-600 flex justify-between">
+              <span className={wordCount < MIN_WORDS || wordCount > MAX_WORDS ? 'text-red-600 font-semibold' : ''}>
+                Word count: {wordCount} (min {MIN_WORDS}, max {MAX_WORDS})
+              </span>
+              <span className={charCount > MAX_CHARS ? 'text-red-600 font-semibold' : ''}>
+                Character count: {charCount} (max {MAX_CHARS})
+              </span>
+            </div>
             <button
-              className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition"
+              className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed"
               onClick={handleSubmit}
-              disabled={!answer.trim() || grading}
+              disabled={!answer.trim() || grading || wordCount < MIN_WORDS || wordCount > MAX_WORDS || charCount > MAX_CHARS}
             >
               {grading ? 'Grading...' : 'SUBMIT FOR AI GRADE'}
             </button>

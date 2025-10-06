@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const APWorldPracticeExamLEQ2025: React.FC = () => {
   const navigate = useNavigate();
@@ -7,10 +8,38 @@ const APWorldPracticeExamLEQ2025: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const set = searchParams.get('set');
   const pdf = searchParams.get('pdf');
+  const question = searchParams.get('question');
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [answer, setAnswer] = useState('');
   const [grading, setGrading] = useState(false);
   const [grade, setGrade] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const STORAGE_KEY = `apworld-leq-2025-${set}-q${question}-answer`;
+  
+  // Word count limits for LEQ
+  const MIN_WORDS = 200;  // Minimum for a reasonable LEQ
+  const MAX_WORDS = 1000; // Maximum to prevent spam
+  const MAX_CHARACTERS = 6000; // Maximum characters to prevent token abuse
+
+  // Load saved answer from localStorage on mount or question change
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setAnswer(saved);
+      } catch (e) {
+        console.error('Failed to load saved answer:', e);
+      }
+    }
+  }, [set, question, STORAGE_KEY]);
+
+  // Helper function to count words
+  const countWords = (text: string): number => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+
+  const wordCount = countWords(answer);
 
   const getPrompt = () => {
     if (set === 'set1' && searchParams.get('question') === '2') {
@@ -38,6 +67,35 @@ const APWorldPracticeExamLEQ2025: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    if (!answer.trim()) {
+      setError('Please write an essay before submitting.');
+      return;
+    }
+
+    // Check word count
+    const currentWordCount = countWords(answer);
+    if (currentWordCount < MIN_WORDS) {
+      setError(`Your essay is too short. Minimum ${MIN_WORDS} words required (you have ${currentWordCount} words).`);
+      return;
+    }
+    if (currentWordCount > MAX_WORDS) {
+      setError(`Your essay is too long. Maximum ${MAX_WORDS} words allowed (you have ${currentWordCount} words).`);
+      return;
+    }
+
+    // Check character count to prevent token abuse
+    const characterCount = answer.trim().length;
+    if (characterCount > MAX_CHARACTERS) {
+      setError(`Your essay is too long. Maximum ${MAX_CHARACTERS} characters allowed (you have ${characterCount} characters).`);
+      return;
+    }
+
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+      return;
+    }
+    
     setGrading(true);
     setError(null);
     setGrade(null);
@@ -48,17 +106,35 @@ const APWorldPracticeExamLEQ2025: React.FC = () => {
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({ answer, prompt_intro }),
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 429) {
+          throw new Error(errorData.error || 'Daily limit reached. You can submit 1 FRQ for AI grading per day.');
+        }
+        if (response.status === 401) {
+          setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+          return;
+        }
+        throw new Error(errorData.error || 'An unknown error occurred.');
+      }
+      
       const data = await response.json();
       if (data && data.grade) {
         setGrade(data.grade);
+        // Clear saved answer after successful grading
+        localStorage.removeItem(STORAGE_KEY);
       } else {
         setError('Failed to contact AI grading service.');
       }
-    } catch (err) {
-      setError('Failed to contact AI grading service.');
+    } catch (err: any) {
+      setError(err.message || 'Failed to contact AI grading service.');
     } finally {
       setGrading(false);
     }
@@ -109,10 +185,24 @@ const APWorldPracticeExamLEQ2025: React.FC = () => {
             <textarea
               className="w-full min-h-[500px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
               value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
+              onChange={(e) => {
+                setAnswer(e.target.value);
+                // Save to localStorage immediately as user types
+                localStorage.setItem(STORAGE_KEY, e.target.value);
+              }}
               placeholder="Type your LEQ essay here..."
               disabled={grading}
             />
+            <div className='w-full mt-2 text-sm text-slate-600'>
+              <div>
+                Word count: {wordCount}
+                <span className='ml-2 text-slate-500'>(Min: {MIN_WORDS} | Max: {MAX_WORDS})</span>
+              </div>
+              <div className='mt-1'>
+                Character count: {answer.trim().length}
+                <span className='ml-2 text-slate-500'>(Max: {MAX_CHARACTERS})</span>
+              </div>
+            </div>
             <button
               className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition"
               onClick={handleSubmit}

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const APWorldPracticeExamSAQ2025: React.FC = () => {
   const { questionId } = useParams<{ questionId: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [answers, setAnswers] = useState(['', '', '']);
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<string[] | null>(null);
@@ -16,6 +18,28 @@ const APWorldPracticeExamSAQ2025: React.FC = () => {
   const pdfParam = searchParams.get('pdf');
 
   const qId = parseInt(questionId || '1', 10);
+  
+  const STORAGE_KEY = `apworld-saq-2025-${set}-q${qId}-answers`;
+  
+  // Word and character count limits for SAQ
+  const MIN_WORDS_PER_PART = 20;   // Minimum words per SAQ part
+  const MAX_WORDS_PER_PART = 200;  // Maximum words per SAQ part
+  const MAX_CHARS_PER_PART = 1200; // Maximum characters per SAQ part to prevent token abuse
+  
+  // Load saved answers from localStorage on mount or question change
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsedAnswers = JSON.parse(saved);
+        if (Array.isArray(parsedAnswers) && parsedAnswers.length === 3) {
+          setAnswers(parsedAnswers);
+        }
+      } catch (e) {
+        console.error('Failed to load saved answers:', e);
+      }
+    }
+  }, [qId, set, STORAGE_KEY]);
 
   // Use PDF from query param if present
   const getPdfUrlForQuestion = (questionId: number) => {
@@ -50,14 +74,42 @@ const APWorldPracticeExamSAQ2025: React.FC = () => {
   };
 
   const handleChange = (idx: number, value: string) => {
-    setAnswers((prev) => {
-      const copy = [...prev];
-      copy[idx] = value;
-      return copy;
-    });
+    const newAnswers = [...answers];
+    newAnswers[idx] = value;
+    setAnswers(newAnswers);
+    // Save to localStorage immediately
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newAnswers));
   };
 
   const handleSubmit = async () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+      return;
+    }
+
+    // Word count validation
+    const wordCounts = answers.map(ans => ans.trim() ? ans.trim().split(/\s+/).length : 0);
+    
+    for (let i = 0; i < wordCounts.length; i++) {
+      if (wordCounts[i] < MIN_WORDS_PER_PART) {
+        setError(`Part ${String.fromCharCode(65 + i)} is too short. Please write at least ${MIN_WORDS_PER_PART} words. Current: ${wordCounts[i]} words.`);
+        return;
+      }
+      if (wordCounts[i] > MAX_WORDS_PER_PART) {
+        setError(`Part ${String.fromCharCode(65 + i)} exceeds the maximum length. Please keep it under ${MAX_WORDS_PER_PART} words. Current: ${wordCounts[i]} words.`);
+        return;
+      }
+    }
+
+    // Character count validation to prevent token abuse
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i].trim().length > MAX_CHARS_PER_PART) {
+        setError(`Part ${String.fromCharCode(65 + i)} exceeds the maximum character limit. Please reduce to under ${MAX_CHARS_PER_PART} characters. Current: ${answers[i].trim().length} characters.`);
+        return;
+      }
+    }
+    
     setGrading(true);
     setError(null);
     setGrades(null);
@@ -93,20 +145,36 @@ const APWorldPracticeExamSAQ2025: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({
           answers,
           prompt_intro,
         }),
       });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 429) {
+          throw new Error(errorData.error || 'Daily limit reached. You can submit 1 FRQ for AI grading per day.');
+        }
+        if (response.status === 401) {
+          setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
+          return;
+        }
+        throw new Error(errorData.error || 'An unknown error occurred.');
+      }
+      
       const data = await response.json();
       if (data && data.grades) {
         setGrades(data.grades);
+        // Clear saved answers after successful grading
+        localStorage.removeItem(STORAGE_KEY);
       } else {
         setError('Failed to contact AI grading service.');
       }
-    } catch (err) {
-      setError('Failed to contact AI grading service.');
+    } catch (err: any) {
+      setError(err.message || 'Failed to contact AI grading service.');
     } finally {
       setGrading(false);
     }
@@ -158,22 +226,39 @@ const APWorldPracticeExamSAQ2025: React.FC = () => {
               {grading ? 'Grading...' : 'SUBMIT'}
             </button>
             <div className='w-full space-y-6'>
-              {[0, 1, 2].map((idx) => (
-                <div key={idx} className='w-full'>
-                  <label className='block font-semibold mb-2'>{`Part ${String.fromCharCode(
-                    65 + idx
-                  )}`}</label>
-                  <textarea
-                    className='w-full min-h-[150px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition'
-                    value={answers[idx]}
-                    onChange={(e) => handleChange(idx, e.target.value)}
-                    placeholder={`Type your answer for Part ${String.fromCharCode(
-                      65 + idx
-                    )} here...`}
-                    disabled={grading}
-                  />
-                </div>
-              ))}
+              {[0, 1, 2].map((idx) => {
+                const wordCount = answers[idx].trim() ? answers[idx].trim().split(/\s+/).length : 0;
+                const charCount = answers[idx].trim().length;
+                const isUnderMin = wordCount > 0 && wordCount < MIN_WORDS_PER_PART;
+                const isOverMaxWords = wordCount > MAX_WORDS_PER_PART;
+                const isOverMaxChars = charCount > MAX_CHARS_PER_PART;
+                
+                return (
+                  <div key={idx} className='w-full'>
+                    <label className='block font-semibold mb-2'>{`Part ${String.fromCharCode(65 + idx)}`}</label>
+                    <textarea
+                      className='w-full min-h-[150px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition'
+                      value={answers[idx]}
+                      onChange={(e) => handleChange(idx, e.target.value)}
+                      placeholder={`Type your answer for Part ${String.fromCharCode(65 + idx)} here...`}
+                      disabled={grading}
+                    />
+                    <div className='mt-1 text-sm'>
+                      <div className={isOverMaxWords ? 'text-red-600 font-semibold' : isUnderMin ? 'text-orange-600' : 'text-slate-600'}>
+                        Word count: {wordCount}
+                        <span className='ml-2 text-slate-500'>(Min: {MIN_WORDS_PER_PART} | Max: {MAX_WORDS_PER_PART})</span>
+                        {isOverMaxWords && <span className='ml-2'>⚠️ Exceeds maximum</span>}
+                        {isUnderMin && <span className='ml-2'>⚠️ Below minimum</span>}
+                      </div>
+                      <div className={isOverMaxChars ? 'text-red-600 font-semibold mt-1' : 'text-slate-600 mt-1'}>
+                        Character count: {charCount}
+                        <span className='ml-2 text-slate-500'>(Max: {MAX_CHARS_PER_PART})</span>
+                        {isOverMaxChars && <span className='ml-2'>⚠️ Exceeds maximum</span>}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
             {error && (
               <div className='mt-6 text-red-600 font-semibold'>{error}</div>
