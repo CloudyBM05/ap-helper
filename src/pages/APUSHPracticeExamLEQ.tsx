@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AuthModal from '../components/AuthModal';
 import { useAuth } from '../hooks/useAuth';
@@ -12,7 +12,28 @@ const APUSHPracticeExamLEQ: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [showAuthModal, setShowAuthModal] = useState(false);
 	
-	const { isAuthenticated, getAuthHeaders, login } = useAuth();
+	const { isAuthenticated, getAuthHeaders } = useAuth();
+
+	const STORAGE_KEY = `apush-leq-set${setId}-q${questionId}-answer`;
+
+	// Load saved answer from localStorage on mount or question change
+	useEffect(() => {
+		const saved = localStorage.getItem(STORAGE_KEY);
+		if (saved) {
+			try {
+				setAnswer(saved);
+			} catch (e) {
+				console.error('Failed to load saved answer:', e);
+			}
+		}
+	}, [setId, questionId, STORAGE_KEY]);
+
+	// Save answer to localStorage on change
+	useEffect(() => {
+		if (answer.trim()) {
+			localStorage.setItem(STORAGE_KEY, answer);
+		}
+	}, [answer, STORAGE_KEY]);
 
 	const getPdfUrl = () => {
 		if (setId === '1') {
@@ -343,6 +364,8 @@ Justification: [brief reason for each score]`
 
 			const data = await response.json();
 			setGrade(data.grade);
+			// Clear saved answer after successful grading
+			localStorage.removeItem(STORAGE_KEY);
 		} catch (error: any) {
 			setError(error.message);
 		} finally {
@@ -384,7 +407,11 @@ Justification: [brief reason for each score]`
 						<textarea
 							className='w-full min-h-[500px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400 transition'
 							value={answer}
-							onChange={(e) => setAnswer(e.target.value)}
+							onChange={(e) => {
+								setAnswer(e.target.value);
+								// Save to localStorage immediately as user types
+								localStorage.setItem(STORAGE_KEY, e.target.value);
+							}}
 							placeholder={`Type your essay for Question ${questionId} here...`}
 							disabled={grading}
 						/>
@@ -444,8 +471,7 @@ Justification: [brief reason for each score]`
 			<AuthModal 
 				isOpen={showAuthModal}
 				onClose={() => setShowAuthModal(false)}
-				onSuccess={(token) => {
-					login(token);
+				onSuccess={() => {
 					setShowAuthModal(false);
 				}}
 			/>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
@@ -10,6 +10,27 @@ const APUSHPracticeExamDBQ: React.FC = () => {
 	const [grading, setGrading] = useState(false);
 	const [grade, setGrade] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+
+	const STORAGE_KEY = `apush-dbq-set${setId}-answer`;
+
+	// Load saved answer from localStorage on mount or set change
+	useEffect(() => {
+		const saved = localStorage.getItem(STORAGE_KEY);
+		if (saved) {
+			try {
+				setAnswer(saved);
+			} catch (e) {
+				console.error('Failed to load saved answer:', e);
+			}
+		}
+	}, [setId, STORAGE_KEY]);
+
+	// Save answer to localStorage on change
+	useEffect(() => {
+		if (answer.trim()) {
+			localStorage.setItem(STORAGE_KEY, answer);
+		}
+	}, [answer, STORAGE_KEY]);
 
 	const getPdfUrl = () => {
 		if (setId === '1') {
@@ -214,6 +235,8 @@ For each point, state whether the student earned the point and provide a concise
 
 			const data = await response.json();
 			setGrade(data.grade);
+			// Clear saved answer after successful grading
+			localStorage.removeItem(STORAGE_KEY);
 		} catch (error: any) {
 			setError(error.message);
 		} finally {
@@ -252,7 +275,11 @@ For each point, state whether the student earned the point and provide a concise
 						<textarea
 							className='w-full min-h-[500px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-400 transition'
 							value={answer}
-							onChange={(e) => setAnswer(e.target.value)}
+							onChange={(e) => {
+								setAnswer(e.target.value);
+								// Save to localStorage immediately as user types
+								localStorage.setItem(STORAGE_KEY, e.target.value);
+							}}
 							placeholder='Type your DBQ essay here...'
 							disabled={grading}
 						/>
