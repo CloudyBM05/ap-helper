@@ -12,6 +12,11 @@ const APUSHPracticeExamDBQ: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 
 	const STORAGE_KEY = `apush-dbq-set${setId}-answer`;
+	
+	// Word and character count limits for DBQ
+	const MAX_CHARACTERS = 6000; // Maximum characters to prevent token abuse
+	const MIN_WORDS = 400; // Minimum words for DBQ
+	const MAX_WORDS = 1000; // Maximum words for DBQ
 
 	// Load saved answer from localStorage on mount or set change
 	useEffect(() => {
@@ -202,12 +207,19 @@ For each point, state whether the student earned the point and provide a concise
 
 		// Word count validation
 		const wordCount = answer.trim().split(/\s+/).length;
-		if (wordCount < 400) {
-			setError(`Your essay is too short. Please write at least 400 words. Current word count: ${wordCount}`);
+		if (wordCount < MIN_WORDS) {
+			setError(`Your essay is too short. Please write at least ${MIN_WORDS} words. Current word count: ${wordCount}`);
 			return;
 		}
-		if (wordCount > 1000) {
-			setError(`Your essay exceeds the maximum length. Please keep it under 1000 words. Current word count: ${wordCount}`);
+		if (wordCount > MAX_WORDS) {
+			setError(`Your essay exceeds the maximum length. Please keep it under ${MAX_WORDS} words. Current word count: ${wordCount}`);
+			return;
+		}
+
+		// Character count validation
+		const charCount = answer.length;
+		if (charCount > MAX_CHARACTERS) {
+			setError(`Your essay exceeds the maximum character limit of ${MAX_CHARACTERS} characters. Current length: ${charCount} characters.`);
 			return;
 		}
 

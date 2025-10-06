@@ -13,6 +13,11 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
 
 	const qId = parseInt(questionId || '1', 10);
 	const STORAGE_KEY = `apush-saq-2025-set1-q${qId}-answers`;
+	
+	// Word and character count limits for SAQ
+	const MIN_WORDS_PER_PART = 20;   // Minimum words per SAQ part
+	const MAX_WORDS_PER_PART = 200;  // Maximum words per SAQ part
+	const MAX_CHARS_PER_PART = 1200; // Maximum characters per SAQ part to prevent token abuse
 
 	// Load saved answers from localStorage on mount or question change
 	useEffect(() => {
@@ -67,6 +72,28 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
 		if (!isAuthenticated) {
 			setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
 			return;
+		}
+
+		// Word count validation
+		const wordCounts = answers.map(ans => ans.trim() ? ans.trim().split(/\s+/).length : 0);
+		
+		for (let i = 0; i < wordCounts.length; i++) {
+			if (wordCounts[i] < MIN_WORDS_PER_PART) {
+				setError(`Part ${String.fromCharCode(65 + i)} is too short. Please write at least ${MIN_WORDS_PER_PART} words. Current: ${wordCounts[i]} words.`);
+				return;
+			}
+			if (wordCounts[i] > MAX_WORDS_PER_PART) {
+				setError(`Part ${String.fromCharCode(65 + i)} exceeds the maximum length. Please keep it under ${MAX_WORDS_PER_PART} words. Current: ${wordCounts[i]} words.`);
+				return;
+			}
+		}
+
+		// Character count validation
+		for (let i = 0; i < answers.length; i++) {
+			if (answers[i].length > MAX_CHARS_PER_PART) {
+				setError(`Part ${String.fromCharCode(65 + i)} exceeds the maximum character limit. Please reduce to under ${MAX_CHARS_PER_PART} characters.`);
+				return;
+			}
 		}
 
 		setGrading(true);
@@ -190,22 +217,45 @@ const APUSHPracticeExamSAQ2025: React.FC = () => {
 							{grading ? 'Grading...' : 'SUBMIT'}
 						</button>
 						<div className='w-full space-y-6'>
-							{[0, 1, 2].map((idx) => (
-								<div key={idx} className='w-full'>
-									<label className='block font-semibold mb-2'>{`Part ${String.fromCharCode(
-										65 + idx
-									)}`}</label>
-									<textarea
-										className='w-full min-h-[150px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition'
-										value={answers[idx]}
-										onChange={(e) => handleChange(idx, e.target.value)}
-										placeholder={`Type your answer for Part ${String.fromCharCode(
+							{[0, 1, 2].map((idx) => {
+								const wordCount = answers[idx].trim() ? answers[idx].trim().split(/\s+/).length : 0;
+								const charCount = answers[idx].length;
+								const isUnderMin = wordCount > 0 && wordCount < MIN_WORDS_PER_PART;
+								const isOverMaxWords = wordCount > MAX_WORDS_PER_PART;
+								const isOverMaxChars = charCount > MAX_CHARS_PER_PART;
+								
+								return (
+									<div key={idx} className='w-full'>
+										<label className='block font-semibold mb-2'>{`Part ${String.fromCharCode(
 											65 + idx
-										)} here...`}
-										disabled={grading}
-									/>
-								</div>
-							))}
+										)}`}</label>
+										<textarea
+											className='w-full min-h-[150px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition'
+											value={answers[idx]}
+											onChange={(e) => handleChange(idx, e.target.value)}
+											placeholder={`Type your answer for Part ${String.fromCharCode(
+												65 + idx
+											)} here...`}
+											disabled={grading}
+										/>
+										<div className={`mt-1 text-sm ${isOverMaxWords ? 'text-red-600 font-semibold' : isUnderMin ? 'text-orange-600' : 'text-slate-600'}`}>
+											Word count: {wordCount}
+											<span className='ml-2 text-slate-500'>
+												(Min: {MIN_WORDS_PER_PART} | Max: {MAX_WORDS_PER_PART})
+											</span>
+											{isOverMaxWords && <span className='ml-2'>⚠️ Exceeds maximum word count</span>}
+											{isUnderMin && <span className='ml-2'>⚠️ Below minimum word count</span>}
+										</div>
+										<div className={`mt-1 text-sm ${isOverMaxChars ? 'text-red-600 font-semibold' : 'text-slate-600'}`}>
+											Character count: {charCount}
+											<span className='ml-2 text-slate-500'>
+												(Max: {MAX_CHARS_PER_PART})
+											</span>
+											{isOverMaxChars && <span className='ml-2'>⚠️ Exceeds maximum character limit</span>}
+										</div>
+									</div>
+								);
+							})}
 						</div>
 						{error && (
 							<div className={`mt-6 font-semibold ${error.includes('Daily limit') ? 'text-orange-600 bg-orange-50 border border-orange-200 rounded-lg p-4' : 'text-red-600'}`}>

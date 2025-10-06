@@ -19,6 +19,7 @@ const APUSHPracticeExamLEQ: React.FC = () => {
 	// Word count limits for LEQ
 	const MIN_WORDS = 200;  // Minimum for a reasonable LEQ
 	const MAX_WORDS = 1000; // Maximum to prevent spam
+	const MAX_CHARACTERS = 6000; // Maximum characters to prevent token abuse
 
 	// Load saved answer from localStorage on mount or question change
 	useEffect(() => {
@@ -341,6 +342,13 @@ Justification: [brief reason for each score]`
 		}
 		if (currentWordCount > MAX_WORDS) {
 			setError(`Your essay is too long. Maximum ${MAX_WORDS} words allowed (you have ${currentWordCount} words).`);
+			return;
+		}
+
+		// Check character count to prevent token abuse
+		const characterCount = answer.trim().length;
+		if (characterCount > MAX_CHARACTERS) {
+			setError(`Your essay is too long. Maximum ${MAX_CHARACTERS} characters allowed (you have ${characterCount} characters).`);
 			return;
 		}
 		
