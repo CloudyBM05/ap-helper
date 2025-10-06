@@ -446,8 +446,14 @@ Justification: [brief reason for each score]`
 							disabled={grading}
 						/>
 						<div className='w-full mt-2 text-sm text-slate-600'>
-							Word count: {wordCount}
-							<span className='ml-2 text-slate-500'>(Minimum: {MIN_WORDS} words | Maximum: {MAX_WORDS} words)</span>
+							<div>
+								Word count: {wordCount}
+								<span className='ml-2 text-slate-500'>(Min: {MIN_WORDS} | Max: {MAX_WORDS})</span>
+							</div>
+							<div className='mt-1'>
+								Character count: {answer.trim().length}
+								<span className='ml-2 text-slate-500'>(Max: {MAX_CHARACTERS})</span>
+							</div>
 						</div>
 						<button
 							className='mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg font-semibold shadow hover:bg-purple-700 transition'

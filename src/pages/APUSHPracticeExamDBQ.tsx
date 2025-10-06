@@ -309,20 +309,32 @@ For each point, state whether the student earned the point and provide a concise
 						<div className='w-full mt-2 text-sm'>
 							{(() => {
 								const wordCount = answer.trim() ? answer.trim().split(/\s+/).length : 0;
-								const minWords = 400;
-								const maxWords = 1000;
+								const charCount = answer.trim().length;
+								const minWords = MIN_WORDS;
+								const maxWords = MAX_WORDS;
+								const maxChars = MAX_CHARACTERS;
 								const isUnderMin = wordCount > 0 && wordCount < minWords;
-								const isOverMax = wordCount > maxWords;
+								const isOverMaxWords = wordCount > maxWords;
+								const isOverMaxChars = charCount > maxChars;
 								
 								return (
-									<div className={isOverMax ? 'text-red-600 font-semibold' : isUnderMin ? 'text-orange-600' : 'text-slate-600'}>
-										Word count: {wordCount}
-										<span className='ml-2 text-slate-500'>
-											(Min: {minWords} | Max: {maxWords})
-										</span>
-										{isOverMax && <span className='ml-2'>⚠️ Exceeds maximum</span>}
-										{isUnderMin && <span className='ml-2'>⚠️ Below minimum</span>}
-									</div>
+									<>
+										<div className={isOverMaxWords ? 'text-red-600 font-semibold' : isUnderMin ? 'text-orange-600' : 'text-slate-600'}>
+											Word count: {wordCount}
+											<span className='ml-2 text-slate-500'>
+												(Min: {minWords} | Max: {maxWords})
+											</span>
+											{isOverMaxWords && <span className='ml-2'>⚠️ Exceeds maximum</span>}
+											{isUnderMin && <span className='ml-2'>⚠️ Below minimum</span>}
+										</div>
+										<div className={isOverMaxChars ? 'text-red-600 font-semibold mt-1' : 'text-slate-600 mt-1'}>
+											Character count: {charCount}
+											<span className='ml-2 text-slate-500'>
+												(Max: {maxChars})
+											</span>
+											{isOverMaxChars && <span className='ml-2'>⚠️ Exceeds maximum</span>}
+										</div>
+									</>
 								);
 							})()}
 						</div>
