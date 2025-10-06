@@ -200,6 +200,17 @@ For each point, state whether the student earned the point and provide a concise
 			return;
 		}
 
+		// Word count validation
+		const wordCount = answer.trim().split(/\s+/).length;
+		if (wordCount < 400) {
+			setError(`Your essay is too short. Please write at least 400 words. Current word count: ${wordCount}`);
+			return;
+		}
+		if (wordCount > 1000) {
+			setError(`Your essay exceeds the maximum length. Please keep it under 1000 words. Current word count: ${wordCount}`);
+			return;
+		}
+
 		// Check if user is authenticated
 		if (!isAuthenticated) {
 			setError('Please log in to use AI grading. Click the "Login" button in the navigation bar.');
@@ -283,6 +294,26 @@ For each point, state whether the student earned the point and provide a concise
 							placeholder='Type your DBQ essay here...'
 							disabled={grading}
 						/>
+						<div className='w-full mt-2 text-sm'>
+							{(() => {
+								const wordCount = answer.trim() ? answer.trim().split(/\s+/).length : 0;
+								const minWords = 400;
+								const maxWords = 1000;
+								const isUnderMin = wordCount > 0 && wordCount < minWords;
+								const isOverMax = wordCount > maxWords;
+								
+								return (
+									<div className={isOverMax ? 'text-red-600 font-semibold' : isUnderMin ? 'text-orange-600' : 'text-slate-600'}>
+										Word count: {wordCount}
+										<span className='ml-2 text-slate-500'>
+											(Min: {minWords} | Max: {maxWords})
+										</span>
+										{isOverMax && <span className='ml-2'>⚠️ Exceeds maximum</span>}
+										{isUnderMin && <span className='ml-2'>⚠️ Below minimum</span>}
+									</div>
+								);
+							})()}
+						</div>
 						<button
 							className='mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg font-semibold shadow hover:bg-purple-700 transition'
 							onClick={handleSubmit}

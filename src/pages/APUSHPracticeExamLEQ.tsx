@@ -15,6 +15,10 @@ const APUSHPracticeExamLEQ: React.FC = () => {
 	const { isAuthenticated, getAuthHeaders } = useAuth();
 
 	const STORAGE_KEY = `apush-leq-set${setId}-q${questionId}-answer`;
+	
+	// Word count limits for LEQ
+	const MIN_WORDS = 200;  // Minimum for a reasonable LEQ
+	const MAX_WORDS = 1000; // Maximum to prevent spam
 
 	// Load saved answer from localStorage on mount or question change
 	useEffect(() => {
@@ -34,6 +38,13 @@ const APUSHPracticeExamLEQ: React.FC = () => {
 			localStorage.setItem(STORAGE_KEY, answer);
 		}
 	}, [answer, STORAGE_KEY]);
+
+	// Helper function to count words
+	const countWords = (text: string): number => {
+		return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+	};
+
+	const wordCount = countWords(answer);
 
 	const getPdfUrl = () => {
 		if (setId === '1') {
@@ -321,6 +332,17 @@ Justification: [brief reason for each score]`
 			setError('Please write an essay before submitting.');
 			return;
 		}
+
+		// Check word count
+		const currentWordCount = countWords(answer);
+		if (currentWordCount < MIN_WORDS) {
+			setError(`Your essay is too short. Minimum ${MIN_WORDS} words required (you have ${currentWordCount} words).`);
+			return;
+		}
+		if (currentWordCount > MAX_WORDS) {
+			setError(`Your essay is too long. Maximum ${MAX_WORDS} words allowed (you have ${currentWordCount} words).`);
+			return;
+		}
 		
 		// Check if user is authenticated
 		if (!isAuthenticated) {
@@ -415,6 +437,10 @@ Justification: [brief reason for each score]`
 							placeholder={`Type your essay for Question ${questionId} here...`}
 							disabled={grading}
 						/>
+						<div className='w-full mt-2 text-sm text-slate-600'>
+							Word count: {wordCount}
+							<span className='ml-2 text-slate-500'>(Minimum: {MIN_WORDS} words | Maximum: {MAX_WORDS} words)</span>
+						</div>
 						<button
 							className='mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg font-semibold shadow hover:bg-purple-700 transition'
 							onClick={handleSubmit}
