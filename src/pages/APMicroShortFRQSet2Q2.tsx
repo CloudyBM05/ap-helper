@@ -143,8 +143,8 @@ const APMicroShortFRQSet2Q2 = () => {
     setGradeResult(null);
 
     try {
-      const token = await getIdToken();
-      if (!token) {
+      const authHeaders = getAuthHeaders();
+      if (!Object.keys(authHeaders).length) {
         setError('Authentication failed. Please log in again.');
         setGrading(false);
         return;
@@ -158,7 +158,7 @@ const APMicroShortFRQSet2Q2 = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          ...authHeaders
         },
         body: JSON.stringify({
           answers: [answers.A, answers.B, answers.C, answers.Di, answers.Dii],
@@ -258,9 +258,6 @@ const APMicroShortFRQSet2Q2 = () => {
                   to continue.
                 </div>
               )}
-              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800 w-full">
-                ℹ️ <strong>Daily Limit:</strong> 1 free AI grading per day (shared across all AP courses). Word limits: 10-80 words/part. Character limit: 600 chars/part.
-              </div>
               <button
                 className="mb-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleGrade}

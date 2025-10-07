@@ -1,68 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../contexts/AuthContext';
 import AuthModal from '../components/AuthModal';
 
-const questionPDF = '/APMicro-Short2Set1.pdf';
-
-const answerParts = [
-  { label: 'A', display: 'Part A' },
-  { label: 'B', display: 'Part B' },
-  { label: 'C', display: 'Part C' },
-  { label: 'D', display: 'Part D' },
-  { label: 'E', display: 'Part E' },
+const PDF = '/APMicro-Short1Set1.pdf';
+const PARTS = [
+  { id: 'A', label: 'Part A' },
+  { id: 'B', label: 'Part B' },
+  { id: 'C', label: 'Part C' }
 ];
 
-const gradingPrompt = `Grade the following AP Micro FRQ (2025, Q3 – Jewelry game theory) using the rubric below. Be strict. No partial credit. No extra text.
+const GRADING_PROMPT = `Grade the following AP Microeconomics Short FRQ (Set 1, Question 1) using the standard AP rubric. Be strict and provide clear, concise explanations for each part.
 
-Scoring Rubric:
+Scoring Guidelines:
+- Part A: 1 point for correct identification and explanation
+- Part B: 1 point for correct analysis
+- Part C: 1 point for correct application
 
-A (1 pt):
-+1: Correctly identifies Tony's best response to Silver (Unique = $20 > Typical = $21) and explains using payoff numbers.
+Respond ONLY with a JSON array of objects, one per part: [{'score': 0 or 1, 'explanation': '...'}, ...] No extra text or formatting.`;
 
-B (1 pt):
-+1: Correct answer: No dominant strategy, justified with payoffs (e.g., for Bitaly: prefers Silver if Tony chooses Unique, prefers Gold if Tony chooses Typical).
-
-C (1 pt):
-+1: Identifies both Nash equilibria: (Unique, Silver) and (Typical, Gold)
-
-D (1 pt):
-+1: Correct answer: $6; explanation: increase Typical payoffs to match/exceed Unique in both Bitaly choices.
-
-E (1 pt):
-+1: Combined profit maximized at Unique/Silver = $20 + $19 = $39; work shown.
-
-Output Format (required):
-A: X/1 Explanation if point lost
-B: X/1 Explanation if point lost
-C: X/1 Explanation if point lost
-D: X/1 Explanation if point lost
-E: X/1 Explanation if point lost
-Total: X/5
-
-Only score and rubric-based explanations. No praise, no suggestions. Be strict.`;
-
-const APMicroShortFRQSet1Q3 = () => {
+const APMicroShortFRQSet1Q1 = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, getAuthHeaders } = useAuth();
-  const [answers, setAnswers] = useState({ A: '', B: '', C: '', D: '', E: '' });
+  const { user, getIdToken } = useAuth();
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
-  const [gradeResult, setGradeResult] = useState<any[] | null>(null);
+  const [grades, setGrades] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [wordCounts, setWordCounts] = useState<{ [key: string]: number }>({});
   const [charCounts, setCharCounts] = useState<{ [key: string]: number }>({});
   const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
 
-  const STORAGE_KEY = 'apmicro-short-frq-set1q3';
+  const STORAGE_KEY = 'apmicro-short-frq-set1q1';
 
   // Load from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        setAnswers(parsed);
+        setAnswers(JSON.parse(saved));
       } catch (e) {
         console.error('Failed to load saved answers:', e);
       }
@@ -71,7 +47,7 @@ const APMicroShortFRQSet1Q3 = () => {
 
   // Save to localStorage
   useEffect(() => {
-    if (Object.keys(answers).filter(k => answers[k as keyof typeof answers]).length > 0) {
+    if (Object.keys(answers).length > 0) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
     }
   }, [answers]);
@@ -80,126 +56,107 @@ const APMicroShortFRQSet1Q3 = () => {
   useEffect(() => {
     const newWordCounts: { [key: string]: number } = {};
     const newCharCounts: { [key: string]: number } = {};
-    answerParts.forEach(part => {
-      const text = answers[part.label as keyof typeof answers] || '';
-      newWordCounts[part.label] = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-      newCharCounts[part.label] = text.length;
+    PARTS.forEach(part => {
+      const text = answers[part.id] || '';
+      newWordCounts[part.id] = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+      newCharCounts[part.id] = text.length;
     });
     setWordCounts(newWordCounts);
     setCharCounts(newCharCounts);
   }, [answers]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (part: string, value: string) => {
     const chars = value.length;
-
     let validationError = '';
     if (chars > 600) {
       validationError = 'Character limit exceeded (600 max)';
     }
-
-    setValidationErrors(prev => ({ ...prev, [name]: validationError }));
-    setAnswers((prev) => ({ ...prev, [name]: value }));
+    setValidationErrors(prev => ({ ...prev, [part]: validationError }));
+    setAnswers((prev) => ({ ...prev, [part]: value }));
   };
 
   const validateAnswers = (): boolean => {
     const errors: { [key: string]: string } = {};
     let hasError = false;
-
-    answerParts.forEach(part => {
-      const text = answers[part.label as keyof typeof answers] || '';
+    PARTS.forEach(part => {
+      const text = answers[part.id] || '';
       const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
       const chars = text.length;
-
       if (words < 10) {
-        errors[part.label] = 'Too short (min 10 words)';
+        errors[part.id] = 'Too short (min 10 words)';
         hasError = true;
       } else if (words > 80) {
-        errors[part.label] = 'Too long (max 80 words)';
+        errors[part.id] = 'Too long (max 80 words)';
         hasError = true;
       } else if (chars > 600) {
-        errors[part.label] = 'Character limit exceeded (600 max)';
+        errors[part.id] = 'Character limit exceeded (600 max)';
         hasError = true;
       }
     });
-
     setValidationErrors(errors);
     return !hasError;
   };
 
-  const handleGrade = async () => {
+  const handleSubmit = async () => {
     if (!user) {
       setShowAuthModal(true);
       return;
     }
-
     if (!validateAnswers()) {
       setError('Please fix validation errors before submitting.');
       return;
     }
-
     setGrading(true);
     setError(null);
-    setGradeResult(null);
-
+    setGrades(null);
     try {
-      const authHeaders = getAuthHeaders();
-      if (!Object.keys(authHeaders).length) {
+      const token = await getIdToken();
+      if (!token) {
         setError('Authentication failed. Please log in again.');
         setGrading(false);
         return;
       }
-
       const apiUrl = import.meta.env.DEV
         ? '/api/grade-apmicro-frq'
         : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmicro-frq';
-
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...authHeaders
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          answers: [answers.A, answers.B, answers.C, answers.D, answers.E],
-          prompt_intro: gradingPrompt,
-          sources: '',
-          questions: '',
-        }),
+          answers: PARTS.map(p => answers[p.id] || ''),
+          prompt_intro: GRADING_PROMPT
+        })
       });
-
       if (response.status === 429) {
         const data = await response.json();
         setError(data.error || 'Daily limit reached. Try again tomorrow!');
         setGrading(false);
         return;
       }
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to contact AI grading service.');
-      }
-
+      if (!response.ok) throw new Error('Failed to contact AI grading service.');
       const data = await response.json();
       if (data.result && Array.isArray(data.result)) {
-        setGradeResult(data.result);
+        setGrades(data.result);
       } else {
         setError('Failed to parse grading results.');
       }
     } catch (err: any) {
-      setError(err.message || 'An unknown error occurred. Please try again.');
+      setError(err.message || 'Failed to contact AI grading service.');
     }
     setGrading(false);
   };
 
-  const getWordCountColor = (partLabel: string) => {
-    const count = wordCounts[partLabel] || 0;
+  const getWordCountColor = (partId: string) => {
+    const count = wordCounts[partId] || 0;
     if (count < 10 || count > 80) return 'text-red-600';
     return 'text-green-600';
   };
 
-  const getCharCountColor = (partLabel: string) => {
-    const count = charCounts[partLabel] || 0;
+  const getCharCountColor = (partId: string) => {
+    const count = charCounts[partId] || 0;
     if (count > 600) return 'text-red-600';
     return 'text-slate-600';
   };
@@ -220,29 +177,35 @@ const APMicroShortFRQSet1Q3 = () => {
             &larr; Back to Set 1
           </button>
           <div className="flex flex-col md:flex-row justify-center items-start gap-8">
-            <div className="flex-[1.5] min-w-[400px] max-w-5xl bg-white shadow-lg p-6 flex flex-col">
+            {/* PDF Viewer */}
+            <div className="flex-[1.5] min-w-[400px] max-w-5xl bg-white shadow-lg p-6 flex flex-col rounded-2xl border border-fuchsia-100">
               <h2 className="text-xl font-bold mb-4 text-center text-fuchsia-700">
-                AP Microeconomics Short FRQ – Set 1, Question 3
+                Collegeboard 2025 Short FRQ Set 1 - Question 1
               </h2>
               <iframe
-                src={questionPDF}
-                title="AP Micro Short FRQ Set 1 Q3"
-                className="w-full flex-1 min-h-[700px] border rounded-lg"
+                src={PDF}
+                title="Short FRQ Set 1 Q1"
+                className="w-full min-h-[900px] border rounded-lg"
+                style={{ border: 'none', minHeight: '400px' }}
               />
               <div className="text-xs text-slate-500 mt-2 text-center">
-                (If the PDF does not load,{' '}
+                If the PDF does not load,{' '}
                 <a
-                  href={questionPDF}
+                  href={PDF}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline text-blue-600"
                 >
                   click here to open in a new tab
                 </a>
-                .)
+                .
+              </div>
+              <div className="mt-4 text-xs text-slate-500 text-center">
+                PDFs are for educational use only. All rights belong to their respective owners.
               </div>
             </div>
-            <div className="flex-1 max-w-2xl p-6 flex flex-col items-center">
+            {/* Answer boxes */}
+            <div className="flex-1 max-w-2xl p-6 flex flex-col items-center rounded-2xl bg-white shadow-lg border border-fuchsia-100">
               <h2 className="text-xl font-bold mb-4 text-center text-fuchsia-700">
                 Your Answers
               </h2>
@@ -259,39 +222,38 @@ const APMicroShortFRQSet1Q3 = () => {
                 </div>
               )}
               <button
-                className="mb-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={handleGrade}
+                className="mb-4 px-6 py-2 bg-fuchsia-600 text-white rounded-lg font-semibold shadow hover:bg-fuchsia-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleSubmit}
                 disabled={grading || !user}
               >
-                {grading ? 'Grading...' : 'SUBMIT FOR AI GRADE'}
+                {grading ? 'Grading...' : 'SUBMIT'}
               </button>
               <div className="w-full space-y-6">
-                {answerParts.map((part) => (
-                  <div key={part.label} className="w-full">
-                    <label className="block font-semibold mb-2">{part.display}</label>
+                {PARTS.map((part) => (
+                  <div key={part.id} className="w-full">
+                    <label className="block font-semibold mb-2 text-slate-700">{part.label}</label>
                     <textarea
-                      className={`w-full min-h-[120px] border rounded-lg p-3 focus:outline-none focus:ring-2 transition shadow ${
-                        validationErrors[part.label]
+                      className={`w-full min-h-[120px] border rounded-lg p-3 focus:outline-none focus:ring-2 transition ${
+                        validationErrors[part.id]
                           ? 'border-red-500 focus:ring-red-400 bg-red-50'
-                          : 'border-slate-300 focus:ring-cyan-400 bg-slate-50'
+                          : 'border-slate-300 focus:ring-fuchsia-400'
                       }`}
-                      name={part.label}
-                      value={answers[part.label as keyof typeof answers]}
-                      onChange={handleChange}
-                      placeholder={`Type your answer for ${part.display} here...`}
+                      value={answers[part.id] || ''}
+                      onChange={e => handleChange(part.id, e.target.value)}
+                      placeholder={`Type your answer for ${part.label} here...`}
                       disabled={grading}
                     />
                     <div className="mt-2 flex justify-between text-sm">
-                      <span className={getWordCountColor(part.label)}>
-                        {wordCounts[part.label] || 0} words (10-80 required)
+                      <span className={getWordCountColor(part.id)}>
+                        {wordCounts[part.id] || 0} words (10-80 required)
                       </span>
-                      <span className={getCharCountColor(part.label)}>
-                        {charCounts[part.label] || 0}/600 chars
+                      <span className={getCharCountColor(part.id)}>
+                        {charCounts[part.id] || 0}/600 chars
                       </span>
                     </div>
-                    {validationErrors[part.label] && (
+                    {validationErrors[part.id] && (
                       <div className="mt-2 text-sm text-red-600 font-semibold">
-                        ⚠️ {validationErrors[part.label]}
+                        ⚠️ {validationErrors[part.id]}
                       </div>
                     )}
                   </div>
@@ -302,15 +264,15 @@ const APMicroShortFRQSet1Q3 = () => {
                   ⚠️ {error}
                 </div>
               )}
-              {gradeResult && (
+              {grades && (
                 <div className="mt-8 w-full bg-green-50 border border-green-200 rounded-lg p-4">
                   <h3 className="text-lg font-bold mb-2 text-green-700">
-                    AI Grading Results
+                    Grading Results
                   </h3>
                   <ul className="list-disc pl-6 space-y-2">
-                    {gradeResult.map((g, i) => (
+                    {grades.map((g, i) => (
                       <li key={i} className="text-green-900">
-                        <strong>{answerParts[i]?.display}:</strong> Score: {g.score || 'N/A'} - {g.explanation || JSON.stringify(g)}
+                        <strong>{PARTS[i]?.label}:</strong> Score: {g.score || 'N/A'} - {g.explanation || JSON.stringify(g)}
                       </li>
                     ))}
                   </ul>
@@ -324,4 +286,4 @@ const APMicroShortFRQSet1Q3 = () => {
   );
 };
 
-export default APMicroShortFRQSet1Q3;
+export default APMicroShortFRQSet1Q1;

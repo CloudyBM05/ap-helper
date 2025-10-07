@@ -275,9 +275,6 @@ const APMicroLongFRQ = () => {
                   to continue.
                 </div>
               )}
-              <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-                ℹ️ <strong>Daily Limit:</strong> 1 free AI grading per day (shared across all AP courses). Word limits: 15-120 words/part. Character limit: 800 chars/part.
-              </div>
               <button
                 className="mb-4 px-6 py-2 bg-fuchsia-600 text-white rounded-lg font-semibold shadow hover:bg-fuchsia-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSubmit}
