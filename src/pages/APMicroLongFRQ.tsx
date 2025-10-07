@@ -152,7 +152,7 @@ const APMicroLongFRQ = () => {
 
       const apiUrl = import.meta.env.DEV
         ? '/api/grade-apmicro-frq'
-        : 'https://ap-helper-backend-a911aff69dd3.herokuapp.com/api/grade-apmicro-frq';
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmicro-frq';
 
       const response = await fetch(apiUrl, {
         method: 'POST',
