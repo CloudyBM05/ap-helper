@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import AuthModal from '../components/AuthModal';
 
 const questionPDF = '/APMicro-Short2Set1.pdf';
@@ -44,7 +44,7 @@ Only score and rubric-based explanations. No praise, no suggestions. Be strict.`
 
 const APMicroShortFRQSet1Q3 = () => {
   const navigate = useNavigate();
-  const { user, getIdToken } = useAuth();
+  const { user, isAuthenticated, getAuthHeaders } = useAuth();
   const [answers, setAnswers] = useState({ A: '', B: '', C: '', D: '', E: '' });
   const [grading, setGrading] = useState(false);
   const [gradeResult, setGradeResult] = useState<any[] | null>(null);

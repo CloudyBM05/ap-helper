@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import AuthModal from '../components/AuthModal';
 
 const PDF = '/APMicro-Short1Set1.pdf';
@@ -21,7 +21,7 @@ Respond ONLY with a JSON array of objects, one per part: [{'score': 0 or 1, 'exp
 
 const APMicroShortFRQSet1Q1 = () => {
   const navigate = useNavigate();
-  const { user, getIdToken } = useAuth();
+  const { user, isAuthenticated, getAuthHeaders } = useAuth();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<any[] | null>(null);

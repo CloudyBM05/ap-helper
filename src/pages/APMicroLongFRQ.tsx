@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import AuthModal from '../components/AuthModal';
 
 const FRQ_CONTENT = {
@@ -33,7 +33,7 @@ const APMicroLongFRQ = () => {
   const navigate = useNavigate();
   const { setId } = useParams();
   const frq = FRQ_CONTENT[(setId === 'set2' ? 'set2' : 'set1')];
-  const { user, getIdToken } = useAuth();
+  const { user, isAuthenticated, getAuthHeaders } = useAuth();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<any[] | null>(null);
@@ -140,8 +140,8 @@ const APMicroLongFRQ = () => {
     setGrades(null);
 
     try {
-      const token = await getIdToken();
-      if (!token) {
+      const authHeaders = getAuthHeaders();
+      if (!Object.keys(authHeaders).length) {
         setError('Authentication failed. Please log in again.');
         setGrading(false);
         return;
@@ -152,13 +152,13 @@ const APMicroLongFRQ = () => {
 
       const apiUrl = import.meta.env.DEV
         ? '/api/grade-apmicro-frq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apmicro-frq';
+        : 'https://ap-helper-backend-a911aff69dd3.herokuapp.com/api/grade-apmicro-frq';
 
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          ...authHeaders
         },
         body: JSON.stringify({
           answers: answersArray,

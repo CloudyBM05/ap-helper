@@ -1,0 +1,25 @@
+AP MICRO SHORT FRQ UPGRADE TEMPLATE
+====================================
+
+This template shows the pattern for upgrading all Short FRQ question files.
+
+Key Changes:
+1. Add imports: useEffect, useAuth, AuthModal
+2. Add state: showAuthModal, wordCounts, charCounts, validationErrors
+3. Add localStorage persistence (load/save)
+4. Add word/character count tracking
+5. Add validation (10-80 words, 600 chars)
+6. Add authentication check
+7. Update API endpoint to /api/grade-apmicro-frq
+8. Add Authorization header with token
+9. Handle 429 (daily limit) response
+10. Update UI with validation feedback, auth prompts, word/char counts
+11. Parse grading results as array of {score, explanation} objects
+
+Files to Update:
+- APMicroShortFRQSet1Q1.tsx (3 parts: A, B, C) ✓ NEEDS UPDATE
+- APMicroShortFRQSet1Q3.tsx
+- APMicroShortFRQSet2Q2.tsx  
+- APMicroShortFRQSet2Q3.tsx
+
+Note: Set1Q2 was already updated as the reference implementation.
