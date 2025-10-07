@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import AuthModal from '../components/AuthModal';
 
 const ebqSets = [
   {
@@ -20,47 +22,143 @@ const ebqSets = [
 
 const APPsychPracticeExamEBQSelect = () => {
   const navigate = useNavigate();
-  const [selectedSet, setSelectedSet] = useState(null);
+  const { isAuthenticated, getAuthHeaders } = useAuth();
+  const [selectedSet, setSelectedSet] = useState<number | null>(null);
   const [ebqAnswers, setEbqAnswers] = useState(['', '', '']);
   const [grading, setGrading] = useState(false);
   const [gradeResult, setGradeResult] = useState<string | null>(null);
   const [gradeError, setGradeError] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Word and character count limits for EBQ (A, B, C - 3 parts, subparts  require detailed evidence + explanation)
+  const MIN_WORDS_PER_PART = 15;
+  const MAX_WORDS_PER_PART = 150;
+  const MAX_CHARS_PER_PART = 1000;
+
+  // localStorage key based on selected set
+  const STORAGE_KEY = selectedSet ? `appsych-ebq-set${selectedSet}-answers` : '';
+
+  // Load saved answers from localStorage when set is selected
+  useEffect(() => {
+    if (selectedSet && STORAGE_KEY) {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsedAnswers = JSON.parse(saved);
+          if (Array.isArray(parsedAnswers) && parsedAnswers.length === 3) {
+            setEbqAnswers(parsedAnswers);
+          }
+        } catch (e) {
+          console.error('Failed to load saved answers:', e);
+        }
+      }
+    }
+  }, [selectedSet, STORAGE_KEY]);
 
   const handleEBQAnswerChange = (idx: number, value: string) => {
     setEbqAnswers((prev) => {
       const copy = [...prev];
       copy[idx] = value;
+      // Auto-save to localStorage
+      if (STORAGE_KEY) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(copy));
+      }
       return copy;
     });
   };
 
   const handleEBQGrade = async () => {
+    // Check authentication
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    // Validate all answers
+    const allFilled = ebqAnswers.every(ans => ans.trim().length > 0);
+    if (!allFilled) {
+      setGradeError('Please fill in all answer parts (A, B, C) before grading.');
+      return;
+    }
+
+    // Validate word and character counts
+    for (let i = 0; i < ebqAnswers.length; i++) {
+      const ans = ebqAnswers[i].trim();
+      const wordCount = ans.split(/\s+/).filter(Boolean).length;
+      const charCount = ans.length;
+
+      if (wordCount < MIN_WORDS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please write at least ${MIN_WORDS_PER_PART} words (currently ${wordCount} words).`);
+        return;
+      }
+      if (wordCount > MAX_WORDS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please keep your answer under ${MAX_WORDS_PER_PART} words (currently ${wordCount} words).`);
+        return;
+      }
+      if (charCount > MAX_CHARS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please keep your answer under ${MAX_CHARS_PER_PART} characters (currently ${charCount} characters).`);
+        return;
+      }
+    }
+
+    // Check daily usage limit for AP Psych FRQs (1 per day across all types)
+    const today = new Date().toISOString().split('T')[0];
+    const usageKey = 'appsych-frq-last-graded';
+    const lastGraded = localStorage.getItem(usageKey);
+    
+    if (lastGraded === today) {
+      setGradeError('Daily limit reached: You can only grade 1 AP Psychology FRQ per day (across all FRQ types: AAQ, EBQ). Please try again tomorrow.');
+      return;
+    }
+
     setGrading(true);
     setGradeError(null);
     setGradeResult(null);
     let prompt_intro = '';
     if (selectedSet === 1) {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following response to Question 2 (the Evidence-Based Free Response Question) from the 2025 AP Psychology Exam. Use the official FRQ rubric.\n\nGrade each part:\n\nA: 1 point for a specific, defensible claim based in psychological science.\n\nB(i): 1 point for specific, relevant evidence from one source.\n\nB(ii): 1 point for correct explanation using a relevant psychological concept.\n\nC(i): 1 point for specific, relevant evidence from a different source than B(i).\n\nC(ii): 1 point for correct explanation using a different psychological concept than B(ii).\n\nFor each subpart, award the point only if the response is fully correct, clearly explained, and uses appropriate psychological terminology.\nDo not award points for vague, unsupported, or conceptually inaccurate answers.\nFor Parts B and C, confirm that the correct source is cited (by number or embedded).\nAfter scoring, provide a brief explanation per point (e.g., "Point earned: explanation is clear and uses social facilitation"), then give a total score out of 5.\nDo not give feedback or suggestions.\n\nCompressed Source Summary:\nSource 1 (Markus, 1978):\n45 men were timed while dressing in unfamiliar clothing (lab coat, socks, shoes) under 3 conditions: alone, watched by a confederate (audience), or near a non-watching confederate (incidental audience).\n\nWell-learned tasks (e.g., removing shoes) were done faster with audience present.\n\nNew/difficult tasks (e.g., tying lab coat) were done slower with audience.\n\nShows social facilitation and impairment depending on task type.\n\nSource 2 (Huguet et al., 2014):\n11 baboons did touchscreen operant conditioning trials.\n\nIn conflict trials, male baboons had slower response times when high-ranking males were present.\n\nPerformance was worse with social presence, especially under stress.\n\nSuggests social interference under pressure and hierarchy.\n\nSource 3 (Claypoole et al., 2019):\n132 undergrads did a vigilance task (monitoring numbers) for 24 minutes.\n\nParticipants with electronic or evaluative observers detected more correct targets.\n\nNo difference between alone and non-evaluative presence.\n\nSuggests social evaluation improves vigilance.\n\n Prompt:\nA. Propose a specific and defensible claim based in psychological science that responds to the question:\n“Does the presence of others improve performance?”\n\nB.\ni. Support your claim with specific, relevant evidence from one source.\nii. Explain how the evidence supports your claim using a psychological theory or concept.\n\nC.\ni. Support your claim with specific, relevant evidence from a different source than in B.\nii. Explain how this second piece of evidence supports your claim using a different psychological theory or concept than in B(ii).`;
+      prompt_intro = `You are a strict AP Psychology grader. Grade the following response to Question 2 (the Evidence-Based Free Response Question) from the 2025 AP Psychology Exam. Use the official FRQ rubric.\n\nGrade each part:\n\nA: 1 point for a specific, defensible claim based in psychological science.\n\nB(i): 1 point for specific, relevant evidence from one source.\n\nB(ii): 1 point for correct explanation using a relevant psychological concept.\n\nC(i): 1 point for specific, relevant evidence from a different source than B(i).\n\nC(ii): 1 point for correct explanation using a different psychological concept than B(ii).\n\nFor each subpart, award the point only if the response is fully correct, clearly explained, and uses appropriate psychological terminology.\nDo not award points for vague, unsupported, or conceptually inaccurate answers.\nFor Parts B and C, confirm that the correct source is cited (by number or embedded).\nAfter scoring, provide a brief explanation per point (e.g., "Point earned: explanation is clear and uses social facilitation"), then give a total score out of 5.\nDo not give feedback or suggestions.\n\nCompressed Source Summary:\nSource 1 (Markus, 1978):\n45 men were timed while dressing in unfamiliar clothing (lab coat, socks, shoes) under 3 conditions: alone, watched by a confederate (audience), or near a non-watching confederate (incidental audience).\n\nWell-learned tasks (e.g., removing shoes) were done faster with audience present.\n\nNew/difficult tasks (e.g., tying lab coat) were done slower with audience.\n\nShows social facilitation and impairment depending on task type.\n\nSource 2 (Huguet et al., 2014):\n11 baboons did touchscreen operant conditioning trials.\n\nIn conflict trials, male baboons had slower response times when high-ranking males were present.\n\nPerformance was worse with social presence, especially under stress.\n\nSuggests social interference under pressure and hierarchy.\n\nSource 3 (Claypoole et al., 2019):\n132 undergrads did a vigilance task (monitoring numbers) for 24 minutes.\n\nParticipants with electronic or evaluative observers detected more correct targets.\n\nNo difference between alone and non-evaluative presence.\n\nSuggests social evaluation improves vigilance.\n\n Prompt:\nA. Propose a specific and defensible claim based in psychological science that responds to the question:\n"Does the presence of others improve performance?"\n\nB.\ni. Support your claim with specific, relevant evidence from one source.\nii. Explain how the evidence supports your claim using a psychological theory or concept.\n\nC.\ni. Support your claim with specific, relevant evidence from a different source than in B.\nii. Explain how this second piece of evidence supports your claim using a different psychological theory or concept than in B(ii).`;
     } else if (selectedSet === 2) {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following response to Question 2 (the Evidence-Based Free Response Question) from the 2025 AP Psychology Exam. Use the official FRQ rubric.\n\nGrade each part:\n\nA: 1 point for a specific, defensible claim based in psychological science.\n\nB(i): 1 point for specific, relevant evidence from one source.\n\nB(ii): 1 point for correct explanation using a relevant psychological concept.\n\nC(i): 1 point for specific, relevant evidence from a different source than B(i).\n\nC(ii): 1 point for correct explanation using a different psychological concept than B(ii).\n\nFor each subpart, award the point only if the response is fully correct, clearly explained, and uses appropriate psychological terminology.\n\nDo not award points for vague, unsupported, or conceptually inaccurate answers.\n\nFor Parts B and C, confirm that the correct source is cited (by number or embedded).\n\nAfter scoring, provide a brief explanation per point (e.g., “Point earned: explanation is clear and uses social facilitation”), then give a total score out of 5.\n\nDo not give feedback or suggestions.\n\nCompressed Source Summary:\n\nSource 1 (Markus, 1978):\n45 men timed dressing in unfamiliar clothes in 3 conditions (alone, observed, incidental audience).\n\nFaster on well-learned tasks when watched (social facilitation).\n\nSlower on difficult tasks when watched (social impairment).\n\nSource 2 (Huguet et al., 2014):\n11 baboons did touchscreen tasks.\n\nSlower performance in presence of dominant baboons (especially under conflict).\n\nShows social interference from hierarchy and pressure.\n\nSource 3 (Claypoole et al., 2019):\n132 students did vigilance tasks.\n\nEvaluative observers improved performance.\n\nNon-evaluative presence = no effect.\n\nShows social evaluation enhances vigilance.\n\nPrompt:\nA. Propose a specific and defensible claim based in psychological science that responds to the question:\n“Does the presence of others improve performance?”\n\nB.\ni. Support your claim with specific, relevant evidence from one source.\nii. Explain how the evidence supports your claim using a psychological theory or concept.\n\nC.\ni. Support your claim with specific, relevant evidence from a different source than in B.\nii. Explain how this second piece of evidence supports your claim using a different psychological theory or concept than in B(ii).`;
-    } else {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response to Free Response Question 1 from the 2025 exam using the AP FRQ rubric.\n\nAward 1 point per part (A–F) only if the answer is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for whether the point was earned.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n📘 Source Summary (from College Board 2025 AP Psychology FRQ #1):\n127 college students watched a 6.5-minute silent video of a mock crime.\n\nThen, they read a fake summary of the crime containing misinformation.\n\nThey were randomly assigned to:\n• Low: 20% of summary sentences were misleading\n• Medium: 50% misleading\n• High: 80% misleading\n\nLater, they answered 40 multiple-choice questions:\n• One correct answer (from the video)\n• One "misled" answer (from the misinformation)\n• One wrong/irrelevant answer\n\nResults: High misinformation group had fewer correct responses (63%) than the low group (74%).\n\nParticipants who distrusted the summary were more likely to resist misinformation.\n\nParticipants gave credibility ratings to the summaries.\n\n❓ Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of high misinformation in the study.\nC. Describe what the mean indicates for the percentage of correct responses between the high and low misinformation groups.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence.\nF. Explain how at least one of the research findings supports or refutes the misinformation effect.`;
+      prompt_intro = `You are a strict AP Psychology grader. Grade the following response to Question 2 (the Evidence-Based Free Response Question) from the 2025 AP Psychology Exam. Use the official FRQ rubric.\n\nGrade each part:\n\nA: 1 point for a specific, defensible claim based in psychological science.\n\nB(i): 1 point for specific, relevant evidence from one source.\n\nB(ii): 1 point for correct explanation using a relevant psychological concept.\n\nC(i): 1 point for specific, relevant evidence from a different source than B(i).\n\nC(ii): 1 point for correct explanation using a different psychological concept than B(ii).\n\nFor each subpart, award the point only if the response is fully correct, clearly explained, and uses appropriate psychological terminology.\n\nDo not award points for vague, unsupported, or conceptually inaccurate answers.\n\nFor Parts B and C, confirm that the correct source is cited (by number or embedded).\n\nAfter scoring, provide a brief explanation per point (e.g., "Point earned: explanation is clear and uses social facilitation"), then give a total score out of 5.\n\nDo not give feedback or suggestions.\n\nCompressed Source Summary:\n\nSource 1 (Markus, 1978):\n45 men timed dressing in unfamiliar clothes in 3 conditions (alone, observed, incidental audience).\n\nFaster on well-learned tasks when watched (social facilitation).\n\nSlower on difficult tasks when watched (social impairment).\n\nSource 2 (Huguet et al., 2014):\n11 baboons did touchscreen tasks.\n\nSlower performance in presence of dominant baboons (especially under conflict).\n\nShows social interference from hierarchy and pressure.\n\nSource 3 (Claypoole et al., 2019):\n132 students did vigilance tasks.\n\nEvaluative observers improved performance.\n\nNon-evaluative presence = no effect.\n\nShows social evaluation enhances vigilance.\n\nPrompt:\nA. Propose a specific and defensible claim based in psychological science that responds to the question:\n"Does the presence of others improve performance?"\n\nB.\ni. Support your claim with specific, relevant evidence from one source.\nii. Explain how the evidence supports your claim using a psychological theory or concept.\n\nC.\ni. Support your claim with specific, relevant evidence from a different source than in B.\nii. Explain how this second piece of evidence supports your claim using a different psychological theory or concept than in B(ii).`;
     }
     try {
-      const response = await fetch('/api/grade-aaq', {
+      const authHeaders = getAuthHeaders();
+      const response = await fetch('/api/grade-psych-frq', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...authHeaders
+        },
         body: JSON.stringify({ answers: ebqAnswers, prompt_intro }),
       });
-      if (!response.ok) throw new Error('Failed to contact AI grading service.');
+      
+      if (response.status === 401) {
+        setShowAuthModal(true);
+        setGradeError('Authentication required. Please sign in to continue.');
+        setGrading(false);
+        return;
+      }
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to contact AI grading service.');
+      }
+      
       const data = await response.json();
-      let parsed = data.result;
+      const parsed = data.result;
       setGradeResult(
         parsed.map((g: { score: number; explanation: string }, i: number) =>
           `Part ${String.fromCharCode(65 + i)}: ${g.score}/1 - ${g.explanation}`
         ).join('\n') +
-        (parsed.total !== undefined ? `\n\nTotal: ${parsed.total}/${selectedSet === 1 ? 5 : 6}` : '')
+        (parsed.total !== undefined ? `\n\nTotal: ${parsed.total}/5` : '')
       );
+      
+      // Clear localStorage on successful grading
+      if (STORAGE_KEY) {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+      // Update daily usage limit
+      localStorage.setItem(usageKey, today);
+      
     } catch (err: any) {
       setGradeError(err.message || 'Unknown error.');
     }
@@ -72,6 +170,14 @@ const APPsychPracticeExamEBQSelect = () => {
     if (setObj) {
       return (
         <div className="min-h-screen py-16 px-4 bg-slate-50 flex items-center justify-center">
+          <AuthModal 
+            isOpen={showAuthModal} 
+            onClose={() => setShowAuthModal(false)}
+            onSuccess={() => {
+              setShowAuthModal(false);
+              // Retry grading if user was trying to grade
+            }}
+          />
           <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
             <button
               onClick={() => setSelectedSet(null)}
@@ -112,17 +218,34 @@ const APPsychPracticeExamEBQSelect = () => {
                     Your Answers (A–C)
                   </h2>
                   <div className="w-full space-y-6">
-                    {[0,1,2].map((idx) => (
-                      <div key={idx} className="w-full">
-                        <label className="block font-semibold mb-2 text-pink-700">{`Part ${String.fromCharCode(65 + idx)}`}</label>
-                        <textarea
-                          className="w-full min-h-[100px] border border-pink-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
-                          placeholder={`Type your answer for Part ${String.fromCharCode(65 + idx)} here...`}
-                          value={ebqAnswers[idx]}
-                          onChange={e => handleEBQAnswerChange(idx, e.target.value)}
-                        />
-                      </div>
-                    ))}
+                    {[0,1,2].map((idx) => {
+                      const answer = ebqAnswers[idx] || '';
+                      const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
+                      const charCount = answer.length;
+                      const wordExceeded = wordCount > MAX_WORDS_PER_PART;
+                      const wordInsufficient = wordCount > 0 && wordCount < MIN_WORDS_PER_PART;
+                      const charExceeded = charCount > MAX_CHARS_PER_PART;
+
+                      return (
+                        <div key={idx} className="w-full">
+                          <label className="block font-semibold mb-2 text-pink-700">{`Part ${String.fromCharCode(65 + idx)}`}</label>
+                          <textarea
+                            className="w-full min-h-[100px] border border-pink-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+                            placeholder={`Type your answer for Part ${String.fromCharCode(65 + idx)} here...`}
+                            value={answer}
+                            onChange={e => handleEBQAnswerChange(idx, e.target.value)}
+                          />
+                          <div className="flex justify-between text-xs mt-1">
+                            <span className={wordInsufficient ? 'text-orange-600 font-semibold' : wordExceeded ? 'text-red-600 font-semibold' : 'text-slate-500'}>
+                              {wordCount} / {MAX_WORDS_PER_PART} words {wordInsufficient && `(min ${MIN_WORDS_PER_PART})`}
+                            </span>
+                            <span className={charExceeded ? 'text-red-600 font-semibold' : 'text-slate-500'}>
+                              {charCount} / {MAX_CHARS_PER_PART} characters
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                   <button
                     onClick={handleEBQGrade}

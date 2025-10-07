@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import AuthModal from '../components/AuthModal';
 
 const aaqSets = [
   { id: 2025, label: 'Collegeboard 2025 Set 1', implemented: true, route: '/ap-psychology-practice-exam/aaq/2025-set-1', type: 'AAQ', numAnswers: 6, pdf: '/APPSY-AAQ1.pdf' },
@@ -13,11 +15,46 @@ const questions = [
 
 const APPsychPracticeExamAAQSelect = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, getAuthHeaders } = useAuth();
   const [selectedSet, setSelectedSet] = useState<number | null>(null);
   const [answers, setAnswers] = useState<string[]>([]);
   const [grading, setGrading] = useState(false);
   const [gradeResult, setGradeResult] = useState<string | null>(null);
   const [gradeError, setGradeError] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Word and character count limits for AAQ (6 parts, shorter responses)
+  const MIN_WORDS_PER_PART = 10;
+  const MAX_WORDS_PER_PART = 100;
+  const MAX_CHARS_PER_PART = 700;
+
+  // localStorage key based on selected set
+  const STORAGE_KEY = selectedSet ? `appsych-aaq-set${selectedSet}-answers` : '';
+
+  // Load saved answers from localStorage when set is selected
+  useEffect(() => {
+    if (selectedSet && STORAGE_KEY) {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsedAnswers = JSON.parse(saved);
+          if (Array.isArray(parsedAnswers)) {
+            setAnswers(parsedAnswers);
+          }
+        } catch (e) {
+          console.error('Failed to load saved answers:', e);
+        }
+      }
+    }
+  }, [selectedSet, STORAGE_KEY]);
+
+  // Initialize answers array when set changes
+  useEffect(() => {
+    const setObj = aaqSets.find(s => s.id === selectedSet);
+    if (setObj && answers.length === 0) {
+      setAnswers(Array(setObj.numAnswers).fill(''));
+    }
+  }, [selectedSet]);
 
   const handleBackToPracticeExams = () => {
     navigate('/practice-exams');
@@ -42,11 +79,58 @@ const APPsychPracticeExamAAQSelect = () => {
     setAnswers((prev) => {
       const copy = [...prev];
       copy[idx] = value;
+      // Auto-save to localStorage
+      if (STORAGE_KEY) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(copy));
+      }
       return copy;
     });
   };
 
   const handleGrade = async () => {
+    // Check authentication
+    if (!isAuthenticated) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    // Validate all answers
+    const allFilled = answers.every(ans => ans.trim().length > 0);
+    if (!allFilled) {
+      setGradeError('Please fill in all answer parts before grading.');
+      return;
+    }
+
+    // Validate word and character counts
+    for (let i = 0; i < answers.length; i++) {
+      const ans = answers[i].trim();
+      const wordCount = ans.split(/\s+/).filter(Boolean).length;
+      const charCount = ans.length;
+
+      if (wordCount < MIN_WORDS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please write at least ${MIN_WORDS_PER_PART} words (currently ${wordCount} words).`);
+        return;
+      }
+      if (wordCount > MAX_WORDS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please keep your answer under ${MAX_WORDS_PER_PART} words (currently ${wordCount} words).`);
+        return;
+      }
+      if (charCount > MAX_CHARS_PER_PART) {
+        setGradeError(`Part ${String.fromCharCode(65 + i)}: Please keep your answer under ${MAX_CHARS_PER_PART} characters (currently ${charCount} characters).`);
+        return;
+      }
+    }
+
+    // Check daily usage limit for AP Psych FRQs (1 per day across all types)
+    const today = new Date().toISOString().split('T')[0];
+    const usageKey = 'appsych-frq-last-graded';
+    const lastGraded = localStorage.getItem(usageKey);
+    
+    if (lastGraded === today) {
+      setGradeError('Daily limit reached: You can only grade 1 AP Psychology FRQ per day (across all FRQ types: AAQ, EBQ). Please try again tomorrow.');
+      return;
+    }
+
     setGrading(true);
     setGradeError(null);
     setGradeResult(null);
@@ -54,15 +138,31 @@ const APPsychPracticeExamAAQSelect = () => {
     if (selectedSet === 2025) {
       prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the answer is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for whether the point was earned.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n127 college students watched a 6.5-minute silent video of a mock crime.\n\nThen, they read a fake summary of the crime containing misinformation.\n\nThey were randomly assigned to:\n• Low: 20% of summary sentences were misleading\n• Medium: 50% misleading\n• High: 80% misleading\n\nLater, they answered 40 multiple-choice questions:\n• One correct answer (from the video)\n• One "misled" answer (from the misinformation)\n• One wrong/irrelevant answer\n\nResults: High misinformation group had fewer correct responses (63%) than the low group (74%).\n\nParticipants who distrusted the summary were more likely to resist misinformation.\n\nParticipants gave credibility ratings to the summaries.\n\nPrompt:\nA. Identify the research method used in the study.\nB. State the operational definition of high misinformation in the study.\nC. Describe what the mean indicates for the percentage of correct responses between the high and low misinformation groups.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence.\nF. Explain how at least one of the research findings supports or refutes the misinformation effect.`;
     } else if (selectedSet === 20252) {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the response is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for each point.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n16 dog-owner pairs participated. Each dog completed four 20-second trials:\n• Owner crying\n• Stranger crying\n• Owner laughing\n• Stranger laughing\n\nTrials used a within-subjects design and were counterbalanced in order.\n\nDogs could not be interacted with during trials.\n\nDogs' person-oriented behaviors (looking at, touching, approaching, vocalizing at a person) were counted.\n\nDogs showed significantly more person-oriented behaviors during crying than laughing/talking.\n• Owner crying: 42 behaviors (75%)\n• Stranger crying: 46 behaviors (73%)\n• Owner laughing: 15 behaviors\n• Stranger laughing: 20 behaviors\n\nThe mean for crying trials was significantly higher (p < 0.001). Dogs responded more to emotion (crying) than familiarity (owner vs. stranger).\n\n Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of person-oriented dog behaviors.\nC. Describe what the mean of the person-oriented behaviors indicates for the laughing trials as compared to the talking trials.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence from the study.\nF. Explain how at least one of the research findings supports or refutes the idea that dogs’ expressions of the person-oriented behaviors demonstrate stimulus discrimination in operant conditioning.`;
+      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the response is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for each point.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n16 dog-owner pairs participated. Each dog completed four 20-second trials:\n• Owner crying\n• Stranger crying\n• Owner laughing\n• Stranger laughing\n\nTrials used a within-subjects design and were counterbalanced in order.\n\nDogs could not be interacted with during trials.\n\nDogs' person-oriented behaviors (looking at, touching, approaching, vocalizing at a person) were counted.\n\nDogs showed significantly more person-oriented behaviors during crying than laughing/talking.\n• Owner crying: 42 behaviors (75%)\n• Stranger crying: 46 behaviors (73%)\n• Owner laughing: 15 behaviors\n• Stranger laughing: 20 behaviors\n\nThe mean for crying trials was significantly higher (p < 0.001). Dogs responded more to emotion (crying) than familiarity (owner vs. stranger).\n\n Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of person-oriented dog behaviors.\nC. Describe what the mean of the person-oriented behaviors indicates for the laughing trials as compared to the talking trials.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence from the study.\nF. Explain how at least one of the research findings supports or refutes the idea that dogs' expressions of the person-oriented behaviors demonstrate stimulus discrimination in operant conditioning.`;
     }
     try {
-      const response = await fetch('/api/grade-aaq', {
+      const authHeaders = getAuthHeaders();
+      const response = await fetch('/api/grade-psych-frq', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...authHeaders
+        },
         body: JSON.stringify({ answers, prompt_intro }),
       });
-      if (!response.ok) throw new Error('Failed to contact AI grading service.');
+      
+      if (response.status === 401) {
+        setShowAuthModal(true);
+        setGradeError('Authentication required. Please sign in to continue.');
+        setGrading(false);
+        return;
+      }
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to contact AI grading service.');
+      }
+      
       const data = await response.json();
       let parsed = data.result;
       setGradeResult(
@@ -71,6 +171,14 @@ const APPsychPracticeExamAAQSelect = () => {
         ).join('\n') +
         (parsed.total !== undefined ? `\n\nTotal: ${parsed.total}/${selectedSet === 3030 ? 3 : 6}` : '')
       );
+      
+      // Save to localStorage on successful grading
+      if (STORAGE_KEY) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+      }
+      // Update daily usage limit
+      localStorage.setItem(usageKey, today);
+      
     } catch (err: any) {
       setGradeError(err.message || 'Unknown error.');
     }
@@ -92,6 +200,14 @@ const APPsychPracticeExamAAQSelect = () => {
       const answerLabels = setObj.numAnswers === 3 ? ['A', 'B', 'C'] : ['A', 'B', 'C', 'D', 'E', 'F'];
       return (
         <div className="min-h-screen py-16 px-4 bg-slate-50 flex items-center justify-center">
+          <AuthModal 
+            isOpen={showAuthModal} 
+            onClose={() => setShowAuthModal(false)}
+            onSuccess={() => {
+              setShowAuthModal(false);
+              // Retry grading if user was trying to grade
+            }}
+          />
           <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
             <button
               onClick={() => setSelectedSet(null)}
@@ -131,17 +247,34 @@ const APPsychPracticeExamAAQSelect = () => {
                   Your Answers ({answerLabels.join('–')})
                 </h2>
                 <div className="w-full space-y-6">
-                  {answerLabels.map((label, idx) => (
-                    <div key={idx} className="w-full">
-                      <label className="block font-semibold mb-2 text-yellow-700">{`Part ${label}`}</label>
-                      <textarea
-                        className="w-full min-h-[100px] border border-yellow-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
-                        placeholder={`Type your answer for Part ${label} here...`}
-                        value={answers[idx] || ''}
-                        onChange={e => handleAnswerChange(idx, e.target.value)}
-                      />
-                    </div>
-                  ))}
+                  {answerLabels.map((label, idx) => {
+                    const answer = answers[idx] || '';
+                    const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
+                    const charCount = answer.length;
+                    const wordExceeded = wordCount > MAX_WORDS_PER_PART;
+                    const wordInsufficient = wordCount > 0 && wordCount < MIN_WORDS_PER_PART;
+                    const charExceeded = charCount > MAX_CHARS_PER_PART;
+
+                    return (
+                      <div key={idx} className="w-full">
+                        <label className="block font-semibold mb-2 text-yellow-700">{`Part ${label}`}</label>
+                        <textarea
+                          className="w-full min-h-[100px] border border-yellow-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+                          placeholder={`Type your answer for Part ${label} here...`}
+                          value={answer}
+                          onChange={e => handleAnswerChange(idx, e.target.value)}
+                        />
+                        <div className="flex justify-between text-xs mt-1">
+                          <span className={wordInsufficient ? 'text-orange-600 font-semibold' : wordExceeded ? 'text-red-600 font-semibold' : 'text-slate-500'}>
+                            {wordCount} / {MAX_WORDS_PER_PART} words {wordInsufficient && `(min ${MIN_WORDS_PER_PART})`}
+                          </span>
+                          <span className={charExceeded ? 'text-red-600 font-semibold' : 'text-slate-500'}>
+                            {charCount} / {MAX_CHARS_PER_PART} characters
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
                 <button
                   onClick={handleGrade}
