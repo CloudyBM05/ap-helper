@@ -101,16 +101,6 @@ const APPsychPracticeExamEBQSelect = () => {
       }
     }
 
-    // Check daily usage limit for AP Psych FRQs (1 per day across all types)
-    const today = new Date().toISOString().split('T')[0];
-    const usageKey = 'appsych-frq-last-graded';
-    const lastGraded = localStorage.getItem(usageKey);
-    
-    if (lastGraded === today) {
-      setGradeError('Daily limit reached: You can only grade 1 AP Psychology FRQ per day (across all FRQ types: AAQ, EBQ). Please try again tomorrow.');
-      return;
-    }
-
     setGrading(true);
     setGradeError(null);
     setGradeResult(null);
@@ -138,6 +128,13 @@ const APPsychPracticeExamEBQSelect = () => {
         return;
       }
       
+      if (response.status === 429) {
+        const errorData = await response.json().catch(() => ({}));
+        setGradeError(errorData.error || 'Daily limit reached: You can only grade 1 FRQ per day (across all AP courses: APUSH, AP World, AP Gov, AP Psych). Please try again tomorrow.');
+        setGrading(false);
+        return;
+      }
+      
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || 'Failed to contact AI grading service.');
@@ -156,8 +153,6 @@ const APPsychPracticeExamEBQSelect = () => {
       if (STORAGE_KEY) {
         localStorage.removeItem(STORAGE_KEY);
       }
-      // Update daily usage limit
-      localStorage.setItem(usageKey, today);
       
     } catch (err: any) {
       setGradeError(err.message || 'Unknown error.');

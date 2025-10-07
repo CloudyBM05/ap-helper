@@ -153,10 +153,11 @@ def save_usage_data(data):
 def check_daily_limit(user_email, endpoint_type):
     """
     Check if user has reached daily limit for ANY grading type
-    endpoint_type: 'saq', 'dbq', 'leq', or 'apgov' (for logging purposes)
+    endpoint_type: 'saq', 'dbq', 'leq', 'essay', 'apgov', or 'psych-frq' (for logging purposes)
     Returns: (allowed: bool, message: str)
     
-    User gets 1 grading per day total (across ALL types: SAQ, DBQ, LEQ, AP Gov)
+    User gets 1 grading per day total (across ALL types: SAQ, DBQ, LEQ, Essay, AP Gov, AP Psych)
+    This applies across ALL AP courses - once you grade any FRQ, you cannot grade another until tomorrow.
     """
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     usage_data = load_usage_data()
