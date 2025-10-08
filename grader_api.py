@@ -153,10 +153,10 @@ def save_usage_data(data):
 def check_daily_limit(user_email, endpoint_type):
     """
     Check if user has reached daily limit for ANY grading type
-    endpoint_type: 'saq', 'dbq', 'leq', 'essay', 'apgov', or 'psych-frq' (for logging purposes)
+    endpoint_type: 'saq', 'dbq', 'leq', 'essay', 'apgov', 'psych-frq', 'micro-frq', or 'macro-frq' (for logging purposes)
     Returns: (allowed: bool, message: str)
     
-    User gets 1 grading per day total (across ALL types: SAQ, DBQ, LEQ, Essay, AP Gov, AP Psych)
+    User gets 1 grading per day total (across ALL types: SAQ, DBQ, LEQ, Essay, AP Gov, AP Psych, AP Micro, AP Macro)
     This applies across ALL AP courses - once you grade any FRQ, you cannot grade another until tomorrow.
     """
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -765,6 +765,109 @@ def grade_apmicro_frq():
     except Exception as e:
         import traceback
         print("Error in /api/grade-apmicro-frq:", e)
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/grade-apmacro-frq", methods=["POST", "OPTIONS"])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173",
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+@require_auth
+@track_usage('macro-frq')
+def grade_apmacro_frq():
+    """Grade AP Macroeconomics FRQ (Short or Long)"""
+    import json
+    data = request.json
+    answers = data.get("answers", [])
+    prompt_intro = data.get("prompt_intro", "")
+    num_parts = len(answers)
+
+    # Build the system prompt
+    system_prompt = prompt_intro.strip()
+    system_prompt += "\n\nRespond ONLY with a JSON array of objects, one per part: [{'score': 1, 'explanation': '...'}, ...] No extra text or formatting."
+
+    # Build answer string
+    answer_text = "\n".join([f"Part {chr(65 + i)}: {ans}" for i, ans in enumerate(answers)])
+    
+    try:
+        # Use gpt-3.5-turbo-0125 for cost-effective grading (AP Macro FRQs are typically concise)
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo-0125",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": answer_text
+                }
+            ],
+            temperature=0.2
+        )
+        
+        content = response.choices[0].message.content
+        print("OpenAI response:", content)
+        
+        try:
+            result_json = parse_ai_json(content)
+            # Repair step: fix common key typos
+            def fix_keys(obj):
+                if isinstance(obj, dict):
+                    new_obj = {}
+                    for k, v in obj.items():
+                        key = k.lower()
+                        if 'score' in key:
+                            new_obj['score'] = v
+                        elif 'explanation' in key or 'sxplanation' in key:
+                            new_obj['explanation'] = v
+                    return new_obj
+                return obj
+            
+            if isinstance(result_json, list):
+                filtered = [fix_keys(obj) for obj in result_json]
+                filtered = [obj for obj in filtered if 'score' in obj and 'explanation' in obj]
+                result_json = filtered[:num_parts]
+        except Exception as e:
+            print("Failed to parse AI response as JSON:", content)
+            print("Exception:", e)
+            # Fallback: try to extract JSON array from the response using regex
+            import re
+            match = re.search(r'(\[.*\])', content, re.DOTALL)
+            if match:
+                json_str = match.group(1)
+                try:
+                    result_json = parse_ai_json(json_str)
+                    def fix_keys(obj):
+                        if isinstance(obj, dict):
+                            new_obj = {}
+                            for k, v in obj.items():
+                                key = k.lower()
+                                if 'score' in key:
+                                    new_obj['score'] = v
+                                elif 'explanation' in key or 'sxplanation' in key:
+                                    new_obj['explanation'] = v
+                            return new_obj
+                        return obj
+                    if isinstance(result_json, list):
+                        filtered = [fix_keys(obj) for obj in result_json]
+                        filtered = [obj for obj in filtered if 'score' in obj and 'explanation' in obj]
+                        result_json = filtered[:num_parts]
+                    return jsonify({"result": result_json})
+                except Exception as e2:
+                    print("Regex fallback also failed:", e2)
+            return jsonify({"error": "AI response could not be parsed."}), 500
+        
+        return jsonify({"result": result_json})
+    except Exception as e:
+        import traceback
+        print("Error in /api/grade-apmacro-frq:", e)
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
