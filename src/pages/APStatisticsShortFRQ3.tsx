@@ -210,21 +210,6 @@ const handleChange = (part: string, value: string) => {
             >
               {grading ? 'Grading...' : 'SUBMIT'}
             </button>
-            <button
-              className="mb-4 px-6 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold shadow hover:bg-slate-300 transition"
-              onClick={() => {
-                setAnswers({});
-                setWordCounts({});
-                setCharCounts({});
-                setValidationErrors({});
-                setGrades(null);
-                setError(null);
-                localStorage.removeItem('apstat-frq-answers-apstatisticsshortfrq3');
-              }}
-              disabled={grading}
-            >
-              Clear Answers
-            </button>
             <div className="w-full space-y-6">
               {PARTS.map((part) => (
                 <div key={part.id} className="w-full">
@@ -236,6 +221,24 @@ const handleChange = (part: string, value: string) => {
                     placeholder={`Type your answer for ${part.label} here...`}
                     disabled={grading}
                   />
+                  <div className="flex justify-between items-center mt-1 text-sm">
+                    <span className={`${
+                      validationErrors[part.id] 
+                        ? 'text-red-600 font-semibold' 
+                        : wordCounts[part.id] >= 15 && wordCounts[part.id] <= 80 
+                          ? 'text-green-600' 
+                          : 'text-slate-500'
+                    }`}>
+                      {validationErrors[part.id] || `${wordCounts[part.id] || 0} words (15-80 required)`}
+                    </span>
+                    <span className={`${
+                      charCounts[part.id] > 600 
+                        ? 'text-red-600 font-semibold' 
+                        : 'text-slate-500'
+                    }`}>
+                      {charCounts[part.id] || 0}/600 characters
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
