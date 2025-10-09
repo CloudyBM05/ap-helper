@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BIOLOGY_LONG_FRQ_AI_PROMPT, BIOLOGY_LONG_FRQ2_AI_PROMPT } from '../data/biologyLongFRQPrompt';
-import { useAuth } from '../hooks/useAuth';
-import AuthModal from '../components/AuthModal';
 
 const FRQ_CONTENT = {
   set1: {
@@ -38,44 +36,14 @@ const FRQ_CONTENT = {
   }
 };
 
-// Word/character count thresholds
-const MIN_WORDS = 20;
-const MAX_WORDS = 150;
-const MAX_CHARS = 1000;
-
-const countWords = (text: string): number => {
-  return text.trim().split(/\s+/).filter(word => word.length > 0).length;
-};
-
 const APBiologyLongFRQ = () => {
   const navigate = useNavigate();
   const { setId } = useParams();
   const frq = FRQ_CONTENT[setId as keyof typeof FRQ_CONTENT];
-  const { user } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // Load saved answers from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem(`apbio-long-frq-${setId}-answers`);
-    if (saved) {
-      try {
-        setAnswers(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to load saved answers:', e);
-      }
-    }
-  }, [setId]);
-
-  // Save answers to localStorage whenever they change
-  useEffect(() => {
-    if (Object.keys(answers).length > 0) {
-      localStorage.setItem(`apbio-long-frq-${setId}-answers`, JSON.stringify(answers));
-    }
-  }, [answers, setId]);
 
   if (!frq) {
     return (
@@ -97,59 +65,19 @@ const APBiologyLongFRQ = () => {
     setAnswers((prev) => ({ ...prev, [part]: value }));
   };
 
-  const validateAnswers = (): string | null => {
-    for (const part of frq.parts) {
-      const answer = answers[part.id] || '';
-      const wordCount = countWords(answer);
-      const charCount = answer.length;
-
-      if (answer.trim() === '') {
-        return `${part.label} cannot be empty.`;
-      }
-      if (wordCount < MIN_WORDS) {
-        return `${part.label} must be at least ${MIN_WORDS} words. Current: ${wordCount} words.`;
-      }
-      if (wordCount > MAX_WORDS) {
-        return `${part.label} must be no more than ${MAX_WORDS} words. Current: ${wordCount} words.`;
-      }
-      if (charCount > MAX_CHARS) {
-        return `${part.label} must be no more than ${MAX_CHARS} characters. Current: ${charCount} characters.`;
-      }
-    }
-    return null;
-  };
-
   const handleSubmit = async () => {
-    // Check authentication
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    // Validate answers
-    const validationError = validateAnswers();
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
     setGrading(true);
     setError(null);
     setGrades(null);
-    
     try {
       const answersArray = frq.parts.map(part => answers[part.id] || "");
-      
+      // Example API endpoint, replace with your actual endpoint
       const apiUrl = import.meta.env.DEV
-        ? '/api/grade-apbio-frq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apbio-frq';
-      
+        ? '/api/grade-ap-seminar'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-ap-seminar';
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.uid}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           answers: answersArray,
           prompt_intro: frq.prompt,
@@ -157,61 +85,32 @@ const APBiologyLongFRQ = () => {
           questions: ''
         })
       });
-
-      if (response.status === 401) {
-        setError('Authentication required. Please sign in to continue.');
-        setShowAuthModal(true);
-        setGrading(false);
-        return;
-      }
-
-      if (response.status === 429) {
-        const data = await response.json();
-        setError(data.error || 'Daily limit reached. You can grade one AP exam per day.');
-        setGrading(false);
-        return;
-      }
-
       if (!response.ok) {
         throw new Error('Failed to contact AI grading service.');
       }
-
       const data = await response.json();
       let parsed = [];
-      
       try {
         parsed = data.result;
       } catch {
-        setError('Failed to parse grading results.');
+        setError('Failed to contact AI grading service.');
         setGrading(false);
         return;
       }
-
       setGrades(
         Array.isArray(parsed)
           ? parsed.map((g) => typeof g === 'string' ? g : JSON.stringify(g))
           : [JSON.stringify(parsed)]
       );
-
-      // Clear saved answers on successful grading
-      localStorage.removeItem(`apbio-long-frq-${setId}-answers`);
-      
     } catch (err: any) {
-      setError('Failed to contact AI grading service. Please try again.');
+      setError('Failed to contact AI grading service.');
     }
-    
     setGrading(false);
   };
 
   return (
-    <>
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-        onSuccess={() => setShowAuthModal(false)} 
-      />
-      <div className="min-h-screen bg-slate-50 py-8 px-4">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
+      <div className="max-w-7xl mx-auto">
         <button
           onClick={() => navigate('/ap-biology-practice-exam/long-frq')}
           className="mb-4 px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold shadow-sm hover:bg-slate-100 transition"
@@ -260,37 +159,18 @@ const APBiologyLongFRQ = () => {
               {grading ? 'Grading...' : 'SUBMIT'}
             </button>
             <div className="w-full space-y-6">
-              {frq.parts.map((part) => {
-                const answer = answers[part.id] || '';
-                const wordCount = countWords(answer);
-                const charCount = answer.length;
-                const wordStatus = 
-                  wordCount < MIN_WORDS ? 'text-red-600' :
-                  wordCount > MAX_WORDS ? 'text-red-600' :
-                  'text-green-600';
-                const charStatus = charCount > MAX_CHARS ? 'text-red-600' : 'text-slate-600';
-
-                return (
-                  <div key={part.id} className="w-full">
-                    <label className="block font-semibold mb-2 text-slate-700">{part.label}</label>
-                    <textarea
-                      className="w-full min-h-[120px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-                      value={answer}
-                      onChange={e => handleChange(part.id, e.target.value)}
-                      placeholder={`Type your answer for ${part.label} here...`}
-                      disabled={grading}
-                    />
-                    <div className="flex justify-between mt-1 text-sm">
-                      <span className={wordStatus}>
-                        {wordCount} words ({MIN_WORDS}-{MAX_WORDS} required)
-                      </span>
-                      <span className={charStatus}>
-                        {charCount}/{MAX_CHARS} characters
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+              {frq.parts.map((part) => (
+                <div key={part.id} className="w-full">
+                  <label className="block font-semibold mb-2 text-slate-700">{part.label}</label>
+                  <textarea
+                    className="w-full min-h-[120px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                    value={answers[part.id] || ''}
+                    onChange={e => handleChange(part.id, e.target.value)}
+                    placeholder={`Type your answer for ${part.label} here...`}
+                    disabled={grading}
+                  />
+                </div>
+              ))}
             </div>
             {error && (
               <div className="mt-6 text-red-600 font-semibold">{error}</div>
@@ -312,8 +192,7 @@ const APBiologyLongFRQ = () => {
           </div>
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 };
 
