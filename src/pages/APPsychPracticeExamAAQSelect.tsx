@@ -126,9 +126,31 @@ const APPsychPracticeExamAAQSelect = () => {
     setGradeResult(null);
     let prompt_intro = '';
     if (selectedSet === 2025) {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the answer is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for whether the point was earned.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n127 college students watched a 6.5-minute silent video of a mock crime.\n\nThen, they read a fake summary of the crime containing misinformation.\n\nThey were randomly assigned to:\n• Low: 20% of summary sentences were misleading\n• Medium: 50% misleading\n• High: 80% misleading\n\nLater, they answered 40 multiple-choice questions:\n• One correct answer (from the video)\n• One "misled" answer (from the misinformation)\n• One wrong/irrelevant answer\n\nResults: High misinformation group had fewer correct responses (63%) than the low group (74%).\n\nParticipants who distrusted the summary were more likely to resist misinformation.\n\nParticipants gave credibility ratings to the summaries.\n\nPrompt:\nA. Identify the research method used in the study.\nB. State the operational definition of high misinformation in the study.\nC. Describe what the mean indicates for the percentage of correct responses between the high and low misinformation groups.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence.\nF. Explain how at least one of the research findings supports or refutes the misinformation effect.`;
+      prompt_intro = `STRICT AP Psych grader. Award 1 pt ONLY if 100% correct with exact terminology. Vague/partial/generic = 0 pts. Random words = 0 pts.
+
+Study: 127 students watched mock crime video, then read summary with misinformation (Low=20%, Med=50%, High=80% misleading sentences). Answered 40 MC questions. Results: High group 63% correct, Low 74%. Trust in summary affected resistance.
+
+A. Method: Must say "experiment/experimental" (not study/observation)
+B. Operational def: "80% misleading sentences" (not "lots")
+C. Mean: High (63%) LOWER than Low (74%), shows misinformation reduced accuracy
+D. Ethics: Name specific guideline (informed consent/debriefing/deception) + how applied
+E. Generalizability: Discuss college students, lab setting, mock video (not vague "small sample")
+F. Misinformation effect: Use Loftus + specific data (63% vs 74%)
+
+Total /6. Be harsh.`;
     } else if (selectedSet === 20252) {
-      prompt_intro = `You are a strict AP Psychology grader. Grade the following student response.\n\nAward 1 point per part (A–F) only if the response is fully correct, clearly stated, and uses appropriate psychological terminology.\n\nDo not award a point for vague, partially correct, or imprecise answers.\n\nGive a brief justification for each point.\n\nAt the end, provide a total score out of 6.\n\nDo not give feedback or suggestions.\n\n Source Summary:\n16 dog-owner pairs participated. Each dog completed four 20-second trials:\n• Owner crying\n• Stranger crying\n• Owner laughing\n• Stranger laughing\n\nTrials used a within-subjects design and were counterbalanced in order.\n\nDogs could not be interacted with during trials.\n\nDogs' person-oriented behaviors (looking at, touching, approaching, vocalizing at a person) were counted.\n\nDogs showed significantly more person-oriented behaviors during crying than laughing/talking.\n• Owner crying: 42 behaviors (75%)\n• Stranger crying: 46 behaviors (73%)\n• Owner laughing: 15 behaviors\n• Stranger laughing: 20 behaviors\n\nThe mean for crying trials was significantly higher (p < 0.001). Dogs responded more to emotion (crying) than familiarity (owner vs. stranger).\n\n Prompt:\nA. Identify the research method used in the study.\nB. State the operational definition of person-oriented dog behaviors.\nC. Describe what the mean of the person-oriented behaviors indicates for the laughing trials as compared to the talking trials.\nD. Identify at least one ethical guideline applied by the researchers.\nE. Explain the extent to which the research findings may or may not be generalizable using specific and relevant evidence from the study.\nF. Explain how at least one of the research findings supports or refutes the idea that dogs' expressions of the person-oriented behaviors demonstrate stimulus discrimination in operant conditioning.`;
+      prompt_intro = `STRICT AP Psych grader. Award 1 pt ONLY if 100% correct with exact terminology. Vague/partial/generic = 0 pts. Random words = 0 pts.
+
+Study: 16 dog-owner pairs. 4 trials (owner cry, stranger cry, owner laugh, stranger laugh). Within-subjects, counterbalanced. Person-oriented behaviors = looking/touching/approaching/vocalizing at person. Results: Cry trials (42-46 behaviors) >> laugh (15-20). p<0.001. Dogs respond to emotion, not familiarity.
+
+A. Method: "Experiment/experimental, within-subjects" (not observation)
+B. Operational def: List all 4 behaviors (not vague "reactions")
+C. TRICK: No "talking" trials exist. If answered = made up = 0 pts. Must catch error or discuss cry vs laugh
+D. Ethics: Animal welfare/no harm/owner consent + how applied
+E. Generalizability: 16 dogs, lab setting, breed limits (not vague "small")
+F. Stimulus discrimination: Dogs differentiate cry/laugh OR explain NOT operant conditioning (no reinforcement, innate cues)
+
+Total /6. Be harsh.`;
     }
     try {
       const authHeaders = getAuthHeaders();
