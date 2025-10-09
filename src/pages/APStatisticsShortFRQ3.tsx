@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import AuthModal from '../components/AuthModal';
 import { useNavigate } from 'react-router-dom';
 
 const PARTS = [
@@ -17,52 +19,144 @@ const aiPrompt = `STRICT AI PROMPT:\nYou are a strict AP Statistics grader. Eval
 const APStatisticsShortFRQ3: React.FC = () => {
   const navigate = useNavigate();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const { user, getAuthHeaders } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [wordCounts, setWordCounts] = useState<{ [key: string]: number }>({});
+  const [charCounts, setCharCounts] = useState<{ [key: string]: number }>({});
+  const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (part: string, value: string) => {
+  
+  // Load saved answers from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('apstat-frq-answers-apstatisticsshortfrq3');
+    if (saved) {
+      try {
+        setAnswers(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load saved answers', e);
+      }
+    }
+  }, []);
+
+  // Save answers to localStorage
+  useEffect(() => {
+    if (Object.keys(answers).length > 0) {
+      localStorage.setItem('apstat-frq-answers-apstatisticsshortfrq3', JSON.stringify(answers));
+    }
+  }, [answers]);
+
+  // Validation helper
+  const validateAnswer = (text: string): { wordCount: number; charCount: number; error: string | null } => {
+    const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+    const charCount = text.length;
+    
+    let error = null;
+    if (text.trim().length === 0) {
+      error = null; // No error for empty
+    } else if (wordCount < 15) {
+      error = `Too short (15-80 words required)`;
+    } else if (wordCount > 80) {
+      error = `Too long (15-80 words required)`;
+    } else if (charCount > 600) {
+      error = `Too long (max 600 characters)`;
+    }
+    
+    return { wordCount, charCount, error };
+  };
+
+const handleChange = (part: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [part]: value }));
+    
+    const { wordCount, charCount, error } = validateAnswer(value);
+    setWordCounts(prev => ({ ...prev, [part]: wordCount }));
+    setCharCounts(prev => ({ ...prev, [part]: charCount }));
+    setValidationErrors(prev => ({ ...prev, [part]: error || '' }));
   };
 
   const handleSubmit = async () => {
+    // Check authentication
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    // Validate all answers
+    const hasErrors = PARTS.some(part => {
+      const answer = answers[part.id] || '';
+      const { error } = validateAnswer(answer);
+      return error !== null || answer.trim().length === 0;
+    });
+
+    if (hasErrors) {
+      setError('Please fill in all parts with valid answers (15-80 words, max 600 chars each).');
+      return;
+    }
+
     setGrading(true);
     setError(null);
     setGrades(null);
+    
     try {
       const answersArray = PARTS.map((part) => answers[part.id] || '');
       const apiUrl = import.meta.env.DEV
-        ? '/api/grade-saq'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-saq';
+        ? '/api/grade-apstat-frq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-apstat-frq';
+      
+      const authHeaders = await getAuthHeaders();
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders,
+        },
         body: JSON.stringify({
           answers: answersArray,
           prompt_intro: aiPrompt,
-          sources: '',
-          questions: ''
         })
       });
+      
+      if (response.status === 401) {
+        setError('Authentication required. Please log in to use AI grading.');
+        setShowAuthModal(true);
+        setGrading(false);
+        return;
+      }
+      
+      if (response.status === 429) {
+        const data = await response.json();
+        setError(data.error || 'Daily limit reached. You can only grade one FRQ per day across all AP courses.');
+        setGrading(false);
+        return;
+      }
+      
       if (!response.ok) {
         throw new Error('Failed to contact AI grading service.');
       }
+      
       const data = await response.json();
       let parsed = [];
       try {
         parsed = data.result;
       } catch {
-        setError('Failed to contact AI grading service.');
+        setError('Failed to parse AI grading results.');
         setGrading(false);
         return;
       }
+      
       setGrades(
         parsed.map((g: any, i: number) =>
           `${PARTS[i].label}: ${g.score}/1 - ${g.explanation}`
         )
       );
+      
+      // Clear saved answers after successful grading
+      localStorage.removeItem('apstat-frq-answers-apstatisticsshortfrq3');
     } catch (err: any) {
-      setError('Failed to contact AI grading service.');
+      setError(err.message || 'Failed to contact AI grading service.');
     }
     setGrading(false);
   };
@@ -116,6 +210,21 @@ const APStatisticsShortFRQ3: React.FC = () => {
             >
               {grading ? 'Grading...' : 'SUBMIT'}
             </button>
+            <button
+              className="mb-4 px-6 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold shadow hover:bg-slate-300 transition"
+              onClick={() => {
+                setAnswers({});
+                setWordCounts({});
+                setCharCounts({});
+                setValidationErrors({});
+                setGrades(null);
+                setError(null);
+                localStorage.removeItem('apstat-frq-answers-apstatisticsshortfrq3');
+              }}
+              disabled={grading}
+            >
+              Clear Answers
+            </button>
             <div className="w-full space-y-6">
               {PARTS.map((part) => (
                 <div key={part.id} className="w-full">
@@ -155,3 +264,8 @@ const APStatisticsShortFRQ3: React.FC = () => {
 };
 
 export default APStatisticsShortFRQ3;
+        {/* Auth Modal */}
+        {showAuthModal && (
+          <AuthModal onClose={() => setShowAuthModal(false)} />
+        )}
+
