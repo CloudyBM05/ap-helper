@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import AuthModal from '../components/AuthModal';
 
 const FRQ_CONTENT = {
   title: 'Collegeboard 2025 Concept Application Set 1',
@@ -30,27 +32,103 @@ const CRITERIA = [
 
 const APHumanGeographyConceptApplicationSet1 = () => {
   const navigate = useNavigate();
+  const { user, getAuthHeaders } = useAuth();
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
   const [grading, setGrading] = useState(false);
   const [grades, setGrades] = useState<string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [wordCounts, setWordCounts] = useState<{ [key: string]: number }>({});
+  const [charCounts, setCharCounts] = useState<{ [key: string]: number }>({});
+  const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
+
+  // Load from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('aphug-concept-application-set1');
+    if (saved) {
+      try {
+        setAnswers(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load saved answers:', e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage
+  useEffect(() => {
+    if (Object.keys(answers).length > 0) {
+      localStorage.setItem('aphug-concept-application-set1', JSON.stringify(answers));
+    }
+  }, [answers]);
+
+  // Update word and character counts
+  useEffect(() => {
+    const newWordCounts: { [key: string]: number } = {};
+    const newCharCounts: { [key: string]: number } = {};
+    PARTS.forEach(part => {
+      const text = answers[part.id] || '';
+      newWordCounts[part.id] = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+      newCharCounts[part.id] = text.length;
+    });
+    setWordCounts(newWordCounts);
+    setCharCounts(newCharCounts);
+  }, [answers]);
 
   const handleChange = (part: string, value: string) => {
+    const chars = value.length;
+    let validationError = '';
+    if (chars > 500) {
+      validationError = 'Character limit exceeded (500 max)';
+    }
+    setValidationErrors(prev => ({ ...prev, [part]: validationError }));
     setAnswers((prev) => ({ ...prev, [part]: value }));
   };
 
+  const validateAnswers = (): boolean => {
+    const errors: { [key: string]: string } = {};
+    let hasError = false;
+    PARTS.forEach(part => {
+      const text = answers[part.id] || '';
+      const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+      const chars = text.length;
+      if (words < 10) {
+        errors[part.id] = 'Too short (min 10 words)';
+        hasError = true;
+      } else if (words > 60) {
+        errors[part.id] = 'Too long (max 60 words)';
+        hasError = true;
+      } else if (chars > 500) {
+        errors[part.id] = 'Character limit exceeded (500 max)';
+        hasError = true;
+      }
+    });
+    setValidationErrors(errors);
+    return !hasError;
+  };
+
   const handleSubmit = async () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    if (!validateAnswers()) {
+      setError('Please fix validation errors before submitting.');
+      return;
+    }
     setGrading(true);
     setError(null);
     setGrades(null);
     try {
       const answersArray = PARTS.map(part => answers[part.id] || "");
       const apiUrl = import.meta.env.DEV
-        ? '/api/grade-aphug'
-        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-aphug';
+        ? '/api/grade-aphug-frq'
+        : 'https://ap-helper-2d9f117e9bdb.herokuapp.com/api/grade-aphug-frq';
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders()
+        },
         body: JSON.stringify({
           answers: answersArray,
           prompt_intro: GRADING_PROMPT,
@@ -59,6 +137,12 @@ const APHumanGeographyConceptApplicationSet1 = () => {
           questions: ''
         })
       });
+      if (response.status === 429) {
+        const errorData = await response.json();
+        setError(errorData.error || 'Daily usage limit reached. Please try again tomorrow.');
+        setGrading(false);
+        return;
+      }
       if (!response.ok) throw new Error('Failed to contact AI grading service.');
       const data = await response.json();
       let parsed = [];
@@ -131,18 +215,43 @@ const APHumanGeographyConceptApplicationSet1 = () => {
               {grading ? 'Grading...' : 'SUBMIT'}
             </button>
             <div className="w-full space-y-6">
-              {PARTS.map((part) => (
-                <div key={part.id} className="w-full">
-                  <label className="block font-semibold mb-2 text-slate-700">{part.label}</label>
-                  <textarea
-                    className="w-full min-h-[120px] border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
-                    value={answers[part.id] || ''}
-                    onChange={e => handleChange(part.id, e.target.value)}
-                    placeholder={`Type your answer for ${part.label} here...`}
-                    disabled={grading}
-                  />
-                </div>
-              ))}
+              {PARTS.map((part) => {
+                const wordCount = wordCounts[part.id] || 0;
+                const charCount = charCounts[part.id] || 0;
+                const validationError = validationErrors[part.id];
+                const isValid = wordCount >= 10 && wordCount <= 60 && charCount <= 500;
+                const borderColor = !answers[part.id] 
+                  ? 'border-slate-300' 
+                  : validationError 
+                    ? 'border-red-400'
+                    : isValid 
+                      ? 'border-green-400'
+                      : 'border-yellow-400';
+                
+                return (
+                  <div key={part.id} className="w-full">
+                    <label className="block font-semibold mb-2 text-slate-700">{part.label}</label>
+                    <textarea
+                      className={`w-full min-h-[120px] border ${borderColor} rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition`}
+                      value={answers[part.id] || ''}
+                      onChange={e => handleChange(part.id, e.target.value)}
+                      placeholder={`Type your answer for ${part.label} here...`}
+                      disabled={grading}
+                    />
+                    <div className="mt-1 text-sm flex justify-between items-center">
+                      <span className={wordCount < 10 ? 'text-red-500' : wordCount > 60 ? 'text-orange-500' : 'text-green-600'}>
+                        Words: {wordCount}/60 (min: 10)
+                      </span>
+                      <span className={charCount > 500 ? 'text-red-500' : 'text-slate-500'}>
+                        Characters: {charCount}/500
+                      </span>
+                    </div>
+                    {validationError && (
+                      <div className="mt-1 text-sm text-red-600 font-semibold">{validationError}</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             {error && (
               <div className="mt-6 text-red-600 font-semibold">{error}</div>
@@ -164,6 +273,13 @@ const APHumanGeographyConceptApplicationSet1 = () => {
           </div>
         </div>
       </div>
+      {showAuthModal && (
+        <AuthModal 
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => setShowAuthModal(false)}
+        />
+      )}
     </div>
   );
 };
