@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:github": "vite build",
-    "build:custom": "vite build",
+    "build": "vite build && node postbuild.cjs",
+    "build:github": "vite build && node postbuild.cjs",
+    "build:custom": "vite build && node postbuild.cjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite",

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
-  FileText, 
   BookOpen, 
   GraduationCap, 
   StickyNote,
@@ -19,13 +18,6 @@ import {
 
 const Home = () => {
   const features = [
-    {
-      title: 'Essay Grader',
-      description: 'AI-powered grading for AP essays and free responses.',
-      icon: FileText,
-      link: '/essay-grader',
-      color: 'from-blue-500 to-indigo-500'
-    },
     {
       title: 'Practice Exams',
       description: 'Take full-length AP practice exams and get instant feedback.',
@@ -97,13 +89,6 @@ const Home = () => {
               to help you achieve your best possible scores.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                to="/essay-grader" 
-                className="bg-gradient-to-r from-blue-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-blue-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
-              >
-                <span>Start Grading Essays</span>
-                <ArrowRight className="w-5 h-5" />
-              </Link>
               <Link 
                 to="/practice-exams" 
                 className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-green-500 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
