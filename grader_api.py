@@ -1077,7 +1077,16 @@ def grade_apstat_frq():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/grade-apbio-frq', methods=['POST'])
+@app.route('/api/grade-apbio-frq', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173",
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
 @require_auth
 @track_usage('apbio-frq')
 def grade_apbio_frq():
