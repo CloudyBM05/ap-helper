@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { User, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -52,13 +52,13 @@ export const useAuth = () => {
     localStorage.removeItem('auth_token');
   };
 
-  const getAuthHeaders = (): Record<string, string> => {
+  const getAuthHeaders = useCallback((): Record<string, string> => {
     const storedToken = token || localStorage.getItem('auth_token');
     if (storedToken) {
       return { Authorization: `Bearer ${storedToken}` };
     }
     return {};
-  };
+  }, [token]);
 
   const isAuthenticated = !!user;
 

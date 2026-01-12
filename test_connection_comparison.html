@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connection Test: localhost vs 127.0.0.1</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .testing { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    </style>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    <p>Testing connection to backend API using both localhost and 127.0.0.1:</p>
+    
+    <h3>Test 1: Using localhost:8080</h3>
+    <div id="localhost-result" class="result testing">Testing...</div>
+    
+    <h3>Test 2: Using 127.0.0.1:8080</h3>
+    <div id="ip-result" class="result testing">Testing...</div>
+
+    <script>
+        async function testConnection(url, resultElementId, label) {
+            const resultElement = document.getElementById(resultElementId);
+            
+            try {
+                const startTime = Date.now();
+                const response = await fetch(url);
+                const endTime = Date.now();
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultElement.className = 'result success';
+                    resultElement.innerHTML = `
+                        ✅ <strong>${label} SUCCESS</strong><br>
+                        Status: ${response.status}<br>
+                        Response time: ${endTime - startTime}ms<br>
+                        Data: ${data.overview ? 'Unit topics data received' : JSON.stringify(data).substring(0, 100)}...
+                    `;
+                } else {
+                    resultElement.className = 'result error';
+                    resultElement.innerHTML = `
+                        ❌ <strong>${label} FAILED</strong><br>
+                        Status: ${response.status}<br>
+                        Error: ${JSON.stringify(data)}
+                    `;
+                }
+            } catch (error) {
+                resultElement.className = 'result error';
+                resultElement.innerHTML = `
+                    ❌ <strong>${label} CONNECTION FAILED</strong><br>
+                    Error: ${error.message}<br>
+                    Type: ${error.name}
+                `;
+            }
+        }
+
+        // Test both endpoints
+        testConnection('http://localhost:8080/api/unit-topics?course=apush&unit=unit1', 'localhost-result', 'localhost:8080');
+        testConnection('http://127.0.0.1:8080/api/unit-topics?course=apush&unit=unit1', 'ip-result', '127.0.0.1:8080');
+    </script>
+</body>
+</html>

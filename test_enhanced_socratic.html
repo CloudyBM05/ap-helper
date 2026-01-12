@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enhanced Socratic AI Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .chat-box { background: white; padding: 20px; border-radius: 10px; margin: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .user { background: #e3f2fd; }
+        .ai { background: #f3e5f5; }
+        .progress { background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .progress-bar { width: 100%; height: 20px; background: #ddd; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #4CAF50, #45a049); transition: width 0.5s; }
+        button { background: #2196F3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #1976D2; }
+        .concepts { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+        .concept { background: #e1f5fe; padding: 4px 8px; border-radius: 15px; font-size: 12px; }
+        .mastered { background: #c8e6c9; color: #2e7d32; }
+        textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Enhanced Socratic AI - APUSH Unit 1</h1>
+        
+        <div class="progress">
+            <h3>Learning Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <p>Overall Progress: <span id="progressText">0%</span></p>
+            <p>Topics Mastered: <span id="topicsText">0/5</span></p>
+            <div id="conceptsLearned" class="concepts"></div>
+        </div>
+
+        <div id="chatHistory"></div>
+
+        <div class="chat-box">
+            <h3>Try these test phrases:</h3>
+            <button onclick="testMessage('I dont know anything about this')">🤔 Complete Beginner</button>
+            <button onclick="testMessage('Can you explain what happened in Unit 1?')">📚 Request Overview</button>
+            <button onclick="testMessage('Tell me about Native American societies')">🏘️ Native Americans</button>
+            <button onclick="testMessage('Why did Europeans explore?')">⛵ European Motivations</button>
+            <button onclick="testMessage('What was the Columbian Exchange?')">🌍 Columbian Exchange</button>
+            <br><br>
+            
+            <textarea id="customMessage" placeholder="Or type your own question..."></textarea><br>
+            <button onclick="sendCustomMessage()">Send Custom Message</button>
+            <button onclick="clearHistory()">Clear History</button>
+        </div>
+    </div>
+
+    <script>
+        let conversationHistory = [];
+        let overallProgress = 0;
+        let topicsMastered = 0;
+        
+        async function testMessage(message) {
+            addToChat('user', message);
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/chat/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory,
+                        course: 'apush',
+                        unit: 'unit1',
+                        userId: 'test-user'
+                    })
+                });
+                
+                const data = await response.json();
+                addToChat('ai', data.response);
+                
+                // Update conversation history
+                conversationHistory.push(
+                    { sender: 'user', content: message },
+                    { sender: 'ai', content: data.response }
+                );
+                
+                // Update progress
+                updateProgress(data);
+                
+            } catch (error) {
+                addToChat('ai', 'Error: ' + error.message);
+            }
+        }
+        
+        function sendCustomMessage() {
+            const message = document.getElementById('customMessage').value;
+            if (message.trim()) {
+                testMessage(message);
+                document.getElementById('customMessage').value = '';
+            }
+        }
+        
+        function addToChat(sender, message) {
+            const chatHistory = document.getElementById('chatHistory');
+            const chatBox = document.createElement('div');
+            chatBox.className = 'chat-box ' + sender;
+            chatBox.innerHTML = `<strong>${sender.toUpperCase()}:</strong><br>${message}`;
+            chatHistory.appendChild(chatBox);
+            chatBox.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function updateProgress(data) {
+            // Update overall progress
+            if (data.overallProgress !== undefined) {
+                overallProgress = data.overallProgress;
+                document.getElementById('progressText').textContent = Math.round(overallProgress) + '%';
+                document.getElementById('progressFill').style.width = overallProgress + '%';
+            }
+            
+            // Update topics mastered count
+            if (data.topicsMastered !== undefined) {
+                topicsMastered = data.topicsMastered;
+                document.getElementById('topicsText').textContent = topicsMastered + '/' + (data.totalTopics || 5);
+            }
+            
+            // Update concepts learned
+            if (data.conceptsLearned && data.conceptsLearned.length > 0) {
+                const conceptsDiv = document.getElementById('conceptsLearned');
+                data.conceptsLearned.forEach(concept => {
+                    if (!conceptsDiv.innerHTML.includes(concept)) {
+                        const span = document.createElement('span');
+                        span.className = 'concept';
+                        span.textContent = concept;
+                        conceptsDiv.appendChild(span);
+                    }
+                });
+            }
+            
+            // Check for completion
+            if (data.readyForFinalAssessment) {
+                addToChat('system', '🎓 CONGRATULATIONS! You are ready for the final Unit 1 assessment!');
+            }
+        }
+        
+        function clearHistory() {
+            document.getElementById('chatHistory').innerHTML = '';
+            document.getElementById('conceptsLearned').innerHTML = '';
+            conversationHistory = [];
+            overallProgress = 0;
+            topicsMastered = 0;
+            document.getElementById('progressText').textContent = '0%';
+            document.getElementById('topicsText').textContent = '0/5';
+            document.getElementById('progressFill').style.width = '0%';
+        }
+        
+        // Allow Enter key to send message
+        document.getElementById('customMessage').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendCustomMessage();
+            }
+        });
+    </script>
+</body>
+</html>

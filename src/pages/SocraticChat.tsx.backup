@@ -1,0 +1,320 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';  // Call our AI API for Socratic responses
+  const getSocraticResponse = async (userInput: string, conversationHistory: Message[]): Promise<string> => {
+    try {
+      // Detect topic for better content targeting
+      const detectedTopic = detectTopic(userInput);
+      
+      // Update session with detected topic
+      const userId = localStorage.getItem('socratic_user_id') || 'demo-user';
+      sessionManager.updateChatSession(userId, course!, unit!, detectedTopic);
+
+      // Environment-aware API URL
+      const API_BASE = process.env.NODE_ENV === 'production' 
+        ? 'https://your-socratic-api.herokuapp.com'  // Update this with your actual Heroku app URL
+        : 'http://localhost:3010';
+
+      const response = await fetch(`${API_BASE}/api/chat/send`, {end, ArrowLeft, Bot, User, BookOpen } from 'lucide-react';
+import { sessionManager } from '../utils/sessionManager';
+import { APUSH_UNIT1_CONTENT } from '../utils/apushContent';
+
+interface Message {
+  id: string;
+  content: string;
+  sender: 'user' | 'ai';
+  timestamp: Date;
+}
+
+const SocraticChat = () => {
+  const { course, unit } = useParams<{ course: string; unit: string }>();
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Initialize conversation with welcome message
+  useEffect(() => {
+    if (course === 'apush' && unit === 'unit1') {
+      // Generate or get user ID for session tracking
+      let userId = localStorage.getItem('socratic_user_id');
+      if (!userId) {
+        userId = `user_${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem('socratic_user_id', userId);
+      }
+
+      // Start session tracking
+      sessionManager.startChatSession(userId, course, unit);
+
+      const welcomeMessage: Message = {
+        id: '1',
+        content: `Welcome to your Socratic learning session for APUSH Unit 1: World/Exploration (1491–1607)! 🌎
+
+I'm your AI tutor, and I'm here to guide you through discovery using the Socratic method. Instead of giving you direct answers, I'll ask questions that help you think critically and reach conclusions on your own.
+
+**Key topics we can explore:**
+• Pre-Columbian Native American societies
+• European motivations for exploration  
+• Spanish colonization and conquest
+• The Columbian Exchange
+• Early English colonization attempts
+
+To get started, what's one thing you're curious about regarding this time period? Or if you prefer, tell me what you think you already know about European exploration of the Americas.`,
+        sender: 'ai',
+        timestamp: new Date()
+      };
+      setMessages([welcomeMessage]);
+    }
+  }, [course, unit]);
+
+  const sendMessage = async () => {
+    if (!inputMessage.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: inputMessage,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+    setIsLoading(true);
+
+    try {
+      // This is where we'll call our AI API
+      const aiResponse = await getSocraticResponse(inputMessage, messages);
+      
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: aiResponse,
+        sender: 'ai',
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "I apologize, but I'm having trouble connecting right now. Please try again in a moment.",
+        sender: 'ai',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Detect topic from user input
+  const detectTopic = (userInput: string): string => {
+    const input = userInput.toLowerCase();
+    
+    if (input.includes('native') || input.includes('indigenous') || input.includes('cahokia') || input.includes('pueblo')) {
+      return 'nativeAmericans';
+    } else if (input.includes('motivation') || input.includes('why') || input.includes('god') || input.includes('gold') || input.includes('glory')) {
+      return 'europeanMotivations';
+    } else if (input.includes('spanish') || input.includes('conquistador') || input.includes('encomienda') || input.includes('cortés') || input.includes('pizarro')) {
+      return 'spanishColonization';
+    } else if (input.includes('exchange') || input.includes('disease') || input.includes('crops') || input.includes('animals') || input.includes('columbian')) {
+      return 'columbianExchange';
+    }
+    
+    return 'general';
+  };
+
+  // Call our AI API for Socratic responses
+  const getSocraticResponse = async (userInput: string, conversationHistory: Message[]): Promise<string> => {
+    try {
+      // Detect topic for better content targeting
+      const detectedTopic = detectTopic(userInput);
+      
+      // Update session with detected topic
+      const userId = localStorage.getItem('socratic_user_id') || 'demo-user';
+      sessionManager.updateChatSession(userId, course!, unit!, detectedTopic);
+
+      // Environment-aware API URL
+      const API_BASE = process.env.NODE_ENV === 'production' 
+        ? 'https://your-socratic-api.herokuapp.com'  // Update this with your actual Heroku app URL
+        : 'http://localhost:3010';
+
+      const response = await fetch(`${API_BASE}/api/chat/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userInput,
+          conversationHistory: conversationHistory,
+          course: course,
+          unit: unit,
+          userId: userId,
+          detectedTopic: detectedTopic
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Error calling AI API:', error);
+      // Fallback to topic-specific Socratic questions
+      return getFallbackSocraticResponse(userInput);
+    }
+  };
+
+  // Fallback Socratic responses when API is unavailable
+  const getFallbackSocraticResponse = (userInput: string): string => {
+    const topic = detectTopic(userInput);
+    const topicData = APUSH_UNIT1_CONTENT.topics[topic as keyof typeof APUSH_UNIT1_CONTENT.topics];
+    
+    if (topicData && topicData.socraticQuestions.length > 0) {
+      const randomQuestion = topicData.socraticQuestions[Math.floor(Math.random() * topicData.socraticQuestions.length)];
+      return `That's an interesting point! ${randomQuestion} What evidence can you think of to support your reasoning?`;
+    }
+    
+    return "That's a thoughtful observation! What led you to that conclusion? Can you think of any specific examples or evidence that supports your thinking?";
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const getUnitInfo = () => {
+    if (course === 'apush' && unit === 'unit1') {
+      return {
+        title: 'APUSH Unit 1: World/Exploration',
+        period: '1491–1607',
+        emoji: '🌎'
+      };
+    }
+    return { title: 'Unknown Unit', period: '', emoji: '📚' };
+  };
+
+  const unitInfo = getUnitInfo();
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => navigate('/socratic-learning')}
+              className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Units</span>
+            </button>
+            
+            <div className="flex items-center gap-3">
+              <div className="text-2xl">{unitInfo.emoji}</div>
+              <div>
+                <h1 className="text-lg font-bold text-slate-900">{unitInfo.title}</h1>
+                <p className="text-sm text-slate-600">{unitInfo.period}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Chat Messages */}
+      <div className="flex-1 max-w-4xl mx-auto w-full px-4 py-6 overflow-y-auto">
+        <div className="space-y-6">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              {message.sender === 'ai' && (
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-4 h-4 text-blue-600" />
+                </div>
+              )}
+              
+              <div
+                className={`max-w-2xl px-4 py-3 rounded-2xl ${
+                  message.sender === 'user'
+                    ? 'bg-blue-600 text-white rounded-br-sm'
+                    : 'bg-white text-slate-900 rounded-bl-sm shadow-sm border'
+                }`}
+              >
+                <p className="whitespace-pre-wrap">{message.content}</p>
+                <p className={`text-xs mt-2 ${
+                  message.sender === 'user' ? 'text-blue-100' : 'text-slate-500'
+                }`}>
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+
+              {message.sender === 'user' && (
+                <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 text-slate-600" />
+                </div>
+              )}
+            </div>
+          ))}
+          
+          {isLoading && (
+            <div className="flex gap-3 justify-start">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <Bot className="w-4 h-4 text-blue-600" />
+              </div>
+              <div className="bg-white text-slate-900 rounded-2xl rounded-bl-sm shadow-sm border px-4 py-3">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Area */}
+      <div className="bg-white border-t shadow-lg">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex gap-3">
+            <div className="flex-1 relative">
+              <textarea
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Share your thoughts or ask a question..."
+                className="w-full px-4 py-3 border border-slate-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                rows={1}
+                style={{ minHeight: '48px', maxHeight: '120px' }}
+              />
+            </div>
+            <button
+              onClick={sendMessage}
+              disabled={!inputMessage.trim() || isLoading}
+              className="px-4 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SocraticChat;

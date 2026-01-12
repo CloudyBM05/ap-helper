@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auth Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        button { padding: 10px 20px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Authentication Debug Test</h1>
+    
+    <div id="status" class="debug">
+        <h3>Firebase Status</h3>
+        <p id="firebase-status">Checking...</p>
+    </div>
+
+    <div id="auth-info" class="debug">
+        <h3>Authentication Info</h3>
+        <p id="user-info">Loading...</p>
+        <p id="token-info">Loading...</p>
+    </div>
+
+    <div id="api-test" class="debug">
+        <h3>API Test</h3>
+        <button onclick="testAPI()">Test Unit Topics API</button>
+        <p id="api-result">Click button to test API</p>
+    </div>
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase config - use the same config as your app
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpj-qvtUOKMGRcvYlWgO_jg-U8O9VV8k8",
+            authDomain: "ap-helper-7a6ac.firebaseapp.com",
+            projectId: "ap-helper-7a6ac",
+            storageBucket: "ap-helper-7a6ac.firebasestorage.app",
+            messagingSenderId: "474747866896",
+            appId: "1:474747866896:web:a3f2e9c0b0b1e2f3g4h5i6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let currentToken = null;
+
+        document.getElementById('firebase-status').textContent = 'Firebase initialized successfully';
+
+        onAuthStateChanged(auth, async (user) => {
+            const userInfo = document.getElementById('user-info');
+            const tokenInfo = document.getElementById('token-info');
+            
+            if (user) {
+                userInfo.innerHTML = `
+                    <strong>User:</strong> ${user.email}<br>
+                    <strong>UID:</strong> ${user.uid}<br>
+                    <strong>Display Name:</strong> ${user.displayName || 'None'}
+                `;
+                
+                try {
+                    currentToken = await user.getIdToken();
+                    tokenInfo.innerHTML = `
+                        <strong>Token:</strong> ${currentToken.substring(0, 50)}...<br>
+                        <strong>Token Length:</strong> ${currentToken.length}
+                    `;
+                    document.getElementById('auth-info').className = 'debug success';
+                } catch (error) {
+                    tokenInfo.innerHTML = `<strong>Token Error:</strong> ${error.message}`;
+                    document.getElementById('auth-info').className = 'debug error';
+                }
+            } else {
+                userInfo.innerHTML = '<strong>Status:</strong> Not logged in';
+                tokenInfo.innerHTML = '<strong>Token:</strong> None';
+                document.getElementById('auth-info').className = 'debug error';
+            }
+        });
+
+        // Make testAPI available globally
+        window.testAPI = async function() {
+            const resultEl = document.getElementById('api-result');
+            resultEl.innerHTML = 'Testing API...';
+            
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                
+                if (currentToken) {
+                    headers['Authorization'] = `Bearer ${currentToken}`;
+                }
+
+                console.log('Testing API with headers:', headers);
+
+                const response = await fetch('http://127.0.0.1:8080/api/unit-topics?course=apush&unit=unit1', {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                resultEl.innerHTML = `
+                    <strong>Success!</strong><br>
+                    Status: ${response.status}<br>
+                    Topics found: ${data.topics ? data.topics.length : 0}<br>
+                    Course: ${data.course}<br>
+                    Unit: ${data.unit}<br>
+                    <details>
+                        <summary>Full Response</summary>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+                document.getElementById('api-test').className = 'debug success';
+
+            } catch (error) {
+                console.error('API test error:', error);
+                resultEl.innerHTML = `
+                    <strong>Error:</strong> ${error.message}<br>
+                    Check console for full details
+                `;
+                document.getElementById('api-test').className = 'debug error';
+            }
+        };
+    </script>
+</body>
+</html>

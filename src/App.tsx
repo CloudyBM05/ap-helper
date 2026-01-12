@@ -295,6 +295,12 @@ import APBiologyLongFRQSelect from './pages/APBiologyLongFRQSelect';
 import APBiologyLongFRQ from './pages/APBiologyLongFRQ';
 import APBiologyShortFRQSelect from './pages/APBiologyShortFRQSelect';
 import APBiologyShortFRQ from './pages/APBiologyShortFRQ';
+import SocraticLearning from './pages/SocraticLearning';
+import SocraticChat from './pages/SocraticChat';
+import CollectionsPage from './pages/CollectionsPage';
+import CollectionsDebug from './pages/CollectionsDebug';
+import CollectionsTest from './pages/CollectionsTest';
+import Arena from './pages/Arena';
 
 function App() {
   const [showAuth, setShowAuth] = React.useState(false);
@@ -319,6 +325,8 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/socratic-learning" element={<SocraticLearning />} />
+            <Route path="/socratic-chat/:course/:unit" element={<SocraticChat />} />
             <Route path="/ap-gov-study-guide" element={<APGovStudyGuide />} />
             <Route path="/ap-physics-study-guide" element={<APPhysicsStudyGuide />} />
             <Route path="/ap-computer-science-principles-study-guide" element={<APCSPStudyGuide />} />
@@ -618,6 +626,10 @@ function App() {
             <Route path="/ap-human-geography-practice-exam/scale-analysis" element={<APHumanGeographyScaleAnalysisSelect />} />
             <Route path="/ap-human-geography-practice-exam/scale-analysis/set1" element={<APHumanGeographyScaleAnalysisSet1 />} />
             <Route path="/ap-human-geography-practice-exam/scale-analysis/set2" element={<APHumanGeographyScaleAnalysisSet2 />} />
+            <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/collections-debug" element={<CollectionsDebug />} />
+            <Route path="/collections-test" element={<CollectionsTest />} />
+            <Route path="/arena" element={<Arena />} />
           </Routes>
         </main>
         <Footer />

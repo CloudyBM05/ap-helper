@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Topics Loading from Frontend Port</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .loading { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>Topics Loading Test</h1>
+    <div id="status" class="loading">Loading topics for Unit 2...</div>
+    <div id="result"></div>
+
+    <script>
+        async function testTopicsLoad() {
+            const statusEl = document.getElementById('status');
+            const resultEl = document.getElementById('result');
+            
+            try {
+                const API_BASE = 'http://127.0.0.1:8080';
+                const response = await fetch(`${API_BASE}/api/unit-topics?course=apush&unit=unit2`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                statusEl.textContent = '✅ Topics loaded successfully!';
+                statusEl.className = 'success';
+                
+                resultEl.innerHTML = `
+                    <h3>Unit ${data.unit.toUpperCase()} - ${data.course.toUpperCase()}</h3>
+                    <p><strong>Overview:</strong> ${data.overview}</p>
+                    <h4>Topics (${data.topics.length}):</h4>
+                    <ul>
+                        ${data.topics.map(topic => `
+                            <li>
+                                <strong>${topic.title}</strong><br>
+                                <small>${topic.keyFacts.join('; ')}</small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                
+            } catch (error) {
+                statusEl.textContent = `❌ Error: ${error.message}`;
+                statusEl.className = 'error';
+                resultEl.innerHTML = `
+                    <p>This means there's still a CORS or connectivity issue.</p>
+                    <p>Check if the backend is running on http://127.0.0.1:8080</p>
+                `;
+            }
+        }
+
+        // Start the test when page loads
+        testTopicsLoad();
+    </script>
+</body>
+</html>

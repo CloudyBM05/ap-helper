@@ -1,0 +1,261 @@
+{
+  "test123": {
+    "apush_unit1": {
+      "general": {
+        "introduced": true,
+        "concepts_learned": [
+          "Cahokia: Population 10,000-20,000 at peak (larger than London), sophisticated urban planning, mound builders, complex agricultural system, major trade hub"
+        ]
+      }
+    },
+    "apgov_unit1": {
+      "federalism": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Division of power between national and state governments",
+          "Dual federalism",
+          "Cooperative federalism"
+        ]
+      }
+    }
+  },
+  "test456": {
+    "apgov_unit1": {
+      "general": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory",
+          "Popular sovereignty"
+        ]
+      },
+      "enlightenment_ideals": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory"
+        ]
+      },
+      "articles_confederation": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Weak central government",
+          "No executive branch",
+          "No national judiciary"
+        ]
+      },
+      "constitutional_convention": {
+        "introduced": true,
+        "concepts_learned": [
+          "Philadelphia 1787",
+          "Virginia Plan vs New Jersey Plan"
+        ]
+      },
+      "federalism": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Division of power between national and state governments",
+          "Dual federalism",
+          "Cooperative federalism"
+        ]
+      }
+    }
+  },
+  "test_complete_beginner": {
+    "apgov_unit1": {
+      "general": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory",
+          "Popular sovereignty"
+        ]
+      }
+    }
+  },
+  "test_explanation_request": {
+    "apgov_unit1": {
+      "enlightenment_ideals": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory"
+        ]
+      },
+      "articles_confederation": {
+        "introduced": true,
+        "concepts_learned": [
+          "Weak central government",
+          "No executive branch"
+        ]
+      },
+      "constitutional_convention": {
+        "introduced": true,
+        "concepts_learned": [
+          "Philadelphia 1787",
+          "Virginia Plan vs New Jersey Plan"
+        ]
+      }
+    }
+  },
+  "test_specific_topic": {
+    "apgov_unit1": {
+      "enlightenment_ideals": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory"
+        ]
+      },
+      "articles_confederation": {
+        "introduced": true,
+        "concepts_learned": [
+          "Weak central government",
+          "No executive branch"
+        ]
+      },
+      "constitutional_convention": {
+        "introduced": true,
+        "concepts_learned": [
+          "Philadelphia 1787",
+          "Virginia Plan vs New Jersey Plan"
+        ]
+      }
+    }
+  },
+  "test_civil_rights_topic": {
+    "apgov_unit3": {
+      "first_amendment": {
+        "introduced": true,
+        "concepts_learned": [
+          "Freedom of religion (Establishment and Free Exercise)",
+          "Freedom of speech and press"
+        ]
+      },
+      "second_amendment": {
+        "introduced": true,
+        "concepts_learned": [
+          "Right to bear arms",
+          "Individual vs collective rights debate"
+        ]
+      },
+      "criminal_justice": {
+        "introduced": true,
+        "concepts_learned": [
+          "Fourth Amendment (searches and seizures)",
+          "Fifth Amendment (self-incrimination, double jeopardy)"
+        ]
+      }
+    }
+  },
+  "test_elections_topic": {
+    "apgov_unit5": {
+      "elections_campaigns": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Primary elections",
+          "General elections",
+          "Electoral College"
+        ]
+      }
+    }
+  },
+  "progress_test_user": {
+    "apgov_unit1": {
+      "general": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory",
+          "Popular sovereignty"
+        ]
+      },
+      "enlightenment_ideals": {
+        "introduced": true,
+        "concepts_learned": [
+          "Natural rights (Locke): Life, liberty, property",
+          "Social contract theory"
+        ]
+      },
+      "articles_confederation": {
+        "introduced": true,
+        "concepts_learned": [
+          "Weak central government",
+          "No executive branch"
+        ]
+      },
+      "constitutional_convention": {
+        "introduced": true,
+        "concepts_learned": [
+          "Philadelphia 1787",
+          "Virginia Plan vs New Jersey Plan"
+        ]
+      },
+      "federalism": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Division of power between national and state governments",
+          "Dual federalism",
+          "Cooperative federalism"
+        ]
+      }
+    }
+  },
+  "unit_test_unit1": {
+    "apgov_unit1": {
+      "articles_confederation": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Weak central government",
+          "No executive branch",
+          "No national judiciary"
+        ]
+      }
+    }
+  },
+  "unit_test_unit3": {
+    "apgov_unit3": {
+      "civil_rights_movement": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Brown v. Board of Education (1954)",
+          "Civil Rights Act of 1964",
+          "Voting Rights Act of 1965"
+        ]
+      }
+    }
+  },
+  "unit_test_unit4": {
+    "apgov_unit4": {
+      "political_culture": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Liberty, equality, democracy",
+          "Individualism",
+          "Rule of law"
+        ]
+      }
+    }
+  },
+  "unit_test_unit5": {
+    "apgov_unit5": {
+      "elections_campaigns": {
+        "introduced": true,
+        "practiced": true,
+        "concepts_learned": [
+          "Primary elections",
+          "General elections",
+          "Electoral College"
+        ]
+      }
+    }
+  }
+}

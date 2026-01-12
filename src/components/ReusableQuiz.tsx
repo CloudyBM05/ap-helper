@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import { User } from 'firebase/auth';
+import { useRewards } from '../hooks/useRewards';
+import RewardNotification from './RewardNotification';
+import { Subject } from '../types/knowledgeCards';
 
 interface QuizQuestion {
     id: string;
@@ -18,15 +23,27 @@ interface QuizData {
 interface ReusableQuizProps {
     quizData: QuizData;
     quizTitle: string;
+    subject?: Subject; // AP subject for reward system
     resultsRoute?: string; // Optional route for a dedicated results page
 }
 
-const ReusableQuiz: React.FC<ReusableQuizProps> = ({ quizData, quizTitle, resultsRoute }) => {
+const ReusableQuiz: React.FC<ReusableQuizProps> = ({ quizData, quizTitle, subject, resultsRoute }) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
     const [crossedOutOptions, setCrossedOutOptions] = useState<{ [key: string]: string[] }>({});
     const [showResults, setShowResults] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
+
+    // Reward system integration
+    const { rewardState, awardQuizReward, dismissNotification } = useRewards();
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((firebaseUser: User | null) => {
+            setUser(firebaseUser);
+        });
+        return unsubscribe;
+    }, []);
 
     const currentQuestion = quizData.questions[currentQuestionIndex];
 
@@ -62,6 +79,15 @@ const ReusableQuiz: React.FC<ReusableQuizProps> = ({ quizData, quizTitle, result
         if (resultsRoute) {
             navigate(resultsRoute, { state: { userAnswers, quizData } });
         } else {
+            const score = calculateScore();
+            const total = quizData.questions.length;
+            const percentage = Math.round((score / total) * 100);
+
+            // Award rewards if user is logged in and subject is specified
+            if (user && subject) {
+                awardQuizReward(user.uid, percentage, subject, quizTitle);
+            }
+
             setShowResults(true);
         }
     };
@@ -166,6 +192,13 @@ const ReusableQuiz: React.FC<ReusableQuizProps> = ({ quizData, quizTitle, result
                 )}
             </div>
              <p className="text-center text-slate-500 text-sm mt-4">Right-click to cross out an answer choice.</p>
+            {/* Reward Notification */}
+            <RewardNotification
+                card={rewardState.recentReward}
+                scholarCoins={rewardState.scholarCoinsEarned}
+                show={rewardState.showNotification}
+                onDismiss={dismissNotification}
+            />
         </div>
     );
 };

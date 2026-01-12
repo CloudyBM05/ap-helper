@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Memory Cache</title>
+</head>
+<body>
+    <h2>Clear User Memory Cache</h2>
+    <p>This will clear the localStorage cache for user progress to resolve any contradictions.</p>
+    <button onclick="clearCache()">Clear Cache</button>
+    <div id="result"></div>
+    
+    <script>
+        function clearCache() {
+            // Clear all memory-related localStorage items
+            const keys = Object.keys(localStorage);
+            let cleared = 0;
+            
+            keys.forEach(key => {
+                if (key.startsWith('memory_') || key.startsWith('user_')) {
+                    localStorage.removeItem(key);
+                    cleared++;
+                }
+            });
+            
+            document.getElementById('result').innerHTML = `<p style="color: green;">Cleared ${cleared} cache items. Please refresh your APUSH Unit 1 page.</p>`;
+        }
+    </script>
+</body>
+</html>

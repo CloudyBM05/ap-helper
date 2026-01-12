@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Socratic API</title>
+</head>
+<body>
+    <h1>Test Socratic AI API</h1>
+    <div>
+        <textarea id="message" placeholder="Enter your message..." rows="3" cols="50">I don't know anything about this</textarea><br><br>
+        <button onclick="testChat()">Send Message</button>
+    </div>
+    <div id="response" style="margin-top: 20px; padding: 10px; background-color: #f0f0f0;"></div>
+
+    <script>
+        async function testChat() {
+            const message = document.getElementById('message').value;
+            const responseDiv = document.getElementById('response');
+            
+            responseDiv.innerHTML = 'Loading...';
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/chat/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // For testing, we'll skip authentication
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: [],
+                        course: 'apush',
+                        unit: 'unit1',
+                        userId: 'test-user',
+                        detectedTopic: 'general'
+                    })
+                });
+                
+                const data = await response.json();
+                responseDiv.innerHTML = '<strong>Response:</strong><br>' + data.response + '<br><br><strong>Source:</strong> ' + data.source;
+                
+            } catch (error) {
+                responseDiv.innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

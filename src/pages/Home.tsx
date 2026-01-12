@@ -4,104 +4,90 @@ import {
   ArrowRight, 
   BookOpen, 
   GraduationCap, 
-  StickyNote,
   Brain,
-  Star,
-  CheckCircle,
-  Zap,
-  Target,
-  Clock,
-  Users,
-  TrendingUp,
-  Award
+  MessageCircle,
+  Lightbulb,
+  Target
 } from 'lucide-react';
 
 const Home = () => {
   const features = [
     {
-      title: 'Practice Exams',
-      description: 'Take full-length AP practice exams and get instant feedback.',
+      title: 'Socratic Learning',
+      description: 'Discover concepts through guided questioning - learn by thinking, not memorizing.',
+      icon: MessageCircle,
+      link: '/socratic-learning',
+      color: 'from-blue-500 to-indigo-600'
+    },
+    {
+      title: 'AI Graded FRQs',
+      description: 'Get instant, detailed feedback on your FRQs, DBQs, and essays.',
       icon: GraduationCap,
       link: '/practice-exams',
-      color: 'from-green-500 to-teal-500'
+      color: 'from-green-500 to-emerald-600'
     },
     {
-      title: 'Study Guides',
-      description: 'Comprehensive AP US History study guide and resources.',
+      title: 'Study Resources',
+      description: 'Comprehensive study guides and practice materials for all AP courses.',
       icon: BookOpen,
       link: '/study-guides',
-      color: 'from-purple-500 to-pink-500'
+      color: 'from-purple-500 to-violet-600'
     }
   ];
 
-  const benefits = [
-    { icon: Zap, title: 'Instant Feedback', description: 'Get results in seconds, not days' },
-    { icon: Target, title: 'Rubric-Based', description: 'Aligned with official AP standards' },
-    { icon: Clock, title: '24/7 Available', description: 'Study anytime, anywhere' },
-    { icon: Users, title: 'Trusted Platform', description: 'Used by highschool students' },
-    { icon: CheckCircle, title: 'Accurate Practice Exams', description: 'Realistic questions and scoring for AP success' },
-    { icon: Award, title: 'Proven Results', description: 'Higher AP scores guaranteed' }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      course: 'AP English Language',
-      rating: 5,
-      text: 'AP Helper transformed my essay writing. I went from a 3 to a 5 on my AP exam!',
-      initials: 'SJ',
-      color: 'from-blue-500 to-purple-500'
-    },
-    {
-      name: 'Michael Chen',
-      course: 'AP US History',
-      rating: 5,
-      text: 'The DBQ practice and feedback were incredibly detailed. This tool is a game-changer!',
-      initials: 'MC',
-      color: 'from-green-500 to-teal-500'
-    },
-    {
-      name: 'Emma Rodriguez',
-      course: 'AP Biology',
-      rating: 5,
-      text: 'The practice exams and study guides helped me master every unit. Highly recommend!',
-      initials: 'ER',
-      color: 'from-purple-500 to-pink-500'
-    }
+  const socratics = [
+    { icon: Lightbulb, title: 'Think, Don\'t Memorize', description: 'Discover concepts through guided questioning' },
+    { icon: Brain, title: 'Deep Understanding', description: 'Build lasting knowledge through critical thinking' },
+    { icon: MessageCircle, title: 'Personalized Dialogue', description: 'AI adapts to your learning pace and style' },
+    { icon: Target, title: 'Concept Mastery', description: 'Track your understanding of key AP concepts' }
   ];
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-teal-600/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-indigo-600/10"></div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">
-              Master Your AP Exams
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500">
-                with AP Helper
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
+              <Lightbulb className="w-4 h-4" />
+              <span>Introducing Socratic Learning - Think, Don't Memorize</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-8 leading-normal">
+              Learn AP Like{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Socrates Taught
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Your comprehensive study companion featuring AI-powered essay grading, 
-              practice exams, study guides, and personalized feedback 
-              to help you achieve your best possible scores.
+            
+            <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Master AP concepts through <strong>guided questioning</strong> and <strong>critical thinking</strong>. 
+              Our AI tutor doesn't give you answers - it helps you <em>discover</em> them.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link 
-                to="/practice-exams" 
-                className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-green-500 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+                to="/socratic-learning" 
+                className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
               >
-                <span>Take Practice Exam</span>
-                <Brain className="w-5 h-5" />
+                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <span>Start Socratic Learning</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/practice-exams"
+                className="group bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
+              >
+                <GraduationCap className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <span>Practice Exams</span>
               </Link>
               <Link
                 to="/study-guides"
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+                className="group bg-gradient-to-r from-purple-500 to-violet-600 text-white px-10 py-5 rounded-2xl font-semibold text-lg hover:from-purple-600 hover:to-violet-700 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
               >
+                <BookOpen className="w-6 h-6 group-hover:scale-110 transition-transform" />
                 <span>Study Guides</span>
-                <BookOpen className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -109,35 +95,40 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Everything You Need for AP Success
+      <section className="py-24 bg-white/70 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              The Socratic Method
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Meets Modern AI
+              </span>
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Our comprehensive platform combines AI technology with proven study methods 
-              to help you excel in every aspect of your AP preparation.
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Experience a revolutionary approach to AP learning. Instead of passive memorization, 
+              engage in meaningful dialogue that builds true understanding.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <Link
                   key={index}
                   to={feature.link}
-                  className="group bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                  className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-slate-100"
                 >
-                  <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="w-8 h-8 text-white" />
+                  <div className={`w-20 h-20 bg-gradient-to-br ${feature.color} rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                    <Icon className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4">{feature.title}</h3>
-                  <p className="text-slate-600 mb-4">{feature.description}</p>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">{feature.description}</p>
                   <div className="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
-                    <span>Explore</span>
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <span>Get Started</span>
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
                   </div>
                 </Link>
               );
@@ -146,102 +137,44 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-teal-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Why Choose AP Helper?
+      {/* Socratic Benefits Section */}
+      <section className="py-24 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-normal">
+              Why Socratic Learning{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                Changes Everything
+              </span>
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Join thousands of students who have improved their AP scores with our 
-              comprehensive study platform.
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Move beyond memorization to true understanding. Our AI tutor guides you to discover 
+              concepts naturally, just like Socrates taught his students 2,500 years ago.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {socratics.map((socratic, index) => {
+              const Icon = socratic.icon;
               return (
-                <div key={index} className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-6 h-6 text-white" />
+                <div key={index} className="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">{benefit.title}</h3>
-                    <p className="text-slate-600">{benefit.description}</p>
-                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-700 transition-colors">
+                    {socratic.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">{socratic.description}</p>
                 </div>
               );
             })}
           </div>
+          
+
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      {/* <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Student Success Stories
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              See how AP Helper has helped students achieve their AP goals and improve their scores.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8 shadow-lg">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-slate-600 mb-6 italic">"{testimonial.text}"</p>
-                <div className="flex items-center">
-                  <div className={`w-10 h-10 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center`}>
-                    <span className="text-white font-bold text-sm">{testimonial.initials}</span>
-                  </div>
-                  <div className="ml-3">
-                    <p className="font-semibold text-slate-900">{testimonial.name}</p>
-                    <p className="text-sm text-slate-600">{testimonial.course}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      {/* CTA Section */}
-      {/* <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Ace Your AP Exams?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join thousands of students who have improved their scores with AP Helper. 
-            Start your journey to AP success today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/essay-grader" 
-              className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
-            >
-              <FileText className="w-5 h-5" />
-              <span>Grade Your First Essay</span>
-            </Link>
-            <Link 
-              to="/practice-exams" 
-              className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center space-x-2"
-            >
-              <Brain className="w-5 h-5" />
-              <span>Take Practice Exam</span>
-            </Link>
-          </div>
-        </div>
-      </section> */}
     </div>
   );
 };

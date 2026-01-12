@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Unit Topics API</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Unit Topics API Test</h1>
+    <div>
+        <h3>Unit 1 Topics:</h3>
+        <div id="unit1-topics"></div>
+    </div>
+    <div>
+        <h3>Unit 2 Topics:</h3>
+        <div id="unit2-topics"></div>
+    </div>
+    <div>
+        <h3>Unit 9 Topics:</h3>
+        <div id="unit9-topics"></div>
+    </div>
+
+    <script>
+        async function testTopicsAPI(unit, elementId) {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8080/api/unit-topics?course=apush&unit=${unit}`);
+                const data = response.data;
+                
+                const element = document.getElementById(elementId);
+                element.innerHTML = `
+                    <p><strong>Overview:</strong> ${data.overview}</p>
+                    <p><strong>Topics (${data.topics.length}):</strong></p>
+                    <ul>
+                        ${data.topics.map(topic => `
+                            <li>
+                                <strong>${topic.title}</strong><br>
+                                <small>${topic.keyFacts.join('; ')}</small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                document.getElementById(elementId).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Test different units
+        testTopicsAPI('unit1', 'unit1-topics');
+        testTopicsAPI('unit2', 'unit2-topics');
+        testTopicsAPI('unit9', 'unit9-topics');
+    </script>
+</body>
+</html>
