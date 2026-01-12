@@ -17,6 +17,25 @@
     <meta name="description" content="Ace your AP essays with AI-powered evaluation and feedback. Get instant, rubric-based grading for IWA, IRR, and other AP exam essays." />
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfZNHArAAAAAHhZPw3TlzfM786B3gFl3NtCBp0h"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5029353602304040" crossorigin="anonymous"></script>
+    
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      // Handle redirected paths from 404.html
+      (function() {
+        const params = new URLSearchParams(window.location.search);
+        const redirectPath = params.get('p');
+        
+        if (redirectPath) {
+          // Remove the 'p' parameter and navigate to the intended path
+          const url = new URL(window.location);
+          url.search = '';
+          url.pathname = redirectPath;
+          
+          // Replace current history state to avoid back button issues
+          window.history.replaceState(null, null, url.pathname + url.search + url.hash);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
