@@ -50,6 +50,30 @@ except Exception as e:
     print("Falling back to JWT-only authentication")
     firebase_auth = None
 
+@app.route("/", methods=["GET"])
+def root():
+    """Root endpoint to check if the API is running"""
+    return jsonify({
+        "message": "AP Helper API is running",
+        "status": "healthy",
+        "available_endpoints": [
+            "/api/grade-saq",
+            "/api/grade_essay", 
+            "/api/grade-dbq",
+            "/api/grade-leq",
+            "/api/grade-apgov",
+            "/api/grade-psych-frq",
+            "/api/grade-apmicro-frq",
+            "/api/grade-apmacro-frq",
+            "/api/grade-aphug-frq",
+            "/api/grade-apstat-frq",
+            "/api/grade-apbio-frq",
+            "/api/chat/send",
+            "/api/unit-topics",
+            "/api/socratic-chat"
+        ]
+    })
+
 # Authentication configuration (keeping JWT as fallback)
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey")
 ALGORITHM = "HS256"
@@ -1422,7 +1446,7 @@ def load_study_guide_content(unit, course=None):
                 'sections': {
                     'progressive_reforms': {
                         'title': 'Progressive Era Reforms',
-                        'key_facts': ["Progressive Reforms: Muckrakers, trust-busting, consumer protection, conservation, direct democracy (initiative, referendum, recall)"]
+                        'key_facts': ["Progressive Reforms: Muckrakers, trust-busting, consumer protection, conservation, direct democracy reforms"]
                     },
                     'spanish_american_war': {
                         'title': 'Spanish-American War and Imperialism',
