@@ -2063,20 +2063,21 @@ def get_gemini_socratic_response(user_input, course, unit, conversation_history)
         
     try:
         # Build context for Gemini
-        context = f"""You are an expert Socratic tutor for {course.upper()} {unit.upper()}. 
+        context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
 
-Your teaching philosophy:
-- Ask thoughtful questions rather than giving direct answers
-- Guide students to discover knowledge themselves
-- Build on their existing knowledge
-- Use historical evidence and examples
-- Encourage critical thinking
+INSTRUCTION: For direct questions like "Tell me about X" or "What is X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
+
+Your teaching approach:
+- Give clear, factual information when requested
+- Use bullet points for key facts
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
 
 Student's message: "{user_input}"
 
-Previous conversation: {str(conversation_history[-3:]) if conversation_history else 'No previous conversation'}
+Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
-Respond with a Socratic question or guided discussion that helps the student explore the topic deeper. Keep responses under 150 words."""
+If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key information, then ask ONE question to guide deeper thinking. Keep under 200 words."""
 
         model = genai.GenerativeModel('gemini-3-flash-preview')
         response = model.generate_content(context)
@@ -2189,12 +2190,12 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             ])
         ]
         
-        # Map common phrases to topics
+        # Map common phrases to topics - expanded mapping
         topic_mappings = {
-            'precolumbiansocieties': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian'],
-            'europeanmotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious'],
-            'spanishcolonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver'],
-            'columbianexchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals'],
+            'precolumbiansocieties': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture'],
+            'europeanmotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages'],
+            'spanishcolonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact'],
+            'columbianexchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange'],
             'earlyenglish': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco']
         }
         
