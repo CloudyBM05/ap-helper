@@ -2171,13 +2171,38 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             'total_concepts': total_concepts
         }
     
-    # Detect current topic
+    # Improved topic detection - more flexible keyword matching
     detected_topic = 'general'
     for topic_key in unit_topics.keys():
+        topic_title = unit_topics[topic_key]['title'].lower()
         topic_keywords = topic_key.lower()
-        topic_title_words = unit_topics[topic_key]['title'].lower().split()
         
-        if topic_keywords in msg or any(word in msg for word in topic_title_words[:2]):
+        # Check for various patterns
+        patterns = [
+            topic_keywords in msg,
+            any(word in msg for word in topic_title.split()[:3]),  # First 3 words of title
+            any(keyword in msg for keyword in [
+                'native american', 'indigenous', 'pre-columbian', 'cahokia',
+                'european', 'spanish', 'colonization', 'encomienda',
+                'columbian exchange', 'biological', 'cultural exchange',
+                'exploration', 'motivations', 'gold god glory'
+            ])
+        ]
+        
+        # Map common phrases to topics
+        topic_mappings = {
+            'precolumbiansocieties': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian'],
+            'europeanmotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious'],
+            'spanishcolonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver'],
+            'columbianexchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals'],
+            'earlyenglish': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco']
+        }
+        
+        if topic_key in topic_mappings:
+            if any(phrase in msg for phrase in topic_mappings[topic_key]):
+                detected_topic = topic_key
+                break
+        elif any(patterns):
             detected_topic = topic_key
             break
     
@@ -2195,37 +2220,46 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             'progress_update': {'general': {'introduced': True, 'concepts_learned': sample_concepts}}
         }
         
-    # Handle overview/explanation requests
-    if any(phrase in msg for phrase in ["what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "tell me about", "overview"]):
-        overview = study_content.get('overview', f"Here's an overview of {unit}:")
-        
-        # Get key concepts from first few sections
-        introduced_concepts = []
-        progress_update = {}
-        
-        for section_key, section_data in list(unit_topics.items())[:3]:  # First 3 sections
-            concepts = section_data.get('key_concepts', [])[:2]  # First 2 concepts per section
-            introduced_concepts.extend(concepts)
-            progress_update[section_key] = {'introduced': True, 'concepts_learned': concepts}
-        
-        return {
-            'response': f"{overview} Which part would you like to dive deeper into?",
-            'topic': 'general',
-            'concepts_introduced': introduced_concepts,
-            'progress_update': progress_update
-        }
+    # Handle direct information requests - be more informative, less Socratic
+    if any(phrase in msg for phrase in ["tell me about", "what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "overview"]):
+        if detected_topic in unit_topics:
+            topic_data = unit_topics[detected_topic]
+            key_concepts = topic_data['key_concepts'][:4]  # More concepts
+            
+            # Create informative response with some guidance
+            concept_details = '\n• '.join(key_concepts)
+            response = f"**{topic_data['title']}**\n\nKey information:\n• {concept_details}\n\nWhat aspect would you like to explore further?"
+            
+            return {
+                'response': response,
+                'topic': detected_topic,
+                'source': 'enhanced_socratic_system',
+                'concepts_introduced': key_concepts,
+                'progress_update': {detected_topic: {'introduced': True, 'concepts_learned': key_concepts}}
+            }
+        else:
+            # General overview
+            overview = study_content.get('overview', f"Unit {unit} covers the period from 1491-1607.")
+            return {
+                'response': f"{overview}\n\nMain topics you can explore:\n" + "\n".join([f"• {data['title']}" for data in unit_topics.values()]),
+                'topic': 'general',
+                'source': 'enhanced_socratic_system',
+                'concepts_introduced': [],
+                'progress_update': {'general': {'introduced': True}}
+            }
     
-    # Topic-specific intelligent responses
+    # Topic-specific intelligent responses - more informative approach
     if detected_topic in unit_topics:
         topic_data = unit_topics[detected_topic]
         user_progress = analyze_user_progress(user_input, detected_topic, conversation_history)
         
-        # Beginner level - introduce core concepts
+        # Always provide information first, then guide
+        key_concepts = topic_data['key_concepts'][:4]
+        concept_details = '\n• '.join(key_concepts)
+        
         if not user_progress['practiced']:
-            key_concepts = topic_data['key_concepts'][:3]  # First 3 concepts
-            concept_text = ', '.join(key_concepts)
-            
-            response = f"Great question about {topic_data['title']}! Key facts: {concept_text}. What questions do you have about these developments?"
+            # Beginner: Give solid information with gentle guidance
+            response = f"**{topic_data['title']}**\n\nHere's what you should know:\n• {concept_details}\n\nWhich of these points interests you most, or do you have questions about any of them?"
                     
             return {
                 'response': response,
@@ -2235,9 +2269,9 @@ def get_socratic_response(user_input, course, unit, conversation_history):
                 'progress_update': {detected_topic: {'introduced': True, 'practiced': True, 'concepts_learned': key_concepts}}
             }
         
-        # Advanced level - push for deeper analysis
         elif user_progress['practiced'] and not user_progress['mastered']:
-            response = f"You're developing good knowledge of {topic_data['title']}! Now let's think critically: Can you analyze the broader significance and long-term consequences of these developments?"
+            # Intermediate: Build on knowledge with deeper questions
+            response = f"You're learning about **{topic_data['title']}** well! Building on what we've discussed:\n\n• {concept_details}\n\nNow think deeper: How do these factors connect to create lasting historical change? What were the most significant impacts?"
                     
             return {
                 'response': response,
@@ -2247,32 +2281,30 @@ def get_socratic_response(user_input, course, unit, conversation_history):
                 'progress_update': {detected_topic: {'practiced': True, 'advanced_thinking': True}}
             }
         
-        # Mastery level - synthesis and assessment readiness
-        elif user_progress['mastered']:
-            mastery_response = f"Outstanding mastery of {topic_data['title']}! You've demonstrated deep understanding of {len(user_progress['concepts_mentioned'])} key concepts. You're ready for assessment questions on this topic!"
+        else:
+            # Advanced: Synthesis and critical analysis
+            response = f"Excellent grasp of **{topic_data['title']}**! You understand: {', '.join(user_progress['concepts_mentioned'][:3])}.\n\nFor mastery: Compare this topic's long-term consequences to other historical periods. How might different groups have experienced these events differently?"
             
             return {
-                'response': mastery_response,
+                'response': response,
                 'topic': detected_topic,
                 'source': 'enhanced_socratic_system',
                 'concepts_introduced': [],
                 'progress_update': {detected_topic: {'mastered': True, 'ready_for_assessment': True}}
             }
     
-    # General Socratic questions for non-topic-specific input
-    socratic_questions = [
-        f"What evidence supports that idea? Can you think of specific examples from {unit}?",
-        f"How does this connect to what we know about this time period? What patterns do you notice?",
-        "What do you think were the most important causes? Can you rank them by significance?",
-        "If you were in that situation, what factors would influence your decisions?",
-        "How might different groups have experienced this differently?",
-        "What questions does this raise for you? What would you want to investigate further?",
-        "Can you compare this to other historical events? What similarities and differences do you notice?"
+    # Helpful responses for unclear input - provide guidance rather than pure Socratic questions
+    helpful_responses = [
+        f"I'd love to help you with {unit}! Could you be more specific? For example: 'Tell me about European motivations' or 'What was the Columbian Exchange?'",
+        f"What specific aspect of {unit} interests you? I can explain topics like Native American societies, Spanish colonization, or early exploration.",
+        f"Let me know what you'd like to learn about! I can discuss any topic from {unit} - just ask 'Tell me about [topic name]'.",
+        f"I'm here to help you understand {unit}! Try asking about specific events, people, or concepts you want to explore.",
+        f"What would you like to focus on from {unit}? I can provide detailed information on any topic you're curious about."
     ]
     
     import random
     return {
-        'response': random.choice(socratic_questions),
+        'response': random.choice(helpful_responses),
         'topic': 'general',
         'source': 'enhanced_socratic_system',
         'concepts_introduced': [],
