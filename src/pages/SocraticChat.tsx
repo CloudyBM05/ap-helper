@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Send, ArrowLeft, Bot, User, RotateCcw } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { sessionManager } from '../utils/sessionManager';
 import { APUSH_UNIT1_CONTENT } from '../utils/apushContent';
 import { userMemoryManager, ConversationMemory } from '../utils/userMemory';
@@ -924,7 +925,27 @@ const SocraticChat = () => {
                     : 'bg-white text-slate-900 rounded-bl-sm shadow-sm border'
                 }`}
               >
-                <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                <div className="whitespace-pre-wrap leading-relaxed">
+                  {message.sender === 'ai' ? (
+                    <ReactMarkdown 
+                      components={{
+                        // Customize how different markdown elements are rendered
+                        strong: ({...props}) => <strong className="font-semibold text-slate-900" {...props} />,
+                        em: ({...props}) => <em className="italic" {...props} />,
+                        ul: ({...props}) => <ul className="list-disc list-inside space-y-1 my-2" {...props} />,
+                        ol: ({...props}) => <ol className="list-decimal list-inside space-y-1 my-2" {...props} />,
+                        li: ({...props}) => <li className="ml-2" {...props} />,
+                        p: ({...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                        h3: ({...props}) => <h3 className="font-semibold text-lg mb-2" {...props} />,
+                        h4: ({...props}) => <h4 className="font-semibold text-base mb-1" {...props} />
+                      }}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
+                  ) : (
+                    <p>{message.content}</p>
+                  )}
+                </div>
                 <p className={`text-xs mt-1 opacity-75 ${
                   message.sender === 'user' ? 'text-blue-100' : 'text-slate-500'
                 }`}>

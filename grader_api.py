@@ -2212,19 +2212,26 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     # Debug logging for topic detection
     print(f"DEBUG Topic Detection: message='{msg}', detected_topic='{detected_topic}', score={best_match_score}")
     
-    # Handle complete beginner requests
-    if any(phrase in msg for phrase in ["dont know", "don't know", "no idea", "never heard", "completely lost", "nothing", "confused", "lost"]):
-        # Get overview from study content
-        overview = study_content.get('overview', f"Let's start with {unit}!")
-        first_section = list(unit_topics.values())[0] if unit_topics else {}
-        sample_concepts = first_section.get('key_concepts', [])[:3] if first_section else []
-        
-        return {
-            'response': f"No worries! Let's start with the big picture. {overview} What aspect interests you most?",
-            'topic': 'general',
-            'concepts_introduced': sample_concepts,
-            'progress_update': {'general': {'introduced': True, 'concepts_learned': sample_concepts}}
-        }
+    # Handle confusion and requests for clarification
+    confusion_phrases = ["not sure", "don't know what", "confused", "don't understand", "what are you talking about", "referring to"]
+    if any(phrase in msg for phrase in confusion_phrases):
+        # User is confused - provide clear, simple explanation
+        if 'unit1' in unit.lower():
+            return {
+                'response': f"Sorry for the confusion! We're studying the period 1491-1607 in American history. This covers when Native Americans first met Europeans (like Columbus and Spanish explorers). \n\nWould you like to start with something simple, like: What life was like for Native Americans before Europeans arrived? Or how Europeans first came to America?",
+                'topic': 'general',
+                'source': 'enhanced_socratic_system',
+                'concepts_introduced': [],
+                'progress_update': {'general': {'clarified': True}}
+            }
+        else:
+            return {
+                'response': f"No worries! I'm here to help you learn about {unit}. Think of me as your study buddy. What would you like to know about? I can explain anything in simple terms.",
+                'topic': 'general', 
+                'source': 'enhanced_socratic_system',
+                'concepts_introduced': [],
+                'progress_update': {}
+            }
         
     # Handle direct information requests - be more informative, less Socratic
     if any(phrase in msg for phrase in ["tell me about", "what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "overview"]):
@@ -2264,8 +2271,20 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         concept_details = '\n• '.join(key_concepts)
         
         if not user_progress['practiced']:
-            # Beginner: Give solid information with gentle guidance
-            response = f"**{topic_data['title']}**\n\nHere's what you should know:\n• {concept_details}\n\nWhich of these points interests you most, or do you have questions about any of them?"
+            # Beginner: Natural, conversational response
+            key_concepts_simple = [concept.split(':')[1].strip() if ':' in concept else concept for concept in key_concepts]
+            
+            if detected_topic == 'european_tech':
+                response = f"Great! European explorers had some big advantages that helped them travel across oceans and conquer new lands. They had steel weapons, horses (which Native Americans had never seen!), gunpowder, and ships that could sail long distances. \n\nWhat interests you most - their weapons, their ships, or something else?"
+            elif detected_topic == 'cahokia_details':
+                response = f"Awesome! So before Europeans arrived, there were already amazing Native American cities. Cahokia was HUGE - bigger than London at the time! It had over 10,000 people, giant earthen mounds, and sophisticated farming. \n\nWant to know more about their city planning or their farming techniques?"
+            elif detected_topic == 'disease_impact':
+                response = f"This is one of the most tragic parts of history. When Europeans came to America, they accidentally brought diseases like smallpox. Native Americans had never been exposed to these diseases, so they had no immunity. Around 90% of the Native population died from disease - it was devastating. \n\nWhat would you like to understand about this - why Native Americans were so vulnerable, or how it changed everything?"
+            elif detected_topic == 'encomienda_system':
+                response = f"So the Spanish created this system called encomienda to control Native American labor. Basically, Spanish colonists were given control over Native communities and could force them to work and pay tribute. It was pretty brutal and exploitative. \n\nWant to learn more about how it worked or what it was like for Native Americans?"
+            else:
+                # Fallback for other topics
+                response = f"Let me tell you about {topic_data['title'].lower()}! " + key_concepts_simple[0] + f" \n\nWhat specifically would you like to know more about?"
                     
             return {
                 'response': response,
@@ -2299,18 +2318,18 @@ def get_socratic_response(user_input, course, unit, conversation_history):
                 'progress_update': {detected_topic: {'mastered': True, 'ready_for_assessment': True}}
             }
     
-    # Helpful responses for unclear input - provide guidance rather than pure Socratic questions
-    helpful_responses = [
-        f"I'd love to help you with {unit}! Could you be more specific? For example: 'Tell me about European motivations' or 'What was the Columbian Exchange?'",
-        f"What specific aspect of {unit} interests you? I can explain topics like Native American societies, Spanish colonization, or early exploration.",
-        f"Let me know what you'd like to learn about! I can discuss any topic from {unit} - just ask 'Tell me about [topic name]'.",
-        f"I'm here to help you understand {unit}! Try asking about specific events, people, or concepts you want to explore.",
-        f"What would you like to focus on from {unit}? I can provide detailed information on any topic you're curious about."
+    # Natural responses for unclear input
+    natural_responses = [
+        f"I'd love to help you learn about this period! What specifically are you curious about? You can ask about Native Americans, European explorers, or anything else from 1491-1607.",
+        f"What sounds interesting to you? I can tell you about Native American civilizations, how Europeans got to America, or the impact when they met.",
+        f"No worries! Just ask me about anything from this time period. Like 'What were Native Americans like?' or 'Why did Europeans come to America?'",
+        f"I'm here to help you understand this history! What would you like to learn about? Just ask in your own words.",
+        f"Let me know what catches your interest! I can explain any topic from this era in a way that makes sense."
     ]
     
     import random
     return {
-        'response': random.choice(helpful_responses),
+        'response': random.choice(natural_responses),
         'topic': 'general',
         'source': 'enhanced_socratic_system',
         'concepts_introduced': [],
