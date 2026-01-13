@@ -2075,7 +2075,7 @@ Previous conversation: {str(conversation_history[-3:]) if conversation_history e
 
 Respond with a Socratic question or guided discussion that helps the student explore the topic deeper. Keep responses under 150 words."""
 
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.0-pro')
         response = model.generate_content(context)
         
         if response and response.text:
@@ -2088,6 +2088,13 @@ Respond with a Socratic question or guided discussion that helps the student exp
             }
     except Exception as e:
         print(f"Gemini API error: {e}")
+        # Try to list available models for debugging
+        try:
+            for model in genai.list_models():
+                if 'generateContent' in model.supported_generation_methods:
+                    print(f"Available Gemini model: {model.name}")
+        except:
+            pass
         # Fall back to traditional responses
         pass
     
