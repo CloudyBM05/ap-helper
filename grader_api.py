@@ -1736,7 +1736,7 @@ def load_study_guide_content(unit, course=None):
     "https://www.aphelper.tech",
     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
 ], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
-def get_unit_topics():
+def get_unit_topics_api():
     course = request.args.get("course")
     unit = request.args.get("unit")
     
