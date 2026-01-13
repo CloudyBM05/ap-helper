@@ -2075,7 +2075,7 @@ Previous conversation: {str(conversation_history[-3:]) if conversation_history e
 
 Respond with a Socratic question or guided discussion that helps the student explore the topic deeper. Keep responses under 150 words."""
 
-        model = genai.GenerativeModel('gemini-1.0-pro')
+        model = genai.GenerativeModel('gemini-3-flash-preview')
         response = model.generate_content(context)
         
         if response and response.text:
