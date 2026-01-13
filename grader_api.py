@@ -2183,11 +2183,12 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         
         # Enhanced topic mappings with more comprehensive keywords
         topic_mappings = {
-            'nativeAmericans': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies', 'pre-contact'],
-            'europeanMotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations', 'european', 'explorer', 'colonizer', 'coloniser', 'conquistador', 'discover', 'journey', 'expedition'],
-            'spanishColonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism', 'spain', 'cortez', 'pizarro'],
-            'columbianExchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange', 'biological exchange', 'disease exchange'],
-            'earlyEnglishColonization': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco', 'english colonization', 'england', 'british']
+            'cahokia_details': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies', 'pre-contact', 'civilization'],
+            'tenochtitlan_details': ['aztec', 'tenochtitlan', 'empire', 'chinampas', 'floating gardens', 'mesoamerican'],
+            'three_sisters': ['three sisters', 'corn', 'beans', 'squash', 'native agriculture', 'farming'],
+            'european_tech': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations', 'european', 'explorer', 'colonizer', 'coloniser', 'conquistador', 'discover', 'journey', 'expedition', 'steel', 'horses', 'guns', 'navigation'],
+            'disease_impact': ['disease', 'smallpox', 'measles', 'immunity', 'demographic', 'population decline', 'epidemic', 'biological exchange'],
+            'encomienda_system': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism', 'spain', 'cortez', 'pizarro', 'labor system', 'tribute']
         }
         
         # Score matches based on keyword presence
