@@ -2237,11 +2237,20 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     if any(phrase in msg for phrase in ["tell me about", "what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "overview"]):
         if detected_topic in unit_topics:
             topic_data = unit_topics[detected_topic]
-            key_concepts = topic_data['key_concepts'][:4]  # More concepts
+            key_concepts = topic_data['key_concepts'][:3]  
             
-            # Create informative response with some guidance
-            concept_details = '\n• '.join(key_concepts)
-            response = f"**{topic_data['title']}**\n\nKey information:\n• {concept_details}\n\nWhat aspect would you like to explore further?"
+            if detected_topic == 'european_tech':
+                response = f"European explorers had some major advantages that let them sail across oceans and conquer new lands! They had steel weapons and armor (way stronger than stone or wood), horses (Native Americans had never seen these!), gunpowder weapons like cannons, and advanced ships with navigation tools. \n\nWhat interests you more - their weapons and technology, or how they used these to explore?"
+            elif detected_topic == 'cahokia_details':
+                response = f"Cahokia was this incredible Native American city that existed way before Europeans arrived! At its peak around 1100 CE, it had 10,000-20,000 people - that was actually bigger than London at the time. They built these massive earthen mounds and had sophisticated farming. \n\nWant to know more about their city planning or how they grew so large?"
+            elif detected_topic == 'disease_impact':
+                response = f"The disease impact was absolutely devastating. When Europeans came to America, they brought diseases like smallpox that Native Americans had never been exposed to. Since they had no immunity, around 90% of the Native population died. It completely changed the Americas. \n\nWhat would you like to understand - why Native Americans were so vulnerable, or how this changed everything that happened after?"
+            elif detected_topic == 'encomienda_system':
+                response = f"The Spanish created this labor system called encomienda where Spanish colonists got control over Native communities. The Spanish could force them to work and pay tribute. It was brutal and exploitative - basically legal slavery. \n\nWant to learn more about how it worked day-to-day, or its long-term impact?"
+            else:
+                # Natural fallback for other topics
+                concept_summary = key_concepts[0].split(':')[1].strip() if ':' in key_concepts[0] else key_concepts[0]
+                response = f"Great question about {topic_data['title'].lower()}! {concept_summary} \n\nWhat specifically interests you about this topic?"
             
             return {
                 'response': response,
@@ -2251,10 +2260,12 @@ def get_socratic_response(user_input, course, unit, conversation_history):
                 'progress_update': {detected_topic: {'introduced': True, 'concepts_learned': key_concepts}}
             }
         else:
-            # General overview
+            # General overview with natural language
             overview = study_content.get('overview', f"Unit {unit} covers the period from 1491-1607.")
+            topics_list = [f"{data['title']}" for data in unit_topics.values()][:3]
+            
             return {
-                'response': f"{overview}\n\nMain topics you can explore:\n" + "\n".join([f"• {data['title']}" for data in unit_topics.values()]),
+                'response': f"Unit 1 is all about the period 1491-1607 when Native Americans and Europeans first met! \n\nThe main things we study are: {', '.join(topics_list[:-1])}, and {topics_list[-1] if topics_list else ''}. \n\nWhat sounds most interesting to you?",
                 'topic': 'general',
                 'source': 'enhanced_socratic_system',
                 'concepts_introduced': [],
