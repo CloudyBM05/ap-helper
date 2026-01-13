@@ -925,25 +925,25 @@ const SocraticChat = () => {
                     : 'bg-white text-slate-900 rounded-bl-sm shadow-sm border'
                 }`}
               >
-                <div className="whitespace-pre-wrap leading-relaxed">
+                <div className="leading-relaxed">
                   {message.sender === 'ai' ? (
                     <ReactMarkdown 
                       components={{
-                        // Customize how different markdown elements are rendered
-                        strong: ({...props}) => <strong className="font-semibold text-slate-900" {...props} />,
+                        // Customize how different markdown elements are rendered with explicit styling
+                        strong: ({...props}) => <strong style={{ fontWeight: 'bold', color: '#1e293b' }} className="font-extrabold" {...props} />,
                         em: ({...props}) => <em className="italic" {...props} />,
                         ul: ({...props}) => <ul className="list-disc list-inside space-y-1 my-2" {...props} />,
                         ol: ({...props}) => <ol className="list-decimal list-inside space-y-1 my-2" {...props} />,
                         li: ({...props}) => <li className="ml-2" {...props} />,
                         p: ({...props}) => <p className="mb-2 last:mb-0" {...props} />,
-                        h3: ({...props}) => <h3 className="font-semibold text-lg mb-2" {...props} />,
-                        h4: ({...props}) => <h4 className="font-semibold text-base mb-1" {...props} />
+                        h3: ({...props}) => <h3 style={{ fontWeight: 'bold' }} className="font-extrabold text-lg mb-2" {...props} />,
+                        h4: ({...props}) => <h4 style={{ fontWeight: 'bold' }} className="font-extrabold text-base mb-1" {...props} />
                       }}
                     >
                       {message.content}
                     </ReactMarkdown>
                   ) : (
-                    <p>{message.content}</p>
+                    <p className="whitespace-pre-wrap">{message.content}</p>
                   )}
                 </div>
                 <p className={`text-xs mt-1 opacity-75 ${
