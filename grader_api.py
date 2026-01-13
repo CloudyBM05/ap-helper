@@ -2190,13 +2190,13 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             ])
         ]
         
-        # Map common phrases to topics - expanded mapping
+        # Map common phrases to topics - use actual topic keys from study guide
         topic_mappings = {
-            'precolumbiansocieties': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture'],
-            'europeanmotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages'],
-            'spanishcolonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact'],
-            'columbianexchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange'],
-            'earlyenglish': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco']
+            'nativeAmericans': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies'],
+            'europeanMotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations'],
+            'spanishColonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism'],
+            'columbianExchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange', 'biological exchange'],
+            'earlyEnglishColonization': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco', 'english colonization']
         }
         
         if topic_key in topic_mappings:
