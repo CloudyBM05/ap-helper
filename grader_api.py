@@ -2172,40 +2172,44 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             'total_concepts': total_concepts
         }
     
-    # Improved topic detection - more flexible keyword matching
+    # Improved topic detection - more flexible keyword matching with better prioritization
     detected_topic = 'general'
+    best_match_score = 0
+    
     for topic_key in unit_topics.keys():
         topic_title = unit_topics[topic_key]['title'].lower()
         topic_keywords = topic_key.lower()
+        match_score = 0
         
-        # Check for various patterns
-        patterns = [
-            topic_keywords in msg,
-            any(word in msg for word in topic_title.split()[:3]),  # First 3 words of title
-            any(keyword in msg for keyword in [
-                'native american', 'indigenous', 'pre-columbian', 'cahokia',
-                'european', 'spanish', 'colonization', 'encomienda',
-                'columbian exchange', 'biological', 'cultural exchange',
-                'exploration', 'motivations', 'gold god glory'
-            ])
-        ]
-        
-        # Map common phrases to topics - use actual topic keys from study guide
+        # Enhanced topic mappings with more comprehensive keywords
         topic_mappings = {
-            'nativeAmericans': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies'],
-            'europeanMotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations'],
-            'spanishColonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism'],
-            'columbianExchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange', 'biological exchange'],
-            'earlyEnglishColonization': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco', 'english colonization']
+            'nativeAmericans': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies', 'pre-contact'],
+            'europeanMotivations': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations', 'european', 'explorer', 'colonizer', 'coloniser', 'conquistador', 'discover', 'journey', 'expedition'],
+            'spanishColonization': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism', 'spain', 'cortez', 'pizarro'],
+            'columbianExchange': ['columbian exchange', 'biological', 'disease', 'smallpox', 'crops', 'animals', 'exchange', 'biological exchange', 'disease exchange'],
+            'earlyEnglishColonization': ['english', 'jamestown', 'roanoke', 'virginia company', 'tobacco', 'english colonization', 'england', 'british']
         }
         
+        # Score matches based on keyword presence
         if topic_key in topic_mappings:
-            if any(phrase in msg for phrase in topic_mappings[topic_key]):
-                detected_topic = topic_key
-                break
-        elif any(patterns):
+            for phrase in topic_mappings[topic_key]:
+                if phrase in msg:
+                    # Give higher scores for more specific matches
+                    match_score += len(phrase.split()) * 2  # Multi-word phrases get higher scores
+        
+        # Also check topic title words
+        title_words = topic_title.split()
+        for word in title_words:
+            if word in msg:
+                match_score += 1
+        
+        # Update best match if this score is higher
+        if match_score > best_match_score:
+            best_match_score = match_score
             detected_topic = topic_key
-            break
+    
+    # Debug logging for topic detection
+    print(f"DEBUG Topic Detection: message='{msg}', detected_topic='{detected_topic}', score={best_match_score}")
     
     # Handle complete beginner requests
     if any(phrase in msg for phrase in ["dont know", "don't know", "no idea", "never heard", "completely lost", "nothing", "confused", "lost"]):

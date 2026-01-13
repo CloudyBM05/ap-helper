@@ -13,8 +13,8 @@ def test_firebase_config():
     print("🔍 Testing Firebase Authentication...")
     print("=" * 50)
     
-    # Test the live site
-    base_url = "https://cloudybm05.github.io/ap-helper/"
+    # Test the live site (custom domain)
+    base_url = "https://aphelper.tech/"
     
     # 1. Test if main site loads
     print("\n1. Testing main site accessibility...")
