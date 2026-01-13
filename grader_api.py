@@ -1991,8 +1991,18 @@ def socratic_chat_send():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        # Use the standalone enhanced Socratic response function
-        socratic_data = get_socratic_response(message, course, unit, conversation_history)
+        # Check if this is an advanced question that could benefit from Gemini
+        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences']
+        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) and len(conversation_history) >= 2
+        
+        # Try Gemini for advanced questions when available
+        socratic_data = None
+        if is_advanced_question:
+            socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
+        
+        # Fall back to traditional Socratic response if Gemini not available or for basic questions
+        if not socratic_data:
+            socratic_data = get_socratic_response(message, course, unit, conversation_history)
         
         # Update and save user progress 
         progress_data = load_user_progress()
@@ -2041,6 +2051,47 @@ def socratic_chat_send():
             "source": "error_fallback",
             "timestamp": datetime.now(timezone.utc).isoformat()
         }), 500
+
+# Gemini-enhanced Socratic response function
+def get_gemini_socratic_response(user_input, course, unit, conversation_history):
+    """Use Gemini API for sophisticated Socratic responses when available"""
+    if not GEMINI_API_KEY:
+        return None
+        
+    try:
+        # Build context for Gemini
+        context = f"""You are an expert Socratic tutor for {course.upper()} {unit.upper()}. 
+
+Your teaching philosophy:
+- Ask thoughtful questions rather than giving direct answers
+- Guide students to discover knowledge themselves
+- Build on their existing knowledge
+- Use historical evidence and examples
+- Encourage critical thinking
+
+Student's message: "{user_input}"
+
+Previous conversation: {str(conversation_history[-3:]) if conversation_history else 'No previous conversation'}
+
+Respond with a Socratic question or guided discussion that helps the student explore the topic deeper. Keep responses under 150 words."""
+
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(context)
+        
+        if response and response.text:
+            return {
+                'response': response.text.strip(),
+                'source': 'gemini_ai',
+                'topic': 'advanced_discussion',
+                'concepts_introduced': [],
+                'progress_update': {}
+            }
+    except Exception as e:
+        print(f"Gemini API error: {e}")
+        # Fall back to traditional responses
+        pass
+    
+    return None
 
 # Enhanced Socratic tutoring system with all APUSH units support
 def get_socratic_response(user_input, course, unit, conversation_history):
