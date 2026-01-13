@@ -2720,15 +2720,53 @@ def get_unit_topics():
             if "unit " in unit:
                 unit = unit.replace(" ", "")
         
-        # Load study guide content for the specific unit
+        # First try to load study guide content
         study_content = load_study_guide_content(unit, course)
         
-        if not study_content or 'sections' not in study_content:
+        # If no study guide content, generate topics from Socratic AI course context
+        if not study_content or 'sections' not in study_content or len(study_content.get('sections', {})) == 0:
+            # Use the same comprehensive content that Socratic AI uses
+            course_context = get_course_context(course, unit)
+            
+            # Generate topics from course context
+            topics = []
+            main_concepts = course_context.get('main_concepts', [])
+            overview = course_context.get('overview', 'Comprehensive study content for this unit.')
+            
+            # Create topic entries from main concepts
+            for i, concept in enumerate(main_concepts, 1):
+                topics.append({
+                    'key': concept.replace(' ', '_').lower(),
+                    'title': concept.replace('_', ' ').title(),
+                    'keyFacts': [
+                        f"Key concept in {course_context.get('title', 'this unit')}",
+                        "Covered comprehensively in Socratic AI chat",
+                        "Ask questions to explore this topic in depth",
+                        "Context-aware explanations available"
+                    ]
+                })
+            
+            # If no main concepts, create a default topic
+            if not topics:
+                topics.append({
+                    'key': 'comprehensive_content',
+                    'title': 'Comprehensive Unit Content',
+                    'keyFacts': [
+                        "All unit topics available through Socratic AI",
+                        "Context-aware tutoring system",
+                        "Ask any question about this unit",
+                        "Dynamic content generation"
+                    ]
+                })
+            
             return jsonify({
-                "error": f"No content found for unit: {unit}"
-            }), 404
+                "unit": unit,
+                "course": course,
+                "overview": overview,
+                "topics": topics
+            })
         
-        # Convert sections to topic list
+        # Convert study guide sections to topic list
         topics = []
         for section_key, section_data in study_content['sections'].items():
             topics.append({

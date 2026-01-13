@@ -118,26 +118,7 @@ const SocraticChat = () => {
       }
 
       const data: UnitTopicsData = await response.json();
-      
-      // For Socratic AI system, we don't need server-provided topics
-      // The AI generates content dynamically based on course and unit
-      if (!data.topics || data.topics.length === 0) {
-        // Provide fallback content to indicate Socratic AI is ready
-        setUnitTopics([
-          {
-            key: 'socratic_ready',
-            title: 'Dynamic AI Content Ready',
-            keyFacts: [
-              'Conversational learning available',
-              'Context-aware responses',
-              'Socratic questioning method',
-              'All topics covered dynamically'
-            ]
-          }
-        ]);
-      } else {
-        setUnitTopics(data.topics);
-      }
+      setUnitTopics(data.topics || []);
     } catch (error) {
       console.error('Error fetching unit topics:', error);
       
@@ -150,19 +131,8 @@ const SocraticChat = () => {
         }
       }
       
-      // Set fallback content for Socratic AI - it doesn't need server topics
-      setUnitTopics([
-        {
-          key: 'socratic_ai_ready',
-          title: 'AI Tutor Available', 
-          keyFacts: [
-            'Ask questions about any topic',
-            'Get contextual explanations',
-            'Socratic learning method',
-            'Dynamic content generation'
-          ]
-        }
-      ]);
+      // Set fallback empty array on error
+      setUnitTopics([]);
     } finally {
       setTopicsLoading(false);
     }
