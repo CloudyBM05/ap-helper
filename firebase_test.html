@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Authentication Test</h1>
+    
+    <div id="firebase-status" class="status info">Initializing Firebase...</div>
+    <div id="auth-status" class="status info">Checking authentication status...</div>
+    
+    <button id="login-btn" onclick="testGoogleLogin()">Test Google Login</button>
+    <button id="logout-btn" onclick="testLogout()" style="display: none;">Logout</button>
+    
+    <div id="user-info" class="status" style="display: none;"></div>
+    <div id="error-log" class="status error" style="display: none;"></div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            signOut,
+            onAuthStateChanged 
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase configuration (same as main app)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAxrYV2R8PLLrJLHSwgcg_gkFttWtr-2Go",
+            authDomain: "ap-helper-7a6ac.firebaseapp.com",
+            projectId: "ap-helper-7a6ac",
+            storageBucket: "ap-helper-7a6ac.firebasestorage.app",
+            messagingSenderId: "947116941994",
+            appId: "1:947116941994:web:419f67156b2c9f01b466d3",
+            measurementId: "G-BWBT538YWD"
+        };
+
+        let app, auth, provider;
+        
+        try {
+            // Initialize Firebase
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            provider = new GoogleAuthProvider();
+            
+            document.getElementById('firebase-status').innerHTML = '✅ Firebase initialized successfully';
+            document.getElementById('firebase-status').className = 'status success';
+            
+            // Listen for auth state changes
+            onAuthStateChanged(auth, (user) => {
+                const authStatus = document.getElementById('auth-status');
+                const loginBtn = document.getElementById('login-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+                const userInfo = document.getElementById('user-info');
+                
+                if (user) {
+                    authStatus.innerHTML = '✅ User is logged in';
+                    authStatus.className = 'status success';
+                    
+                    userInfo.innerHTML = `
+                        <h3>User Information:</h3>
+                        <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+                        <p><strong>Display Name:</strong> ${user.displayName || 'N/A'}</p>
+                        <p><strong>UID:</strong> ${user.uid}</p>
+                        <p><strong>Photo URL:</strong> ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">` : 'N/A'}</p>
+                    `;
+                    userInfo.style.display = 'block';
+                    userInfo.className = 'status success';
+                    
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                } else {
+                    authStatus.innerHTML = '❌ No user logged in';
+                    authStatus.className = 'status info';
+                    
+                    userInfo.style.display = 'none';
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                }
+            });
+            
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+            document.getElementById('firebase-status').innerHTML = `❌ Firebase initialization failed: ${error.message}`;
+            document.getElementById('firebase-status').className = 'status error';
+            
+            const errorLog = document.getElementById('error-log');
+            errorLog.innerHTML = `<h3>Error Details:</h3><pre>${error.stack}</pre>`;
+            errorLog.style.display = 'block';
+        }
+
+        // Make functions available globally
+        window.testGoogleLogin = async function() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                console.log('Login successful:', result);
+            } catch (error) {
+                console.error('Login error:', error);
+                const errorLog = document.getElementById('error-log');
+                errorLog.innerHTML = `<h3>Login Error:</h3><p>${error.message}</p><pre>${error.stack}</pre>`;
+                errorLog.style.display = 'block';
+            }
+        };
+
+        window.testLogout = async function() {
+            try {
+                await signOut(auth);
+                console.log('Logout successful');
+                document.getElementById('error-log').style.display = 'none';
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+    </script>
+</body>
+</html>
