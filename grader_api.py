@@ -2104,270 +2104,111 @@ If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and p
     
     return None
 
-# Enhanced Socratic tutoring system with all APUSH units support
+# Conversational Socratic tutoring system - responds to what user actually says
+# Truly conversational Socratic AI that responds to user context, not rigid topic detection
 def get_socratic_response(user_input, course, unit, conversation_history):
-    """Enhanced Socratic AI that works with all APUSH units dynamically"""
+    """Conversational Socratic AI that responds to what the user actually says"""
     msg = user_input.lower()
     
-    # Normalize unit format - handle both "Unit 1" and "unit1" formats
-    if unit and isinstance(unit, str):
-        # Convert "Unit 1", "UNIT 1", "Unit1", etc. to "unit1"
-        unit = unit.lower()
-        if "unit " in unit:
-            unit = unit.replace(" ", "")
+    # Get recent conversation context for continuity
+    recent_ai_messages = []
+    recent_user_messages = []
+    for item in conversation_history[-3:]:  # Last 3 exchanges
+        if item.get('sender') == 'ai':
+            recent_ai_messages.append(item.get('content', '').lower())
+        elif item.get('sender') == 'user':
+            recent_user_messages.append(item.get('content', '').lower())
     
-    # Load study guide content for the specific unit
-    study_content = load_study_guide_content(unit, course)
-    
-    # Convert study guide content to topics format dynamically
-    unit_topics = {}
-    if study_content and 'sections' in study_content:
-        for section_key, section_data in study_content['sections'].items():
-            unit_topics[section_key] = {
-                'title': section_data.get('title', section_key.replace('_', ' ').title()),
-                'key_concepts': section_data.get('key_facts', [])
-            }
-    
-    if not unit_topics:
-        # Fallback for unrecognized units
-        return {
-            'response': f"I'm ready to help you learn about {unit}! What specific topic or question would you like to explore?",
-            'topic': 'general',
-            'source': 'enhanced_socratic_system',
-            'concepts_introduced': [],
-            'progress_update': {}
-        }
-    
-    # Analyze user's knowledge level from conversation history
-    def analyze_user_progress(user_input, topic_key, conversation_history):
-        user_messages = [msg.get('content', '') for msg in conversation_history if msg.get('sender') == 'user']
-        all_user_text = ' '.join(user_messages + [user_input]).lower()
-        
-        if topic_key not in unit_topics:
-            return {'introduced': False, 'practiced': False, 'mastered': False, 'concepts_mentioned': []}
-        
-        topic_data = unit_topics[topic_key]
-        concepts_mentioned = []
-        
-        # Check which concepts the user has mentioned
-        for concept in topic_data['key_concepts']:
-            concept_keywords = concept.lower().split()[:3]  # First 3 words as keywords
-            if any(keyword in all_user_text for keyword in concept_keywords):
-                concepts_mentioned.append(concept)
-        
-        # Determine progress level
-        num_concepts = len(concepts_mentioned)
-        total_concepts = len(topic_data['key_concepts'])
-        
-        introduced = num_concepts > 0 or any(keyword in all_user_text for keyword in [topic_key.lower(), topic_data['title'].lower().split()[0]])
-        practiced = num_concepts >= 2 and len(user_messages) >= 3
-        mastered = num_concepts >= 4 and len(user_messages) >= 6 and any(advanced_word in all_user_text for advanced_word in ['analyze', 'compare', 'evaluate', 'significance', 'impact'])
-        
-        return {
-            'introduced': introduced,
-            'practiced': practiced, 
-            'mastered': mastered,
-            'concepts_mentioned': concepts_mentioned,
-            'concept_count': num_concepts,
-            'total_concepts': total_concepts
-        }
-    
-    # Improved topic detection - more flexible keyword matching with better prioritization
-    detected_topic = 'general'
-    best_match_score = 0
-    
-    for topic_key in unit_topics.keys():
-        topic_title = unit_topics[topic_key]['title'].lower()
-        topic_keywords = topic_key.lower()
-        match_score = 0
-        
-        # Enhanced topic mappings with more comprehensive keywords
-        topic_mappings = {
-            'cahokia_details': ['native american', 'indigenous', 'pre-columbian', 'cahokia', 'pueblo', 'mississippian', 'agriculture', 'native', 'societies', 'pre-contact', 'civilization'],
-            'tenochtitlan_details': ['aztec', 'tenochtitlan', 'empire', 'chinampas', 'floating gardens', 'mesoamerican'],
-            'three_sisters': ['three sisters', 'corn', 'beans', 'squash', 'native agriculture', 'farming'],
-            'european_tech': ['european motivation', 'exploration', 'gold god glory', 'economic', 'religious', 'technological advantages', 'technology', 'advantages', 'motivations', 'european', 'explorer', 'colonizer', 'coloniser', 'conquistador', 'discover', 'journey', 'expedition', 'steel', 'horses', 'guns', 'navigation'],
-            'disease_impact': ['disease', 'smallpox', 'measles', 'immunity', 'demographic', 'population decline', 'epidemic', 'biological exchange'],
-            'encomienda_system': ['spanish', 'colonization', 'encomienda', 'conquistador', 'gold', 'silver', 'spanish colonization', 'impact', 'conquest', 'colonialism', 'spain', 'cortez', 'pizarro', 'labor system', 'tribute']
-        }
-        
-        # Score matches based on keyword presence
-        if topic_key in topic_mappings:
-            for phrase in topic_mappings[topic_key]:
-                if phrase in msg:
-                    # Give higher scores for more specific matches
-                    match_score += len(phrase.split()) * 2  # Multi-word phrases get higher scores
-        
-        # Also check topic title words
-        title_words = topic_title.split()
-        for word in title_words:
-            if word in msg:
-                match_score += 1
-        
-        # Update best match if this score is higher
-        if match_score > best_match_score:
-            best_match_score = match_score
-            detected_topic = topic_key
-    
-    # Debug logging for topic detection
-    print(f"DEBUG Topic Detection: message='{msg}', detected_topic='{detected_topic}', score={best_match_score}")
-    
-    # Handle confusion and requests for clarification with dynamic responses
-    confusion_phrases = ["not sure", "don't know what", "confused", "don't understand", "what are you talking about", "referring to"]
-    if any(phrase in msg for phrase in confusion_phrases):
-        # Generate varied, natural responses based on context
-        confusion_responses = [
-            f"**Let's start fresh!** 📚\n\nWe're studying **1491-1607** - when Native Americans and Europeans first met.\n\n**Choose what interests you:**\n• Native American societies before Europeans\n• Why Europeans came to America\n• What happened when they encountered each other",
-            f"**My bad!** Let me clarify. 🌍\n\nThis time period covers **Native American-European contact (1491-1607)**.\n\n**What sounds interesting?**\n• Life in Native American civilizations\n• European exploration and motivations\n• The impact of first contact",
-            f"**No worries!** Let's back up. ⭐\n\nWe're covering **1491-1607** - the era of first encounters.\n\n**Pick a starting point:**\n• Native American societies and cultures\n• European explorers and their goals\n• Consequences of contact between the two groups"
-        ]
-        
-        # Get conversation context to make response more relevant
-        recent_context = []
-        for msg_item in conversation_history[-3:]:  # Last 3 messages
-            if msg_item.get('sender') == 'ai' and 'content' in msg_item:
-                content = msg_item['content'].lower()
-                if 'disease' in content:
-                    recent_context.append('disease')
-                elif 'spanish' in content or 'encomienda' in content:
-                    recent_context.append('spanish')
-                elif 'european' in content:
-                    recent_context.append('european')
-                elif 'native' in content or 'indigenous' in content:
-                    recent_context.append('native')
-        
-        # Choose response based on context or random if no context
-        import random
-        if 'disease' in recent_context:
-            response = "**Sorry if that was intense!** 😅\n\nThe disease topic can be heavy. Let's explore something else from this time period.\n\n**What interests you?**\n• Native American achievements and societies\n• European exploration and technology\n• Cultural exchanges (positive aspects)"
-        elif 'spanish' in recent_context:
-            response = "**Let me slow down!** 🤔\n\nI jumped into Spanish colonization quickly. Let's restart with the basics.\n\n**What would you like to learn about?**\n• Native Americans before Europeans arrived\n• Why Europeans wanted to explore\n• The first meetings between the two groups"
-        elif 'european' in recent_context:
-            response = "**Good point!** 🌎\n\nI was focused on Europeans - but this period covers much more.\n\n**Choose your focus:**\n• Amazing Native American civilizations\n• European motivations and technology\n• How different groups experienced contact"
-        else:
-            response = random.choice(confusion_responses)
-            
-        return {
-            'response': response,
-            'topic': 'general',
-            'source': 'enhanced_socratic_system',
-            'concepts_introduced': [],
-            'progress_update': {'general': {'clarified': True}}
-        }
-        
-    # Handle direct information requests - be more informative, less Socratic
-    if any(phrase in msg for phrase in ["tell me about", "what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "overview"]):
-        if detected_topic in unit_topics:
-            topic_data = unit_topics[detected_topic]
-            key_concepts = topic_data['key_concepts'][:3]  
-            
-            if detected_topic == 'european_tech':
-                response = f"**European Technological Advantages**\n\n• **Steel weapons and armor** - Far superior to stone and wood tools\n• **Horses** - Native Americans had never seen these animals before\n• **Gunpowder weapons** - Cannons and firearms gave massive military advantage\n• **Advanced ships** - Ocean-going vessels with navigation tools\n\nWhat interests you more - their weapons and technology, or how they used these to explore?"
-            elif detected_topic == 'cahokia_details':
-                response = f"**Cahokia: Pre-Columbian American City**\n\n• **Massive population** - 10,000-20,000 people at its peak (1100 CE)\n• **Urban planning** - Larger than London at the time!\n• **Earthen mounds** - Complex ceremonial and residential structures\n• **Advanced agriculture** - Sophisticated farming techniques\n\nWant to know more about their city planning or how they grew so large?"
-            elif detected_topic == 'disease_impact':
-                response = f"**Disease Impact on Native Americans**\n\n• **No immunity** - Native Americans had never been exposed to Old World diseases\n• **Devastating mortality** - Approximately 90% of the population died\n• **Key diseases** - Smallpox, measles, typhus brought by Europeans\n• **Social collapse** - Loss of leaders, knowledge, and cultural continuity\n\nWhat would you like to understand - why Native Americans were so vulnerable, or how this changed everything that happened after?"
-            elif detected_topic == 'encomienda_system':
-                response = f"**The Encomienda System**\n\n• **Labor control** - Spanish colonists gained control over Native communities\n• **Forced tribute** - Native Americans forced to work and pay taxes\n• **Legal exploitation** - Essentially legalized slavery under Spanish law\n• **Brutal conditions** - Led to massive suffering and population decline\n\nWant to learn more about how it worked day-to-day, or its long-term impact?"
-            else:
-                # Natural fallback for other topics
-                concept_summary = key_concepts[0].split(':')[1].strip() if ':' in key_concepts[0] else key_concepts[0]
-                response = f"**{topic_data['title']}**\n\n{concept_summary}\n\nWhat specifically interests you about this topic?"
-            
+    # Handle confusion and clarification requests
+    if any(phrase in msg for phrase in ['confused', 'what are you talking about', 'not sure', "don't understand", 'idk', "don't know"]):
+        if any('disease' in ai_msg or 'population' in ai_msg for ai_msg in recent_ai_messages):
             return {
-                'response': response,
-                'topic': detected_topic,
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': key_concepts,
-                'progress_update': {detected_topic: {'introduced': True, 'concepts_learned': key_concepts}}
+                'response': "**Let me clarify the disease topic!** 💭\n\nWhen Europeans came to America, they brought diseases like smallpox. Native Americans had no immunity, so about 90% died.\n\nWhat would help you understand this better - why they had no immunity, or how this changed everything?",
+                'topic': 'disease_clarification',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['disease impact', 'immunity'],
+                'progress_update': {'disease_impact': {'clarified': True}}
             }
         else:
-            # General overview with natural language
-            overview = study_content.get('overview', f"Unit {unit} covers the period from 1491-1607.")
-            topics_list = [f"{data['title']}" for data in unit_topics.values()][:3]
-            
             return {
-                'response': f"**APUSH Unit 1: Period 1491-1607**\n\nThis unit covers the first encounters between Native Americans and Europeans!\n\n**Key Topics:**\n• {topics_list[0] if topics_list else 'Native American societies'}\n• {topics_list[1] if len(topics_list) > 1 else 'European exploration'}\n• {topics_list[2] if len(topics_list) > 2 else 'Columbian Exchange'}\n\nWhat sounds most interesting to you?",
-                'topic': 'general',
-                'source': 'enhanced_socratic_system',
+                'response': "**No worries!** 📚 We're studying **1491-1607** when Native Americans and Europeans first met.\n\n**What interests you?**\n• Native American societies\n• European exploration\n• What happened when they encountered each other",
+                'topic': 'clarification',
+                'source': 'conversational_socratic',
                 'concepts_introduced': [],
-                'progress_update': {'general': {'introduced': True}}
+                'progress_update': {}
             }
     
-    # Topic-specific intelligent responses - more informative approach
-    if detected_topic in unit_topics:
-        topic_data = unit_topics[detected_topic]
-        user_progress = analyze_user_progress(user_input, detected_topic, conversation_history)
+    # Handle requests for overview/general information
+    if any(phrase in msg for phrase in ['overview', 'what is this unit', 'tell me about this unit', 'summary', 'what this unit about', 'dive deep']):
+        return {
+            'response': "**APUSH Unit 1: 1491-1607** 🌍\n\n**Key themes:**\n• **Native American diversity** - Complex societies before Europeans\n• **The Columbian Exchange** - Massive transfer of plants, animals, diseases\n• **Spanish colonization** - Encomienda system and social hierarchies\n• **European motivations** - Gold, Glory, and God\n\nWhich of these catches your interest most? Or do you want to dive into how they all connect?",
+            'topic': 'unit_overview',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['native diversity', 'columbian exchange', 'spanish colonization', 'european motivations'],
+            'progress_update': {'unit1_overview': {'introduced': True}}
+        }
+    
+    # Respond to population/harm references (likely about disease)
+    if any(word in msg for word in ['population', 'harm', 'hurt', 'killed', 'died', 'death', 'harmed']):
+        # Check if they're building on previous disease discussion
+        discussing_disease = any('disease' in ai_msg for ai_msg in recent_ai_messages)
         
-        # Always provide information first, then guide
-        key_concepts = topic_data['key_concepts'][:4]
-        concept_details = '\n• '.join(key_concepts)
-        
-        if not user_progress['practiced']:
-            # Beginner: Natural, conversational response with markdown
-            key_concepts_simple = [concept.split(':')[1].strip() if ':' in concept else concept for concept in key_concepts]
-            
-            if detected_topic == 'european_tech':
-                response = f"**European Technological Advantages**\n\nEuropean explorers had some major advantages:\n• **Steel weapons** - Much stronger than stone or wood tools\n• **Horses** - Native Americans had never seen these!\n• **Gunpowder weapons** - Cannons and firearms\n• **Advanced ships** - Could sail long distances with navigation tools\n\nWhat interests you most - their weapons, their ships, or something else?"
-            elif detected_topic == 'cahokia_details':
-                response = f"**Cahokia: Amazing Pre-Columbian City**\n\nBefore Europeans arrived, Native Americans built incredible cities:\n• **Massive population** - Over 10,000 people (bigger than London!)\n• **Giant earthen mounds** - Complex ceremonial structures\n• **Sophisticated farming** - Advanced agricultural techniques\n• **Urban planning** - Well-organized city layout\n\nWant to know more about their city planning or their farming techniques?"
-            elif detected_topic == 'disease_impact':
-                response = f"**Disease Impact on Native Americans**\n\nThis is one of the most tragic parts of history:\n• **No immunity** - Native Americans had never been exposed to Old World diseases\n• **Devastating death toll** - Around 90% of the population died\n• **Key diseases** - Smallpox, measles, typhus\n• **Social collapse** - Loss of leaders and cultural knowledge\n\nWhat would you like to understand - why Native Americans were so vulnerable, or how it changed everything?"
-            elif detected_topic == 'encomienda_system':
-                response = f"**The Encomienda System**\n\nThe Spanish created this brutal labor system:\n• **Control over Native communities** - Spanish colonists given authority\n• **Forced labor** - Native Americans forced to work\n• **Tribute payments** - Had to pay taxes to Spanish\n• **Legalized exploitation** - Basically slavery under Spanish law\n\nWant to learn more about how it worked or what it was like for Native Americans?"
-            else:
-                # Fallback for other topics
-                response = f"**{topic_data['title']}**\n\n{key_concepts_simple[0]}\n\nWhat specifically would you like to know more about?"
-                    
+        if discussing_disease or any('columbian exchange' in ai_msg for ai_msg in recent_ai_messages):
             return {
-                'response': response,
-                'topic': detected_topic,
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': key_concepts,
-                'progress_update': {detected_topic: {'introduced': True, 'practiced': True, 'concepts_learned': key_concepts}}
+                'response': "**Exactly! It was devastating.** 😔\n\nThe disease impact was massive - about **90% of Native Americans died** from diseases like smallpox.\n\n**Think about this:** How do you think this huge population loss changed the balance of power between Native Americans and Europeans? What made it possible for small groups of Europeans to take over vast territories?",
+                'topic': 'disease_consequences',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['population decline', 'power shift'],
+                'progress_update': {'disease_impact': {'understood': True, 'analyzing_consequences': True}}
             }
-        
-        elif user_progress['practiced'] and not user_progress['mastered']:
-            # Intermediate: Build on knowledge with deeper questions
-            response = f"**{topic_data['title']} - Going Deeper**\n\nYou're learning well! Key concepts:\n\n• {concept_details}\n\n**Think deeper:** How do these factors connect to create lasting historical change? What were the most significant impacts?"
-                    
-            return {
-                'response': response,
-                'topic': detected_topic,
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': [],
-                'progress_update': {detected_topic: {'practiced': True, 'advanced_thinking': True}}
-            }
-        
         else:
-            # Advanced: Synthesis and critical analysis
-            response = f"**Excellent mastery of {topic_data['title']}!**\n\nYou understand: {', '.join(user_progress['concepts_mentioned'][:3])}\n\n**For mastery:** Compare this topic's long-term consequences to other historical periods. How might different groups have experienced these events differently?"
-            
             return {
-                'response': response,
-                'topic': detected_topic,
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': [],
-                'progress_update': {detected_topic: {'mastered': True, 'ready_for_assessment': True}}
+                'response': "**Yes, there was tremendous harm to Native populations.** 💔\n\nThe biggest factor was **disease** - when Europeans arrived, they brought smallpox, measles, and other diseases that Native Americans had never encountered.\n\n**Why do you think** Native Americans were so vulnerable to these diseases while Europeans weren't? What made this biological exchange so one-sided?",
+                'topic': 'disease_introduction',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['disease impact', 'biological exchange'],
+                'progress_update': {'disease_impact': {'introduced': True}}
             }
     
-    # Natural responses for unclear input
-    natural_responses = [
-        f"**I'm here to help!** 📖\n\nWhat specifically interests you about this period? You can ask about:\n• Native American societies\n• European exploration\n• First contact between the groups",
-        f"**What sounds interesting?** 🤔\n\n• **Native American civilizations** - Amazing societies before Europeans\n• **European explorers** - Why they came and how they got here\n• **Impact of contact** - What happened when they met",
-        f"**No worries!** Just ask me anything from this time period. 😊\n\n**Try questions like:**\n• \"What were Native Americans like?\"\n• \"Why did Europeans come to America?\"\n• \"Tell me about [any topic]\"",
-        f"**I'm here to help you understand!** ✨\n\nWhat would you like to learn about? Just ask in your own words about anything from 1491-1607.",
-        f"**Let me know what interests you!** 🌟\n\nI can explain any topic from this era in a way that makes sense. What catches your attention?"
-    ]
+    # Handle questions about Native Americans
+    if any(phrase in msg for phrase in ['native american', 'what were native americans like', 'indigenous', 'tribes', 'before europeans']):
+        return {
+            'response': "**Native Americans were incredibly diverse!** 🏛️\n\n**Before Europeans arrived:**\n• **Hundreds of different societies** - Each adapted to their environment\n• **Major cities** - Cahokia had 15,000+ people (bigger than London!)\n• **Advanced agriculture** - The \"Three Sisters\" (corn, beans, squash)\n• **Complex trade networks** - Goods traveled thousands of miles\n\n**What surprises you most** about this? Many people don't realize how advanced and varied Native societies were. What would you like to explore - their cities, farming techniques, or trade systems?",
+            'topic': 'native_societies',
+            'source': 'conversational_socratic', 
+            'concepts_introduced': ['native diversity', 'cahokia', 'three sisters', 'trade networks'],
+            'progress_update': {'native_societies': {'introduced': True}}
+        }
     
-    import random
+    # Handle European-related questions
+    if any(word in msg for word in ['european', 'spain', 'spanish', 'conquistador', 'explorer']):
+        return {
+            'response': "**Europeans came for the \"Three Gs\"** ⚔️\n\n• **Gold** - Economic motivations (wealth, trade routes)\n• **Glory** - National prestige and competition\n• **God** - Spreading Christianity\n\n**But they had major advantages:**\n• **Steel weapons** vs. stone tools\n• **Horses** - Native Americans had never seen them\n• **Gunpowder** - Cannons and firearms\n• **Diseases** - Unintentionally their biggest weapon\n\n**Which factor** do you think was most important in European success? The technology, the diseases, or something else?",
+            'topic': 'european_advantages',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['three gs', 'technological advantages', 'disease advantage'],
+            'progress_update': {'european_exploration': {'introduced': True}}
+        }
+    
+    # Handle Columbian Exchange references
+    if any(word in msg for word in ['exchange', 'columbian', 'plants', 'animals', 'crops']):
+        return {
+            'response': "**The Columbian Exchange was massive!** 🌽\n\n**From Americas to Europe:**\n• Corn (maize), potatoes, tomatoes\n• These crops revolutionized European agriculture\n• Led to population boom in Europe\n\n**From Europe to Americas:**\n• Horses, cattle, pigs\n• Changed Native hunting and transportation\n• Also brought deadly diseases\n\n**Here's a key question:** Why do you think corn and potatoes had such a huge impact on European population growth? What made these crops special?",
+            'topic': 'columbian_exchange',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['columbian exchange', 'crop transfer', 'population effects'],
+            'progress_update': {'columbian_exchange': {'introduced': True}}
+        }
+    
+    # For unclear or off-topic responses, guide gently
     return {
-        'response': random.choice(natural_responses),
-        'topic': 'general',
-        'source': 'enhanced_socratic_system',
+        'response': "**I want to make sure I understand what you're curious about!** 🤔\n\nWe're exploring 1491-1607 when Native Americans and Europeans first encountered each other.\n\n**You could ask about:**\n• \"What were Native American societies like?\"\n• \"Why did Europeans come to America?\"\n• \"How did diseases affect populations?\"\n• \"What was the Columbian Exchange?\"\n\n**Or just tell me** what aspect of this time period interests you most!",
+        'topic': 'guidance',
+        'source': 'conversational_socratic',
         'concepts_introduced': [],
         'progress_update': {}
     }
+
         
 @app.route("/api/quiz/answer", methods=["POST", "OPTIONS"])
 @cross_origin(origins=[
