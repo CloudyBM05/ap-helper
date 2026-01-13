@@ -15,12 +15,12 @@ Your Socratic AI tutor now uses Google's Gemini instead of OpenAI's ChatGPT.
 #### 1. Environment Variables for Production:
 ```bash
 # For Heroku deployment:
-heroku config:set GEMINI_API_KEY=AIzaSyDEIYeVvM4XuUtAMVAWSBx8XLf8FfVB5W8
+heroku config:set GEMINI_API_KEY=your_gemini_api_key_here
 heroku config:set NODE_ENV=production
 heroku config:set FRONTEND_URL=https://aphelper.tech
 
 # For other hosting providers, set these environment variables:
-GEMINI_API_KEY=AIzaSyDEIYeVvM4XuUtAMVAWSBx8XLf8FfVB5W8
+GEMINI_API_KEY=your_gemini_api_key_here
 NODE_ENV=production
 FRONTEND_URL=https://aphelper.tech
 ```

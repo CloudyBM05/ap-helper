@@ -13,7 +13,7 @@ cd api
 heroku create your-app-socratic-api
 
 # Set environment variables
-heroku config:set GEMINI_API_KEY=AIzaSyDEIYeVvM4XuUtAMVAWSBx8XLf8FfVB5W8
+heroku config:set GEMINI_API_KEY=your_gemini_api_key_here
 heroku config:set NODE_ENV=production
 heroku config:set FRONTEND_URL=https://aphelper.tech
 
@@ -29,14 +29,14 @@ If you want to add this to your existing aphelper.tech app:
 
 ```bash
 # Set the new environment variable in your existing app
-heroku config:set GEMINI_API_KEY=AIzaSyDEIYeVvM4XuUtAMVAWSBx8XLf8FfVB5W8 -a your-existing-app
+heroku config:set GEMINI_API_KEY=your_gemini_api_key_here -a your-existing-app
 
 # The API will be available at: https://aphelper.tech/api/
 ```
 
 ### Required Environment Variables:
 ```
-GEMINI_API_KEY=AIzaSyDEIYeVvM4XuUtAMVAWSBx8XLf8FfVB5W8
+GEMINI_API_KEY=your_gemini_api_key_here
 NODE_ENV=production
 FRONTEND_URL=https://aphelper.tech
 ```
