@@ -99,13 +99,20 @@ const SocraticChat = () => {
 
       const url = `${API_BASE}/api/unit-topics?course=${encodeURIComponent(course)}&unit=${encodeURIComponent(unit)}`;
 
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          ...getAuthHeaders()
-        }
+          ...(user ? getAuthHeaders() : {})
+        },
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -115,12 +122,22 @@ const SocraticChat = () => {
       setUnitTopics(data.topics || []);
     } catch (error) {
       console.error('Error fetching unit topics:', error);
+      
+      // Handle specific error types
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          console.warn('Request timeout - server may be slow');
+        } else if (error.message.includes('Failed to fetch')) {
+          console.warn('Network error - server may be unavailable');
+        }
+      }
+      
       // Set fallback empty array on error - this will show "Server not running" message
       setUnitTopics([]);
     } finally {
       setTopicsLoading(false);
     }
-  }, [course, unit, isAuthenticated, getAuthHeaders]);
+  }, [course, unit, user, getAuthHeaders]);
 
   // Welcome message function
   const getWelcomeMessage = (course: string, unit: string) => {
@@ -163,59 +180,67 @@ const SocraticChat = () => {
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate('/login');
-      return;
-    }
+    // Remove authentication requirement for Socratic chat
+    // if (!authLoading && !isAuthenticated) {
+    //   navigate('/login');
+    //   return;
+    // }
   }, [authLoading, isAuthenticated, navigate]);
 
   // Fetch unit topics when component loads
   useEffect(() => {
-    if (course && unit && isAuthenticated && !authLoading) {
+    if (course && unit && !authLoading) {
       fetchUnitTopics();
     }
-  }, [course, unit, isAuthenticated, authLoading, fetchUnitTopics]);
+  }, [course, unit, authLoading, fetchUnitTopics]);
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov') && unit && user) {
-      const userId = user.uid; // Use Firebase user ID
+    if ((course === 'apush' || course === 'apgov') && unit && !authLoading) {
+      // Handle authenticated users with memory system
+      if (user) {
+        const userId = user.uid; // Use Firebase user ID
 
-      // Initialize user account and memory system
-      userMemoryManager.loadUserData(userId);
-      userMemoryManager.createOrGetUser(userId);
-      
-      // Load or create conversation memory
-      let memory = userMemoryManager.loadConversationMemory(userId, course, unit);
-      if (!memory) {
-        memory = userMemoryManager.createConversationMemory(userId, course, unit);
+        // Initialize user account and memory system
+        userMemoryManager.loadUserData(userId);
+        userMemoryManager.createOrGetUser(userId);
+        
+        // Load or create conversation memory
+        let memory = userMemoryManager.loadConversationMemory(userId, course, unit);
+        if (!memory) {
+          memory = userMemoryManager.createConversationMemory(userId, course, unit);
+        }
+        setConversationMemory(memory);
+
+        // Load previous messages if they exist
+        if (memory.messages.length > 0) {
+          const loadedMessages = memory.messages.map(msg => ({
+            id: msg.id,
+            content: msg.content,
+            sender: msg.sender,
+            timestamp: msg.timestamp
+          }));
+          setMessages(loadedMessages);
+          return; // Don't show welcome message if we have previous conversation
+        }
+
+        // Start session tracking
+        sessionManager.startChatSession(userId, course, unit);
       }
-      setConversationMemory(memory);
 
-      // Load previous messages if they exist
-      if (memory.messages.length > 0) {
-        const loadedMessages = memory.messages.map(msg => ({
-          id: msg.id,
-          content: msg.content,
-          sender: msg.sender,
-          timestamp: msg.timestamp
-        }));
-        setMessages(loadedMessages);
-        return; // Don't show welcome message if we have previous conversation
+      // Show welcome message for both authenticated and unauthenticated users
+      // Only if there are no previous messages loaded
+      if (messages.length === 0) {
+        const welcomeMessage: Message = {
+          id: '1',
+          content: getWelcomeMessage(course, unit),
+          sender: 'ai',
+          timestamp: new Date()
+        };
+        setMessages([welcomeMessage]);
       }
-
-      // Start session tracking
-      sessionManager.startChatSession(userId, course, unit);
-
-      const welcomeMessage: Message = {
-        id: '1',
-        content: getWelcomeMessage(course, unit),
-        sender: 'ai',
-        timestamp: new Date()
-      };
-      setMessages([welcomeMessage]);
     }
-  }, [course, unit, user]);
+  }, [course, unit, user, authLoading, messages.length]);
 
   const sendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -311,30 +336,42 @@ const SocraticChat = () => {
       // Detect topic for better content targeting
       const detectedTopic = detectTopic(userInput);
       
-      // Update session with detected topic
-      if (!user) return "Please log in to continue your conversation.";
-      sessionManager.updateChatSession(user.uid, course!, unit!, detectedTopic);
+      // Update session with detected topic (only if user is logged in)
+      if (user) {
+        try {
+          sessionManager.updateChatSession(user.uid, course!, unit!, detectedTopic);
+        } catch (sessionError) {
+          console.warn('Session manager error (non-critical):', sessionError);
+        }
+      }
 
       // Environment-aware API URL
       const API_BASE = process.env.NODE_ENV === 'production' 
         ? 'https://ap-helper-2d9f117e9bdb.herokuapp.com'  // Use the existing Heroku app
         : 'http://127.0.0.1:8080';  // Match the Flask dev server port
 
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(`${API_BASE}/api/chat/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...getAuthHeaders()
+          ...(user ? getAuthHeaders() : {})
         },
         body: JSON.stringify({
           message: userInput,
           conversationHistory: conversationHistory,
           course: course,
           unit: unit,
-          userId: user.uid,
+          userId: user?.uid || 'anonymous',
           detectedTopic: detectedTopic
         }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -381,6 +418,17 @@ const SocraticChat = () => {
       return data.response;
     } catch (error) {
       console.error('Error calling AI API:', error);
+      
+      // Handle specific error types
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          return "I'm taking a bit longer than usual to respond. Let me try to give you a helpful answer about this topic instead.";
+        }
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          return "I'm having trouble connecting to the server right now. Please check your internet connection and try again.";
+        }
+      }
+      
       // Fallback to topic-specific Socratic questions
       return getFallbackSocraticResponse(userInput);
     }
@@ -486,23 +534,24 @@ const SocraticChat = () => {
     );
   }
 
+  // Remove login requirement - allow unauthenticated access
   // Show login required message if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">Login Required</h2>
-          <p className="text-slate-600 mb-4">Please log in to access the Socratic tutor.</p>
-          <button 
-            onClick={() => navigate('/login')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Go to Login
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div className="h-screen bg-slate-50 flex items-center justify-center">
+  //       <div className="text-center">
+  //         <h2 className="text-xl font-semibold text-slate-900 mb-2">Login Required</h2>
+  //         <p className="text-slate-600 mb-4">Please log in to access the Socratic tutor.</p>
+  //         <button 
+  //           onClick={() => navigate('/login')}
+  //           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+  //         >
+  //           Go to Login
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Restart conversation function
   const handleRestartClick = () => {

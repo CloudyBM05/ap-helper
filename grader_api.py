@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 import jwt
 from functools import wraps
 from datetime import datetime, timezone
+import google.generativeai as genai
 
 load_dotenv()
 
@@ -19,6 +20,14 @@ app = Flask(__name__)
 
 # Store your OpenAI API key securely (use environment variable in production)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+# Configure Gemini API for Socratic chat
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+    print("Gemini API configured for Socratic chat")
+else:
+    print("Warning: GEMINI_API_KEY not found - Socratic chat will use fallback responses")
 
 # Initialize Firebase Admin SDK - Make it completely optional
 FIREBASE_ENABLED = False
@@ -1715,6 +1724,247 @@ def load_study_guide_content(unit, course=None):
     except Exception as e:
         print(f"Could not load study guide content for {unit}: {e}")
         return {}
+
+# Unit Topics API endpoint for Socratic chat
+@app.route("/api/unit-topics", methods=["GET", "OPTIONS"])
+@cross_origin(origins=[
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://127.0.0.1:5173",
+    "https://cloudybm05.github.io",
+    "https://aphelper.tech",
+    "https://www.aphelper.tech",
+    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers="*")
+def get_unit_topics():
+    course = request.args.get("course")
+    unit = request.args.get("unit")
+    
+    if not course or not unit:
+        return jsonify({"error": "Course and unit parameters are required"}), 400
+    
+    try:
+        # Define topics for each course and unit
+        topics_data = {}
+        
+        if course == "apush":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apush", 
+                    "overview": "This unit covers the period when two different worlds first met. Before 1492, Native Americans had developed amazing civilizations - cities, agriculture, trade networks. Europeans were just discovering the Americas existed! This collision changed everything.",
+                    "topics": [
+                        {
+                            "key": "nativeAmericans",
+                            "title": "Pre-Columbian Native American Societies",
+                            "keyFacts": [
+                                "Diverse societies with complex political, economic, and social structures",
+                                "Major civilizations: Aztec Empire, Inca Empire, Maya civilization", 
+                                "Cahokia: Population of 10,000-20,000 (larger than London at the time)",
+                                "Tenochtitlan: Aztec capital with 200,000+ inhabitants",
+                                "Agricultural innovations: Three Sisters crops (corn, beans, squash)"
+                            ]
+                        },
+                        {
+                            "key": "europeanMotivations",
+                            "title": "European Motivations for Exploration",
+                            "keyFacts": [
+                                "God, Gold, and Glory - the three main motivations",
+                                "Economic: Desire for Asian spices, search for water route to Asia",
+                                "Religious: Spread Christianity, Counter-Reformation zeal",
+                                "Political: Nation-building, competition between European powers",
+                                "Technological advances: Improved navigation, better ships"
+                            ]
+                        },
+                        {
+                            "key": "spanishColonization", 
+                            "title": "Spanish Colonization and Conquest",
+                            "keyFacts": [
+                                "Conquistadors: Cortés conquered Aztecs (1519-1521), Pizarro conquered Incas (1532)",
+                                "Encomienda system: Forced Native American labor",
+                                "Superior technology: Horses, steel weapons, gunpowder",
+                                "Disease impact: European diseases killed about 90% of Native Americans",
+                                "Cultural assimilation and religious conversion efforts"
+                            ]
+                        },
+                        {
+                            "key": "columbianExchange",
+                            "title": "The Columbian Exchange",
+                            "keyFacts": [
+                                "Biological exchange: Crops, animals, diseases between continents",
+                                "Old World to New World: Horses, cattle, pigs, wheat, diseases",
+                                "New World to Old World: Corn, potatoes, tomatoes, tobacco",
+                                "Demographic catastrophe: Native population declined by 90%",
+                                "Environmental transformation of both worlds"
+                            ]
+                        },
+                        {
+                            "key": "earlyEnglishColonization",
+                            "title": "Early English Colonization Attempts", 
+                            "keyFacts": [
+                                "Roanoke: The 'Lost Colony' (1587) - first English attempt",
+                                "Joint-stock companies: Virginia Company founded Jamestown (1607)",
+                                "Challenges: Hostile environment, conflicts with natives, starvation",
+                                "Economic motivations: Search for gold, trade opportunities",
+                                "Competition with Spanish colonial empire"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apush",
+                    "overview": "The early republic period saw the United States establishing its identity through political, economic, and social changes. From Jeffersonian democracy to westward expansion, this era shaped modern America.",
+                    "topics": [
+                        {
+                            "key": "jeffersonianDemocracy",
+                            "title": "Jeffersonian Democracy and Republican Ideals",
+                            "keyFacts": [
+                                "Strict constitutional interpretation vs. loose interpretation",
+                                "Agrarian vision vs. industrial development",
+                                "States' rights vs. federal power",
+                                "Louisiana Purchase (1803) doubled the nation's size",
+                                "Emphasis on individual liberty and limited government"
+                            ]
+                        },
+                        {
+                            "key": "warOf1812",
+                            "title": "War of 1812 and National Identity",
+                            "keyFacts": [
+                                "Causes: British impressment, trade restrictions, War Hawks",
+                                "Key battles: Battle of New Orleans, burning of Washington D.C.",
+                                "Results: Increased nationalism, 'Era of Good Feelings'",
+                                "End of Federalist Party",
+                                "Native American resistance ended in the Northwest"
+                            ]
+                        },
+                        {
+                            "key": "marketRevolution",
+                            "title": "Market Revolution and Economic Change",
+                            "keyFacts": [
+                                "Transportation revolution: Canals, roads, railroads",
+                                "Industrial development in the Northeast", 
+                                "Agricultural commercialization in the South and West",
+                                "Rise of wage labor and factory system",
+                                "Growth of cities and urbanization"
+                            ]
+                        },
+                        {
+                            "key": "westwardExpansion",
+                            "title": "Westward Expansion and Manifest Destiny",
+                            "keyFacts": [
+                                "Indian Removal Act (1830) and Trail of Tears",
+                                "Texas annexation and Mexican-American War",
+                                "California Gold Rush (1849)",
+                                "Oregon Trail and westward migration",
+                                "Conflict over slavery in new territories"
+                            ]
+                        },
+                        {
+                            "key": "reformMovements",
+                            "title": "Reform Movements and Social Change",
+                            "keyFacts": [
+                                "Second Great Awakening and religious revival",
+                                "Abolitionist movement: Garrison, Douglass, Underground Railroad",
+                                "Women's rights: Seneca Falls Convention (1848)",
+                                "Temperance movement against alcohol consumption",
+                                "Educational reform and public school movement"
+                            ]
+                        }
+                    ]
+                }
+                # Add more APUSH units as needed
+            }
+        elif course == "apgov":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1", 
+                    "course": "apgov",
+                    "overview": "The foundations of American democracy, from Enlightenment ideals through the Constitution and Bill of Rights. This unit explores how the founders designed a system of limited government with checks and balances.",
+                    "topics": [
+                        {
+                            "key": "enlightenmentIdeals",
+                            "title": "Enlightenment Ideals and Democratic Theory",
+                            "keyFacts": [
+                                "Natural rights: Life, liberty, and property (Locke)",
+                                "Social contract theory and consent of the governed", 
+                                "Separation of powers (Montesquieu)",
+                                "Popular sovereignty and majority rule",
+                                "Individual rights vs. government power"
+                            ]
+                        },
+                        {
+                            "key": "articlesOfConfederation",
+                            "title": "Articles of Confederation and Early Challenges",
+                            "keyFacts": [
+                                "Weak central government by design",
+                                "No executive branch or federal court system",
+                                "Difficulty raising revenue and regulating commerce",
+                                "Shays' Rebellion highlighted weaknesses", 
+                                "Need for stronger union became apparent"
+                            ]
+                        },
+                        {
+                            "key": "constitutionalConvention",
+                            "title": "Constitutional Convention and Compromises",
+                            "keyFacts": [
+                                "Great Compromise: Bicameral legislature",
+                                "Three-Fifths Compromise on slavery representation",
+                                "Electoral College system for president",
+                                "Federalists vs. Anti-Federalists debate",
+                                "Ratification process and The Federalist Papers"
+                            ]
+                        },
+                        {
+                            "key": "federalism",
+                            "title": "Federalism and Division of Powers",
+                            "keyFacts": [
+                                "Enumerated, implied, and concurrent powers",
+                                "Supremacy Clause and federal preemption",
+                                "Reserved powers to states (10th Amendment)",
+                                "Necessary and Proper Clause",
+                                "Evolution from dual to cooperative federalism"
+                            ]
+                        },
+                        {
+                            "key": "billOfRights",
+                            "title": "Bill of Rights and Individual Liberties",
+                            "keyFacts": [
+                                "First ten amendments to the Constitution",
+                                "Protection of individual rights from government",
+                                "First Amendment: Religion, speech, press, assembly",
+                                "Due process rights and criminal justice protections",
+                                "Incorporation doctrine and application to states"
+                            ]
+                        }
+                    ]
+                }
+                # Add more AP Gov units as needed
+            }
+        
+        # Get the requested unit data
+        unit_data = topics_data.get(unit, {})
+        if not unit_data:
+            # Return empty structure if unit not found
+            return jsonify({
+                "unit": unit,
+                "course": course,
+                "overview": "Unit information not available yet.",
+                "topics": []
+            })
+        
+        return jsonify(unit_data)
+        
+    except Exception as e:
+        print(f"Error in get_unit_topics: {e}")
+        traceback.print_exc()
+        return jsonify({
+            "error": "Failed to load unit topics",
+            "unit": unit,
+            "course": course,
+            "overview": "Error loading unit information.",
+            "topics": []
+        }), 500
 
 # Socratic AI endpoints
 @app.route("/api/chat/send", methods=["POST", "OPTIONS"])
