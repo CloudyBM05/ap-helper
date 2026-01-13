@@ -1992,8 +1992,8 @@ def socratic_chat_send():
 
     try:
         # Check if this is an advanced question that could benefit from Gemini
-        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences']
-        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) and len(conversation_history) >= 2
+        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences', 'complex', 'relationship', 'factors', 'causes', 'effects', 'explain']
+        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) or len(message.split()) > 10
         
         # Try Gemini for advanced questions when available
         socratic_data = None
@@ -2003,6 +2003,9 @@ def socratic_chat_send():
         # Fall back to traditional Socratic response if Gemini not available or for basic questions
         if not socratic_data:
             socratic_data = get_socratic_response(message, course, unit, conversation_history)
+        
+        # Determine the actual response source
+        response_source = socratic_data.get('source', 'enhanced_socratic_system')
         
         # Update and save user progress 
         progress_data = load_user_progress()
@@ -2032,7 +2035,7 @@ def socratic_chat_send():
 
         return jsonify({
             "response": socratic_data['response'] + completion_message,
-            "source": "enhanced_socratic_system",
+            "source": response_source,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "progressUpdate": socratic_data.get('progress_update', {}),
             "conceptsLearned": socratic_data.get('concepts_introduced', []),
@@ -2129,6 +2132,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         return {
             'response': f"I'm ready to help you learn about {unit}! What specific topic or question would you like to explore?",
             'topic': 'general',
+            'source': 'enhanced_socratic_system',
             'concepts_introduced': [],
             'progress_update': {}
         }
@@ -2226,6 +2230,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             return {
                 'response': response,
                 'topic': detected_topic,
+                'source': 'enhanced_socratic_system',
                 'concepts_introduced': key_concepts,
                 'progress_update': {detected_topic: {'introduced': True, 'practiced': True, 'concepts_learned': key_concepts}}
             }
@@ -2237,6 +2242,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             return {
                 'response': response,
                 'topic': detected_topic,
+                'source': 'enhanced_socratic_system',
                 'concepts_introduced': [],
                 'progress_update': {detected_topic: {'practiced': True, 'advanced_thinking': True}}
             }
@@ -2248,6 +2254,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             return {
                 'response': mastery_response,
                 'topic': detected_topic,
+                'source': 'enhanced_socratic_system',
                 'concepts_introduced': [],
                 'progress_update': {detected_topic: {'mastered': True, 'ready_for_assessment': True}}
             }
@@ -2267,6 +2274,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     return {
         'response': random.choice(socratic_questions),
         'topic': 'general',
+        'source': 'enhanced_socratic_system',
         'concepts_introduced': [],
         'progress_update': {}
     }
