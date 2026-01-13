@@ -2105,9 +2105,9 @@ If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and p
     return None
 
 # Conversational Socratic tutoring system - responds to what user actually says
-# Truly conversational Socratic AI that responds to user context, not rigid topic detection
+# Universal Socratic AI system that works across all AP courses and units
 def get_socratic_response(user_input, course, unit, conversation_history):
-    """Conversational Socratic AI that responds to what the user actually says"""
+    """Comprehensive conversational Socratic AI for APUSH, AP Gov, and AP World - all units"""
     msg = user_input.lower()
     
     # Get recent conversation context for continuity
@@ -2119,19 +2119,16 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         elif item.get('sender') == 'user':
             recent_user_messages.append(item.get('content', '').lower())
     
+    # Get course-specific context and information
+    course_info = get_course_context(course, unit)
+    
     # Handle confusion and clarification requests
     if any(phrase in msg for phrase in ['confused', 'what are you talking about', 'not sure', "don't understand", 'idk', "don't know"]):
-        if any('disease' in ai_msg or 'population' in ai_msg for ai_msg in recent_ai_messages):
-            return {
-                'response': "**Let me clarify the disease topic!** 💭\n\nWhen Europeans came to America, they brought diseases like smallpox. Native Americans had no immunity, so about 90% died.\n\nWhat would help you understand this better - why they had no immunity, or how this changed everything?",
-                'topic': 'disease_clarification',
-                'source': 'conversational_socratic',
-                'concepts_introduced': ['disease impact', 'immunity'],
-                'progress_update': {'disease_impact': {'clarified': True}}
-            }
+        if any('disease' in ai_msg or 'war' in ai_msg or 'constitution' in ai_msg for ai_msg in recent_ai_messages):
+            return generate_clarification_response(course, unit, recent_ai_messages)
         else:
             return {
-                'response': "**No worries!** 📚 We're studying **1491-1607** when Native Americans and Europeans first met.\n\n**What interests you?**\n• Native American societies\n• European exploration\n• What happened when they encountered each other",
+                'response': f"**No worries!** 📚 We're studying **{course_info['title']}**.\n\n**What interests you?**\n{course_info['topics_overview']}",
                 'topic': 'clarification',
                 'source': 'conversational_socratic',
                 'concepts_introduced': [],
@@ -2141,69 +2138,451 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     # Handle requests for overview/general information
     if any(phrase in msg for phrase in ['overview', 'what is this unit', 'tell me about this unit', 'summary', 'what this unit about', 'dive deep']):
         return {
-            'response': "**APUSH Unit 1: 1491-1607** 🌍\n\n**Key themes:**\n• **Native American diversity** - Complex societies before Europeans\n• **The Columbian Exchange** - Massive transfer of plants, animals, diseases\n• **Spanish colonization** - Encomienda system and social hierarchies\n• **European motivations** - Gold, Glory, and God\n\nWhich of these catches your interest most? Or do you want to dive into how they all connect?",
+            'response': f"**{course_info['title']}** 🎓\n\n{course_info['overview']}\n\n**Key themes:**\n{course_info['key_themes']}\n\nWhich of these catches your interest most? Or do you want to dive into how they all connect?",
             'topic': 'unit_overview',
             'source': 'conversational_socratic',
-            'concepts_introduced': ['native diversity', 'columbian exchange', 'spanish colonization', 'european motivations'],
-            'progress_update': {'unit1_overview': {'introduced': True}}
+            'concepts_introduced': course_info['main_concepts'],
+            'progress_update': {f'{course}_{unit}_overview': {'introduced': True}}
         }
     
-    # Respond to population/harm references (likely about disease)
-    if any(word in msg for word in ['population', 'harm', 'hurt', 'killed', 'died', 'death', 'harmed']):
-        # Check if they're building on previous disease discussion
-        discussing_disease = any('disease' in ai_msg for ai_msg in recent_ai_messages)
-        
-        if discussing_disease or any('columbian exchange' in ai_msg for ai_msg in recent_ai_messages):
-            return {
-                'response': "**Exactly! It was devastating.** 😔\n\nThe disease impact was massive - about **90% of Native Americans died** from diseases like smallpox.\n\n**Think about this:** How do you think this huge population loss changed the balance of power between Native Americans and Europeans? What made it possible for small groups of Europeans to take over vast territories?",
-                'topic': 'disease_consequences',
-                'source': 'conversational_socratic',
-                'concepts_introduced': ['population decline', 'power shift'],
-                'progress_update': {'disease_impact': {'understood': True, 'analyzing_consequences': True}}
-            }
-        else:
-            return {
-                'response': "**Yes, there was tremendous harm to Native populations.** 💔\n\nThe biggest factor was **disease** - when Europeans arrived, they brought smallpox, measles, and other diseases that Native Americans had never encountered.\n\n**Why do you think** Native Americans were so vulnerable to these diseases while Europeans weren't? What made this biological exchange so one-sided?",
-                'topic': 'disease_introduction',
-                'source': 'conversational_socratic',
-                'concepts_introduced': ['disease impact', 'biological exchange'],
-                'progress_update': {'disease_impact': {'introduced': True}}
-            }
+    # Respond to population/harm/conflict/war references contextually
+    if any(word in msg for word in ['population', 'harm', 'hurt', 'killed', 'died', 'death', 'harmed', 'war', 'conflict', 'violence']):
+        return handle_conflict_disease_topics(msg, course, unit, recent_ai_messages, course_info)
     
-    # Handle questions about Native Americans
-    if any(phrase in msg for phrase in ['native american', 'what were native americans like', 'indigenous', 'tribes', 'before europeans']):
-        return {
-            'response': "**Native Americans were incredibly diverse!** 🏛️\n\n**Before Europeans arrived:**\n• **Hundreds of different societies** - Each adapted to their environment\n• **Major cities** - Cahokia had 15,000+ people (bigger than London!)\n• **Advanced agriculture** - The \"Three Sisters\" (corn, beans, squash)\n• **Complex trade networks** - Goods traveled thousands of miles\n\n**What surprises you most** about this? Many people don't realize how advanced and varied Native societies were. What would you like to explore - their cities, farming techniques, or trade systems?",
-            'topic': 'native_societies',
-            'source': 'conversational_socratic', 
-            'concepts_introduced': ['native diversity', 'cahokia', 'three sisters', 'trade networks'],
-            'progress_update': {'native_societies': {'introduced': True}}
-        }
+    # Handle questions about people/groups/societies 
+    if any(phrase in msg for phrase in ['what were', 'who were', 'tell me about', 'what was', 'people like', 'society', 'civilization']):
+        return handle_society_questions(msg, course, unit, course_info)
     
-    # Handle European-related questions
-    if any(word in msg for word in ['european', 'spain', 'spanish', 'conquistador', 'explorer']):
-        return {
-            'response': "**Europeans came for the \"Three Gs\"** ⚔️\n\n• **Gold** - Economic motivations (wealth, trade routes)\n• **Glory** - National prestige and competition\n• **God** - Spreading Christianity\n\n**But they had major advantages:**\n• **Steel weapons** vs. stone tools\n• **Horses** - Native Americans had never seen them\n• **Gunpowder** - Cannons and firearms\n• **Diseases** - Unintentionally their biggest weapon\n\n**Which factor** do you think was most important in European success? The technology, the diseases, or something else?",
-            'topic': 'european_advantages',
-            'source': 'conversational_socratic',
-            'concepts_introduced': ['three gs', 'technological advantages', 'disease advantage'],
-            'progress_update': {'european_exploration': {'introduced': True}}
-        }
+    # Handle government/political questions
+    if any(word in msg for word in ['government', 'political', 'constitution', 'president', 'congress', 'democracy', 'election', 'voting']):
+        return handle_government_questions(msg, course, unit, course_info)
     
-    # Handle Columbian Exchange references
-    if any(word in msg for word in ['exchange', 'columbian', 'plants', 'animals', 'crops']):
-        return {
-            'response': "**The Columbian Exchange was massive!** 🌽\n\n**From Americas to Europe:**\n• Corn (maize), potatoes, tomatoes\n• These crops revolutionized European agriculture\n• Led to population boom in Europe\n\n**From Europe to Americas:**\n• Horses, cattle, pigs\n• Changed Native hunting and transportation\n• Also brought deadly diseases\n\n**Here's a key question:** Why do you think corn and potatoes had such a huge impact on European population growth? What made these crops special?",
-            'topic': 'columbian_exchange',
-            'source': 'conversational_socratic',
-            'concepts_introduced': ['columbian exchange', 'crop transfer', 'population effects'],
-            'progress_update': {'columbian_exchange': {'introduced': True}}
-        }
+    # Handle economic questions  
+    if any(word in msg for word in ['economic', 'economy', 'trade', 'money', 'business', 'industrial', 'agriculture']):
+        return handle_economic_questions(msg, course, unit, course_info)
+    
+    # Handle cultural/social questions
+    if any(word in msg for word in ['cultural', 'culture', 'religion', 'social', 'art', 'literature', 'movement']):
+        return handle_cultural_questions(msg, course, unit, course_info)
     
     # For unclear or off-topic responses, guide gently
     return {
-        'response': "**I want to make sure I understand what you're curious about!** 🤔\n\nWe're exploring 1491-1607 when Native Americans and Europeans first encountered each other.\n\n**You could ask about:**\n• \"What were Native American societies like?\"\n• \"Why did Europeans come to America?\"\n• \"How did diseases affect populations?\"\n• \"What was the Columbian Exchange?\"\n\n**Or just tell me** what aspect of this time period interests you most!",
+        'response': f"**I want to make sure I understand what you're curious about!** 🤔\n\nWe're exploring **{course_info['title']}**.\n\n**You could ask about:**\n{course_info['suggested_questions']}\n\n**Or just tell me** what aspect interests you most!",
         'topic': 'guidance',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def get_course_context(course, unit):
+    """Get comprehensive context for any AP course and unit"""
+    
+    # Comprehensive APUSH content
+    apush_content = {
+        'unit1': {
+            'title': 'APUSH Unit 1: 1491-1607',
+            'overview': '**The meeting of three worlds** - Native American societies, European exploration, and the beginning of colonization.',
+            'key_themes': '• **Native American diversity** - Complex societies before Europeans\n• **European motivations** - Gold, Glory, and God\n• **The Columbian Exchange** - Biological and cultural transfers\n• **Spanish colonization** - Encomienda system and conquest',
+            'topics_overview': '• Native American societies\n• European exploration\n• What happened when they encountered each other',
+            'main_concepts': ['native diversity', 'columbian exchange', 'spanish colonization', 'european motivations'],
+            'suggested_questions': '• "What were Native American societies like?"\n• "Why did Europeans come to America?"\n• "How did diseases affect populations?"\n• "What was the Columbian Exchange?"'
+        },
+        'unit2': {
+            'title': 'APUSH Unit 2: 1607-1754', 
+            'overview': '**Colonial America takes shape** - English colonies develop distinct regional characteristics and cultures.',
+            'key_themes': '• **Colonial regions** - New England, Middle, Southern colonies\n• **Labor systems** - Indentured servitude to slavery\n• **Atlantic trade** - Triangular trade networks\n• **Colonial society** - Religion, culture, governance',
+            'topics_overview': '• Different colonial regions\n• How the economy developed\n• Colonial society and culture',
+            'main_concepts': ['colonial regions', 'labor systems', 'atlantic trade', 'colonial society'],
+            'suggested_questions': '• "How were the colonies different from each other?"\n• "Why did slavery become so important?"\n• "What was the Great Awakening?"\n• "How did trade work in colonial America?"'
+        },
+        'unit3': {
+            'title': 'APUSH Unit 3: 1754-1800',
+            'overview': '**Revolution and the new nation** - From British subjects to independent Americans creating a new government.',
+            'key_themes': '• **Imperial crisis** - French and Indian War consequences\n• **Revolutionary War** - "No taxation without representation"\n• **Creating government** - Articles of Confederation to Constitution\n• **Early republic** - Washington, Adams, political parties',
+            'topics_overview': '• Causes of the Revolution\n• The Revolutionary War\n• Creating the Constitution',
+            'main_concepts': ['imperial crisis', 'revolution', 'constitution', 'early republic'],
+            'suggested_questions': '• "Why did colonists rebel against Britain?"\n• "How did they win the Revolutionary War?"\n• "Why did the Articles of Confederation fail?"\n• "How does the Constitution work?"'
+        },
+        'unit4': {
+            'title': 'APUSH Unit 4: 1800-1848',
+            'overview': '**Democracy and expansion** - The nation grows westward while debating slavery and reform.',
+            'key_themes': '• **Jeffersonian democracy** - Republican ideals vs Federalist vision\n• **Westward expansion** - Manifest Destiny and territorial growth\n• **Market Revolution** - Transportation, industry, agriculture\n• **Reform movements** - Abolition, women\'s rights, religion',
+            'topics_overview': '• Democratic changes\n• Moving west\n• Economic transformation\n• Social reform movements',
+            'main_concepts': ['jacksonian democracy', 'manifest destiny', 'market revolution', 'reform movements'],
+            'suggested_questions': '• "What was Jacksonian democracy?"\n• "Why did Americans believe in Manifest Destiny?"\n• "How did the economy change?"\n• "What were the major reform movements?"'
+        },
+        'unit5': {
+            'title': 'APUSH Unit 5: 1844-1877',
+            'overview': '**Sectional conflict and Civil War** - The nation tears apart over slavery, fights a civil war, and attempts Reconstruction.',
+            'key_themes': '• **Sectional tensions** - Slavery expansion debates\n• **Civil War** - Causes, conduct, consequences\n• **Emancipation** - End of slavery\n• **Reconstruction** - Rebuilding and civil rights',
+            'topics_overview': '• Why the Civil War happened\n• How the war was fought\n• Reconstruction after the war',
+            'main_concepts': ['sectional crisis', 'civil war', 'emancipation', 'reconstruction'],
+            'suggested_questions': '• "Why couldn\'t they compromise on slavery?"\n• "How did the North win the Civil War?"\n• "What was Reconstruction like?"\n• "Why did Reconstruction end?"'
+        },
+        'unit6': {
+            'title': 'APUSH Unit 6: 1865-1898',
+            'overview': '**The Gilded Age** - Industrialization transforms America while inequality and political corruption grow.',
+            'key_themes': '• **Industrialization** - Railroads, steel, oil, electricity\n• **Immigration** - "New" immigrants from Southern/Eastern Europe\n• **Labor struggles** - Industrial working conditions and unions\n• **Political corruption** - Machine politics and reform efforts',
+            'topics_overview': '• Industrial growth\n• New waves of immigration\n• Labor and working conditions\n• Political problems',
+            'main_concepts': ['industrialization', 'new immigration', 'labor movements', 'political corruption'],
+            'suggested_questions': '• "How did industrialization change America?"\n• "Who were the new immigrants?"\n• "Why did workers form unions?"\n• "What was political corruption like?"'
+        },
+        'unit7': {
+            'title': 'APUSH Unit 7: 1890-1945',
+            'overview': '**America becomes a world power** - From Progressive reforms through two world wars to global leadership.',
+            'key_themes': '• **Progressive Era** - Social and political reforms\n• **World War I** - America joins global conflict\n• **1920s culture** - Prosperity and cultural change\n• **Great Depression and New Deal** - Economic crisis and government response\n• **World War II** - Global war and American victory',
+            'topics_overview': '• Progressive reforms\n• World War I\n• The Roaring Twenties\n• Great Depression\n• World War II',
+            'main_concepts': ['progressive reforms', 'world war i', 'twenties culture', 'great depression', 'world war ii'],
+            'suggested_questions': '• "What did Progressives want to reform?"\n• "Why did America join World War I?"\n• "What caused the Great Depression?"\n• "How did World War II change America?"'
+        },
+        'unit8': {
+            'title': 'APUSH Unit 8: 1945-1980',
+            'overview': '**Cold War America** - Superpower status brings new responsibilities while social movements transform society.',
+            'key_themes': '• **Cold War** - Confrontation with Soviet Union\n• **Civil Rights Movement** - Fighting for racial equality\n• **Vietnam War** - Controversial foreign intervention\n• **Counterculture** - Youth rebellion and social change\n• **Conservative reaction** - Pushback against liberal changes',
+            'topics_overview': '• Cold War tensions\n• Civil Rights Movement\n• Vietnam War\n• Cultural changes of the 1960s',
+            'main_concepts': ['cold war', 'civil rights', 'vietnam war', 'counterculture'],
+            'suggested_questions': '• "What was the Cold War about?"\n• "How did the Civil Rights Movement succeed?"\n• "Why was Vietnam so controversial?"\n• "What was the counterculture movement?"'
+        },
+        'unit9': {
+            'title': 'APUSH Unit 9: 1980-Present',
+            'overview': '**Contemporary America** - Conservative resurgence, technological revolution, globalization, and recent challenges.',
+            'key_themes': '• **Conservative revolution** - Reagan and the New Right\n• **End of Cold War** - Soviet collapse and American hegemony\n• **Technology revolution** - Digital age transformation\n• **9/11 and War on Terror** - New security challenges\n• **Political polarization** - Increasing partisan division',
+            'topics_overview': '• Conservative politics\n• End of the Cold War\n• Technology changes\n• Recent events and challenges',
+            'main_concepts': ['reagan revolution', 'cold war end', 'technology revolution', 'war on terror'],
+            'suggested_questions': '• "What was the Reagan Revolution?"\n• "How did the Cold War end?"\n• "How has technology changed society?"\n• "What has happened since 9/11?"'
+        }
+    }
+    
+    # Comprehensive AP Government content
+    apgov_content = {
+        'unit1': {
+            'title': 'AP Government Unit 1: Foundations of Democracy',
+            'overview': '**How American democracy was designed** - From Enlightenment ideas to the Constitution and federalism.',
+            'key_themes': '• **Enlightenment ideals** - Natural rights and social contract\n• **Constitutional Convention** - Creating the framework\n• **Federalism** - Dividing power between levels\n• **Separation of powers** - Checks and balances\n• **Bill of Rights** - Protecting individual liberties',
+            'topics_overview': '• Democratic theory\n• Constitutional design\n• Federalism\n• Individual rights',
+            'main_concepts': ['enlightenment ideals', 'constitution', 'federalism', 'separation of powers'],
+            'suggested_questions': '• "What influenced the founders\' thinking?"\n• "How does federalism work?"\n• "Why separation of powers?"\n• "How does the Constitution protect rights?"'
+        },
+        'unit2': {
+            'title': 'AP Government Unit 2: Interactions Among Branches',
+            'overview': '**How government actually works** - Congress, presidency, courts, and bureaucracy in action.',
+            'key_themes': '• **Congress** - Lawmaking, representation, elections\n• **Presidency** - Executive power and leadership\n• **Federal courts** - Judicial review and interpretation\n• **Bureaucracy** - Policy implementation\n• **Inter-branch relations** - Cooperation and conflict',
+            'topics_overview': '• How Congress works\n• Presidential powers\n• Court system\n• Government agencies',
+            'main_concepts': ['congressional powers', 'presidential power', 'judicial review', 'bureaucracy'],
+            'suggested_questions': '• "How does Congress make laws?"\n• "What can the president do?"\n• "How do courts check other branches?"\n• "Why do we need a bureaucracy?"'
+        },
+        'unit3': {
+            'title': 'AP Government Unit 3: Civil Liberties and Civil Rights',
+            'overview': '**Freedom and equality in practice** - How individual rights are protected and expanded.',
+            'key_themes': '• **First Amendment** - Speech, religion, press freedoms\n• **Due process** - Criminal justice protections\n• **Equal protection** - Fighting discrimination\n• **Civil rights movements** - Expanding equality\n• **Supreme Court cases** - Defining rights',
+            'topics_overview': '• Constitutional freedoms\n• Criminal justice rights\n• Fighting discrimination\n• Civil rights movements',
+            'main_concepts': ['first amendment', 'due process', 'equal protection', 'civil rights'],
+            'suggested_questions': '• "How far does free speech go?"\n• "What rights do accused people have?"\n• "How did civil rights expand?"\n• "What role do courts play in rights?"'
+        },
+        'unit4': {
+            'title': 'AP Government Unit 4: Political Ideologies and Beliefs',
+            'overview': '**How Americans think about politics** - Political culture, public opinion, and ideological differences.',
+            'key_themes': '• **Political culture** - American democratic values\n• **Political socialization** - How views form\n• **Public opinion** - Polling and measurement\n• **Ideologies** - Liberal vs conservative\n• **Party identification** - Political loyalty',
+            'topics_overview': '• American political values\n• How opinions form\n• Liberal vs conservative\n• Political parties',
+            'main_concepts': ['political culture', 'political socialization', 'ideologies', 'party identification'],
+            'suggested_questions': '• "What do Americans believe about government?"\n• "How do people form political views?"\n• "What\'s the difference between liberal and conservative?"\n• "Why do people identify with parties?"'
+        },
+        'unit5': {
+            'title': 'AP Government Unit 5: Political Participation',
+            'overview': '**How citizens participate in democracy** - Voting, campaigns, parties, interest groups, and media.',
+            'key_themes': '• **Voting rights** - Expanding suffrage\n• **Elections** - Campaigns and Electoral College\n• **Political parties** - Organization and functions\n• **Interest groups** - Lobbying and influence\n• **Media** - Information and bias',
+            'topics_overview': '• Voting and elections\n• Political parties\n• Interest groups\n• Media influence',
+            'main_concepts': ['voting rights', 'elections', 'political parties', 'interest groups'],
+            'suggested_questions': '• "How have voting rights expanded?"\n• "How do campaigns work?"\n• "What do political parties do?"\n• "How do interest groups influence policy?"'
+        }
+    }
+    
+    # AP World History content (Period-based units)
+    apworld_content = {
+        'unit1': {
+            'title': 'AP World Unit 1: 1200-1450 CE',
+            'overview': '**Global trade networks before 1450** - How different civilizations connected across continents.',
+            'key_themes': '• **Silk Roads** - Trade across Asia\n• **Indian Ocean** - Maritime trade networks\n• **Trans-Saharan** - Trade across Africa\n• **Mongol Empire** - Largest land empire\n• **Cultural exchange** - Ideas, religions, technologies',
+            'topics_overview': '• Major trade routes\n• The Mongol Empire\n• Cultural exchanges\n• Different civilizations',
+            'main_concepts': ['silk roads', 'indian ocean trade', 'mongol empire', 'cultural exchange'],
+            'suggested_questions': '• "How did trade networks connect the world?"\n• "What was the Mongol impact?"\n• "How did ideas spread?"\n• "What were different civilizations like?"'
+        },
+        'unit2': {
+            'title': 'AP World Unit 2: 1450-1750 CE',
+            'overview': '**Early modern global connections** - European exploration creates the first truly global trade networks.',
+            'key_themes': '• **European exploration** - Maritime empires\n• **Columbian Exchange** - Global biological exchange\n• **Atlantic slave trade** - Forced migration\n• **Land-based empires** - Ottoman, Safavid, Mughal, Qing\n• **Cultural synthesis** - Mixing of traditions',
+            'topics_overview': '• European exploration\n• The Columbian Exchange\n• Land-based empires\n• Global trade expansion',
+            'main_concepts': ['european exploration', 'columbian exchange', 'land empires', 'global trade'],
+            'suggested_questions': '• "Why did Europeans explore?"\n• "What was the Columbian Exchange?"\n• "How did land empires work?"\n• "How did the world become more connected?"'
+        },
+        'unit3': {
+            'title': 'AP World Unit 3: 1750-1900 CE',
+            'overview': '**Industrial age and imperialism** - Industrialization transforms the world and creates new forms of empire.',
+            'key_themes': '• **Industrial Revolution** - Technology and society\n• **New imperialism** - European colonial expansion\n• **Nationalism** - New forms of identity\n• **Abolition movements** - Ending slavery\n• **Migration patterns** - Global population movements',
+            'topics_overview': '• Industrial Revolution\n• New imperialism\n• Nationalism\n• Social changes',
+            'main_concepts': ['industrialization', 'new imperialism', 'nationalism', 'global migration'],
+            'suggested_questions': '• "How did industrialization change society?"\n• "Why did imperialism expand?"\n• "What is nationalism?"\n• "How did people migrate globally?"'
+        },
+        'unit4': {
+            'title': 'AP World Unit 4: 1900-Present',
+            'overview': '**The modern world** - Global conflicts, decolonization, and contemporary challenges.',
+            'key_themes': '• **Global conflicts** - World wars and Cold War\n• **Decolonization** - End of European empires\n• **Economic systems** - Capitalism, socialism, globalization\n• **Human rights** - Universal rights movements\n• **Environmental challenges** - Global cooperation needs',
+            'topics_overview': '• World wars\n• Decolonization\n• Economic systems\n• Global challenges',
+            'main_concepts': ['global conflicts', 'decolonization', 'economic systems', 'human rights'],
+            'suggested_questions': '• "What caused the world wars?"\n• "How did decolonization happen?"\n• "How do different economic systems work?"\n• "What are today\'s global challenges?"'
+        }
+    }
+    
+    # Determine which content to use based on course
+    if course == 'apush':
+        return apush_content.get(unit, {
+            'title': f'APUSH Unit {unit}',
+            'overview': 'We\'re exploring American history!',
+            'key_themes': '• Historical themes and patterns',
+            'topics_overview': '• Various historical topics',
+            'main_concepts': ['american history'],
+            'suggested_questions': '• Ask me anything about this period!'
+        })
+    elif course == 'apgov' or course == 'gov':
+        return apgov_content.get(unit, {
+            'title': f'AP Government Unit {unit}',
+            'overview': 'We\'re studying American government and politics!',
+            'key_themes': '• Government structures and processes',
+            'topics_overview': '• Political institutions and behaviors',
+            'main_concepts': ['american government'],
+            'suggested_questions': '• Ask me about government and politics!'
+        })
+    elif course == 'apworld' or course == 'world':
+        return apworld_content.get(unit, {
+            'title': f'AP World Unit {unit}',
+            'overview': 'We\'re exploring world history!',
+            'key_themes': '• Global patterns and connections',
+            'topics_overview': '• Civilizations and global interactions',
+            'main_concepts': ['world history'],
+            'suggested_questions': '• Ask me about global history!'
+        })
+    else:
+        return {
+            'title': f'{course.upper()} Unit {unit}',
+            'overview': 'We\'re studying this subject!',
+            'key_themes': '• Key concepts and themes',
+            'topics_overview': '• Various topics',
+            'main_concepts': ['general concepts'],
+            'suggested_questions': '• Ask me anything about this topic!'
+        }
+
+def generate_clarification_response(course, unit, recent_ai_messages):
+    """Generate contextual clarification based on recent conversation"""
+    if any('disease' in msg for msg in recent_ai_messages):
+        return {
+            'response': "**Let me clarify the disease topic!** 💭\n\nWhen Europeans came to America, they brought diseases like smallpox. Native Americans had no immunity, so about 90% died.\n\nWhat would help you understand this better - why they had no immunity, or how this changed everything?",
+            'topic': 'disease_clarification',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['disease impact', 'immunity'],
+            'progress_update': {'disease_impact': {'clarified': True}}
+        }
+    elif any('war' in msg for msg in recent_ai_messages):
+        if course == 'apush':
+            return {
+                'response': "**Let me clarify the war topic!** ⚔️\n\nWars shaped American history in major ways - they changed borders, ended slavery, made us a world power.\n\nWhich war interests you most, or what specific aspect would you like to understand better?",
+                'topic': 'war_clarification', 
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['warfare', 'historical impact'],
+                'progress_update': {'war_impact': {'clarified': True}}
+            }
+    elif any('constitution' in msg for msg in recent_ai_messages):
+        return {
+            'response': "**Let me clarify the Constitution!** 📜\n\nThe Constitution is our plan for government - it sets up three branches, divides federal and state power, and protects our rights.\n\nWhat would help you understand it better - how it's organized, or how it protects rights?",
+            'topic': 'constitution_clarification',
+            'source': 'conversational_socratic', 
+            'concepts_introduced': ['constitution', 'government structure'],
+            'progress_update': {'constitution': {'clarified': True}}
+        }
+    
+    return {
+        'response': "**No worries!** 📚 Let's restart with something that interests you.\n\n**What would you like to explore?**\n• Key events and turning points\n• Important people and their impact\n• How things changed over time",
+        'topic': 'general_clarification',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_conflict_disease_topics(msg, course, unit, recent_ai_messages, course_info):
+    """Handle questions about conflict, disease, death, harm, etc."""
+    discussing_related = any('disease' in ai_msg or 'war' in ai_msg or 'conflict' in ai_msg for ai_msg in recent_ai_messages)
+    
+    if 'disease' in msg or 'population' in msg or ('died' in msg and course == 'apush' and unit in ['unit1', 'unit2']):
+        if discussing_related:
+            return {
+                'response': "**Exactly! The impact was devastating.** 😔\n\nDisease was often the biggest factor in population decline - sometimes killing 90% of people who had no immunity.\n\n**Think about this:** How do you think this changed the balance of power? What made some groups more vulnerable than others?",
+                'topic': 'disease_consequences',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['population decline', 'power dynamics'],
+                'progress_update': {'disease_impact': {'analyzed': True}}
+            }
+        else:
+            return {
+                'response': "**Yes, there were often devastating population impacts.** 💔\n\nThroughout history, disease has been a major factor - especially when different populations met for the first time.\n\n**Why do you think** some groups were more vulnerable to disease than others? What factors made the difference?",
+                'topic': 'disease_introduction',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['disease impact', 'population effects'],
+                'progress_update': {'disease_impact': {'introduced': True}}
+            }
+    
+    elif 'war' in msg or 'conflict' in msg or 'violence' in msg:
+        if course == 'apush':
+            if unit in ['unit3', 'unit5']:  # Revolutionary War or Civil War units
+                return {
+                    'response': "**War was a defining force in American history.** ⚔️\n\n**Major American wars:**\n• **Revolutionary War** - Independence from Britain\n• **Civil War** - Union vs Confederacy over slavery\n• **World Wars** - America becomes global power\n\n**Key question:** What do you think made these wars so important for American development? How did they change the nation?",
+                    'topic': 'american_wars',
+                    'source': 'conversational_socratic',
+                    'concepts_introduced': ['revolutionary war', 'civil war', 'world wars'],
+                    'progress_update': {'war_impact': {'introduced': True}}
+                }
+        elif course == 'apworld':
+            return {
+                'response': "**Conflict has shaped world history.** 🌍\n\n**Think about this:** Wars often spread technology, ideas, and diseases between different regions. They also created and destroyed empires.\n\n**What interests you more** - how wars changed borders and empires, or how they spread ideas and technology between cultures?",
+                'topic': 'global_conflicts',
+                'source': 'conversational_socratic', 
+                'concepts_introduced': ['warfare', 'cultural exchange'],
+                'progress_update': {'conflict_impact': {'introduced': True}}
+            }
+    
+    return {
+        'response': f"**That's an important aspect of {course_info['title']}.** 🤔\n\nConflict and change often go together in history. What specifically interests you about this - the causes, the consequences, or how different groups experienced it?\n\nTell me more about what you're thinking!",
+        'topic': 'conflict_general',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_society_questions(msg, course, unit, course_info):
+    """Handle questions about people, societies, and civilizations"""
+    if course == 'apush':
+        if 'native american' in msg or 'indigenous' in msg:
+            return {
+                'response': "**Native Americans were incredibly diverse!** 🏛️\n\n**Before Europeans arrived:**\n• **Hundreds of different societies** - Each adapted to their environment\n• **Major cities** - Cahokia had 15,000+ people (bigger than London!)\n• **Advanced agriculture** - The \"Three Sisters\" (corn, beans, squash)\n• **Complex trade networks** - Goods traveled thousands of miles\n\n**What surprises you most** about this? Many people don't realize how advanced and varied Native societies were. What would you like to explore - their cities, farming, or trade?",
+                'topic': 'native_societies',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['native diversity', 'cahokia', 'three sisters'],
+                'progress_update': {'native_societies': {'introduced': True}}
+            }
+        elif any(word in msg for word in ['colonial', 'colonist', 'puritan', 'pilgrim']):
+            return {
+                'response': "**Colonial Americans developed distinct regional cultures!** 🏘️\n\n**Three main regions:**\n• **New England** - Puritans, small farms, shipping, education\n• **Middle Colonies** - Diverse religions, wheat farming, cities\n• **Southern Colonies** - Plantation agriculture, slavery, aristocratic culture\n\n**Interesting question:** Why do you think these regions developed so differently? What factors shaped their unique characteristics?",
+                'topic': 'colonial_society',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['colonial regions', 'regional differences'],
+                'progress_update': {'colonial_society': {'introduced': True}}
+            }
+    
+    elif course == 'apworld':
+        return {
+            'response': f"**Societies around the world were amazingly diverse!** 🌏\n\n**In this period**, you had everything from:\n• **Nomadic empires** (like the Mongols)\n• **Agricultural civilizations** (like China and India)\n• **Trading city-states** (like in East Africa)\n• **Island societies** (like in Southeast Asia)\n\n**What fascinates you** - how geography shaped these societies, how they interacted with each other, or their different ways of organizing government?",
+            'topic': 'world_societies',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['global diversity', 'civilization types'],
+            'progress_update': {'world_societies': {'introduced': True}}
+        }
+    
+    return {
+        'response': f"**Great question about societies in {course_info['title']}!** 👥\n\nSocieties in this period had fascinating ways of organizing themselves - different economic systems, social structures, and cultural practices.\n\nWhat specifically interests you - how they were organized, how people lived, or how they changed over time?",
+        'topic': 'society_general',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_government_questions(msg, course, unit, course_info):
+    """Handle questions about government, politics, constitution, etc."""
+    if course == 'apgov':
+        if 'constitution' in msg:
+            return {
+                'response': "**The Constitution is our government's blueprint!** 📜\n\n**Key principles:**\n• **Separation of powers** - Legislative, Executive, Judicial\n• **Checks and balances** - Each branch limits the others\n• **Federalism** - Power shared between national and state governments\n• **Bill of Rights** - Protects individual liberties\n\n**Here's the big question:** Why did the founders think these principles were so important? What were they trying to prevent?",
+                'topic': 'constitution',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['separation of powers', 'checks and balances', 'federalism'],
+                'progress_update': {'constitution': {'introduced': True}}
+            }
+        elif 'congress' in msg or 'president' in msg:
+            return {
+                'response': "**Great question about how our government actually works!** 🏛️\n\n**The branches have different jobs:**\n• **Congress** - Makes laws, controls spending\n• **President** - Executes laws, commander-in-chief\n• **Courts** - Interpret laws, check other branches\n\n**But here's the interesting part:** They're designed to compete with each other! Why do you think the founders wanted that tension?",
+                'topic': 'branches_government',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['congressional power', 'presidential power', 'judicial review'],
+                'progress_update': {'government_branches': {'introduced': True}}
+            }
+    
+    elif course == 'apush':
+        if unit in ['unit3', 'unit4']:  # Revolutionary era or Early Republic
+            return {
+                'response': "**Creating American government was a huge challenge!** 🇺🇸\n\n**The big questions:**\n• How much power should the federal government have?\n• How do you balance majority rule with minority rights?\n• How do you prevent tyranny while staying effective?\n\n**Think about this:** The founders had just fought a war against a government they saw as tyrannical. How did that experience shape their choices about American government?",
+                'topic': 'american_government_creation',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['federal power', 'tyranny prevention'],
+                'progress_update': {'government_creation': {'introduced': True}}
+            }
+    
+    return {
+        'response': f"**Government is a key theme in {course_info['title']}!** 🗳️\n\nDifferent societies have organized political power in fascinating ways - from empires to democracies to city-states.\n\nWhat interests you most - how governments get their power, how they use it, or how they change over time?",
+        'topic': 'government_general',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_economic_questions(msg, course, unit, course_info):
+    """Handle questions about economics, trade, industry, agriculture, etc."""
+    if course == 'apworld' and 'trade' in msg:
+        return {
+            'response': "**Trade networks connected the ancient world!** 🛣️\n\n**Major trade routes:**\n• **Silk Roads** - Connected Asia with Europe and Africa\n• **Indian Ocean** - Maritime trade across the ocean\n• **Trans-Saharan** - Caravans across the Sahara Desert\n• **Mediterranean** - Connected Europe, Asia, and Africa\n\n**Here's the fascinating part:** Merchants didn't just trade goods - they also spread ideas, religions, and diseases! How do you think trade changed the societies it connected?",
+            'topic': 'global_trade',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['silk roads', 'indian ocean trade', 'trans-saharan'],
+            'progress_update': {'global_trade': {'introduced': True}}
+        }
+    
+    elif course == 'apush':
+        if unit in ['unit4', 'unit6']:  # Market Revolution or Gilded Age
+            return {
+                'response': "**The American economy was transforming!** 💰\n\n**Major changes:**\n• **Transportation revolution** - Canals, railroads connected markets\n• **Industrial growth** - Factories replaced home production\n• **Agricultural commercialization** - Farming for markets, not just subsistence\n• **Urban growth** - Cities became economic centers\n\n**Think about this:** How do you think these economic changes affected ordinary people's daily lives? Who benefited most and who struggled?",
+                'topic': 'american_economic_change',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['market revolution', 'industrialization'],
+                'progress_update': {'economic_change': {'introduced': True}}
+            }
+    
+    return {
+        'response': f"**Economics is crucial to understanding {course_info['title']}!** 💼\n\nEconomic systems - how people produce, trade, and distribute goods - shaped societies in fundamental ways.\n\nWhat interests you most - how trade worked, how technology changed production, or how economic changes affected different social groups?",
+        'topic': 'economics_general',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_cultural_questions(msg, course, unit, course_info):
+    """Handle questions about culture, religion, social movements, etc."""
+    if course == 'apush' and any(word in msg for word in ['religion', 'religious', 'awakening']):
+        return {
+            'response': "**Religion played a huge role in American history!** ⛪\n\n**Major religious movements:**\n• **Great Awakening** (1730s-40s) - Emotional Christianity, challenged authority\n• **Second Great Awakening** (1800s) - Inspired reform movements\n• **Puritanism** - Shaped New England culture\n• **Religious diversity** - Different colonies, different faiths\n\n**Interesting question:** How do you think religious revivals connected to social and political changes? Why might emotional religion appeal during times of change?",
+            'topic': 'american_religion',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['great awakening', 'religious diversity'],
+            'progress_update': {'american_religion': {'introduced': True}}
+        }
+    
+    elif 'culture' in msg or 'social' in msg:
+        return {
+            'response': f"**Culture and society were constantly changing in {course_info['title']}!** 🎭\n\n**Cultural changes include:**\n• New ideas about government, society, and individual rights\n• Artistic and literary movements\n• Changes in daily life and social customs\n• Religious and philosophical developments\n\n**Think about this:** What forces do you think drive cultural change? How do new ideas spread through society?",
+            'topic': 'cultural_change',
+            'source': 'conversational_socratic',
+            'concepts_introduced': ['cultural change', 'idea spread'],
+            'progress_update': {'culture': {'introduced': True}}
+        }
+    
+    return {
+        'response': f"**Cultural aspects of {course_info['title']} are fascinating!** 🎨\n\nCulture - the ideas, beliefs, arts, and customs of societies - both shapes and is shaped by political and economic changes.\n\nWhat interests you most - how cultures develop, how they interact with each other, or how they change over time?",
+        'topic': 'culture_general',
         'source': 'conversational_socratic',
         'concepts_introduced': [],
         'progress_update': {}
