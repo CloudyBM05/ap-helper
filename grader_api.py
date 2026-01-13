@@ -2212,26 +2212,48 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     # Debug logging for topic detection
     print(f"DEBUG Topic Detection: message='{msg}', detected_topic='{detected_topic}', score={best_match_score}")
     
-    # Handle confusion and requests for clarification
+    # Handle confusion and requests for clarification with dynamic responses
     confusion_phrases = ["not sure", "don't know what", "confused", "don't understand", "what are you talking about", "referring to"]
     if any(phrase in msg for phrase in confusion_phrases):
-        # User is confused - provide clear, simple explanation
-        if 'unit1' in unit.lower():
-            return {
-                'response': f"Sorry for the confusion! We're studying the period 1491-1607 in American history. This covers when Native Americans first met Europeans (like Columbus and Spanish explorers). \n\nWould you like to start with something simple, like: What life was like for Native Americans before Europeans arrived? Or how Europeans first came to America?",
-                'topic': 'general',
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': [],
-                'progress_update': {'general': {'clarified': True}}
-            }
+        # Generate varied, natural responses based on context
+        confusion_responses = [
+            f"**Let's start fresh!** 📚\n\nWe're studying **1491-1607** - when Native Americans and Europeans first met.\n\n**Choose what interests you:**\n• Native American societies before Europeans\n• Why Europeans came to America\n• What happened when they encountered each other",
+            f"**My bad!** Let me clarify. 🌍\n\nThis time period covers **Native American-European contact (1491-1607)**.\n\n**What sounds interesting?**\n• Life in Native American civilizations\n• European exploration and motivations\n• The impact of first contact",
+            f"**No worries!** Let's back up. ⭐\n\nWe're covering **1491-1607** - the era of first encounters.\n\n**Pick a starting point:**\n• Native American societies and cultures\n• European explorers and their goals\n• Consequences of contact between the two groups"
+        ]
+        
+        # Get conversation context to make response more relevant
+        recent_context = []
+        for msg_item in conversation_history[-3:]:  # Last 3 messages
+            if msg_item.get('sender') == 'ai' and 'content' in msg_item:
+                content = msg_item['content'].lower()
+                if 'disease' in content:
+                    recent_context.append('disease')
+                elif 'spanish' in content or 'encomienda' in content:
+                    recent_context.append('spanish')
+                elif 'european' in content:
+                    recent_context.append('european')
+                elif 'native' in content or 'indigenous' in content:
+                    recent_context.append('native')
+        
+        # Choose response based on context or random if no context
+        import random
+        if 'disease' in recent_context:
+            response = "**Sorry if that was intense!** 😅\n\nThe disease topic can be heavy. Let's explore something else from this time period.\n\n**What interests you?**\n• Native American achievements and societies\n• European exploration and technology\n• Cultural exchanges (positive aspects)"
+        elif 'spanish' in recent_context:
+            response = "**Let me slow down!** 🤔\n\nI jumped into Spanish colonization quickly. Let's restart with the basics.\n\n**What would you like to learn about?**\n• Native Americans before Europeans arrived\n• Why Europeans wanted to explore\n• The first meetings between the two groups"
+        elif 'european' in recent_context:
+            response = "**Good point!** 🌎\n\nI was focused on Europeans - but this period covers much more.\n\n**Choose your focus:**\n• Amazing Native American civilizations\n• European motivations and technology\n• How different groups experienced contact"
         else:
-            return {
-                'response': f"No worries! I'm here to help you learn about {unit}. Think of me as your study buddy. What would you like to know about? I can explain anything in simple terms.",
-                'topic': 'general', 
-                'source': 'enhanced_socratic_system',
-                'concepts_introduced': [],
-                'progress_update': {}
-            }
+            response = random.choice(confusion_responses)
+            
+        return {
+            'response': response,
+            'topic': 'general',
+            'source': 'enhanced_socratic_system',
+            'concepts_introduced': [],
+            'progress_update': {'general': {'clarified': True}}
+        }
         
     # Handle direct information requests - be more informative, less Socratic
     if any(phrase in msg for phrase in ["tell me about", "what is", "what was", "can you explain", "please explain", "help me understand", "give me information", "overview"]):
@@ -2240,17 +2262,17 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             key_concepts = topic_data['key_concepts'][:3]  
             
             if detected_topic == 'european_tech':
-                response = f"European explorers had some major advantages that let them sail across oceans and conquer new lands! They had steel weapons and armor (way stronger than stone or wood), horses (Native Americans had never seen these!), gunpowder weapons like cannons, and advanced ships with navigation tools. \n\nWhat interests you more - their weapons and technology, or how they used these to explore?"
+                response = f"**European Technological Advantages**\n\n• **Steel weapons and armor** - Far superior to stone and wood tools\n• **Horses** - Native Americans had never seen these animals before\n• **Gunpowder weapons** - Cannons and firearms gave massive military advantage\n• **Advanced ships** - Ocean-going vessels with navigation tools\n\nWhat interests you more - their weapons and technology, or how they used these to explore?"
             elif detected_topic == 'cahokia_details':
-                response = f"Cahokia was this incredible Native American city that existed way before Europeans arrived! At its peak around 1100 CE, it had 10,000-20,000 people - that was actually bigger than London at the time. They built these massive earthen mounds and had sophisticated farming. \n\nWant to know more about their city planning or how they grew so large?"
+                response = f"**Cahokia: Pre-Columbian American City**\n\n• **Massive population** - 10,000-20,000 people at its peak (1100 CE)\n• **Urban planning** - Larger than London at the time!\n• **Earthen mounds** - Complex ceremonial and residential structures\n• **Advanced agriculture** - Sophisticated farming techniques\n\nWant to know more about their city planning or how they grew so large?"
             elif detected_topic == 'disease_impact':
-                response = f"The disease impact was absolutely devastating. When Europeans came to America, they brought diseases like smallpox that Native Americans had never been exposed to. Since they had no immunity, around 90% of the Native population died. It completely changed the Americas. \n\nWhat would you like to understand - why Native Americans were so vulnerable, or how this changed everything that happened after?"
+                response = f"**Disease Impact on Native Americans**\n\n• **No immunity** - Native Americans had never been exposed to Old World diseases\n• **Devastating mortality** - Approximately 90% of the population died\n• **Key diseases** - Smallpox, measles, typhus brought by Europeans\n• **Social collapse** - Loss of leaders, knowledge, and cultural continuity\n\nWhat would you like to understand - why Native Americans were so vulnerable, or how this changed everything that happened after?"
             elif detected_topic == 'encomienda_system':
-                response = f"The Spanish created this labor system called encomienda where Spanish colonists got control over Native communities. The Spanish could force them to work and pay tribute. It was brutal and exploitative - basically legal slavery. \n\nWant to learn more about how it worked day-to-day, or its long-term impact?"
+                response = f"**The Encomienda System**\n\n• **Labor control** - Spanish colonists gained control over Native communities\n• **Forced tribute** - Native Americans forced to work and pay taxes\n• **Legal exploitation** - Essentially legalized slavery under Spanish law\n• **Brutal conditions** - Led to massive suffering and population decline\n\nWant to learn more about how it worked day-to-day, or its long-term impact?"
             else:
                 # Natural fallback for other topics
                 concept_summary = key_concepts[0].split(':')[1].strip() if ':' in key_concepts[0] else key_concepts[0]
-                response = f"Great question about {topic_data['title'].lower()}! {concept_summary} \n\nWhat specifically interests you about this topic?"
+                response = f"**{topic_data['title']}**\n\n{concept_summary}\n\nWhat specifically interests you about this topic?"
             
             return {
                 'response': response,
@@ -2265,7 +2287,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
             topics_list = [f"{data['title']}" for data in unit_topics.values()][:3]
             
             return {
-                'response': f"Unit 1 is all about the period 1491-1607 when Native Americans and Europeans first met! \n\nThe main things we study are: {', '.join(topics_list[:-1])}, and {topics_list[-1] if topics_list else ''}. \n\nWhat sounds most interesting to you?",
+                'response': f"**APUSH Unit 1: Period 1491-1607**\n\nThis unit covers the first encounters between Native Americans and Europeans!\n\n**Key Topics:**\n• {topics_list[0] if topics_list else 'Native American societies'}\n• {topics_list[1] if len(topics_list) > 1 else 'European exploration'}\n• {topics_list[2] if len(topics_list) > 2 else 'Columbian Exchange'}\n\nWhat sounds most interesting to you?",
                 'topic': 'general',
                 'source': 'enhanced_socratic_system',
                 'concepts_introduced': [],
@@ -2282,20 +2304,20 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         concept_details = '\n• '.join(key_concepts)
         
         if not user_progress['practiced']:
-            # Beginner: Natural, conversational response
+            # Beginner: Natural, conversational response with markdown
             key_concepts_simple = [concept.split(':')[1].strip() if ':' in concept else concept for concept in key_concepts]
             
             if detected_topic == 'european_tech':
-                response = f"Great! European explorers had some big advantages that helped them travel across oceans and conquer new lands. They had steel weapons, horses (which Native Americans had never seen!), gunpowder, and ships that could sail long distances. \n\nWhat interests you most - their weapons, their ships, or something else?"
+                response = f"**European Technological Advantages**\n\nEuropean explorers had some major advantages:\n• **Steel weapons** - Much stronger than stone or wood tools\n• **Horses** - Native Americans had never seen these!\n• **Gunpowder weapons** - Cannons and firearms\n• **Advanced ships** - Could sail long distances with navigation tools\n\nWhat interests you most - their weapons, their ships, or something else?"
             elif detected_topic == 'cahokia_details':
-                response = f"Awesome! So before Europeans arrived, there were already amazing Native American cities. Cahokia was HUGE - bigger than London at the time! It had over 10,000 people, giant earthen mounds, and sophisticated farming. \n\nWant to know more about their city planning or their farming techniques?"
+                response = f"**Cahokia: Amazing Pre-Columbian City**\n\nBefore Europeans arrived, Native Americans built incredible cities:\n• **Massive population** - Over 10,000 people (bigger than London!)\n• **Giant earthen mounds** - Complex ceremonial structures\n• **Sophisticated farming** - Advanced agricultural techniques\n• **Urban planning** - Well-organized city layout\n\nWant to know more about their city planning or their farming techniques?"
             elif detected_topic == 'disease_impact':
-                response = f"This is one of the most tragic parts of history. When Europeans came to America, they accidentally brought diseases like smallpox. Native Americans had never been exposed to these diseases, so they had no immunity. Around 90% of the Native population died from disease - it was devastating. \n\nWhat would you like to understand about this - why Native Americans were so vulnerable, or how it changed everything?"
+                response = f"**Disease Impact on Native Americans**\n\nThis is one of the most tragic parts of history:\n• **No immunity** - Native Americans had never been exposed to Old World diseases\n• **Devastating death toll** - Around 90% of the population died\n• **Key diseases** - Smallpox, measles, typhus\n• **Social collapse** - Loss of leaders and cultural knowledge\n\nWhat would you like to understand - why Native Americans were so vulnerable, or how it changed everything?"
             elif detected_topic == 'encomienda_system':
-                response = f"So the Spanish created this system called encomienda to control Native American labor. Basically, Spanish colonists were given control over Native communities and could force them to work and pay tribute. It was pretty brutal and exploitative. \n\nWant to learn more about how it worked or what it was like for Native Americans?"
+                response = f"**The Encomienda System**\n\nThe Spanish created this brutal labor system:\n• **Control over Native communities** - Spanish colonists given authority\n• **Forced labor** - Native Americans forced to work\n• **Tribute payments** - Had to pay taxes to Spanish\n• **Legalized exploitation** - Basically slavery under Spanish law\n\nWant to learn more about how it worked or what it was like for Native Americans?"
             else:
                 # Fallback for other topics
-                response = f"Let me tell you about {topic_data['title'].lower()}! " + key_concepts_simple[0] + f" \n\nWhat specifically would you like to know more about?"
+                response = f"**{topic_data['title']}**\n\n{key_concepts_simple[0]}\n\nWhat specifically would you like to know more about?"
                     
             return {
                 'response': response,
@@ -2307,7 +2329,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         
         elif user_progress['practiced'] and not user_progress['mastered']:
             # Intermediate: Build on knowledge with deeper questions
-            response = f"You're learning about **{topic_data['title']}** well! Building on what we've discussed:\n\n• {concept_details}\n\nNow think deeper: How do these factors connect to create lasting historical change? What were the most significant impacts?"
+            response = f"**{topic_data['title']} - Going Deeper**\n\nYou're learning well! Key concepts:\n\n• {concept_details}\n\n**Think deeper:** How do these factors connect to create lasting historical change? What were the most significant impacts?"
                     
             return {
                 'response': response,
@@ -2319,7 +2341,7 @@ def get_socratic_response(user_input, course, unit, conversation_history):
         
         else:
             # Advanced: Synthesis and critical analysis
-            response = f"Excellent grasp of **{topic_data['title']}**! You understand: {', '.join(user_progress['concepts_mentioned'][:3])}.\n\nFor mastery: Compare this topic's long-term consequences to other historical periods. How might different groups have experienced these events differently?"
+            response = f"**Excellent mastery of {topic_data['title']}!**\n\nYou understand: {', '.join(user_progress['concepts_mentioned'][:3])}\n\n**For mastery:** Compare this topic's long-term consequences to other historical periods. How might different groups have experienced these events differently?"
             
             return {
                 'response': response,
@@ -2331,11 +2353,11 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     
     # Natural responses for unclear input
     natural_responses = [
-        f"I'd love to help you learn about this period! What specifically are you curious about? You can ask about Native Americans, European explorers, or anything else from 1491-1607.",
-        f"What sounds interesting to you? I can tell you about Native American civilizations, how Europeans got to America, or the impact when they met.",
-        f"No worries! Just ask me about anything from this time period. Like 'What were Native Americans like?' or 'Why did Europeans come to America?'",
-        f"I'm here to help you understand this history! What would you like to learn about? Just ask in your own words.",
-        f"Let me know what catches your interest! I can explain any topic from this era in a way that makes sense."
+        f"**I'm here to help!** 📖\n\nWhat specifically interests you about this period? You can ask about:\n• Native American societies\n• European exploration\n• First contact between the groups",
+        f"**What sounds interesting?** 🤔\n\n• **Native American civilizations** - Amazing societies before Europeans\n• **European explorers** - Why they came and how they got here\n• **Impact of contact** - What happened when they met",
+        f"**No worries!** Just ask me anything from this time period. 😊\n\n**Try questions like:**\n• \"What were Native Americans like?\"\n• \"Why did Europeans come to America?\"\n• \"Tell me about [any topic]\"",
+        f"**I'm here to help you understand!** ✨\n\nWhat would you like to learn about? Just ask in your own words about anything from 1491-1607.",
+        f"**Let me know what interests you!** 🌟\n\nI can explain any topic from this era in a way that makes sense. What catches your attention?"
     ]
     
     import random
