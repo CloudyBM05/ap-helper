@@ -2723,8 +2723,16 @@ def get_unit_topics():
         # First try to load study guide content
         study_content = load_study_guide_content(unit, course)
         
-        # If no study guide content, generate topics from Socratic AI course context
-        if not study_content or 'sections' not in study_content or len(study_content.get('sections', {})) == 0:
+        # Check if study guide has meaningful content
+        has_meaningful_content = (
+            study_content and 
+            'sections' in study_content and 
+            len(study_content.get('sections', {})) > 0 and
+            study_content.get('overview', '').strip() != 'Unit information not available yet.'
+        )
+        
+        # If no meaningful study guide content, generate topics from Socratic AI course context
+        if not has_meaningful_content:
             # Use the same comprehensive content that Socratic AI uses
             course_context = get_course_context(course, unit)
             
