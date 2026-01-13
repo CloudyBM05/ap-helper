@@ -13,8 +13,10 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2015', // Better compatibility
     rollupOptions: {
       output: {
+        format: 'iife', // Avoid ES modules for GitHub Pages
         entryFileNames: 'assets/app.js',
         chunkFileNames: 'assets/[name].js',
         assetFileNames: (assetInfo) => {
