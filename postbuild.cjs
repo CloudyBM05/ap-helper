@@ -25,4 +25,17 @@ if (fs.existsSync(html404Src)) {
   console.log('✓ Copied 404.html to dist/');
 }
 
+// Fix MIME type issues for GitHub Pages
+const indexHtmlPath = path.join(__dirname, 'dist', 'index.html');
+if (fs.existsSync(indexHtmlPath)) {
+  let htmlContent = fs.readFileSync(indexHtmlPath, 'utf8');
+  
+  // Remove type="module" attributes to avoid MIME type issues on GitHub Pages
+  htmlContent = htmlContent.replace(/type="module"\s+crossorigin\s+/g, '');
+  htmlContent = htmlContent.replace(/type="module"\s+/g, '');
+  
+  fs.writeFileSync(indexHtmlPath, htmlContent);
+  console.log('✓ Fixed MIME type issues in index.html');
+}
+
 console.log('Postbuild complete!');
