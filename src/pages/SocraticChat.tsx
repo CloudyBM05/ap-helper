@@ -88,11 +88,219 @@ const SocraticChat = () => {
         'unit1': { title: 'AP World Unit 1: Global Trade Networks', period: '1200–1450 CE', emoji: '🛤️' },
         'unit2': { title: 'AP World Unit 2: Early Modern Global Connections', period: '1450–1750 CE', emoji: '🌍' },
         'unit3': { title: 'AP World Unit 3: Industrial Age and Imperialism', period: '1750–1900 CE', emoji: '🏭' },
-        'unit4': { title: 'AP World Unit 4: The Modern World', period: '1900–Present', emoji: '🌐' }
+        'unit4': { title: 'AP World Unit 4: The Modern World', period: '1900–Present', emoji: '🌐' },
+        'unit5': { title: 'AP World Unit 5: Revolutions and Independence', period: '1750–1900 CE', emoji: '🔥' },
+        'unit6': { title: 'AP World Unit 6: Consequences of Industrialization', period: '1750–1900 CE', emoji: '🏗️' },
+        'unit7': { title: 'AP World Unit 7: Global Conflict', period: '1900–Present', emoji: '⚔️' },
+        'unit8': { title: 'AP World Unit 8: Cold War and Decolonization', period: '1900–Present', emoji: '🕊️' },
+        'unit9': { title: 'AP World Unit 9: Globalization', period: '1900–Present', emoji: '🌏' }
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP World ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
+  };
+
+  // Fallback topics when API fails - COMPLETE FOR ALL UNITS
+  const getFallbackTopics = (course: string, unit: string): UnitTopic[] => {
+    console.log('Getting fallback topics for:', course, unit);
+    
+    if (course === 'apush') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'nativeAmericans', title: 'Pre-Columbian Native American Societies', keyFacts: ['Diverse complex societies', 'Aztec, Inca, Maya civilizations', 'Cahokia larger than London', 'Tenochtitlan had 200,000+ people', 'Three Sisters agriculture'] },
+          { key: 'europeanMotivations', title: 'European Motivations for Exploration', keyFacts: ['God, Gold, and Glory', 'Economic desire for spices', 'Religious spread of Christianity', 'Political nation-building', 'Technological navigation advances'] },
+          { key: 'spanishColonization', title: 'Spanish Colonization and Conquest', keyFacts: ['Cortés conquered Aztecs', 'Encomienda forced labor system', 'Superior horses and weapons', '90% Native Americans died from disease', 'Cultural and religious conversion'] },
+          { key: 'columbianExchange', title: 'The Columbian Exchange', keyFacts: ['Biological exchange between continents', 'Horses and diseases to Americas', 'Corn and potatoes to Europe', '90% Native population decline', 'Environmental transformation'] },
+          { key: 'earlyEnglish', title: 'Early English Colonization Attempts', keyFacts: ['Roanoke Lost Colony 1587', 'Virginia Company founded Jamestown', 'Hostile environment challenges', 'Search for gold and trade', 'Competition with Spanish empire'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'jeffersonianDemocracy', title: 'Jeffersonian Democracy and Republican Ideals', keyFacts: ['Strict vs loose constitutional interpretation', 'Agrarian vision vs industrial development', 'States rights vs federal power', 'Louisiana Purchase doubled nation size', 'Individual liberty and limited government'] },
+          { key: 'warOf1812', title: 'War of 1812 and National Identity', keyFacts: ['British impressment and trade restrictions', 'Battle of New Orleans and Washington DC', 'Increased nationalism and Era of Good Feelings', 'End of Federalist Party', 'Native American resistance ended'] },
+          { key: 'marketRevolution', title: 'Market Revolution and Economic Change', keyFacts: ['Transportation revolution with canals and roads', 'Industrial development in Northeast', 'Agricultural commercialization in South', 'Rise of wage labor and factories', 'Growth of cities and urbanization'] },
+          { key: 'westwardExpansion', title: 'Westward Expansion and Manifest Destiny', keyFacts: ['Indian Removal Act and Trail of Tears', 'Texas annexation and Mexican-American War', 'California Gold Rush migration', 'Oregon Trail and westward movement', 'Conflict over slavery in territories'] },
+          { key: 'reformMovements', title: 'Reform Movements and Social Change', keyFacts: ['Second Great Awakening religious revival', 'Abolitionist movement and Underground Railroad', 'Seneca Falls Convention for women rights', 'Temperance movement against alcohol', 'Educational reform and public schools'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'sectionalTension', title: 'Sectional Conflict and Compromise', keyFacts: ['Missouri Compromise 1820', 'Compromise of 1850', 'Kansas-Nebraska Act popular sovereignty', 'Bleeding Kansas violence', 'Dred Scott v. Sandford decision'] },
+          { key: 'slaveryDebate', title: 'Slavery and Anti-Slavery Movements', keyFacts: ['Abolitionists like Garrison and Douglass', 'Underground Railroad and Harriet Tubman', 'Uncle Toms Cabin by Stowe', 'Free Soil Party opposition', 'John Browns raid on Harpers Ferry'] },
+          { key: 'civilWar', title: 'The Civil War 1861-1865', keyFacts: ['Fort Sumter and secession', 'Union advantages in industry and population', 'Emancipation Proclamation 1863', 'Gettysburg and turning point battles', 'Total war strategy by Sherman'] },
+          { key: 'reconstruction', title: 'Reconstruction and Its Legacy', keyFacts: ['Presidential vs Radical Reconstruction', '13th, 14th, 15th Amendments', 'Freedmens Bureau assistance', 'Black Codes and Jim Crow laws', 'Compromise of 1877 ended Reconstruction'] },
+          { key: 'economicChanges', title: 'Economic and Social Changes', keyFacts: ['Industrial growth during war', 'Railroad expansion westward', 'New immigrant communities', 'Womens roles during wartime', 'Urbanization and labor changes'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'industrialization', title: 'Industrialization and Economic Growth', keyFacts: ['Steel industry and Andrew Carnegie', 'Railroad expansion and consolidation', 'Corporate monopolies and trusts', 'New business practices and efficiency', 'Technology and innovation surge'] },
+          { key: 'newImmigration', title: 'New Immigration and Urbanization', keyFacts: ['Southern and Eastern Europeans', 'Ellis Island processing center', 'Urban tenements and overcrowding', 'Ethnic neighborhoods and communities', 'Nativism and Chinese Exclusion Act'] },
+          { key: 'laborMovement', title: 'Labor Movement and Class Conflict', keyFacts: ['Knights of Labor and AFL', 'Great Railroad Strike of 1877', 'Haymarket Affair and violence', 'Homestead and Pullman strikes', 'Industrial working conditions'] },
+          { key: 'politicalCorruption', title: 'Politics and Reform in the Gilded Age', keyFacts: ['Political machines and Boss Tweed', 'Pendleton Act civil service reform', 'Presidential elections and issues', 'Populist Party and farmers', 'Currency and tariff debates'] },
+          { key: 'culturalChanges', title: 'Cultural and Social Changes', keyFacts: ['Rise of consumer culture', 'Public education expansion', 'New entertainment and sports', 'Womens rights movement growth', 'Social Darwinism ideology'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'imperialism', title: 'American Imperialism and Expansion', keyFacts: ['Spanish-American War and Cuba', 'Acquisition of Philippines and Hawaii', 'Monroe Doctrine and Roosevelt Corollary', 'Dollar Diplomacy and foreign investment', 'Open Door Policy in China'] },
+          { key: 'progressiveEra', title: 'Progressive Era Reforms', keyFacts: ['Muckrakers expose social problems', 'Settlement houses and Jane Addams', 'Workplace safety and regulations', 'Conservation and national parks', 'Food and drug safety laws'] },
+          { key: 'presidentialLeadership', title: 'Progressive Presidents', keyFacts: ['Theodore Roosevelt trust-busting', 'Taft and continued reforms', 'Wilson and New Freedom agenda', '16th, 17th, 18th, 19th Amendments', 'Federal Reserve System creation'] },
+          { key: 'worldWarI', title: 'World War I and American Society', keyFacts: ['Neutrality and submarine warfare', 'Zimmermann Telegram and declaration', 'Home front mobilization efforts', 'Espionage Act and civil liberties', 'Red Scare and Palmer Raids'] },
+          { key: 'socialReform', title: 'Social Reform and Rights Movements', keyFacts: ['Womens suffrage and 19th Amendment', 'Prohibition and moral reform', 'NAACP formation and civil rights', 'Immigration restrictions and quotas', 'Urban reform and city planning'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'twentiesCulture', title: '1920s Cultural Changes', keyFacts: ['Jazz Age and Harlem Renaissance', 'Radio and mass entertainment', 'Automobiles transform society', 'Flappers and changing gender roles', 'Consumer culture and advertising'] },
+          { key: 'economicProsperity', title: 'Economic Prosperity and Problems', keyFacts: ['Stock market speculation boom', 'Industrial productivity increases', 'Unequal wealth distribution', 'Agricultural struggles continue', 'Consumer credit and installments'] },
+          { key: 'greatDepression', title: 'The Great Depression', keyFacts: ['Stock Market Crash October 1929', 'Bank failures and unemployment', 'Dust Bowl and migration', 'Hoover response inadequate', 'Social and psychological impact'] },
+          { key: 'newDeal', title: 'New Deal Programs and Policies', keyFacts: ['FDR and First Hundred Days', 'Relief, Recovery, Reform strategy', 'Social Security and labor rights', 'Public works and job creation', 'Supreme Court and constitutional crisis'] },
+          { key: 'worldWarII', title: 'World War II and Home Front', keyFacts: ['Pearl Harbor and entry into war', 'War production and economy', 'Japanese American internment', 'Women in workforce', 'African American Double Victory'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'worldWarII', title: 'World War II Global Conflict', keyFacts: ['European and Pacific theaters', 'D-Day invasion and victory', 'Holocaust and genocide', 'Atomic bombs on Japan', 'Allied victory and costs'] },
+          { key: 'coldWarOrigins', title: 'Origins of the Cold War', keyFacts: ['Yalta and Potsdam conferences', 'Iron Curtain and division of Europe', 'Truman Doctrine and containment', 'Marshall Plan economic aid', 'Berlin Blockade and airlift'] },
+          { key: 'domesticPolicies', title: 'Post-War Domestic Policies', keyFacts: ['GI Bill and veterans benefits', 'Suburban growth and baby boom', 'Truman Fair Deal programs', 'Labor strikes and Taft-Hartley', 'Red Scare and McCarthyism'] },
+          { key: 'civilRights', title: 'Early Civil Rights Movement', keyFacts: ['Jackie Robinson breaks color barrier', 'Brown v. Board education decision', 'Montgomery Bus Boycott', 'Little Rock Central High crisis', 'NAACP legal strategy'] },
+          { key: 'eisenhowerEra', title: 'Eisenhower and 1950s Society', keyFacts: ['Interstate Highway System', 'Suburban prosperity and conformity', 'Television and mass culture', 'Space Race begins', 'Modern Republicanism policies'] }
+        ];
+      } else if (unit === 'unit8') {
+        return [
+          { key: 'civilRightsMovement', title: 'Civil Rights Movement', keyFacts: ['Martin Luther King Jr leadership', 'Freedom Riders and sit-ins', 'March on Washington 1963', 'Civil Rights Act 1964', 'Voting Rights Act 1965'] },
+          { key: 'greatSociety', title: 'Great Society and Liberal Reform', keyFacts: ['LBJ War on Poverty', 'Medicare and Medicaid programs', 'Immigration Act of 1965', 'Environmental protection laws', 'Education and urban renewal'] },
+          { key: 'vietnamWar', title: 'Vietnam War and Conflict', keyFacts: ['Escalation under JFK and LBJ', 'Draft and anti-war protests', 'Tet Offensive turning point', 'My Lai Massacre scandal', 'Vietnamization and withdrawal'] },
+          { key: 'counterculture', title: 'Counterculture and Social Change', keyFacts: ['Youth rebellion and hippies', 'Music and cultural revolution', 'Feminist movement and NOW', 'Environmental movement begins', 'Sexual revolution and lifestyle'] },
+          { key: 'conservativeResponse', title: 'Conservative Response and Backlash', keyFacts: ['Nixon Southern Strategy', 'Law and order campaigns', 'Religious right mobilization', 'Watergate scandal and resignation', 'Economic stagflation problems'] }
+        ];
+      } else if (unit === 'unit9') {
+        return [
+          { key: 'reaganRevolution', title: 'Reagan Revolution and Conservatism', keyFacts: ['Supply-side economics and tax cuts', 'Deregulation of industries', 'Military buildup and Cold War', 'Social conservative agenda', 'Iran-Contra scandal'] },
+          { key: 'coldWarEnd', title: 'End of Cold War', keyFacts: ['Soviet Union collapse 1991', 'Berlin Wall fall 1989', 'Nuclear arms reduction', 'Democracy spreads globally', 'US as sole superpower'] },
+          { key: 'economicChanges', title: 'Economic and Technological Changes', keyFacts: ['Computer and internet revolution', 'Globalization and trade', 'Service economy growth', 'Income inequality increases', 'Financial markets expansion'] },
+          { key: 'politicalPolarization', title: 'Political Polarization', keyFacts: ['Clinton impeachment crisis', 'Bush v Gore election 2000', 'Partisan media growth', 'Culture wars issues', 'Gridlock and dysfunction'] },
+          { key: 'modernChallenges', title: 'Modern Challenges and Issues', keyFacts: ['9/11 attacks and terrorism', 'Iraq and Afghanistan wars', '2008 financial crisis', 'Obama presidency and change', 'Trump presidency and populism'] }
+        ];
+      }
+    }
+
+    if (course === 'apgov') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'enlightenment', title: 'Enlightenment Ideals and Democratic Theory', keyFacts: ['Natural rights philosophy', 'Social contract theory', 'Separation of powers', 'Popular sovereignty', 'Individual vs government rights'] },
+          { key: 'articles', title: 'Articles of Confederation and Early Challenges', keyFacts: ['Weak central government design', 'No executive or federal courts', 'Revenue and commerce problems', 'Shays\' Rebellion highlighted issues', 'Need for stronger union'] },
+          { key: 'convention', title: 'Constitutional Convention and Compromises', keyFacts: ['Great Compromise bicameral legislature', 'Three-Fifths Compromise slavery', 'Electoral College for president', 'Federalists vs Anti-Federalists', 'Federalist Papers ratification'] },
+          { key: 'federalism', title: 'Federalism and Division of Powers', keyFacts: ['Enumerated and implied powers', 'Supremacy Clause federal preemption', 'Tenth Amendment reserved powers', 'Necessary and Proper Clause', 'Dual to cooperative federalism'] },
+          { key: 'billOfRights', title: 'Bill of Rights and Individual Liberties', keyFacts: ['First ten amendments', 'Protection from government', 'First Amendment freedoms', 'Due process protections', 'Incorporation doctrine to states'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'congress', title: 'Congress: Structure and Powers', keyFacts: ['House and Senate differences', 'Leadership and committee system', 'Legislative process and bills', 'Oversight and investigation powers', 'Impeachment and confirmation roles'] },
+          { key: 'presidency', title: 'The Presidency: Powers and Roles', keyFacts: ['Constitutional and informal powers', 'Commander-in-Chief role', 'Executive orders and agreements', 'Appointment and removal powers', 'Presidential leadership styles'] },
+          { key: 'judiciary', title: 'Federal Court System', keyFacts: ['Supreme Court and lower courts', 'Judicial review power', 'Life tenure and independence', 'Case selection and jurisdiction', 'Constitutional interpretation methods'] },
+          { key: 'bureaucracy', title: 'Federal Bureaucracy and Administration', keyFacts: ['Cabinet departments and agencies', 'Civil service and merit system', 'Rulemaking and implementation', 'Iron triangles and issue networks', 'Bureaucratic accountability'] },
+          { key: 'checksBalances', title: 'Checks and Balances in Action', keyFacts: ['Veto power and override', 'Senate confirmation process', 'Judicial review of laws', 'Congressional oversight', 'Informal power relationships'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'firstAmendment', title: 'First Amendment Freedoms', keyFacts: ['Freedom of speech and press', 'Religious establishment and exercise', 'Assembly and petition rights', 'Symbolic speech protection', 'Prior restraint limitations'] },
+          { key: 'dueProcess', title: 'Due Process and Criminal Rights', keyFacts: ['Fourth Amendment search and seizure', 'Fifth Amendment self-incrimination', 'Sixth Amendment right to counsel', 'Eighth Amendment cruel punishment', 'Exclusionary rule applications'] },
+          { key: 'civilRights', title: 'Civil Rights and Equal Protection', keyFacts: ['14th Amendment equal protection', 'Brown v Board school desegregation', 'Civil Rights Act enforcement', 'Affirmative action policies', 'Disability and LGBTQ rights'] },
+          { key: 'privacyRights', title: 'Privacy Rights and Personal Liberty', keyFacts: ['Griswold contraception decision', 'Roe v Wade abortion rights', 'Lawrence sodomy law ruling', 'Technology and surveillance', 'Balancing security and privacy'] },
+          { key: 'selectiveIncorporation', title: 'Selective Incorporation Process', keyFacts: ['Bill of Rights applies to states', 'Case-by-case incorporation', 'McDonald gun rights decision', 'State vs federal protections', 'Supreme Court interpretation'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'politicalSocialization', title: 'Political Socialization and Beliefs', keyFacts: ['Family and early influences', 'Education and peer groups', 'Media and information sources', 'Personal experiences shape views', 'Generational differences'] },
+          { key: 'publicOpinion', title: 'Public Opinion and Polling', keyFacts: ['Scientific polling methods', 'Sampling and margin of error', 'Question wording effects', 'Push polls and bias', 'Opinion measurement challenges'] },
+          { key: 'politicalIdeology', title: 'Political Ideologies and Beliefs', keyFacts: ['Liberal vs conservative spectrum', 'Libertarian and authoritarian views', 'Economic and social issues', 'Party identification trends', 'Ideology and voting behavior'] },
+          { key: 'politicalCulture', title: 'American Political Culture', keyFacts: ['Individual liberty emphasis', 'Equality of opportunity ideal', 'Limited government preference', 'Rule of law principles', 'Democratic participation values'] },
+          { key: 'demographicInfluences', title: 'Demographic Influences on Politics', keyFacts: ['Race and ethnicity effects', 'Gender gap in voting', 'Age and generational differences', 'Education and income correlations', 'Geographic regional variations'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'votingRights', title: 'Voting Rights and Participation', keyFacts: ['Expansion of suffrage over time', '15th, 19th, 26th Amendments', 'Voting Rights Act protections', 'Voter registration requirements', 'Voter turnout patterns'] },
+          { key: 'elections', title: 'Elections and Electoral Process', keyFacts: ['Primary and general elections', 'Electoral College system', 'Campaign finance regulations', 'Redistricting and gerrymandering', 'Ballot access and third parties'] },
+          { key: 'politicalParties', title: 'Political Parties and Functions', keyFacts: ['Two-party system dominance', 'Party organization levels', 'Candidate recruitment and support', 'Platform development', 'Party identification decline'] },
+          { key: 'interestGroups', title: 'Interest Groups and Lobbying', keyFacts: ['Types and functions of groups', 'Lobbying strategies and tactics', 'PACs and campaign contributions', 'Revolving door phenomenon', 'Regulation of lobbying'] },
+          { key: 'mediaInfluence', title: 'Media and Political Communication', keyFacts: ['Traditional vs new media', 'Horse race vs issue coverage', 'Media bias perceptions', 'Social media impact', 'Information bubbles and polarization'] }
+        ];
+      }
+    }
+
+    if (course === 'apworld' || course === 'world') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'silkRoads', title: 'The Silk Roads and Overland Trade', keyFacts: ['Connected China to Mediterranean', 'Traded silk, spices, and ideas', 'Spread Buddhism and Islam', 'Caravanserai provided safety', 'Declined due to taxes and politics'] },
+          { key: 'indianOcean', title: 'Indian Ocean Maritime Trading Network', keyFacts: ['Connected East Africa to Southeast Asia', 'Monsoon winds enabled sailing', 'Spread Islam to new regions', 'Swahili city-states flourished', 'Chinese treasure fleets explored'] },
+          { key: 'mongols', title: 'The Mongol Empire and Its Impact', keyFacts: ['Largest contiguous land empire', 'Connected East and West', 'Promoted religious tolerance', 'Facilitated trade and communication', 'Split into four khanates'] },
+          { key: 'transSaharan', title: 'Trans-Saharan Trade Networks', keyFacts: ['Connected North and West Africa', 'Gold and salt were key goods', 'Spread Islam into West Africa', 'Great empires: Ghana, Mali, Songhai', 'Timbuktu became learning center'] },
+          { key: 'culturalExchange', title: 'Cultural and Technological Exchange', keyFacts: ['Paper-making spread from China', 'Gunpowder diffused westward', 'Arabic numerals spread', 'Religious ideas traveled routes', 'Black Death followed trade paths'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'europeanExploration', title: 'European Maritime Exploration', keyFacts: ['Portuguese pioneered Atlantic routes', 'Spanish conquered Aztec and Inca', 'Dutch and English trading companies', 'Motivated by Gold, God, Glory', 'New navigation technology'] },
+          { key: 'columbianExchange', title: 'The Columbian Exchange', keyFacts: ['Biological exchange Old/New Worlds', 'Diseases devastated Native Americans', 'New crops transformed Old World', 'Animals changed New World societies', 'Cultural exchange accelerated'] },
+          { key: 'atlanticSlave', title: 'Atlantic Slave Trade System', keyFacts: ['Triangular trade system', '12-15 million Africans transported', 'Plantation agriculture developed', 'African societies disrupted', 'Resistance and cultural preservation'] },
+          { key: 'landEmpires', title: 'Land-Based Empires', keyFacts: ['Ottoman Empire in Mediterranean', 'Safavid Persia established Shia Islam', 'Mughal Empire unified India', 'Qing Dynasty expanded China', 'All used gunpowder weapons'] },
+          { key: 'globalTrade', title: 'Expansion of Global Trade', keyFacts: ['Manila galleons crossed Pacific', 'Joint-stock companies financed trade', 'European trading posts established', 'Silver flowed to China', 'Proto-industrialization began'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'industrialRevolution', title: 'The Industrial Revolution', keyFacts: ['Started in Britain with textiles', 'Steam power revolutionized transport', 'Factory system replaced handicrafts', 'Urbanization and new classes', 'Spread to Western Europe'] },
+          { key: 'newImperialism', title: 'New Imperialism and Colonization', keyFacts: ['Europeans colonized Africa and Asia', 'Berlin Conference divided Africa', 'Economic motives for raw materials', 'Technological advantages in warfare', 'Civilizing mission ideology'] },
+          { key: 'nationalism', title: 'Rise of Nationalism', keyFacts: ['German and Italian unification', 'Latin American independence', 'Ethnic nationalism in empires', 'Cultural nationalism emerged', 'Challenge to multi-ethnic empires'] },
+          { key: 'abolition', title: 'Abolition and Reform Movements', keyFacts: ['British abolished slave trade', 'Russian serfdom ended 1861', 'Women\'s rights movements', 'Prison and education reforms', 'Religious revival movements'] },
+          { key: 'globalMigration', title: 'Global Migration Patterns', keyFacts: ['European migration to Americas', 'Asian indentured labor', 'Rural to urban migration', 'Chinese and Indian diaspora', 'Refugee movements from conflicts'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'globalConflicts', title: 'Global Conflicts and Total War', keyFacts: ['WWI industrialized warfare', 'WWII global scale conflict', 'Cold War ideological struggle', 'Proxy wars in developing world', 'Nuclear weapons changed warfare'] },
+          { key: 'decolonization', title: 'Decolonization Movements', keyFacts: ['Indian independence through non-violence', 'African independence movements', 'Vietnamese nationalist struggle', 'Arab nationalism emerged', 'Legacy of artificial borders'] },
+          { key: 'economicSystems', title: 'Competing Economic Systems', keyFacts: ['Capitalism vs communism', 'Marshall Plan rebuilt Europe', 'Soviet five-year plans', 'Chinese economic reforms', 'Globalization and free trade'] },
+          { key: 'humanRights', title: 'Human Rights and Social Movements', keyFacts: ['Universal Declaration 1948', 'Civil rights in United States', 'Apartheid ended in South Africa', 'Women\'s liberation movements', 'Environmental awareness grew'] },
+          { key: 'globalChallenges', title: 'Contemporary Global Challenges', keyFacts: ['Terrorism changed security', 'Economic inequality persists', 'Climate change requires cooperation', 'Technology revolution continues', 'Pandemic responses tested coordination'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'enlightenmentRevolutions', title: 'Enlightenment and Political Revolutions', keyFacts: ['American Revolution inspired others', 'French Revolution and human rights', 'Haitian Revolution ended slavery', 'Latin American independence movements', 'Nationalist revolutions in Europe'] },
+          { key: 'industrialSpread', title: 'Spread of Industrialization', keyFacts: ['From Britain to continental Europe', 'Railroad networks connected regions', 'Factory system and urbanization', 'New social classes emerged', 'Environmental consequences'] },
+          { key: 'socialReform', title: 'Social Reform and Abolition', keyFacts: ['Abolition of slavery movements', 'Women\'s rights advocacy', 'Prison and education reform', 'Labor movement organization', 'Religious revival movements'] },
+          { key: 'nationalism', title: 'Nationalism and Nation-Building', keyFacts: ['German and Italian unification', 'Ottoman Empire challenges', 'Ethnic nationalism in Austria-Hungary', 'Pan-Slavism and Pan-Arabism', 'Cultural nationalism movements'] },
+          { key: 'economicImperialism', title: 'Economic Imperialism and Resistance', keyFacts: ['European economic penetration', 'Unequal treaties in Asia', 'Raw materials extraction', 'Indigenous resistance movements', 'Modernization attempts'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'massProduction', title: 'Mass Production and Consumer Culture', keyFacts: ['Assembly line methods', 'Standardized products', 'Department stores emerged', 'Advertising and marketing', 'Middle class consumption'] },
+          { key: 'urbanization', title: 'Urbanization and Social Changes', keyFacts: ['Rural to urban migration', 'Working class neighborhoods', 'Public health improvements', 'New forms of entertainment', 'Family structure changes'] },
+          { key: 'laborMovements', title: 'Labor Organization and Strikes', keyFacts: ['Trade unions formation', 'Socialist and anarchist movements', 'International labor solidarity', 'Government labor regulations', 'Working conditions improvements'] },
+          { key: 'newImperialism', title: 'New Imperialism and Scramble for Africa', keyFacts: ['Berlin Conference 1884-85', 'Technological military advantages', 'Economic competition for markets', 'Civilizing mission ideology', 'Resistance and adaptation'] },
+          { key: 'globalMigration', title: 'Global Migration Patterns', keyFacts: ['European emigration to Americas', 'Asian contract labor systems', 'Refugee movements from conflicts', 'Cultural communities in diaspora', 'Xenophobia and restrictions'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'worldWarOne', title: 'World War I and Total War', keyFacts: ['Alliance system and causes', 'Trench warfare and technology', 'Total war mobilization', 'Russian Revolution and exit', 'German defeat and armistice'] },
+          { key: 'interbellum', title: 'Interwar Period and Economic Crisis', keyFacts: ['Treaty of Versailles consequences', 'Great Depression global impact', 'Rise of fascism and militarism', 'League of Nations weaknesses', 'Democratic governments challenged'] },
+          { key: 'worldWarTwo', title: 'World War II and Holocaust', keyFacts: ['Axis expansion and Blitzkrieg', 'Holocaust and genocide', 'Pacific theater and atomic bombs', 'Allied victory and costs', 'Resistance movements worldwide'] },
+          { key: 'coldWarOrigins', title: 'Origins of the Cold War', keyFacts: ['Ideological differences intensify', 'Nuclear weapons and deterrence', 'Division of Germany and Europe', 'Marshall Plan and economic aid', 'NATO and Warsaw Pact formation'] },
+          { key: 'decolonizationBegins', title: 'Beginning of Decolonization', keyFacts: ['Indian independence and partition', 'Indonesian nationalist struggle', 'African independence movements', 'Mandates and trusteeship', 'Non-aligned movement emergence'] }
+        ];
+      } else if (unit === 'unit8') {
+        return [
+          { key: 'coldWarConflicts', title: 'Cold War Proxy Conflicts', keyFacts: ['Korean War division', 'Vietnam War and domino theory', 'Cuban Missile Crisis', 'Soviet intervention in Afghanistan', 'Proxy wars in Africa'] },
+          { key: 'decolonizationComplete', title: 'Completion of Decolonization', keyFacts: ['African independence movements', 'Algerian War and violence', 'Congo crisis and intervention', 'Apartheid in South Africa', 'Palestine-Israel conflict'] },
+          { key: 'developmentModels', title: 'Economic Development Models', keyFacts: ['Import substitution industrialization', 'Green Revolution agriculture', 'Dependency theory critique', 'Modernization theory application', 'Resource nationalism'] },
+          { key: 'socialMovements', title: 'Global Social Movements', keyFacts: ['Civil rights in United States', 'Student protests of 1968', 'Feminist movements worldwide', 'Environmental awareness growth', 'Human rights organizations'] },
+          { key: 'culturalExchange', title: 'Cultural Exchange and Resistance', keyFacts: ['Western cultural influence', 'Local cultural preservation', 'Popular music and media', 'Religious fundamentalism rise', 'Cultural syncretism'] }
+        ];
+      } else if (unit === 'unit9') {
+        return [
+          { key: 'endColdWar', title: 'End of Cold War', keyFacts: ['Soviet Union collapse', 'German reunification', 'Eastern European revolutions', 'Nuclear disarmament treaties', 'United States sole superpower'] },
+          { key: 'economicGlobalization', title: 'Economic Globalization', keyFacts: ['Free trade agreements', 'Multinational corporations', 'Financial markets integration', 'Economic inequality growth', 'Anti-globalization movements'] },
+          { key: 'technologicalRevolution', title: 'Technological Revolution', keyFacts: ['Internet and digital communication', 'Mobile technology spread', 'Biotechnology advances', 'Space exploration continued', 'Information society emergence'] },
+          { key: 'environmentalChallenges', title: 'Environmental and Health Challenges', keyFacts: ['Climate change awareness', 'Ozone depletion addressed', 'Pandemic responses (AIDS, COVID)', 'Sustainable development goals', 'International environmental treaties'] },
+          { key: 'contemporaryConflicts', title: 'Contemporary Global Conflicts', keyFacts: ['Terrorism and 9/11', 'Wars in Iraq and Afghanistan', 'Ethnic conflicts and genocide', 'Migration and refugee crises', 'International humanitarian intervention'] }
+        ];
+      }
+    }
+
+    return [];
   };
 
   // Function to fetch unit topics from backend
@@ -127,7 +335,20 @@ const SocraticChat = () => {
       }
 
       const data: UnitTopicsData = await response.json();
-      setUnitTopics(data.topics || []);
+      console.log(`Topics loaded for ${course} ${unit}:`, data.topics?.length || 0, 'topics');
+      
+      // If API returns no topics, use fallback topics for known courses
+      if (!data.topics || data.topics.length === 0) {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') {
+          console.log('API returned no topics, providing fallback topics for', course, unit);
+          const fallbackTopics = getFallbackTopics(course, unit);
+          setUnitTopics(fallbackTopics);
+        } else {
+          setUnitTopics([]);
+        }
+      } else {
+        setUnitTopics(data.topics);
+      }
     } catch (error) {
       console.error('Error fetching unit topics:', error);
       
@@ -140,8 +361,14 @@ const SocraticChat = () => {
         }
       }
       
-      // Set fallback empty array on error
-      setUnitTopics([]);
+      // Instead of setting empty array, let's provide fallback topics for known courses
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') {
+        console.log('Providing fallback topics for', course, unit);
+        const fallbackTopics = getFallbackTopics(course, unit);
+        setUnitTopics(fallbackTopics);
+      } else {
+        setUnitTopics([]);
+      }
     } finally {
       setTopicsLoading(false);
     }
@@ -181,7 +408,12 @@ const SocraticChat = () => {
         'unit1': "Welcome to AP World Unit 1: Global Trade Networks (1200–1450 CE)! 🛤️\n\nI'm your Socratic AI tutor. I'll guide your understanding of global connections through thoughtful questions and discussion.\n\nKey topics: Silk Roads • Indian Ocean trade • Mongol Empire • Trans-Saharan trade • Cultural exchange\n\nWhat do you already know about how different civilizations connected before 1450, or what would you like to explore first?",
         'unit2': "Welcome to AP World Unit 2: Early Modern Global Connections (1450–1750 CE)! 🌍\n\nI'm your Socratic AI tutor. Let's explore how European exploration created the first truly global trade networks.\n\nKey topics: European exploration • Columbian Exchange • Atlantic slave trade • Land-based empires • Global trade expansion\n\nWhat interests you most about this age of exploration, or what questions do you have about how the world became more connected?",
         'unit3': "Welcome to AP World Unit 3: Industrial Age and Imperialism (1750–1900 CE)! 🏭\n\nI'm your Socratic AI tutor. Let's examine how industrialization transformed society and created new forms of empire.\n\nKey topics: Industrial Revolution • New imperialism • Nationalism • Abolition movements • Global migration\n\nWhat would you like to understand about how industrialization changed the world, or what specific aspect interests you most?",
-        'unit4': "Welcome to AP World Unit 4: The Modern World (1900–Present)! 🌐\n\nI'm your Socratic AI tutor. Let's explore global conflicts, decolonization, and contemporary challenges.\n\nKey topics: Global conflicts • Decolonization • Economic systems • Human rights • Global challenges\n\nWhat do you want to learn about the modern world, or what current global issue interests you most?"
+        'unit4': "Welcome to AP World Unit 4: The Modern World (1900–Present)! 🌐\n\nI'm your Socratic AI tutor. Let's explore global conflicts, decolonization, and contemporary challenges.\n\nKey topics: Global conflicts • Decolonization • Economic systems • Human rights • Global challenges\n\nWhat do you want to learn about the modern world, or what current global issue interests you most?",
+        'unit5': "Welcome to AP World Unit 5: Revolutions and Independence (1750–1900 CE)! 🔥\n\nI'm your Socratic AI tutor. Let's examine the age of revolutions and movements for independence.\n\nKey topics: Political revolutions • Industrial spread • Social reform • Nationalism • Economic imperialism\n\nWhat interests you about this era of revolutionary change and independence movements?",
+        'unit6': "Welcome to AP World Unit 6: Consequences of Industrialization (1750–1900 CE)! 🏗️\n\nI'm your Socratic AI tutor. Let's explore how industrialization transformed society worldwide.\n\nKey topics: Mass production • Urbanization • Labor movements • New imperialism • Global migration\n\nWhat would you like to understand about industrialization's impact on the world?",
+        'unit7': "Welcome to AP World Unit 7: Global Conflict (1900–Present)! ⚔️\n\nI'm your Socratic AI tutor. Let's examine the era of total war and global conflict.\n\nKey topics: World War I • Interwar crisis • World War II • Cold War origins • Early decolonization\n\nWhat aspect of 20th-century global conflict interests you most?",
+        'unit8': "Welcome to AP World Unit 8: Cold War and Decolonization (1900–Present)! 🕊️\n\nI'm your Socratic AI tutor. Let's explore the Cold War era and the end of colonialism.\n\nKey topics: Cold War conflicts • Decolonization completion • Development models • Social movements • Cultural exchange\n\nWhat would you like to learn about this transformative period in world history?",
+        'unit9': "Welcome to AP World Unit 9: Globalization (1900–Present)! 🌏\n\nI'm your Socratic AI tutor. Let's examine our interconnected modern world.\n\nKey topics: End of Cold War • Economic globalization • Technological revolution • Environmental challenges • Contemporary conflicts\n\nWhat aspects of our globalized world interest you most?"
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore world history through guided questions and discussion.`;
     }
@@ -904,6 +1136,12 @@ const SocraticChat = () => {
                       navigate(`/apush-study-guide/unit/${unit?.replace('unit', '')}/quiz`);
                     } else if (course === 'apgov') {
                       navigate(`/ap-gov-unit/${unit?.replace('unit', '')}`);
+                    } else if (course === 'apworld' || course === 'world') {
+                      navigate(`/ap-world-study-guide/unit/${unit?.replace('unit', '')}`);
+                    } else {
+                      // Fallback for any other courses
+                      console.log(`Navigation not implemented for course: ${course}`);
+                      alert(`Study guide for ${course?.toUpperCase()} ${unit?.toUpperCase()} is coming soon!`);
                     }
                   }}
                   className="w-full px-4 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 text-white text-sm font-semibold rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all duration-300 shadow-lg"
