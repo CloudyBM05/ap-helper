@@ -34,8 +34,23 @@ if (fs.existsSync(indexHtmlPath)) {
   htmlContent = htmlContent.replace(/type="module"\s+crossorigin\s+/g, '');
   htmlContent = htmlContent.replace(/type="module"\s+/g, '');
   
+  // Move script tags from head to end of body for proper DOM loading order
+  const scriptTagRegex = /(<script[^>]*src="\/assets\/[^"]*\.js"[^>]*><\/script>)/g;
+  const scriptTags = [];
+  
+  // Extract script tags
+  htmlContent = htmlContent.replace(scriptTagRegex, (match) => {
+    scriptTags.push(match);
+    return ''; // Remove from current position
+  });
+  
+  // Insert script tags before closing body tag
+  if (scriptTags.length > 0) {
+    htmlContent = htmlContent.replace('</body>', scriptTags.join('\n    ') + '\n  </body>');
+  }
+  
   fs.writeFileSync(indexHtmlPath, htmlContent);
-  console.log('✓ Fixed MIME type issues in index.html');
+  console.log('✓ Fixed MIME type issues and script placement in index.html');
 }
 
 console.log('Postbuild complete!');
