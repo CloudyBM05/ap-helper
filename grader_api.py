@@ -1941,6 +1941,258 @@ def get_unit_topics_api():
                 }
                 # Add more AP Gov units as needed
             }
+        elif course == "apworld" or course == "world":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apworld",
+                    "overview": "The period 1200-1450 CE saw massive trade networks connecting civilizations across Asia, Africa, and Europe. This unit explores how the Silk Roads, Indian Ocean trade, and the Mongol Empire created the first global connections.",
+                    "topics": [
+                        {
+                            "key": "silkRoads",
+                            "title": "The Silk Roads and Overland Trade",
+                            "keyFacts": [
+                                "Connected China to Mediterranean across Central Asia",
+                                "Traded silk, spices, precious stones, and ideas",
+                                "Spread Buddhism, Islam, and technology",
+                                "Caravanserai provided safety and rest stops",
+                                "Decline due to Ming isolationism and Ottoman taxes"
+                            ]
+                        },
+                        {
+                            "key": "indianOceanTrade",
+                            "title": "Indian Ocean Maritime Trading Network",
+                            "keyFacts": [
+                                "Connected East Africa, Middle East, India, and Southeast Asia",
+                                "Monsoon winds enabled seasonal sailing patterns",
+                                "Spread Islam to Southeast Asia and East Africa",
+                                "Swahili city-states flourished on East African coast",
+                                "Chinese treasure fleets under Admiral Zheng He (1405-1433)"
+                            ]
+                        },
+                        {
+                            "key": "mongolEmpire",
+                            "title": "The Mongol Empire and Its Impact",
+                            "keyFacts": [
+                                "Largest contiguous land empire in history",
+                                "Connected East and West under Pax Mongolica",
+                                "Promoted religious tolerance and cultural exchange",
+                                "Facilitated trade and communication across Eurasia",
+                                "Split into four khanates after Mongke Khan's death"
+                            ]
+                        },
+                        {
+                            "key": "transSaharanTrade",
+                            "title": "Trans-Saharan Trade Networks",
+                            "keyFacts": [
+                                "Connected North and West Africa across Sahara Desert",
+                                "Gold and salt were primary trade goods",
+                                "Spread Islam into West Africa",
+                                "Great empires: Ghana, Mali, Songhai",
+                                "Timbuktu became center of Islamic learning"
+                            ]
+                        },
+                        {
+                            "key": "culturalExchange",
+                            "title": "Cultural and Technological Exchange",
+                            "keyFacts": [
+                                "Paper-making spread from China to Islamic world",
+                                "Printing technology and gunpowder diffused westward",
+                                "Mathematical concepts like Arabic numerals",
+                                "Religious ideas spread along trade routes",
+                                "Disease transmission: Black Death followed trade routes"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apworld", 
+                    "overview": "The period 1450-1750 CE marked the beginning of global trade networks. European maritime exploration created the first truly worldwide connections, while land-based empires consolidated power across Asia and the Middle East.",
+                    "topics": [
+                        {
+                            "key": "europeanExploration",
+                            "title": "European Maritime Exploration",
+                            "keyFacts": [
+                                "Portuguese pioneered Atlantic exploration and Indian Ocean routes",
+                                "Spanish conquistadors conquered Aztec and Inca empires",
+                                "Dutch and English established global trading companies",
+                                "Motivated by Gold, God, and Glory",
+                                "New navigation technology: compass, astrolabe, caravel ships"
+                            ]
+                        },
+                        {
+                            "key": "columbianExchange",
+                            "title": "The Columbian Exchange",
+                            "keyFacts": [
+                                "Massive biological exchange between Old and New Worlds",
+                                "Diseases devastated Native American populations",
+                                "New World crops: potatoes, corn, tomatoes transformed Old World",
+                                "Old World animals: horses, cattle changed New World societies",
+                                "Cultural and technological exchange accelerated"
+                            ]
+                        },
+                        {
+                            "key": "atlanticSlaveTradeSystem",
+                            "title": "Atlantic Slave Trade System", 
+                            "keyFacts": [
+                                "Triangular trade connected Europe, Africa, and Americas",
+                                "12-15 million Africans forcibly transported to Americas",
+                                "Plantation agriculture in Caribbean and Brazil",
+                                "African societies disrupted by slave raids",
+                                "Resistance: revolts, maroon communities, cultural preservation"
+                            ]
+                        },
+                        {
+                            "key": "landBasedEmpires",
+                            "title": "Land-Based Empires",
+                            "keyFacts": [
+                                "Ottoman Empire controlled Eastern Mediterranean and Balkans",
+                                "Safavid Persia established Shia Islam as state religion", 
+                                "Mughal Empire unified most of Indian subcontinent",
+                                "Qing Dynasty expanded Chinese territory to largest extent",
+                                "All used gunpowder weapons and bureaucratic administration"
+                            ]
+                        },
+                        {
+                            "key": "globalTradeExpansion",
+                            "title": "Expansion of Global Trade",
+                            "keyFacts": [
+                                "Manila galleons connected Asia and Americas via Pacific",
+                                "Joint-stock companies financed long-distance trade",
+                                "European trading posts established in Asia and Africa",
+                                "Silver from Americas flowed to China and Europe",
+                                "Proto-industrialization in Europe and China"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "apworld",
+                    "overview": "The period 1750-1900 CE was dominated by industrialization and imperialism. The Industrial Revolution transformed society while European powers colonized much of Africa and Asia.",
+                    "topics": [
+                        {
+                            "key": "industrialRevolution",
+                            "title": "The Industrial Revolution", 
+                            "keyFacts": [
+                                "Started in Britain with textile manufacturing",
+                                "Steam power revolutionized transportation and production",
+                                "Factory system replaced handicraft production",
+                                "Urbanization and new social classes emerged",
+                                "Spread to Western Europe and North America"
+                            ]
+                        },
+                        {
+                            "key": "newImperialism",
+                            "title": "New Imperialism and Colonization",
+                            "keyFacts": [
+                                "European powers colonized most of Africa and Asia",
+                                "Scramble for Africa: Berlin Conference (1884-85)",
+                                "Economic motives: raw materials and markets",
+                                "Technological advantages: railroads, telegraphs, modern weapons",
+                                "Civilizing mission justified cultural imperialism"
+                            ]
+                        },
+                        {
+                            "key": "nationalism",
+                            "title": "Rise of Nationalism",
+                            "keyFacts": [
+                                "Unification movements: Germany and Italy",
+                                "Independence movements in Latin America",
+                                "Ethnic nationalism in Ottoman and Austrian empires",
+                                "Cultural nationalism: language, literature, traditions",
+                                "Challenge to multi-ethnic empires"
+                            ]
+                        },
+                        {
+                            "key": "abolitionMovements",
+                            "title": "Abolition and Reform Movements",
+                            "keyFacts": [
+                                "British abolished slave trade (1807) then slavery (1833)",
+                                "Serfdom ended in Russia (1861)",
+                                "Women's rights movements gained momentum", 
+                                "Prison and education reforms",
+                                "Religious revival and moral reform movements"
+                            ]
+                        },
+                        {
+                            "key": "globalMigration",
+                            "title": "Global Migration Patterns",
+                            "keyFacts": [
+                                "Massive migration from Europe to Americas",
+                                "Indentured labor from Asia to work on plantations",
+                                "Internal migration from rural to urban areas",
+                                "Chinese and Indian diaspora spread globally",
+                                "Refugees from famines and persecution"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apworld",
+                    "overview": "The period 1900-present includes global conflicts, decolonization, and contemporary challenges. Two world wars reshaped the global order, while decolonization ended European empires.",
+                    "topics": [
+                        {
+                            "key": "globalConflicts",
+                            "title": "Global Conflicts and Total War",
+                            "keyFacts": [
+                                "World War I: industrialized warfare, Russian Revolution",
+                                "Interwar period: economic depression, rise of fascism",
+                                "World War II: Holocaust, atomic bombs, global scale",
+                                "Cold War: ideological conflict between US and USSR",
+                                "Proxy wars in Korea, Vietnam, Afghanistan"
+                            ]
+                        },
+                        {
+                            "key": "decolonization",
+                            "title": "Decolonization Movements",
+                            "keyFacts": [
+                                "Indian independence: Gandhi's non-violent resistance",
+                                "African independence movements: Ghana first (1957)",
+                                "Vietnam War: nationalist struggle against foreign powers",
+                                "Arab nationalism and Israeli-Palestinian conflict",
+                                "Legacy: new nations struggled with borders and development"
+                            ]
+                        },
+                        {
+                            "key": "economicSystems",
+                            "title": "Competing Economic Systems",
+                            "keyFacts": [
+                                "Capitalism vs. communism during Cold War",
+                                "Marshall Plan rebuilt Western Europe",
+                                "Soviet five-year plans industrialized USSR",
+                                "Chinese economic reforms under Deng Xiaoping",
+                                "Globalization and free trade in late 20th century"
+                            ]
+                        },
+                        {
+                            "key": "humanRights",
+                            "title": "Human Rights and Social Movements",
+                            "keyFacts": [
+                                "Universal Declaration of Human Rights (1948)",
+                                "Civil rights movement in United States",
+                                "Apartheid system in South Africa ended (1990s)",
+                                "Women's liberation and gender equality movements",
+                                "Environmental movement and climate change awareness"
+                            ]
+                        },
+                        {
+                            "key": "globalChallenges",
+                            "title": "Contemporary Global Challenges",
+                            "keyFacts": [
+                                "Terrorism: 9/11 attacks changed international security",
+                                "Economic inequality within and between nations",
+                                "Climate change requires global cooperation",
+                                "Technology revolution: internet, social media",
+                                "Pandemic responses test international coordination"
+                            ]
+                        }
+                    ]
+                }
+                # Add more AP World units as needed
+            }
         
         # Get the requested unit data
         unit_data = topics_data.get(unit, {})

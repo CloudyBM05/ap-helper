@@ -83,6 +83,15 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Gov ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apworld' || course === 'world') {
+      const unitData = {
+        'unit1': { title: 'AP World Unit 1: Global Trade Networks', period: '1200–1450 CE', emoji: '🛤️' },
+        'unit2': { title: 'AP World Unit 2: Early Modern Global Connections', period: '1450–1750 CE', emoji: '🌍' },
+        'unit3': { title: 'AP World Unit 3: Industrial Age and Imperialism', period: '1750–1900 CE', emoji: '🏭' },
+        'unit4': { title: 'AP World Unit 4: The Modern World', period: '1900–Present', emoji: '🌐' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP World ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -166,6 +175,16 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore American government through guided questions and discussion.`;
     }
+    if (course === 'apworld' || course === 'world') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP World Unit 1: Global Trade Networks (1200–1450 CE)! 🛤️\n\nI'm your Socratic AI tutor. I'll guide your understanding of global connections through thoughtful questions and discussion.\n\nKey topics: Silk Roads • Indian Ocean trade • Mongol Empire • Trans-Saharan trade • Cultural exchange\n\nWhat do you already know about how different civilizations connected before 1450, or what would you like to explore first?",
+        'unit2': "Welcome to AP World Unit 2: Early Modern Global Connections (1450–1750 CE)! 🌍\n\nI'm your Socratic AI tutor. Let's explore how European exploration created the first truly global trade networks.\n\nKey topics: European exploration • Columbian Exchange • Atlantic slave trade • Land-based empires • Global trade expansion\n\nWhat interests you most about this age of exploration, or what questions do you have about how the world became more connected?",
+        'unit3': "Welcome to AP World Unit 3: Industrial Age and Imperialism (1750–1900 CE)! 🏭\n\nI'm your Socratic AI tutor. Let's examine how industrialization transformed society and created new forms of empire.\n\nKey topics: Industrial Revolution • New imperialism • Nationalism • Abolition movements • Global migration\n\nWhat would you like to understand about how industrialization changed the world, or what specific aspect interests you most?",
+        'unit4': "Welcome to AP World Unit 4: The Modern World (1900–Present)! 🌐\n\nI'm your Socratic AI tutor. Let's explore global conflicts, decolonization, and contemporary challenges.\n\nKey topics: Global conflicts • Decolonization • Economic systems • Human rights • Global challenges\n\nWhat do you want to learn about the modern world, or what current global issue interests you most?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore world history through guided questions and discussion.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -195,7 +214,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
