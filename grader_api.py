@@ -2743,18 +2743,19 @@ def socratic_chat_send():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        # Check if this is an advanced question that could benefit from Gemini
-        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences', 'complex', 'relationship', 'factors', 'causes', 'effects', 'explain']
-        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) or len(message.split()) > 10
+        # ALWAYS try Gemini AI first for ALL questions - no more prewritten responses
+        socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
         
-        # Try Gemini for advanced questions when available
-        socratic_data = None
-        if is_advanced_question:
-            socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
-        
-        # Fall back to traditional Socratic response if Gemini not available or for basic questions
+        # Only fall back if Gemini completely fails
         if not socratic_data:
-            socratic_data = get_socratic_response(message, course, unit, conversation_history)
+            print("Gemini AI failed, creating minimal fallback response")
+            socratic_data = {
+                'response': f"I'm having trouble connecting to my AI system right now. Could you try rephrasing your question about {course} {unit}?",
+                'source': 'system_fallback',
+                'topic': 'technical_issue',
+                'concepts_introduced': [],
+                'progress_update': {}
+            }
         
         # Determine the actual response source
         response_source = socratic_data.get('source', 'enhanced_socratic_system')
@@ -2818,37 +2819,34 @@ def get_gemini_socratic_response(user_input, course, unit, conversation_history)
         if course == "apbiology":
             context = f"""You are an expert AP Biology tutor for {course.upper()} {unit.upper()}. 
 
-INSTRUCTION: For direct questions like "Tell me about X" or "What is X" or "Analyze X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
+INSTRUCTION: Always provide helpful, educational responses. For ANY question about biology:
+- Give clear, accurate biological information
+- Use bullet points for key scientific facts when helpful
+- Ask ONE thoughtful follow-up question to encourage deeper thinking
+- Be conversational and engaging, not generic
+- Focus on the specific topic the student asked about
 
-Your teaching approach:
-- Give clear, factual biological information when requested
-- Use bullet points for key scientific facts
-- Follow information with ONE thoughtful question
-- Be educational first, Socratic second
-- Focus on biological concepts, processes, and relationships
-
-Student's message: "{user_input}"
+Student's question: "{user_input}"
 
 Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
-If the student asks "Tell me about [topic]" or "Analyze [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key biological information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
+Respond naturally and helpfully to their specific question. If they ask about a basic concept, explain it clearly. If they ask for analysis, provide deeper insights. Always end with a thoughtful question to guide their learning. Keep responses under 300 words but make them substantive."""
         else:
             # History courses
             context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
 
-INSTRUCTION: For direct questions like "Tell me about X" or "What is X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
+INSTRUCTION: Always provide helpful, educational responses. For ANY question about history:
+- Give clear, accurate historical information
+- Use bullet points for key facts when helpful
+- Ask ONE thoughtful follow-up question to encourage deeper thinking
+- Be conversational and engaging, not generic
+- Focus on the specific topic the student asked about
 
-Your teaching approach:
-- Give clear, factual information when requested
-- Use bullet points for key facts
-- Follow information with ONE thoughtful question
-- Be educational first, Socratic second
-
-Student's message: "{user_input}"
+Student's question: "{user_input}"
 
 Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
-If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key information, then ask ONE question to guide deeper thinking. Keep under 200 words."""
+Respond naturally and helpfully to their specific question. Always end with a thoughtful question to guide their learning. Keep responses under 300 words but make them substantive."""
 
         # Try different Gemini model names using current available models
         model_names = [
