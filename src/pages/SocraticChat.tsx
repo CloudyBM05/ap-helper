@@ -97,6 +97,19 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP World ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apbiology') {
+      const unitData = {
+        'unit1': { title: 'AP Biology Unit 1: Chemistry of Life', period: 'Biochemistry Foundations', emoji: '🧬' },
+        'unit2': { title: 'AP Biology Unit 2: Cell Structure and Function', period: 'Cellular Biology', emoji: '🔬' },
+        'unit3': { title: 'AP Biology Unit 3: Cellular Energetics', period: 'Metabolism & Energy', emoji: '⚡' },
+        'unit4': { title: 'AP Biology Unit 4: Cell Communication', period: 'Signaling Pathways', emoji: '📡' },
+        'unit5': { title: 'AP Biology Unit 5: Heredity', period: 'Genetics & Inheritance', emoji: '🧬' },
+        'unit6': { title: 'AP Biology Unit 6: Gene Expression', period: 'Molecular Biology', emoji: '🔄' },
+        'unit7': { title: 'AP Biology Unit 7: Natural Selection', period: 'Evolution Mechanisms', emoji: '🌱' },
+        'unit8': { title: 'AP Biology Unit 8: Ecology', period: 'Environmental Interactions', emoji: '🌍' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Biology ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -300,6 +313,74 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apbiology') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'waterBonds', title: 'Water and Hydrogen Bonds', keyFacts: ['Water is polar and forms hydrogen bonds', 'High specific heat regulates temperature', 'Cohesion and adhesion enable transport', 'Universal solvent for biological reactions', 'Ice is less dense than liquid water'] },
+          { key: 'macromolecules', title: 'Biological Macromolecules', keyFacts: ['Carbohydrates provide energy and structure', 'Lipids form membranes and store energy', 'Proteins perform diverse cellular functions', 'Nucleic acids store genetic information', 'Polymers form through dehydration synthesis'] },
+          { key: 'enzymes', title: 'Enzymes and Catalysis', keyFacts: ['Enzymes lower activation energy', 'Active site determines specificity', 'Temperature and pH affect enzyme function', 'Competitive and noncompetitive inhibition', 'Enzyme regulation controls metabolic pathways'] },
+          { key: 'carbonChemistry', title: 'Carbon and Organic Chemistry', keyFacts: ['Carbon forms four covalent bonds', 'Functional groups determine properties', 'Isomers have different structures/functions', 'Carbon chains form diverse molecules', 'Organic molecules are carbon-based'] },
+          { key: 'pHBuffers', title: 'pH and Biological Buffers', keyFacts: ['pH measures hydrogen ion concentration', 'Acids donate protons, bases accept protons', 'Buffers resist pH changes', 'Biological systems require stable pH', 'Enzyme function depends on optimal pH'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'cellMembrane', title: 'Cell Membrane Structure and Function', keyFacts: ['Phospholipid bilayer with embedded proteins', 'Selective permeability controls transport', 'Fluid mosaic model describes structure', 'Cholesterol affects membrane fluidity', 'Membrane proteins have diverse functions'] },
+          { key: 'prokaryoteEukaryote', title: 'Prokaryotic vs Eukaryotic Cells', keyFacts: ['Prokaryotes lack membrane-bound nucleus', 'Eukaryotes have compartmentalized organelles', 'Both have ribosomes and genetic material', 'Size differences and complexity levels', 'Evolutionary relationship between cell types'] },
+          { key: 'organelles', title: 'Organelles and Their Functions', keyFacts: ['Nucleus contains DNA and controls cell', 'Mitochondria produce ATP through respiration', 'Ribosomes synthesize proteins', 'ER and Golgi process and transport proteins', 'Lysosomes digest cellular waste'] },
+          { key: 'cytoskeleton', title: 'Cytoskeleton and Cell Movement', keyFacts: ['Microfilaments, microtubules, intermediate filaments', 'Provides structure and enables movement', 'Motor proteins transport organelles', 'Cilia and flagella enable cell locomotion', 'Dynamic structure that can reorganize'] },
+          { key: 'cellTransport', title: 'Membrane Transport Mechanisms', keyFacts: ['Passive transport requires no energy', 'Active transport requires ATP', 'Diffusion and osmosis move substances', 'Endocytosis and exocytosis transport large molecules', 'Concentration gradients drive transport'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'cellularRespiration', title: 'Cellular Respiration', keyFacts: ['Glucose + O2 → CO2 + H2O + ATP', 'Glycolysis, Krebs cycle, electron transport', 'Occurs in mitochondria (mostly)', 'Produces approximately 30-32 ATP molecules', 'Links to carbon and energy cycles'] },
+          { key: 'photosynthesis', title: 'Photosynthesis', keyFacts: ['CO2 + H2O + light → glucose + O2', 'Light reactions and Calvin cycle', 'Occurs in chloroplasts', 'Converts solar energy to chemical energy', 'Foundation of most food chains'] },
+          { key: 'enzymesMetabolism', title: 'Enzymes and Metabolic Pathways', keyFacts: ['Enzymes catalyze biochemical reactions', 'Allosteric regulation controls pathways', 'Feedback inhibition prevents overproduction', 'Cofactors and coenzymes assist enzymes', 'Metabolic pathways are interconnected'] },
+          { key: 'atp', title: 'ATP and Energy Transfer', keyFacts: ['ATP is the universal energy currency', 'Hydrolysis releases energy for work', 'Phosphorylation stores energy', 'Coupled reactions drive unfavorable processes', 'Constant synthesis and breakdown cycle'] },
+          { key: 'metabolicRegulation', title: 'Regulation of Metabolism', keyFacts: ['Allosteric regulation and feedback loops', 'Competitive and noncompetitive inhibition', 'Covalent modification of enzymes', 'Compartmentalization of metabolic pathways', 'Hormonal control of metabolism'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'cellSignaling', title: 'Cell Signaling Overview', keyFacts: ['Reception, transduction, response pathway', 'Local and long-distance signaling', 'Signal molecules and receptor specificity', 'Amplification of cellular responses', 'Termination of signaling pathways'] },
+          { key: 'signalTransduction', title: 'Signal Transduction Pathways', keyFacts: ['Protein kinases and phosphatases', 'Second messengers amplify signals', 'Protein conformational changes', 'Cascade of molecular interactions', 'Multiple pathways can interact'] },
+          { key: 'cellCommunication', title: 'Types of Cell Communication', keyFacts: ['Direct contact through gap junctions', 'Local signaling via paracrine factors', 'Long-distance signaling via hormones', 'Synaptic signaling in nervous system', 'Quorum sensing in bacteria'] },
+          { key: 'receptors', title: 'Cellular Receptors', keyFacts: ['Surface receptors for hydrophilic signals', 'Intracellular receptors for lipid-soluble signals', 'Receptor specificity determines response', 'Receptor activation triggers pathways', 'Desensitization prevents overstimulation'] },
+          { key: 'cellularResponse', title: 'Cellular Responses to Signals', keyFacts: ['Changes in gene expression', 'Enzyme activation or inhibition', 'Cytoskeletal rearrangement', 'Cell division or death', 'Metabolic pathway regulation'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'mendelianGenetics', title: 'Mendelian Genetics', keyFacts: ['Law of segregation and independent assortment', 'Dominant and recessive alleles', 'Homozygous and heterozygous genotypes', 'Punnett squares predict inheritance', 'Test crosses reveal unknown genotypes'] },
+          { key: 'nonMendelian', title: 'Non-Mendelian Inheritance Patterns', keyFacts: ['Incomplete dominance and codominance', 'Multiple alleles and polygenic traits', 'Sex-linked inheritance patterns', 'Linkage and recombination frequency', 'Epistasis affects phenotype expression'] },
+          { key: 'chromosomes', title: 'Chromosomes and Inheritance', keyFacts: ['Homologous chromosomes carry same genes', 'Crossing over increases genetic variation', 'Independent assortment of chromosomes', 'Sex chromosomes determine gender', 'Chromosome abnormalities cause disorders'] },
+          { key: 'meiosis', title: 'Meiosis and Genetic Variation', keyFacts: ['Reduces chromosome number by half', 'Crossing over and independent assortment', 'Two divisions produce four gametes', 'Creates genetic diversity', 'Nondisjunction causes abnormalities'] },
+          { key: 'pedigrees', title: 'Pedigree Analysis', keyFacts: ['Family trees show inheritance patterns', 'Autosomal dominant and recessive patterns', 'X-linked inheritance patterns', 'Carrier identification in pedigrees', 'Probability calculations for offspring'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'dnaStructure', title: 'DNA Structure and Replication', keyFacts: ['Double helix with complementary bases', 'Antiparallel strands and hydrogen bonds', 'Semiconservative replication', 'DNA polymerase and proofreading', 'Replication fork and leading/lagging strands'] },
+          { key: 'transcription', title: 'Transcription', keyFacts: ['DNA → RNA synthesis', 'RNA polymerase reads DNA template', 'Promoter regions initiate transcription', 'RNA processing in eukaryotes', 'Alternative splicing increases diversity'] },
+          { key: 'translation', title: 'Translation', keyFacts: ['RNA → protein synthesis', 'Ribosomes read mRNA codons', 'tRNA brings amino acids to ribosomes', 'Start and stop codons control translation', 'Polypeptide folding determines function'] },
+          { key: 'geneRegulation', title: 'Gene Regulation', keyFacts: ['Operons control bacterial gene expression', 'Enhancers and silencers in eukaryotes', 'Transcription factors control expression', 'Epigenetic modifications affect genes', 'MicroRNA post-transcriptional control'] },
+          { key: 'mutations', title: 'Mutations and Genetic Variation', keyFacts: ['Point mutations and chromosomal changes', 'Silent, missense, and nonsense mutations', 'Mutagenic agents cause DNA damage', 'DNA repair mechanisms prevent errors', 'Mutations can be beneficial or harmful'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'naturalSelection', title: 'Natural Selection', keyFacts: ['Variation, inheritance, selection, time', 'Differential reproductive success', 'Directional, stabilizing, disruptive selection', 'Sexual selection affects mating success', 'Natural selection acts on phenotypes'] },
+          { key: 'evolution', title: 'Evidence for Evolution', keyFacts: ['Fossil record shows change over time', 'Homologous structures indicate common ancestry', 'Biogeography supports evolution', 'Molecular evidence from DNA/protein comparisons', 'Direct observation of evolution'] },
+          { key: 'speciation', title: 'Speciation and Reproductive Isolation', keyFacts: ['Reproductive barriers prevent gene flow', 'Allopatric and sympatric speciation', 'Prezygotic and postzygotic barriers', 'Adaptive radiation creates diversity', 'Coevolution between species'] },
+          { key: 'populationGenetics', title: 'Population Genetics', keyFacts: ['Hardy-Weinberg equilibrium conditions', 'Allele and genotype frequencies', 'Genetic drift affects small populations', 'Gene flow homogenizes populations', 'Founder effect and bottleneck effect'] },
+          { key: 'phylogeny', title: 'Phylogeny and Classification', keyFacts: ['Evolutionary trees show relationships', 'Shared derived characteristics', 'Molecular clocks estimate divergence times', 'Three-domain system of classification', 'Cladistics uses synapomorphies'] }
+        ];
+      } else if (unit === 'unit8') {
+        return [
+          { key: 'ecosystemEnergy', title: 'Energy Flow in Ecosystems', keyFacts: ['Primary producers capture solar energy', 'Energy flows through trophic levels', '10% rule of energy transfer', 'Food chains and food webs', 'Decomposers recycle nutrients'] },
+          { key: 'biogeochemicalCycles', title: 'Biogeochemical Cycles', keyFacts: ['Carbon cycle links atmosphere and biosphere', 'Nitrogen cycle requires bacterial conversion', 'Phosphorus cycle lacks atmospheric component', 'Water cycle drives other cycles', 'Human activities disrupt natural cycles'] },
+          { key: 'populationEcology', title: 'Population Ecology', keyFacts: ['Exponential and logistic growth models', 'Carrying capacity limits population size', 'Density-dependent and independent factors', 'Life history strategies r and K', 'Population pyramids show age structure'] },
+          { key: 'communityEcology', title: 'Community Interactions', keyFacts: ['Competition reduces resource availability', 'Predation shapes population dynamics', 'Mutualism benefits both species', 'Parasitism harms one species', 'Succession changes community structure'] },
+          { key: 'biodiversity', title: 'Biodiversity and Conservation', keyFacts: ['Species, genetic, and ecosystem diversity', 'Habitat destruction threatens species', 'Climate change affects distributions', 'Conservation strategies protect biodiversity', 'Ecosystem services benefit humans'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -339,7 +420,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -362,7 +443,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -417,6 +498,20 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore world history through guided questions and discussion.`;
     }
+    if (course === 'apbiology') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Biology Unit 1: Chemistry of Life! 🧬\n\nI'm your Socratic AI tutor. I'll guide your understanding of biochemistry through scientific inquiry and questions.\n\nKey topics: Water and hydrogen bonds • Biological macromolecules • Enzymes and catalysis • Carbon chemistry • pH and buffers\n\nWhat do you already know about the chemical basis of life, or what would you like to explore first?",
+        'unit2': "Welcome to AP Biology Unit 2: Cell Structure and Function! 🔬\n\nI'm your Socratic AI tutor. Let's explore the fundamental unit of life through guided questions and analysis.\n\nKey topics: Cell membrane structure • Prokaryotic vs eukaryotic cells • Organelles and functions • Cytoskeleton • Membrane transport\n\nWhat interests you most about cellular organization, or what questions do you have about how cells work?",
+        'unit3': "Welcome to AP Biology Unit 3: Cellular Energetics! ⚡\n\nI'm your Socratic AI tutor. Let's examine how cells capture, transform, and use energy for life processes.\n\nKey topics: Cellular respiration • Photosynthesis • Enzyme regulation • ATP and energy transfer • Metabolic pathways\n\nWhat would you like to understand about how cells obtain and use energy, or what aspect interests you most?",
+        'unit4': "Welcome to AP Biology Unit 4: Cell Communication! 📡\n\nI'm your Socratic AI tutor. Let's explore how cells send, receive, and respond to information.\n\nKey topics: Cell signaling overview • Signal transduction pathways • Types of cell communication • Cellular receptors • Response mechanisms\n\nWhat do you want to learn about how cells communicate, or what questions do you have about signaling pathways?",
+        'unit5': "Welcome to AP Biology Unit 5: Heredity! 🧬\n\nI'm your Socratic AI tutor. Let's examine how traits are passed from generation to generation through guided scientific inquiry.\n\nKey topics: Mendelian genetics • Non-Mendelian inheritance • Chromosomes and inheritance • Meiosis and variation • Pedigree analysis\n\nWhat interests you about inheritance patterns, or what would you like to explore about genetics?",
+        'unit6': "Welcome to AP Biology Unit 6: Gene Expression! 🔄\n\nI'm your Socratic AI tutor. Let's explore how genetic information flows from DNA to proteins.\n\nKey topics: DNA structure and replication • Transcription • Translation • Gene regulation • Mutations and variation\n\nWhat would you like to understand about how genes work, or what aspect of molecular biology interests you most?",
+        'unit7': "Welcome to AP Biology Unit 7: Natural Selection! 🌱\n\nI'm your Socratic AI tutor. Let's examine the mechanisms that drive evolutionary change through scientific analysis.\n\nKey topics: Natural selection mechanisms • Evidence for evolution • Speciation processes • Population genetics • Phylogeny and classification\n\nWhat interests you about evolution, or what questions do you have about how species change over time?",
+        'unit8': "Welcome to AP Biology Unit 8: Ecology! 🌍\n\nI'm your Socratic AI tutor. Let's explore the interactions between organisms and their environment.\n\nKey topics: Energy flow in ecosystems • Biogeochemical cycles • Population ecology • Community interactions • Biodiversity and conservation\n\nWhat aspects of ecology interest you most, or what would you like to learn about environmental interactions?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore biology through guided questions and scientific inquiry.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -446,7 +541,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
@@ -1138,6 +1233,8 @@ const SocraticChat = () => {
                       navigate(`/ap-gov-unit/${unit?.replace('unit', '')}`);
                     } else if (course === 'apworld' || course === 'world') {
                       navigate(`/ap-world-study-guide/unit/${unit?.replace('unit', '')}`);
+                    } else if (course === 'apbiology') {
+                      navigate(`/ap-biology/unit/${unit?.replace('unit', '')}`);
                     } else {
                       // Fallback for any other courses
                       console.log(`Navigation not implemented for course: ${course}`);

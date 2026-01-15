@@ -55,6 +55,23 @@ const SocraticLearning = () => {
         { id: 4, emoji: '🗳️', title: 'Political Participation', period: 'Democratic Process' },
         { id: 5, emoji: '💭', title: 'Political Ideologies and Beliefs', period: 'Public Opinion' }
       ]
+    },
+    {
+      id: 'apbiology',
+      title: 'AP Biology',
+      description: 'Explore life through scientific inquiry and critical thinking',
+      category: 'stem',
+      color: 'from-emerald-500 to-teal-500',
+      units: [
+        { id: 1, emoji: '🧬', title: 'Chemistry of Life', period: 'Biochemistry Foundations' },
+        { id: 2, emoji: '🔬', title: 'Cell Structure and Function', period: 'Cellular Biology' },
+        { id: 3, emoji: '⚡', title: 'Cellular Energetics', period: 'Metabolism & Energy' },
+        { id: 4, emoji: '📡', title: 'Cell Communication', period: 'Signaling Pathways' },
+        { id: 5, emoji: '🧬', title: 'Heredity', period: 'Genetics & Inheritance' },
+        { id: 6, emoji: '🔄', title: 'Gene Expression', period: 'Molecular Biology' },
+        { id: 7, emoji: '🌱', title: 'Natural Selection', period: 'Evolution Mechanisms' },
+        { id: 8, emoji: '🌍', title: 'Ecology', period: 'Environmental Interactions' }
+      ]
     }
   ];
 

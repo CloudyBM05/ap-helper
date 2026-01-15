@@ -2193,6 +2193,506 @@ def get_unit_topics_api():
                 }
                 # Add more AP World units as needed
             }
+        elif course == "apbiology":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apbiology",
+                    "overview": "This unit covers the chemical foundation of life. Understanding biochemistry is essential because all biological processes depend on chemical interactions. From water's unique properties to complex macromolecules, chemistry drives life.",
+                    "topics": [
+                        {
+                            "key": "waterBonds",
+                            "title": "Water and Hydrogen Bonds",
+                            "keyFacts": [
+                                "Water is polar and forms hydrogen bonds",
+                                "High specific heat regulates temperature",
+                                "Cohesion and adhesion enable transport",
+                                "Universal solvent for biological reactions",
+                                "Ice is less dense than liquid water"
+                            ]
+                        },
+                        {
+                            "key": "macromolecules",
+                            "title": "Biological Macromolecules",
+                            "keyFacts": [
+                                "Carbohydrates provide energy and structure",
+                                "Lipids form membranes and store energy",
+                                "Proteins perform diverse cellular functions",
+                                "Nucleic acids store genetic information",
+                                "Polymers form through dehydration synthesis"
+                            ]
+                        },
+                        {
+                            "key": "enzymes",
+                            "title": "Enzymes and Catalysis",
+                            "keyFacts": [
+                                "Enzymes lower activation energy",
+                                "Active site determines specificity",
+                                "Temperature and pH affect enzyme function",
+                                "Competitive and noncompetitive inhibition",
+                                "Enzyme regulation controls metabolic pathways"
+                            ]
+                        },
+                        {
+                            "key": "carbonChemistry",
+                            "title": "Carbon and Organic Chemistry",
+                            "keyFacts": [
+                                "Carbon forms four covalent bonds",
+                                "Functional groups determine properties",
+                                "Isomers have different structures/functions",
+                                "Carbon chains form diverse molecules",
+                                "Organic molecules are carbon-based"
+                            ]
+                        },
+                        {
+                            "key": "pHBuffers",
+                            "title": "pH and Biological Buffers",
+                            "keyFacts": [
+                                "pH measures hydrogen ion concentration",
+                                "Acids donate protons, bases accept protons",
+                                "Buffers resist pH changes",
+                                "Biological systems require stable pH",
+                                "Enzyme function depends on optimal pH"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apbiology",
+                    "overview": "Cells are the fundamental units of life. This unit explores cell structure and function, comparing prokaryotic and eukaryotic cells, and examining how cellular components work together to maintain life.",
+                    "topics": [
+                        {
+                            "key": "cellMembrane",
+                            "title": "Cell Membrane Structure and Function",
+                            "keyFacts": [
+                                "Phospholipid bilayer with embedded proteins",
+                                "Selective permeability controls transport",
+                                "Fluid mosaic model describes structure",
+                                "Cholesterol affects membrane fluidity",
+                                "Membrane proteins have diverse functions"
+                            ]
+                        },
+                        {
+                            "key": "prokaryoteEukaryote",
+                            "title": "Prokaryotic vs Eukaryotic Cells",
+                            "keyFacts": [
+                                "Prokaryotes lack membrane-bound nucleus",
+                                "Eukaryotes have compartmentalized organelles",
+                                "Both have ribosomes and genetic material",
+                                "Size differences and complexity levels",
+                                "Evolutionary relationship between cell types"
+                            ]
+                        },
+                        {
+                            "key": "organelles",
+                            "title": "Organelles and Their Functions",
+                            "keyFacts": [
+                                "Nucleus contains DNA and controls cell",
+                                "Mitochondria produce ATP through respiration",
+                                "Ribosomes synthesize proteins",
+                                "ER and Golgi process and transport proteins",
+                                "Lysosomes digest cellular waste"
+                            ]
+                        },
+                        {
+                            "key": "cytoskeleton",
+                            "title": "Cytoskeleton and Cell Movement",
+                            "keyFacts": [
+                                "Microfilaments, microtubules, intermediate filaments",
+                                "Provides structure and enables movement",
+                                "Motor proteins transport organelles",
+                                "Cilia and flagella enable cell locomotion",
+                                "Dynamic structure that can reorganize"
+                            ]
+                        },
+                        {
+                            "key": "cellTransport",
+                            "title": "Membrane Transport Mechanisms",
+                            "keyFacts": [
+                                "Passive transport requires no energy",
+                                "Active transport requires ATP",
+                                "Diffusion and osmosis move substances",
+                                "Endocytosis and exocytosis transport large molecules",
+                                "Concentration gradients drive transport"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "apbiology",
+                    "overview": "This unit explores how cells obtain and use energy. From cellular respiration to photosynthesis, these processes power all life on Earth through the transfer and transformation of energy.",
+                    "topics": [
+                        {
+                            "key": "cellularRespiration",
+                            "title": "Cellular Respiration Overview",
+                            "keyFacts": [
+                                "Glucose is broken down to produce ATP",
+                                "Three stages: glycolysis, Krebs cycle, electron transport",
+                                "Occurs in mitochondria (eukaryotes)",
+                                "Requires oxygen for maximum efficiency",
+                                "Produces CO2 and water as waste products"
+                            ]
+                        },
+                        {
+                            "key": "photosynthesis",
+                            "title": "Photosynthesis Process",
+                            "keyFacts": [
+                                "Converts light energy into chemical energy",
+                                "Two stages: light reactions and Calvin cycle",
+                                "Occurs in chloroplasts",
+                                "Produces glucose and oxygen from CO2 and water",
+                                "Foundation of most food chains"
+                            ]
+                        },
+                        {
+                            "key": "atpEnergy",
+                            "title": "ATP and Energy Transfer",
+                            "keyFacts": [
+                                "ATP is the universal energy currency",
+                                "Energy released when phosphate bonds break",
+                                "ADP + Pi + energy → ATP",
+                                "Powers active transport and biosynthesis",
+                                "Constantly recycled in cells"
+                            ]
+                        },
+                        {
+                            "key": "enzymesMetabolism",
+                            "title": "Enzymes in Metabolic Pathways",
+                            "keyFacts": [
+                                "Enzymes catalyze metabolic reactions",
+                                "Allosteric regulation controls pathways",
+                                "Feedback inhibition prevents overproduction",
+                                "Competitive inhibition blocks active sites",
+                                "Temperature and pH affect enzyme activity"
+                            ]
+                        },
+                        {
+                            "key": "fermentation",
+                            "title": "Fermentation and Anaerobic Respiration",
+                            "keyFacts": [
+                                "Alternative to aerobic respiration",
+                                "Occurs without oxygen",
+                                "Produces less ATP than aerobic respiration",
+                                "Lactic acid and alcoholic fermentation",
+                                "Important for muscle cells and microorganisms"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apbiology",
+                    "overview": "This unit examines how cells communicate and respond to their environment. Cell signaling is crucial for multicellular organisms to coordinate growth, development, and responses to stimuli.",
+                    "topics": [
+                        {
+                            "key": "signalTransduction",
+                            "title": "Signal Transduction Pathways",
+                            "keyFacts": [
+                                "Three stages: reception, transduction, response",
+                                "Signal molecules bind to receptor proteins",
+                                "Cascade of molecular interactions amplifies signal",
+                                "Cellular responses include gene expression changes",
+                                "Allows cells to respond to environment"
+                            ]
+                        },
+                        {
+                            "key": "cellCycle",
+                            "title": "Cell Cycle and Mitosis",
+                            "keyFacts": [
+                                "G1, S, G2, and M phases",
+                                "DNA replication occurs during S phase",
+                                "Mitosis produces two identical diploid cells",
+                                "Checkpoints prevent errors",
+                                "Cyclins and CDKs regulate progression"
+                            ]
+                        },
+                        {
+                            "key": "apoptosis",
+                            "title": "Programmed Cell Death (Apoptosis)",
+                            "keyFacts": [
+                                "Controlled cell death for development",
+                                "Removes damaged or unnecessary cells",
+                                "Triggered by internal and external signals",
+                                "DNA fragmentation and cell shrinkage",
+                                "Essential for proper development"
+                            ]
+                        },
+                        {
+                            "key": "cancerCellCycle",
+                            "title": "Cancer and Cell Cycle Disruption",
+                            "keyFacts": [
+                                "Uncontrolled cell division",
+                                "Mutations in tumor suppressor genes",
+                                "Oncogenes promote cell division",
+                                "Metastasis spreads cancer cells",
+                                "Checkpoint failures allow damaged cells to divide"
+                            ]
+                        },
+                        {
+                            "key": "hormoneSignaling",
+                            "title": "Hormone and Chemical Signaling",
+                            "keyFacts": [
+                                "Chemical messengers coordinate physiology",
+                                "Steroid and protein hormones work differently",
+                                "Second messengers amplify signals",
+                                "Negative feedback maintains homeostasis",
+                                "Receptor specificity determines response"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apbiology",
+                    "overview": "This unit covers heredity and how traits are passed from parents to offspring. Understanding genetics reveals how DNA determines characteristics and how genetic variation arises.",
+                    "topics": [
+                        {
+                            "key": "mendelianGenetics",
+                            "title": "Mendelian Genetics and Inheritance",
+                            "keyFacts": [
+                                "Genes exist in pairs (alleles)",
+                                "Dominant and recessive alleles",
+                                "Law of segregation and independent assortment",
+                                "Punnett squares predict offspring ratios",
+                                "Testcrosses reveal unknown genotypes"
+                            ]
+                        },
+                        {
+                            "key": "dnaStructure",
+                            "title": "DNA Structure and Replication",
+                            "keyFacts": [
+                                "Double helix with complementary base pairs",
+                                "A-T and G-C base pairing rules",
+                                "Semi-conservative replication",
+                                "DNA polymerase synthesizes new strands",
+                                "Proofreading reduces replication errors"
+                            ]
+                        },
+                        {
+                            "key": "proteinSynthesis",
+                            "title": "Protein Synthesis (Transcription and Translation)",
+                            "keyFacts": [
+                                "DNA → RNA → Protein (central dogma)",
+                                "Transcription produces mRNA from DNA",
+                                "Translation produces proteins from mRNA",
+                                "Ribosomes read mRNA codons",
+                                "tRNA brings amino acids to ribosomes"
+                            ]
+                        },
+                        {
+                            "key": "mutations",
+                            "title": "Mutations and Genetic Variation",
+                            "keyFacts": [
+                                "Point mutations change single nucleotides",
+                                "Insertions and deletions cause frameshifts",
+                                "Silent, missense, and nonsense mutations",
+                                "Mutations provide raw material for evolution",
+                                "Some mutations are harmful, others beneficial"
+                            ]
+                        },
+                        {
+                            "key": "biotechnology",
+                            "title": "Biotechnology and Genetic Engineering",
+                            "keyFacts": [
+                                "PCR amplifies specific DNA sequences",
+                                "Gel electrophoresis separates DNA by size",
+                                "CRISPR allows precise gene editing",
+                                "Recombinant DNA creates genetically modified organisms",
+                                "DNA fingerprinting identifies individuals"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "apbiology",
+                    "overview": "This unit examines gene expression and regulation. Understanding how genes are turned on and off explains how cells differentiate and respond to environmental changes.",
+                    "topics": [
+                        {
+                            "key": "geneRegulation",
+                            "title": "Gene Expression and Regulation",
+                            "keyFacts": [
+                                "Genes can be turned on or off",
+                                "Transcription factors control gene expression",
+                                "Enhancers and silencers affect transcription",
+                                "Epigenetic modifications alter gene activity",
+                                "Different cell types express different genes"
+                            ]
+                        },
+                        {
+                            "key": "operonModel",
+                            "title": "Operon Model in Prokaryotes",
+                            "keyFacts": [
+                                "Lac operon responds to lactose presence",
+                                "Trp operon responds to tryptophan levels",
+                                "Negative and positive regulation",
+                                "Operator sequences control transcription",
+                                "Efficient way to control multiple genes"
+                            ]
+                        },
+                        {
+                            "key": "eukaryoticRegulation",
+                            "title": "Eukaryotic Gene Regulation",
+                            "keyFacts": [
+                                "Multiple levels of control",
+                                "Chromatin structure affects accessibility",
+                                "Alternative splicing creates protein variants",
+                                "MicroRNAs regulate gene expression",
+                                "More complex than prokaryotic regulation"
+                            ]
+                        },
+                        {
+                            "key": "cellDifferentiation",
+                            "title": "Cell Differentiation and Development",
+                            "keyFacts": [
+                                "Same DNA, different gene expression patterns",
+                                "Stem cells can become specialized cells",
+                                "Homeotic genes control body plan development",
+                                "Environmental factors influence development",
+                                "Irreversible changes in cell fate"
+                            ]
+                        },
+                        {
+                            "key": "virusesGenetics",
+                            "title": "Viruses and Genetic Material",
+                            "keyFacts": [
+                                "Viruses contain DNA or RNA genomes",
+                                "Lytic and lysogenic viral cycles",
+                                "Retroviruses use reverse transcription",
+                                "Viral evolution occurs rapidly",
+                                "Horizontal gene transfer in bacteria"
+                            ]
+                        }
+                    ]
+                },
+                "unit7": {
+                    "unit": "unit7",
+                    "course": "apbiology",
+                    "overview": "This unit explores how species change over time through evolution. Natural selection and other mechanisms drive the diversity of life we see today.",
+                    "topics": [
+                        {
+                            "key": "naturalSelection",
+                            "title": "Natural Selection and Evolution",
+                            "keyFacts": [
+                                "Variation, inheritance, selection, time",
+                                "Differential survival and reproduction",
+                                "Fitness measures reproductive success",
+                                "Directional, stabilizing, disruptive selection",
+                                "Evolution explains unity and diversity of life"
+                            ]
+                        },
+                        {
+                            "key": "evidenceEvolution",
+                            "title": "Evidence for Evolution",
+                            "keyFacts": [
+                                "Fossil record shows change over time",
+                                "Comparative anatomy reveals homologous structures",
+                                "Molecular evidence shows genetic similarities",
+                                "Biogeography explains species distribution",
+                                "Direct observation of evolutionary change"
+                            ]
+                        },
+                        {
+                            "key": "populationGenetics",
+                            "title": "Population Genetics and Hardy-Weinberg",
+                            "keyFacts": [
+                                "Allele frequencies in populations",
+                                "Hardy-Weinberg equilibrium conditions",
+                                "Factors that change allele frequencies",
+                                "Gene flow, genetic drift, mutations",
+                                "Mathematical models predict changes"
+                            ]
+                        },
+                        {
+                            "key": "speciation",
+                            "title": "Speciation and Reproductive Isolation",
+                            "keyFacts": [
+                                "Formation of new species",
+                                "Geographic and reproductive isolation",
+                                "Prezygotic and postzygotic barriers",
+                                "Allopatric and sympatric speciation",
+                                "Adaptive radiation creates diversity"
+                            ]
+                        },
+                        {
+                            "key": "phylogeny",
+                            "title": "Phylogeny and Classification",
+                            "keyFacts": [
+                                "Evolutionary relationships among species",
+                                "Phylogenetic trees show common ancestry",
+                                "Molecular clocks estimate divergence times",
+                                "Taxonomy reflects evolutionary relationships",
+                                "Three domains of life"
+                            ]
+                        }
+                    ]
+                },
+                "unit8": {
+                    "unit": "unit8",
+                    "course": "apbiology",
+                    "overview": "This unit examines how organisms interact with each other and their environment. Ecology reveals the complex relationships that sustain life on Earth.",
+                    "topics": [
+                        {
+                            "key": "populationEcology",
+                            "title": "Population Dynamics and Growth",
+                            "keyFacts": [
+                                "Exponential and logistic growth models",
+                                "Carrying capacity limits population size",
+                                "Density-dependent and density-independent factors",
+                                "Population cycles and fluctuations",
+                                "Human population growth patterns"
+                            ]
+                        },
+                        {
+                            "key": "communityEcology",
+                            "title": "Community Interactions",
+                            "keyFacts": [
+                                "Competition for limited resources",
+                                "Predator-prey relationships",
+                                "Mutualism benefits both species",
+                                "Parasitism and commensalism",
+                                "Species diversity and stability"
+                            ]
+                        },
+                        {
+                            "key": "ecosystems",
+                            "title": "Ecosystem Structure and Function",
+                            "keyFacts": [
+                                "Energy flow through trophic levels",
+                                "Primary producers convert solar energy",
+                                "Food webs show complex relationships",
+                                "Decomposers recycle nutrients",
+                                "Pyramid of energy, numbers, biomass"
+                            ]
+                        },
+                        {
+                            "key": "biogeochemicalCycles",
+                            "title": "Biogeochemical Cycles",
+                            "keyFacts": [
+                                "Carbon cycle and climate regulation",
+                                "Nitrogen cycle and nutrient availability",
+                                "Water cycle drives weather patterns",
+                                "Phosphorus cycle limits productivity",
+                                "Human impacts on global cycles"
+                            ]
+                        },
+                        {
+                            "key": "humanImpact",
+                            "title": "Human Impact on the Environment",
+                            "keyFacts": [
+                                "Climate change from greenhouse gases",
+                                "Habitat destruction and fragmentation",
+                                "Pollution affects ecosystem health",
+                                "Overexploitation threatens species",
+                                "Conservation efforts protect biodiversity"
+                            ]
+                        }
+                    ]
+                }
+                # Add more AP Biology units as needed
+            }
         
         # Get the requested unit data
         unit_data = topics_data.get(unit, {})
