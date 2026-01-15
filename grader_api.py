@@ -2814,8 +2814,27 @@ def get_gemini_socratic_response(user_input, course, unit, conversation_history)
         return None
         
     try:
-        # Build context for Gemini
-        context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
+        # Build context for Gemini based on course
+        if course == "apbiology":
+            context = f"""You are an expert AP Biology tutor for {course.upper()} {unit.upper()}. 
+
+INSTRUCTION: For direct questions like "Tell me about X" or "What is X" or "Analyze X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
+
+Your teaching approach:
+- Give clear, factual biological information when requested
+- Use bullet points for key scientific facts
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
+- Focus on biological concepts, processes, and relationships
+
+Student's message: "{user_input}"
+
+Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
+
+If the student asks "Tell me about [topic]" or "Analyze [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key biological information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
+        else:
+            # History courses
+            context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
 
 INSTRUCTION: For direct questions like "Tell me about X" or "What is X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
 
@@ -2831,22 +2850,25 @@ Previous conversation: {str(conversation_history[-2:]) if conversation_history e
 
 If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key information, then ask ONE question to guide deeper thinking. Keep under 200 words."""
 
-        # Try different Gemini model names
-        model_names = ['gemini-1.5-flash', 'gemini-pro', 'gemini-1.5-pro', 'models/gemini-1.5-flash']
-        model = None
+        # Try different Gemini model names using current available models
+        model_names = [
+            'models/gemini-2.5-flash',
+            'models/gemini-2.5-pro', 
+            'models/gemini-2.0-flash',
+            'models/gemini-flash-latest',
+            'models/gemini-pro-latest'
+        ]
         
+        response = None
         for model_name in model_names:
             try:
                 model = genai.GenerativeModel(model_name)
                 response = model.generate_content(context)
+                print(f"Gemini API success with model {model_name}: {len(response.text) if response and response.text else 0} chars")
                 break  # Success, exit the loop
             except Exception as model_error:
                 print(f"Failed to use model {model_name}: {model_error}")
                 continue
-        
-        if not model:
-            print("No valid Gemini model found")
-            return None
         
         if response and response.text:
             print(f"Gemini API success: {len(response.text)} chars")
