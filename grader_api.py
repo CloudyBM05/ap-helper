@@ -2831,10 +2831,25 @@ Previous conversation: {str(conversation_history[-2:]) if conversation_history e
 
 If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key information, then ask ONE question to guide deeper thinking. Keep under 200 words."""
 
-        model = genai.GenerativeModel('gemini-3-flash-preview')
-        response = model.generate_content(context)
+        # Try different Gemini model names
+        model_names = ['gemini-1.5-flash', 'gemini-pro', 'gemini-1.5-pro', 'models/gemini-1.5-flash']
+        model = None
+        
+        for model_name in model_names:
+            try:
+                model = genai.GenerativeModel(model_name)
+                response = model.generate_content(context)
+                break  # Success, exit the loop
+            except Exception as model_error:
+                print(f"Failed to use model {model_name}: {model_error}")
+                continue
+        
+        if not model:
+            print("No valid Gemini model found")
+            return None
         
         if response and response.text:
+            print(f"Gemini API success: {len(response.text)} chars")
             return {
                 'response': response.text.strip(),
                 'source': 'gemini_ai',
@@ -2842,15 +2857,19 @@ If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and p
                 'concepts_introduced': [],
                 'progress_update': {}
             }
+        else:
+            print("Gemini API returned empty response")
     except Exception as e:
         print(f"Gemini API error: {e}")
+        print(f"Error type: {type(e).__name__}")
         # Try to list available models for debugging
         try:
+            print("Available Gemini models:")
             for model in genai.list_models():
                 if 'generateContent' in model.supported_generation_methods:
-                    print(f"Available Gemini model: {model.name}")
-        except:
-            pass
+                    print(f"  - {model.name}")
+        except Exception as list_error:
+            print(f"Could not list models: {list_error}")
         # Fall back to traditional responses
         pass
     
