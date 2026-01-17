@@ -72,6 +72,25 @@ const SocraticLearning = () => {
         { id: 7, emoji: '🌱', title: 'Natural Selection', period: 'Evolution Mechanisms' },
         { id: 8, emoji: '🌍', title: 'Ecology', period: 'Environmental Interactions' }
       ]
+    },
+    {
+      id: 'appsychology',
+      title: 'AP Psychology',
+      description: 'Understand the mind and behavior through scientific psychology',
+      category: 'stem',
+      color: 'from-purple-500 to-pink-500',
+      units: [
+        { id: 1, emoji: '🧠', title: 'Scientific Foundations', period: 'Psychology as Science' },
+        { id: 2, emoji: '🔬', title: 'Biological Bases', period: 'Brain & Behavior' },
+        { id: 3, emoji: '👁️', title: 'Sensation and Perception', period: 'Sensory Processing' },
+        { id: 4, emoji: '📚', title: 'Learning', period: 'Conditioning & Memory' },
+        { id: 5, emoji: '🧩', title: 'Cognitive Psychology', period: 'Thinking & Memory' },
+        { id: 6, emoji: '👶', title: 'Developmental Psychology', period: 'Lifespan Changes' },
+        { id: 7, emoji: '👥', title: 'Personality', period: 'Individual Differences' },
+        { id: 8, emoji: '🔄', title: 'Abnormal Behavior', period: 'Mental Health' },
+        { id: 9, emoji: '💊', title: 'Treatment of Disorders', period: 'Therapeutic Approaches' },
+        { id: 10, emoji: '👫', title: 'Social Psychology', period: 'Group Behavior' }
+      ]
     }
   ];
 

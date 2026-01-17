@@ -110,6 +110,21 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Biology ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'appsychology') {
+      const unitData = {
+        'unit1': { title: 'AP Psychology Unit 1: Scientific Foundations', period: 'Psychology as Science', emoji: '🧠' },
+        'unit2': { title: 'AP Psychology Unit 2: Biological Bases', period: 'Brain & Behavior', emoji: '🔬' },
+        'unit3': { title: 'AP Psychology Unit 3: Sensation and Perception', period: 'Sensory Processing', emoji: '👁️' },
+        'unit4': { title: 'AP Psychology Unit 4: Learning', period: 'Conditioning & Memory', emoji: '📚' },
+        'unit5': { title: 'AP Psychology Unit 5: Cognitive Psychology', period: 'Thinking & Memory', emoji: '🧩' },
+        'unit6': { title: 'AP Psychology Unit 6: Developmental Psychology', period: 'Lifespan Changes', emoji: '👶' },
+        'unit7': { title: 'AP Psychology Unit 7: Personality', period: 'Individual Differences', emoji: '👥' },
+        'unit8': { title: 'AP Psychology Unit 8: Abnormal Behavior', period: 'Mental Health', emoji: '🔄' },
+        'unit9': { title: 'AP Psychology Unit 9: Treatment of Disorders', period: 'Therapeutic Approaches', emoji: '💊' },
+        'unit10': { title: 'AP Psychology Unit 10: Social Psychology', period: 'Group Behavior', emoji: '👫' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Psychology ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -420,7 +435,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -443,7 +458,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -512,6 +527,22 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore biology through guided questions and scientific inquiry.`;
     }
+    if (course === 'appsychology') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Psychology Unit 1: Scientific Foundations of Psychology! 🧠\n\nI'm your Socratic AI tutor. I'll guide your understanding of psychology as a science through inquiry and critical thinking.\n\nKey topics: History of psychology • Research methods • Statistical concepts • Ethical guidelines • Major perspectives\n\nWhat do you already know about psychology as a science, or what would you like to explore first?",
+        'unit2': "Welcome to AP Psychology Unit 2: Biological Bases of Behavior! 🔬\n\nI'm your Socratic AI tutor. Let's explore how biology influences behavior and mental processes.\n\nKey topics: Nervous system structure • Brain anatomy and function • Neurotransmitters • Endocrine system • Genetics and behavior\n\nWhat interests you about the relationship between brain and behavior, or what questions do you have?",
+        'unit3': "Welcome to AP Psychology Unit 3: Sensation and Perception! 👁️\n\nI'm your Socratic AI tutor. Let's examine how we sense and interpret our world through guided analysis.\n\nKey topics: Sensory processes • Visual perception • Auditory processing • Other senses • Perceptual organization\n\nWhat would you like to understand about how we perceive reality, or what aspect interests you most?",
+        'unit4': "Welcome to AP Psychology Unit 4: Learning! 📚\n\nI'm your Socratic AI tutor. Let's explore how experience changes behavior through various learning mechanisms.\n\nKey topics: Classical conditioning • Operant conditioning • Observational learning • Cognitive learning • Learning principles\n\nWhat do you want to learn about how we acquire new behaviors, or what questions do you have?",
+        'unit5': "Welcome to AP Psychology Unit 5: Cognitive Psychology! 🧩\n\nI'm your Socratic AI tutor. Let's examine thinking, memory, and mental processes through scientific inquiry.\n\nKey topics: Memory processes • Problem solving • Decision making • Language and thought • Intelligence\n\nWhat interests you about how the mind processes information, or what would you like to explore?",
+        'unit6': "Welcome to AP Psychology Unit 6: Developmental Psychology! 👶\n\nI'm your Socratic AI tutor. Let's explore human development across the lifespan through guided questions.\n\nKey topics: Physical development • Cognitive development • Social development • Moral development • Aging processes\n\nWhat aspects of human development interest you most, or what questions do you have about growth and change?",
+        'unit7': "Welcome to AP Psychology Unit 7: Personality! 👥\n\nI'm your Socratic AI tutor. Let's examine individual differences and personality theories through critical analysis.\n\nKey topics: Personality theories • Trait approaches • Assessment methods • Personality disorders • Cultural influences\n\nWhat would you like to understand about personality, or what interests you about individual differences?",
+        'unit8': "Welcome to AP Psychology Unit 8: Abnormal Behavior! 🔄\n\nI'm your Socratic AI tutor. Let's explore mental health and psychological disorders through scientific understanding.\n\nKey topics: Defining abnormality • Anxiety disorders • Mood disorders • Schizophrenia • Other disorders\n\nWhat do you want to learn about psychological disorders, or what questions do you have about mental health?",
+        'unit9': "Welcome to AP Psychology Unit 9: Treatment of Psychological Disorders! 💊\n\nI'm your Socratic AI tutor. Let's examine therapeutic approaches and treatment methods through guided inquiry.\n\nKey topics: Psychotherapy approaches • Biomedical treatments • Treatment effectiveness • Ethical considerations • Community mental health\n\nWhat interests you about psychological treatment, or what would you like to explore about therapy?",
+        'unit10': "Welcome to AP Psychology Unit 10: Social Psychology! 👫\n\nI'm your Socratic AI tutor. Let's explore how social situations influence behavior and mental processes.\n\nKey topics: Social cognition • Attitudes and persuasion • Conformity and obedience • Group behavior • Prejudice and discrimination\n\nWhat aspects of social psychology interest you most, or what questions do you have about human social behavior?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore psychology through guided questions and scientific inquiry.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -541,7 +572,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
@@ -1235,6 +1266,8 @@ const SocraticChat = () => {
                       navigate(`/ap-world-study-guide/unit/${unit?.replace('unit', '')}`);
                     } else if (course === 'apbiology') {
                       navigate(`/ap-biology/unit/${unit?.replace('unit', '')}`);
+                    } else if (course === 'appsychology') {
+                      navigate(`/ap-psychology/unit/${unit?.replace('unit', '')}`);
                     } else {
                       // Fallback for any other courses
                       console.log(`Navigation not implemented for course: ${course}`);

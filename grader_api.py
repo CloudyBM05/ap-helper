@@ -2693,6 +2693,134 @@ def get_unit_topics_api():
                 }
                 # Add more AP Biology units as needed
             }
+        elif course == "appsychology":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "appsychology",
+                    "overview": "This unit introduces psychology as a science and explores the foundations of psychological research. Understanding research methods and ethical principles is essential for evaluating psychological claims and studies.",
+                    "topics": [
+                        {
+                            "key": "historyPerspectives",
+                            "title": "History and Perspectives in Psychology",
+                            "keyFacts": [
+                                "Wilhelm Wundt established first psychology lab (1879)",
+                                "Major perspectives: biological, cognitive, behavioral, psychodynamic, humanistic",
+                                "Structuralism vs. functionalism debate",
+                                "Modern psychology emphasizes scientific method",
+                                "Cross-cultural psychology examines universal vs. cultural differences"
+                            ]
+                        },
+                        {
+                            "key": "researchMethods",
+                            "title": "Research Methods and Design",
+                            "keyFacts": [
+                                "Experimental vs. correlational research designs",
+                                "Independent and dependent variables",
+                                "Random sampling and assignment",
+                                "Case studies, surveys, and naturalistic observation",
+                                "Operational definitions ensure measurability"
+                            ]
+                        },
+                        {
+                            "key": "statisticsData",
+                            "title": "Statistical Concepts and Data Analysis",
+                            "keyFacts": [
+                                "Descriptive statistics: mean, median, mode",
+                                "Measures of variability: range, standard deviation",
+                                "Normal distribution and bell curve",
+                                "Statistical significance and p-values",
+                                "Correlation coefficients measure relationships"
+                            ]
+                        },
+                        {
+                            "key": "ethicsResearch",
+                            "title": "Ethics in Psychological Research",
+                            "keyFacts": [
+                                "Informed consent protects participants",
+                                "Institutional Review Boards (IRBs) review studies",
+                                "Debriefing explains study purposes afterward",
+                                "Confidentiality and anonymity protect privacy",
+                                "Risk-benefit analysis guides ethical decisions"
+                            ]
+                        },
+                        {
+                            "key": "criticalThinking",
+                            "title": "Critical Thinking in Psychology",
+                            "keyFacts": [
+                                "Empirical evidence over anecdotal claims",
+                                "Replication confirms research findings",
+                                "Peer review ensures quality control",
+                                "Avoid confirmation bias and overgeneralization",
+                                "Scientific skepticism questions extraordinary claims"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2", 
+                    "course": "appsychology",
+                    "overview": "This unit examines the biological bases of behavior, including brain structure, neurotransmitters, and the nervous system. Understanding neuroscience helps explain how biological processes influence thoughts, emotions, and behaviors.",
+                    "topics": [
+                        {
+                            "key": "neuronsNeurotransmitters", 
+                            "title": "Neurons and Neurotransmitters",
+                            "keyFacts": [
+                                "Neurons communicate through electrical and chemical signals",
+                                "Action potentials travel down axons",
+                                "Neurotransmitters cross synapses between neurons",
+                                "Dopamine, serotonin, and acetylcholine affect behavior",
+                                "Reuptake and enzyme breakdown end neurotransmission"
+                            ]
+                        },
+                        {
+                            "key": "nervousSystem",
+                            "title": "Nervous System Structure",
+                            "keyFacts": [
+                                "Central nervous system: brain and spinal cord",
+                                "Peripheral nervous system: nerves throughout body",
+                                "Autonomic nervous system controls involuntary functions",
+                                "Sympathetic vs. parasympathetic responses",
+                                "Somatic nervous system controls voluntary movement"
+                            ]
+                        },
+                        {
+                            "key": "brainStructure",
+                            "title": "Brain Structure and Function",
+                            "keyFacts": [
+                                "Cerebral cortex handles complex thinking",
+                                "Limbic system processes emotions and memory",
+                                "Brain stem controls vital life functions",
+                                "Cerebellum coordinates movement and balance",
+                                "Left and right hemisphere specializations"
+                            ]
+                        },
+                        {
+                            "key": "endocrineSystem",
+                            "title": "Endocrine System and Hormones",
+                            "keyFacts": [
+                                "Hormones are chemical messengers in bloodstream",
+                                "Pituitary gland is 'master gland'",
+                                "Stress hormones: cortisol and adrenaline",
+                                "Sex hormones influence development and behavior",
+                                "Hormones work slower but longer than neurotransmitters"
+                            ]
+                        },
+                        {
+                            "key": "geneticsBehavior",
+                            "title": "Genetics and Behavior",
+                            "keyFacts": [
+                                "Heritability estimates genetic influence on traits",
+                                "Twin and adoption studies separate nature vs. nurture",
+                                "Gene-environment interactions shape development",
+                                "Evolutionary psychology explains adaptive behaviors",
+                                "Genetic predispositions don't guarantee outcomes"
+                            ]
+                        }
+                    ]
+                }
+                # Add more AP Psychology units as needed
+            }
         
         # Get the requested unit data
         unit_data = topics_data.get(unit, {})
@@ -2743,19 +2871,18 @@ def socratic_chat_send():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        # ALWAYS try Gemini AI first for ALL questions - no more prewritten responses
-        socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
+        # Check if this is an advanced question that could benefit from Gemini
+        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences', 'complex', 'relationship', 'factors', 'causes', 'effects', 'explain']
+        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) or len(message.split()) > 10
         
-        # Only fall back if Gemini completely fails
+        # Try Gemini for advanced questions when available
+        socratic_data = None
+        if is_advanced_question:
+            socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
+        
+        # Fall back to traditional Socratic response if Gemini not available or for basic questions
         if not socratic_data:
-            print("Gemini AI failed, creating minimal fallback response")
-            socratic_data = {
-                'response': f"I'm having trouble connecting to my AI system right now. Could you try rephrasing your question about {course} {unit}?",
-                'source': 'system_fallback',
-                'topic': 'technical_issue',
-                'concepts_introduced': [],
-                'progress_update': {}
-            }
+            socratic_data = get_socratic_response(message, course, unit, conversation_history)
         
         # Determine the actual response source
         response_source = socratic_data.get('source', 'enhanced_socratic_system')
@@ -2819,34 +2946,55 @@ def get_gemini_socratic_response(user_input, course, unit, conversation_history)
         if course == "apbiology":
             context = f"""You are an expert AP Biology tutor for {course.upper()} {unit.upper()}. 
 
-INSTRUCTION: Always provide helpful, educational responses. For ANY question about biology:
-- Give clear, accurate biological information
-- Use bullet points for key scientific facts when helpful
-- Ask ONE thoughtful follow-up question to encourage deeper thinking
-- Be conversational and engaging, not generic
-- Focus on the specific topic the student asked about
+INSTRUCTION: For direct questions like "Tell me about X" or "What is X" or "Analyze X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
 
-Student's question: "{user_input}"
+Your teaching approach:
+- Give clear, factual biological information when requested
+- Use bullet points for key scientific facts
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
+- Focus on biological concepts, processes, and relationships
+
+Student's message: "{user_input}"
 
 Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
-Respond naturally and helpfully to their specific question. If they ask about a basic concept, explain it clearly. If they ask for analysis, provide deeper insights. Always end with a thoughtful question to guide their learning. Keep responses under 300 words but make them substantive."""
+If the student asks "Tell me about [topic]" or "Analyze [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key biological information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
+        elif course == "appsychology":
+            context = f"""You are an expert AP Psychology tutor for {course.upper()} {unit.upper()}. 
+
+INSTRUCTION: For any question about psychology, provide informative answers with bullet points when helpful, then ask ONE follow-up question.
+
+Your teaching approach:
+- Give clear, factual psychological information
+- Use bullet points for key concepts and research findings
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
+- Focus on psychological theories, research, and real-world applications
+- Connect concepts to everyday behavior when relevant
+
+Student's message: "{user_input}"
+
+Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
+
+If the student asks about a psychological concept, start with "**[Topic Name]**" and provide 3-4 bullet points of key psychological information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
         else:
             # History courses
             context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
 
-INSTRUCTION: Always provide helpful, educational responses. For ANY question about history:
-- Give clear, accurate historical information
-- Use bullet points for key facts when helpful
-- Ask ONE thoughtful follow-up question to encourage deeper thinking
-- Be conversational and engaging, not generic
-- Focus on the specific topic the student asked about
+INSTRUCTION: For direct questions like "Tell me about X" or "What is X", provide informative answers with bullet points FIRST, then ask ONE follow-up question.
 
-Student's question: "{user_input}"
+Your teaching approach:
+- Give clear, factual information when requested
+- Use bullet points for key facts
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
+
+Student's message: "{user_input}"
 
 Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
-Respond naturally and helpfully to their specific question. Always end with a thoughtful question to guide their learning. Keep responses under 300 words but make them substantive."""
+If the student asks "Tell me about [topic]", start with "**[Topic Name]**" and provide 3-4 bullet points of key information, then ask ONE question to guide deeper thinking. Keep under 200 words."""
 
         # Try different Gemini model names using current available models
         model_names = [

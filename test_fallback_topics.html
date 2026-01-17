@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Fallback Topics System</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+        }
+        .success { background: #e8f5e8; border-color: #4caf50; }
+        .error { background: #ffe8e8; border-color: #f44336; }
+        .topic { 
+            margin: 5px 0; 
+            padding: 8px; 
+            background: #f5f5f5; 
+            border-radius: 3px; 
+            border-left: 3px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Fallback Topics System Test</h1>
+    <p>Testing if fallback topics are properly defined for all units...</p>
+    
+    <div id="results"></div>
+    
+    <script>
+        // Simulate the getFallbackTopics function from SocraticChat.tsx
+        function getFallbackTopics(course, unit) {
+            console.log('Getting fallback topics for:', course, unit);
+            if (course === 'apworld' || course === 'world') {
+                if (unit === 'unit1') {
+                    return [
+                        { key: 'silkRoads', title: 'The Silk Roads and Overland Trade', keyFacts: ['Connected China to Mediterranean', 'Traded silk, spices, and ideas', 'Spread Buddhism and Islam', 'Caravanserai provided safety', 'Declined due to taxes and politics'] },
+                        { key: 'indianOcean', title: 'Indian Ocean Maritime Trading Network', keyFacts: ['Connected East Africa to Southeast Asia', 'Monsoon winds enabled sailing', 'Spread Islam to new regions', 'Swahili city-states flourished', 'Chinese treasure fleets explored'] },
+                        { key: 'mongols', title: 'The Mongol Empire and Its Impact', keyFacts: ['Largest contiguous land empire', 'Connected East and West', 'Promoted religious tolerance', 'Facilitated trade and communication', 'Split into four khanates'] },
+                        { key: 'transSaharan', title: 'Trans-Saharan Trade Networks', keyFacts: ['Connected North and West Africa', 'Gold and salt were key goods', 'Spread Islam into West Africa', 'Great empires: Ghana, Mali, Songhai', 'Timbuktu became learning center'] },
+                        { key: 'culturalExchange', title: 'Cultural and Technological Exchange', keyFacts: ['Paper-making spread from China', 'Gunpowder diffused westward', 'Arabic numerals spread', 'Religious ideas traveled routes', 'Black Death followed trade paths'] }
+                    ];
+                } else if (unit === 'unit2') {
+                    return [
+                        { key: 'europeanExploration', title: 'European Maritime Exploration', keyFacts: ['Portuguese pioneered Atlantic routes', 'Spanish conquered Aztec and Inca', 'Dutch and English trading companies', 'Motivated by Gold, God, Glory', 'New navigation technology'] },
+                        { key: 'columbianExchange', title: 'The Columbian Exchange', keyFacts: ['Biological exchange Old/New Worlds', 'Diseases devastated Native Americans', 'New crops transformed Old World', 'Animals changed New World societies', 'Cultural exchange accelerated'] }
+                    ];
+                } else if (unit === 'unit3') {
+                    return [
+                        { key: 'industrialRevolution', title: 'The Industrial Revolution', keyFacts: ['Started in Britain with textiles', 'Steam power revolutionized transport', 'Factory system replaced handicrafts', 'Urbanization and new classes', 'Spread to Western Europe'] }
+                    ];
+                } else if (unit === 'unit4') {
+                    return [
+                        { key: 'globalConflicts', title: 'Global Conflicts and Total War', keyFacts: ['WWI industrialized warfare', 'WWII global scale conflict', 'Cold War ideological struggle', 'Proxy wars in developing world', 'Nuclear weapons changed warfare'] }
+                    ];
+                }
+            }
+
+            if (course === 'apush') {
+                if (unit === 'unit1') {
+                    return [
+                        { key: 'nativeAmericans', title: 'Pre-Columbian Native American Societies', keyFacts: ['Diverse complex societies', 'Aztec, Inca, Maya civilizations', 'Cahokia larger than London', 'Tenochtitlan had 200,000+ people', 'Three Sisters agriculture'] },
+                        { key: 'europeanMotivations', title: 'European Motivations for Exploration', keyFacts: ['God, Gold, and Glory', 'Economic desire for spices', 'Religious spread of Christianity', 'Political nation-building', 'Technological navigation advances'] }
+                    ];
+                } else if (unit === 'unit2') {
+                    return [
+                        { key: 'jeffersonianDemocracy', title: 'Jeffersonian Democracy and Republican Ideals', keyFacts: ['Strict vs loose constitutional interpretation', 'Agrarian vision vs industrial development', 'States rights vs federal power', 'Louisiana Purchase doubled nation size', 'Individual liberty and limited government'] }
+                    ];
+                } else if (unit === 'unit3') {
+                    return [
+                        { key: 'sectionalTension', title: 'Sectional Conflict and Compromise', keyFacts: ['Missouri Compromise 1820', 'Compromise of 1850', 'Kansas-Nebraska Act popular sovereignty', 'Bleeding Kansas violence', 'Dred Scott v. Sandford decision'] }
+                    ];
+                } else if (['unit4', 'unit5', 'unit6', 'unit7', 'unit8', 'unit9'].includes(unit)) {
+                    return [
+                        { key: 'placeholder', title: `${unit.toUpperCase()} Topic`, keyFacts: [`Fallback topic for ${unit}`, 'Should have detailed topics', 'Check SocraticChat.tsx file'] }
+                    ];
+                }
+            }
+
+            if (course === 'apgov') {
+                if (unit === 'unit1') {
+                    return [
+                        { key: 'enlightenment', title: 'Enlightenment Ideals and Democratic Theory', keyFacts: ['Natural rights philosophy', 'Social contract theory', 'Separation of powers', 'Popular sovereignty', 'Individual vs government rights'] }
+                    ];
+                } else if (['unit2', 'unit3', 'unit4', 'unit5'].includes(unit)) {
+                    return [
+                        { key: 'placeholder', title: `${unit.toUpperCase()} Topic`, keyFacts: [`Fallback topic for ${unit}`, 'Should have detailed topics', 'Check SocraticChat.tsx file'] }
+                    ];
+                }
+            }
+
+            return [];
+        }
+
+        function testFallbackCoverage() {
+            const results = document.getElementById('results');
+            let html = '';
+            
+            const courses = [
+                { name: 'APUSH', key: 'apush', units: ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6', 'unit7', 'unit8', 'unit9'] },
+                { name: 'AP Gov', key: 'apgov', units: ['unit1', 'unit2', 'unit3', 'unit4', 'unit5'] },
+                { name: 'AP World', key: 'apworld', units: ['unit1', 'unit2', 'unit3', 'unit4'] }
+            ];
+            
+            let totalUnits = 0;
+            let coveredUnits = 0;
+            
+            courses.forEach(course => {
+                html += `<div class="test-section"><h2>${course.name}</h2>`;
+                
+                course.units.forEach(unit => {
+                    totalUnits++;
+                    const topics = getFallbackTopics(course.key, unit);
+                    
+                    if (topics.length > 0) {
+                        coveredUnits++;
+                        html += `<div class="success"><strong>✅ ${unit.toUpperCase()}</strong> - ${topics.length} topics</div>`;
+                        topics.forEach(topic => {
+                            html += `<div class="topic">${topic.title}</div>`;
+                        });
+                    } else {
+                        html += `<div class="error"><strong>❌ ${unit.toUpperCase()}</strong> - No fallback topics</div>`;
+                    }
+                });
+                
+                html += '</div>';
+            });
+            
+            html = `
+                <div class="test-section ${coveredUnits === totalUnits ? 'success' : 'error'}">
+                    <h2>📊 Summary</h2>
+                    <p><strong>Coverage:</strong> ${coveredUnits}/${totalUnits} units have fallback topics</p>
+                    <p><strong>Status:</strong> ${coveredUnits === totalUnits ? '✅ All units covered!' : '❌ Missing topics for some units'}</p>
+                </div>
+            ` + html;
+            
+            results.innerHTML = html;
+        }
+        
+        // Run test when page loads
+        testFallbackCoverage();
+    </script>
+</body>
+</html>
