@@ -1941,6 +1941,196 @@ def get_unit_topics_api():
                 }
                 # Add more AP Gov units as needed
             }
+        elif course == "apmicro":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apmicro",
+                    "overview": "This unit introduces fundamental economic concepts including scarcity, opportunity cost, and the basic economic problem. Students learn how individuals and societies make choices when resources are limited.",
+                    "topics": [
+                        {
+                            "key": "scarcityChoice",
+                            "title": "Scarcity and Choice",
+                            "keyFacts": [
+                                "Scarcity forces individuals and societies to make choices",
+                                "Opportunity cost is the next best alternative forgone",
+                                "Resources are limited but wants are unlimited",
+                                "Trade-offs occur with every economic decision",
+                                "Efficient allocation maximizes total benefit"
+                            ]
+                        },
+                        {
+                            "key": "ppf",
+                            "title": "Production Possibilities Frontier",
+                            "keyFacts": [
+                                "Shows maximum combinations of goods that can be produced",
+                                "Points on the curve represent efficient production",
+                                "Concave shape reflects increasing opportunity costs",
+                                "Shifts outward with economic growth",
+                                "Illustrates trade-offs and opportunity costs"
+                            ]
+                        },
+                        {
+                            "key": "economicSystems",
+                            "title": "Economic Systems and Markets",
+                            "keyFacts": [
+                                "Market economy relies on price signals and private ownership",
+                                "Command economy uses central planning",
+                                "Mixed economies combine market and government control",
+                                "Specialization and trade increase efficiency",
+                                "Comparative advantage determines trade patterns"
+                            ]
+                        },
+                        {
+                            "key": "marginalAnalysis",
+                            "title": "Marginal Analysis and Decision Making",
+                            "keyFacts": [
+                                "Marginal benefit is additional benefit from one more unit",
+                                "Marginal cost is additional cost from one more unit",
+                                "Optimal decisions occur when marginal benefit equals marginal cost",
+                                "Diminishing marginal returns affect production decisions",
+                                "Rational actors compare marginal benefits and costs"
+                            ]
+                        },
+                        {
+                            "key": "economicModels",
+                            "title": "Economic Models and Assumptions",
+                            "keyFacts": [
+                                "Ceteris paribus: holding all else constant",
+                                "Models simplify reality to understand relationships",
+                                "Positive vs. normative economic statements",
+                                "Rational self-interest guides decision making",
+                                "Economic models help predict behavior"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apmicro",
+                    "overview": "This unit explores how supply and demand interact to determine prices and quantities in markets. Understanding market forces is crucial for analyzing consumer and producer behavior.",
+                    "topics": [
+                        {
+                            "key": "demandCurve",
+                            "title": "Demand and Consumer Behavior",
+                            "keyFacts": [
+                                "Law of demand: higher price leads to lower quantity demanded",
+                                "Demand curve slopes downward",
+                                "Determinants: income, tastes, prices of related goods, expectations",
+                                "Normal goods vs. inferior goods",
+                                "Substitutes and complements affect demand"
+                            ]
+                        },
+                        {
+                            "key": "supplyCurve", 
+                            "title": "Supply and Producer Behavior",
+                            "keyFacts": [
+                                "Law of supply: higher price leads to higher quantity supplied",
+                                "Supply curve slopes upward",
+                                "Determinants: input costs, technology, expectations, number of sellers",
+                                "Producer surplus measures benefit to sellers",
+                                "Supply shifts affect market equilibrium"
+                            ]
+                        },
+                        {
+                            "key": "marketEquilibrium",
+                            "title": "Market Equilibrium and Efficiency",
+                            "keyFacts": [
+                                "Equilibrium occurs where supply equals demand",
+                                "Market clearing price eliminates shortages and surpluses",
+                                "Consumer and producer surplus measure total welfare",
+                                "Deadweight loss occurs when markets are inefficient",
+                                "Price signals coordinate economic activity"
+                            ]
+                        },
+                        {
+                            "key": "elasticity",
+                            "title": "Price Elasticity of Demand",
+                            "keyFacts": [
+                                "Measures responsiveness of quantity demanded to price changes",
+                                "Elastic demand: percentage change in quantity > percentage change in price",
+                                "Inelastic demand: percentage change in quantity < percentage change in price",
+                                "Determinants: substitutes, necessity vs. luxury, time frame",
+                                "Total revenue depends on elasticity"
+                            ]
+                        },
+                        {
+                            "key": "marketEfficiency",
+                            "title": "Market Efficiency and Welfare",
+                            "keyFacts": [
+                                "Allocative efficiency: resources go to highest valued uses",
+                                "Productive efficiency: goods produced at lowest cost",
+                                "Free markets maximize total economic surplus",
+                                "Pareto efficiency: no one can be made better off without making someone worse off",
+                                "Market failures occur when efficiency conditions aren't met"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "apmicro",
+                    "overview": "This unit examines market failures and the role of government intervention. Students analyze situations where free markets don't produce efficient outcomes and explore policy solutions.",
+                    "topics": [
+                        {
+                            "key": "marketFailure",
+                            "title": "Types of Market Failure",
+                            "keyFacts": [
+                                "Externalities create costs or benefits for third parties",
+                                "Public goods are non-rival and non-excludable",
+                                "Monopoly power leads to higher prices and lower output",
+                                "Information asymmetries create market inefficiencies",
+                                "Common resources face tragedy of the commons"
+                            ]
+                        },
+                        {
+                            "key": "externalities",
+                            "title": "Externalities and Social Costs",
+                            "keyFacts": [
+                                "Negative externalities: pollution, traffic congestion",
+                                "Positive externalities: education, vaccination",
+                                "Private cost vs. social cost diverge with externalities",
+                                "Coase theorem: private bargaining can solve externality problems",
+                                "Pigouvian taxes internalize external costs"
+                            ]
+                        },
+                        {
+                            "key": "publicGoods",
+                            "title": "Public Goods and Free Riders",
+                            "keyFacts": [
+                                "Pure public goods: national defense, lighthouses",
+                                "Non-rival consumption: one person's use doesn't reduce others'",
+                                "Non-excludable: can't prevent non-payers from using",
+                                "Free rider problem: individuals use without paying",
+                                "Government provision may be necessary"
+                            ]
+                        },
+                        {
+                            "key": "informationProblems",
+                            "title": "Information Economics",
+                            "keyFacts": [
+                                "Asymmetric information: one party knows more than the other",
+                                "Adverse selection: low-quality products drive out high-quality",
+                                "Moral hazard: behavior changes after transaction",
+                                "Principal-agent problems in employment relationships",
+                                "Signaling and screening help overcome information gaps"
+                            ]
+                        },
+                        {
+                            "key": "governmentPolicy",
+                            "title": "Government Intervention and Policy",
+                            "keyFacts": [
+                                "Taxes and subsidies can correct market failures",
+                                "Regulation sets rules for market behavior",
+                                "Antitrust laws prevent monopoly abuse",
+                                "Government failure: intervention may worsen outcomes",
+                                "Cost-benefit analysis guides policy decisions"
+                            ]
+                        }
+                    ]
+                }
+                # Add more AP Micro units as needed
+            }
         elif course == "apworld" or course == "world":
             topics_data = {
                 "unit1": {
@@ -3367,16 +3557,24 @@ def socratic_chat_send():
         return jsonify({"error": "Message is required."}), 400
 
     try:
-        # Check if this is an advanced question that could benefit from Gemini
-        advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences', 'complex', 'relationship', 'factors', 'causes', 'effects', 'explain']
-        is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) or len(message.split()) > 10
+        # Always try Gemini AI first for courses with topic definitions
+        courses_with_topics = ['apbiology', 'appsychology', 'apgov', 'apmicro', 'aphug', 'apstat', 'apush', 'apworld']
         
-        # Try Gemini for advanced questions when available
         socratic_data = None
-        if is_advanced_question:
+        
+        # Try Gemini for supported courses with topic definitions
+        if course in courses_with_topics:
             socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
         
-        # Fall back to traditional Socratic response if Gemini not available or for basic questions
+        # For other courses or if Gemini fails, check if it's an advanced question
+        if not socratic_data:
+            advanced_keywords = ['analyze', 'compare', 'evaluate', 'significance', 'impact', 'why', 'how', 'what if', 'consequences', 'complex', 'relationship', 'factors', 'causes', 'effects', 'explain']
+            is_advanced_question = any(keyword in message.lower() for keyword in advanced_keywords) or len(message.split()) > 10
+            
+            if is_advanced_question:
+                socratic_data = get_gemini_socratic_response(message, course, unit, conversation_history)
+        
+        # Fall back to traditional Socratic response if Gemini not available
         if not socratic_data:
             socratic_data = get_socratic_response(message, course, unit, conversation_history)
         
