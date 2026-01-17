@@ -2818,8 +2818,504 @@ def get_unit_topics_api():
                             ]
                         }
                     ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "appsychology", 
+                    "overview": "This unit explores how we receive, process, and interpret sensory information from our environment. Understanding sensation and perception is crucial for explaining how we experience and make sense of the world around us.",
+                    "topics": [
+                        {
+                            "key": "sensoryProcesses",
+                            "title": "Sensory Processes and Thresholds",
+                            "keyFacts": [
+                                "Absolute threshold is minimum stimulus needed for detection",
+                                "Difference threshold (JND) is smallest detectable change",
+                                "Weber's Law: larger stimuli need bigger changes to detect",
+                                "Sensory adaptation reduces response to constant stimuli",
+                                "Signal detection theory explains decision-making in perception"
+                            ]
+                        },
+                        {
+                            "key": "visionHearing",
+                            "title": "Vision and Audition",
+                            "keyFacts": [
+                                "Light wavelength determines color, amplitude determines brightness",
+                                "Retina contains rods (dim light) and cones (color vision)",
+                                "Sound waves have frequency (pitch) and amplitude (loudness)",
+                                "Cochlea in inner ear converts sound to neural signals",
+                                "Both systems use feature detection and parallel processing"
+                            ]
+                        },
+                        {
+                            "key": "otherSenses",
+                            "title": "Chemical and Body Senses",
+                            "keyFacts": [
+                                "Taste and smell are chemical senses using receptors",
+                                "Gate control theory explains pain perception",
+                                "Kinesthetic sense tracks body position and movement",
+                                "Vestibular sense maintains balance and spatial orientation",
+                                "Touch includes pressure, temperature, and pain receptors"
+                            ]
+                        },
+                        {
+                            "key": "perceptualOrganization",
+                            "title": "Perceptual Organization",
+                            "keyFacts": [
+                                "Gestalt principles: proximity, similarity, closure, continuity",
+                                "Figure-ground relationship organizes visual scenes",
+                                "Depth perception uses binocular and monocular cues",
+                                "Size constancy maintains object size despite distance",
+                                "Shape and brightness constancy maintain object identity"
+                            ]
+                        },
+                        {
+                            "key": "perceptualInterpretation",
+                            "title": "Perceptual Interpretation and Context",
+                            "keyFacts": [
+                                "Experience and expectations influence perception",
+                                "Context effects change how stimuli are interpreted",
+                                "Perceptual set creates readiness to perceive certain things",
+                                "Culture influences perceptual interpretation",
+                                "Attention selectively focuses on relevant information"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "appsychology",
+                    "overview": "This unit examines states of consciousness, including sleep, dreams, and altered states. Understanding consciousness helps explain the rhythm of daily life and how various factors affect awareness and cognitive function.",
+                    "topics": [
+                        {
+                            "key": "consciousnessStates",
+                            "title": "Levels of Consciousness",
+                            "keyFacts": [
+                                "Consciousness exists on a continuum from alert to unconscious",
+                                "Selective attention focuses awareness on specific stimuli",
+                                "Divided attention splits focus between multiple tasks",
+                                "Inattentional blindness misses obvious stimuli when distracted",
+                                "Change blindness fails to notice environmental changes"
+                            ]
+                        },
+                        {
+                            "key": "sleepRhythms",
+                            "title": "Sleep and Circadian Rhythms",
+                            "keyFacts": [
+                                "Circadian rhythms follow 24-hour biological cycles",
+                                "Suprachiasmatic nucleus controls biological clock",
+                                "Melatonin regulates sleep-wake cycles",
+                                "REM sleep features rapid eye movement and vivid dreams",
+                                "NREM sleep has four stages from light to deep sleep"
+                            ]
+                        },
+                        {
+                            "key": "sleepDreams",
+                            "title": "Sleep Disorders and Dreams",
+                            "keyFacts": [
+                                "Insomnia involves difficulty falling or staying asleep",
+                                "Sleep apnea causes breathing interruptions during sleep",
+                                "Narcolepsy involves sudden uncontrollable sleep attacks",
+                                "Dreams occur mainly during REM sleep",
+                                "Freud's theory: dreams reveal unconscious desires"
+                            ]
+                        },
+                        {
+                            "key": "psychoactiveSubstances",
+                            "title": "Psychoactive Substances",
+                            "keyFacts": [
+                                "Depressants (alcohol, barbiturates) slow nervous system",
+                                "Stimulants (caffeine, cocaine) speed up nervous system",
+                                "Hallucinogens (LSD, marijuana) alter perception",
+                                "Tolerance requires increasing amounts for same effect",
+                                "Physical dependence creates withdrawal symptoms"
+                            ]
+                        },
+                        {
+                            "key": "alteredStates",
+                            "title": "Other Altered States",
+                            "keyFacts": [
+                                "Hypnosis involves focused attention and suggestibility",
+                                "Meditation promotes relaxation and mindfulness",
+                                "Dissociation involves detachment from normal awareness",
+                                "Near-death experiences share common features",
+                                "Sensory deprivation can produce hallucinations"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "appsychology",
+                    "overview": "This unit explores how organisms learn and adapt their behavior through experience. Understanding learning principles helps explain how behaviors are acquired, maintained, and changed throughout life.",
+                    "topics": [
+                        {
+                            "key": "classicalConditioning",
+                            "title": "Classical Conditioning",
+                            "keyFacts": [
+                                "Pavlov discovered learning through association",
+                                "Unconditioned stimulus naturally triggers response",
+                                "Conditioned stimulus learns to trigger response",
+                                "Acquisition is learning phase of conditioning",
+                                "Extinction occurs when CS no longer paired with US"
+                            ]
+                        },
+                        {
+                            "key": "operantConditioning",
+                            "title": "Operant Conditioning",
+                            "keyFacts": [
+                                "Skinner studied learning through consequences",
+                                "Reinforcement increases behavior frequency",
+                                "Punishment decreases behavior frequency",
+                                "Positive adds stimulus, negative removes stimulus",
+                                "Schedules of reinforcement affect learning patterns"
+                            ]
+                        },
+                        {
+                            "key": "cognitiveFactors",
+                            "title": "Cognitive Factors in Learning",
+                            "keyFacts": [
+                                "Cognitive maps represent spatial knowledge",
+                                "Latent learning occurs without obvious reinforcement",
+                                "Insight learning involves sudden problem understanding",
+                                "Observational learning occurs through watching others",
+                                "Mirror neurons may facilitate imitation"
+                            ]
+                        },
+                        {
+                            "key": "biologicalConstraints",
+                            "title": "Biological Constraints on Learning",
+                            "keyFacts": [
+                                "Preparedness makes some associations easier to learn",
+                                "Instinctive drift interferes with learned behaviors",
+                                "Taste aversion learning has adaptive value",
+                                "Critical periods limit when learning can occur",
+                                "Species-specific learning patterns exist"
+                            ]
+                        },
+                        {
+                            "key": "applicationsPrinciples",
+                            "title": "Learning Applications and Principles",
+                            "keyFacts": [
+                                "Behavior modification uses learning principles therapeutically",
+                                "Token economies reinforce desired behaviors",
+                                "Systematic desensitization treats phobias",
+                                "Modeling teaches complex behaviors through observation",
+                                "Transfer of learning applies knowledge to new situations"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "appsychology",
+                    "overview": "This unit examines cognitive processes including memory, thinking, and language. Understanding cognition explains how we process information, solve problems, and communicate with others.",
+                    "topics": [
+                        {
+                            "key": "memoryProcesses",
+                            "title": "Memory Processes and Systems",
+                            "keyFacts": [
+                                "Encoding transforms information into memory format",
+                                "Storage maintains information over time",
+                                "Retrieval accesses stored information when needed",
+                                "Sensory memory briefly holds sensory information",
+                                "Working memory actively processes current information"
+                            ]
+                        },
+                        {
+                            "key": "longTermMemory",
+                            "title": "Long-term Memory Systems",
+                            "keyFacts": [
+                                "Explicit memory includes episodic and semantic memory",
+                                "Implicit memory includes procedural and priming effects",
+                                "Episodic memory stores personal experiences",
+                                "Semantic memory stores general knowledge and facts",
+                                "Procedural memory stores skills and habits"
+                            ]
+                        },
+                        {
+                            "key": "forgettingMemory",
+                            "title": "Forgetting and Memory Construction",
+                            "keyFacts": [
+                                "Interference theory: new learning disrupts old memory",
+                                "Decay theory: memories fade without rehearsal",
+                                "Motivated forgetting involves deliberate suppression",
+                                "Memory construction can create false memories",
+                                "Source amnesia forgets where information came from"
+                            ]
+                        },
+                        {
+                            "key": "thinkingConcepts",
+                            "title": "Thinking and Concept Formation",
+                            "keyFacts": [
+                                "Concepts organize knowledge into categories",
+                                "Prototypes represent typical category examples",
+                                "Algorithms guarantee correct problem solutions",
+                                "Heuristics provide mental shortcuts for decisions",
+                                "Schemas organize knowledge about events or situations"
+                            ]
+                        },
+                        {
+                            "key": "languageCommunication",
+                            "title": "Language and Communication",
+                            "keyFacts": [
+                                "Language has phonemes, morphemes, and syntax rules",
+                                "Critical period exists for language acquisition",
+                                "Chomsky proposed universal grammar theory",
+                                "Language influences thought (linguistic relativity)",
+                                "Bilingualism affects cognitive flexibility"
+                            ]
+                        }
+                    ]
+                },
+                "unit7": {
+                    "unit": "unit7",
+                    "course": "appsychology",
+                    "overview": "This unit explores motivation, emotion, and personality theories. Understanding these concepts helps explain why people behave differently and what drives human behavior across situations.",
+                    "topics": [
+                        {
+                            "key": "motivationTheories",
+                            "title": "Theories of Motivation",
+                            "keyFacts": [
+                                "Drive-reduction theory: motivation stems from biological needs",
+                                "Arousal theory: optimal arousal level motivates behavior",
+                                "Hierarchy of needs: physiological to self-actualization",
+                                "Incentive theory: external rewards motivate behavior",
+                                "Self-determination theory emphasizes autonomy and competence"
+                            ]
+                        },
+                        {
+                            "key": "hungerEating",
+                            "title": "Hunger and Eating Behavior", 
+                            "keyFacts": [
+                                "Hypothalamus regulates hunger and satiety signals",
+                                "Glucose levels and stomach contractions signal hunger",
+                                "Set point theory maintains stable body weight",
+                                "Environmental cues trigger eating behaviors",
+                                "Eating disorders involve dysfunctional eating patterns"
+                            ]
+                        },
+                        {
+                            "key": "emotionTheories",
+                            "title": "Theories of Emotion",
+                            "keyFacts": [
+                                "James-Lange theory: bodily changes precede emotions",
+                                "Cannon-Bard theory: physiological and emotional responses simultaneous",
+                                "Schachter-Singer theory: cognition interprets arousal",
+                                "Facial feedback hypothesis: expressions influence emotions",
+                                "Evolutionary theory: emotions serve adaptive functions"
+                            ]
+                        },
+                        {
+                            "key": "emotionalExpression",
+                            "title": "Emotional Expression and Recognition",
+                            "keyFacts": [
+                                "Basic emotions appear universally across cultures",
+                                "Facial expressions communicate emotional states",
+                                "Display rules vary by culture for emotional expression",
+                                "Emotional intelligence involves recognizing and managing emotions",
+                                "Stress responses involve physiological and psychological components"
+                            ]
+                        },
+                        {
+                            "key": "personalityTheories",
+                            "title": "Personality Theories and Assessment",
+                            "keyFacts": [
+                                "Trait theories identify stable personality characteristics",
+                                "Big Five factors: openness, conscientiousness, extraversion, agreeableness, neuroticism",
+                                "Psychodynamic theory emphasizes unconscious influences",
+                                "Humanistic theory focuses on self-concept and growth",
+                                "Social-cognitive theory emphasizes situation and cognition interactions"
+                            ]
+                        }
+                    ]
+                },
+                "unit8": {
+                    "unit": "unit8",
+                    "course": "appsychology",
+                    "overview": "This unit examines abnormal psychology, including psychological disorders and their treatment. Understanding mental health helps reduce stigma and explains how disorders are diagnosed and treated.",
+                    "topics": [
+                        {
+                            "key": "abnormalityModels",
+                            "title": "Defining and Models of Abnormality",
+                            "keyFacts": [
+                                "Abnormality involves distress, dysfunction, and deviance",
+                                "Medical model treats disorders as medical illnesses",
+                                "Biopsychosocial model considers multiple contributing factors",
+                                "DSM-5 provides diagnostic criteria for disorders",
+                                "Cultural factors influence definitions of abnormal behavior"
+                            ]
+                        },
+                        {
+                            "key": "anxietyDisorders",
+                            "title": "Anxiety and Trauma-Related Disorders",
+                            "keyFacts": [
+                                "Generalized anxiety disorder involves excessive worry",
+                                "Panic disorder includes recurrent panic attacks",
+                                "Phobias involve irrational fears of specific objects",
+                                "PTSD develops after traumatic experiences",
+                                "OCD involves obsessions and compulsive behaviors"
+                            ]
+                        },
+                        {
+                            "key": "moodDisorders",
+                            "title": "Mood Disorders",
+                            "keyFacts": [
+                                "Major depression involves persistent sadness and anhedonia",
+                                "Bipolar disorder alternates between mania and depression",
+                                "Seasonal affective disorder relates to light exposure",
+                                "Learned helplessness may contribute to depression",
+                                "Cognitive distortions maintain depressive thinking patterns"
+                            ]
+                        },
+                        {
+                            "key": "schizophreniaDisorders",
+                            "title": "Schizophrenia and Psychotic Disorders",
+                            "keyFacts": [
+                                "Positive symptoms include hallucinations and delusions",
+                                "Negative symptoms include flattened affect and withdrawal",
+                                "Dopamine hypothesis links neurotransmitter to symptoms",
+                                "Genetic and environmental factors contribute to development",
+                                "Early intervention improves long-term outcomes"
+                            ]
+                        },
+                        {
+                            "key": "treatmentApproaches",
+                            "title": "Treatment Approaches and Therapies",
+                            "keyFacts": [
+                                "Psychoanalytic therapy explores unconscious conflicts",
+                                "Cognitive-behavioral therapy challenges distorted thinking",
+                                "Humanistic therapy emphasizes self-acceptance and growth",
+                                "Biological treatments include medication and ECT",
+                                "Community mental health provides accessible services"
+                            ]
+                        }
+                    ]
+                },
+                "unit9": {
+                    "unit": "unit9",
+                    "course": "appsychology",
+                    "overview": "This unit examines how people think, feel, and behave in social situations. Understanding social psychology helps explain interpersonal relationships, group dynamics, and social influences on behavior.",
+                    "topics": [
+                        {
+                            "key": "socialThinking",
+                            "title": "Social Thinking and Attribution",
+                            "keyFacts": [
+                                "Attribution theory explains how we judge others' behavior",
+                                "Fundamental attribution error overemphasizes personality factors",
+                                "Self-serving bias attributes success to internal factors",
+                                "Cognitive dissonance creates discomfort from conflicting beliefs",
+                                "Attitude change occurs through central and peripheral routes"
+                            ]
+                        },
+                        {
+                            "key": "socialInfluence",
+                            "title": "Social Influence and Conformity",
+                            "keyFacts": [
+                                "Conformity involves changing behavior to match group norms",
+                                "Asch's studies showed power of group pressure",
+                                "Compliance techniques include foot-in-door and door-in-face",
+                                "Obedience to authority can override personal morals",
+                                "Social facilitation improves performance on simple tasks"
+                            ]
+                        },
+                        {
+                            "key": "groupBehavior",
+                            "title": "Group Behavior and Social Identity",
+                            "keyFacts": [
+                                "Social identity theory explains in-group favoritism",
+                                "Group polarization intensifies group attitudes",
+                                "Groupthink occurs when harmony overrides critical thinking",
+                                "Social loafing reduces individual effort in groups",
+                                "Deindividuation decreases self-awareness in crowds"
+                            ]
+                        },
+                        {
+                            "key": "prejudiceDiscrimination",
+                            "title": "Prejudice and Discrimination",
+                            "keyFacts": [
+                                "Prejudice involves negative attitudes toward groups",
+                                "Discrimination involves biased behavior against groups",
+                                "In-group bias favors one's own group members",
+                                "Contact hypothesis suggests interaction reduces prejudice",
+                                "Implicit bias operates outside conscious awareness"
+                            ]
+                        },
+                        {
+                            "key": "aggressionAltruism",
+                            "title": "Aggression and Altruism",
+                            "keyFacts": [
+                                "Frustration-aggression hypothesis links blocking goals to aggression",
+                                "Social learning theory explains aggression through modeling",
+                                "Bystander effect reduces helping in group situations",
+                                "Diffusion of responsibility decreases individual action",
+                                "Altruism involves helping others without personal benefit"
+                            ]
+                        }
+                    ]
+                },
+                "unit10": {
+                    "unit": "unit10",
+                    "course": "appsychology",
+                    "overview": "This unit examines psychological development across the lifespan. Understanding developmental psychology helps explain how people change physically, cognitively, and socially from conception through old age.",
+                    "topics": [
+                        {
+                            "key": "developmentalTheories",
+                            "title": "Theories of Development",
+                            "keyFacts": [
+                                "Nature vs. nurture debate examines genetic vs. environmental influences",
+                                "Critical periods are specific times when development must occur",
+                                "Sensitive periods allow optimal but not exclusive development",
+                                "Continuity vs. discontinuity describes gradual vs. stage-like development",
+                                "Stability vs. change examines personality consistency over time"
+                            ]
+                        },
+                        {
+                            "key": "prenatalInfancy",
+                            "title": "Prenatal Development and Infancy",
+                            "keyFacts": [
+                                "Teratogens can harm prenatal development",
+                                "Attachment styles affect later relationships",
+                                "Stranger anxiety emerges around 8 months",
+                                "Motor development follows predictable sequences",
+                                "Infantile amnesia limits early memory formation"
+                            ]
+                        },
+                        {
+                            "key": "cognitiveDevelopment",
+                            "title": "Cognitive Development Theories",
+                            "keyFacts": [
+                                "Piaget's stages: sensorimotor, preoperational, concrete, formal",
+                                "Conservation understanding develops in concrete operational stage",
+                                "Vygotsky emphasized social and cultural influences",
+                                "Zone of proximal development guides optimal instruction",
+                                "Theory of mind develops understanding of others' mental states"
+                            ]
+                        },
+                        {
+                            "key": "socialMoralDevelopment",
+                            "title": "Social and Moral Development",
+                            "keyFacts": [
+                                "Kohlberg's moral stages progress from preconventional to postconventional",
+                                "Gilligan proposed care-based moral reasoning",
+                                "Erikson's psychosocial stages span entire lifespan",
+                                "Identity formation is crucial task of adolescence",
+                                "Parenting styles affect child development outcomes"
+                            ]
+                        },
+                        {
+                            "key": "adulthoodAging",
+                            "title": "Adulthood and Aging",
+                            "keyFacts": [
+                                "Crystallized intelligence increases with age",
+                                "Fluid intelligence peaks in early adulthood",
+                                "Menopause and andropause mark hormonal changes",
+                                "Empty nest syndrome affects some parents",
+                                "Death and dying involve predictable psychological stages"
+                            ]
+                        }
+                    ]
                 }
-                # Add more AP Psychology units as needed
+                # AP Psychology units are now complete (unit1-unit10)
             }
         
         # Get the requested unit data
