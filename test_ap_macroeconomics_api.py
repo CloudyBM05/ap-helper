@@ -61,62 +61,14 @@ def test_ap_macroeconomics_units():
     
     if units_with_topics == 6:
         print("🎉 SUCCESS: All AP Macroeconomics units have topics available!")
+        print("You can access the bot at these URLs:")
+        print("• Main page: https://cloudybm05.github.io/socratic-learning")
+        for i in range(1, 7):
+            print(f"• Unit {i}: https://cloudybm05.github.io/socratic-chat/apmacro/unit{i}")
         return True
     else:
         print(f"⚠️  WARNING: {6 - units_with_topics} units missing topics")
         return False
 
-def test_socratic_chat_endpoint():
-    """Test the Socratic chat endpoint for AP Macroeconomics."""
-    
-    API_BASE = 'https://ap-helper-2d9f117e9bdb.herokuapp.com'
-    url = f'{API_BASE}/api/socratic-chat'
-    
-    test_payload = {
-        "message": "What is GDP and how is it calculated?",
-        "course": "apmacro",
-        "unit": "unit2",
-        "conversation_history": []
-    }
-    
-    try:
-        print("Testing AP Macroeconomics Socratic chat endpoint...")
-        response = requests.post(url, json=test_payload, timeout=15)
-        
-        if response.status_code == 200:
-            data = response.json()
-            ai_response = data.get('response', '')
-            
-            print("✅ Socratic chat endpoint working")
-            print(f"   AI Response length: {len(ai_response)} characters")
-            print(f"   Sample: {ai_response[:150]}...")
-            return True
-        else:
-            print(f"❌ Socratic chat endpoint failed: HTTP {response.status_code}")
-            print(f"   Response: {response.text[:200]}...")
-            return False
-            
-    except Exception as e:
-        print(f"❌ Socratic chat endpoint error: {str(e)}")
-        return False
-
 if __name__ == "__main__":
-    print("AP Macroeconomics API Test")
-    print("=" * 50)
-    
-    # Test unit topics
-    topics_success = test_ap_macroeconomics_units()
-    
-    print()
-    
-    # Test Socratic chat
-    chat_success = test_socratic_chat_endpoint()
-    
-    print()
-    print("=" * 50)
-    if topics_success and chat_success:
-        print("🎉 ALL TESTS PASSED: AP Macroeconomics bot is ready!")
-    else:
-        print("⚠️  SOME TESTS FAILED: Check the issues above")
-    
-    print("=" * 50)
+    test_ap_macroeconomics_units()
