@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Content Security Policy for Google services and Firebase Auth -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self' https:; 
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google.com https://pagead2.googlesyndication.com https://www.gstatic.com https://apis.google.com https://*.firebaseapp.com https://www.googleapis.com https://securetoken.googleapis.com; 
+      frame-src 'self' https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.firebaseapp.com https://accounts.google.com https://ap-helper-7a6ac.firebaseapp.com; 
+      connect-src 'self' https: wss: https://ap-helper-2d9f117e9bdb.herokuapp.com https://www.google-analytics.com https://analytics.google.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firebase.googleapis.com https://accounts.google.com https://*.cloudfunctions.net;
+      img-src 'self' data: https: https://lh3.googleusercontent.com https://lh4.googleusercontent.com https://lh5.googleusercontent.com https://lh6.googleusercontent.com;
+      style-src 'self' 'unsafe-inline' https: https://fonts.googleapis.com;
+      font-src 'self' https: https://fonts.gstatic.com data:;
+    ">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4LZLY7LRE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-L4LZLY7LRE');
+    </script>
+    <link rel="icon" type="image/png" href="/AP-Helper-Logo.png?v=2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AP Helper - AI-Powered Essay Evaluation for AP Success</title>
+    <meta name="description" content="Ace your AP essays with AI-powered evaluation and feedback. Get instant, rubric-based grading for IWA, IRR, and other AP exam essays." />
+    <script type="application/javascript" src="https://www.google.com/recaptcha/enterprise.js?render=6LfZNHArAAAAAHhZPw3TlzfM786B3gFl3NtCBp0h"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5029353602304040" crossorigin="anonymous"></script>
+    
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      // Handle redirected paths from 404.html
+      (function() {
+        const params = new URLSearchParams(window.location.search);
+        const redirectPath = params.get('p');
+        
+        if (redirectPath) {
+          // Remove the 'p' parameter and navigate to the intended path
+          const url = new URL(window.location);
+          url.search = '';
+          url.pathname = redirectPath;
+          
+          // Replace current history state to avoid back button issues
+          window.history.replaceState(null, null, url.pathname + url.search + url.hash);
+        }
+      })();
+    </script>
+    
+  </head>
+  <body>
+    <div id="root"></div>
+  <script type="application/javascript" src="/assets/index-3hMe34Wp.js"></script>
+  </body>
+</html>
