@@ -2317,6 +2317,381 @@ def get_unit_topics_api():
                 }
                 # Add more AP Micro units as needed
             }
+        elif course == "apmacro":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apmacro",
+                    "overview": "This unit introduces fundamental macroeconomic concepts including economic systems, trade-offs, and the role of government in the economy. Students learn how economies are organized and how societies make collective economic decisions.",
+                    "topics": [
+                        {
+                            "key": "economicSystems",
+                            "title": "Economic Systems and Resource Allocation",
+                            "keyFacts": [
+                                "Traditional, command, and market economic systems",
+                                "Mixed economies combine different approaches",
+                                "Property rights affect economic efficiency",
+                                "Role of government varies by system",
+                                "Resource allocation mechanisms differ"
+                            ]
+                        },
+                        {
+                            "key": "comparativeAdvantage",
+                            "title": "Comparative Advantage and Trade",
+                            "keyFacts": [
+                                "Absolute vs comparative advantage concepts",
+                                "Opportunity cost determines trade patterns",
+                                "Specialization increases total output",
+                                "Trade benefits all participating parties",
+                                "Production possibilities and trade-offs"
+                            ]
+                        },
+                        {
+                            "key": "marginalAnalysis",
+                            "title": "Marginal Analysis and Decision Making",
+                            "keyFacts": [
+                                "Marginal benefit vs marginal cost framework",
+                                "Optimal decisions occur at MB = MC",
+                                "Thinking at the margin principle",
+                                "Diminishing marginal utility concept",
+                                "Economic efficiency and optimization"
+                            ]
+                        },
+                        {
+                            "key": "marketFailures",
+                            "title": "Market Failures and Government Intervention",
+                            "keyFacts": [
+                                "Externalities create market inefficiencies",
+                                "Public goods require government provision",
+                                "Income inequality and distribution issues",
+                                "Market power and monopoly problems",
+                                "Role of government in correcting failures"
+                            ]
+                        },
+                        {
+                            "key": "economicGoals",
+                            "title": "Economic Goals and Trade-offs",
+                            "keyFacts": [
+                                "Economic growth vs environmental protection",
+                                "Efficiency vs equity trade-offs",
+                                "Price stability vs full employment",
+                                "Individual freedom vs collective welfare",
+                                "Short-term vs long-term considerations"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apmacro",
+                    "overview": "This unit covers how economists measure economic performance through various indicators and understand the business cycle. Students learn about GDP, inflation, unemployment, and economic fluctuations.",
+                    "topics": [
+                        {
+                            "key": "gdpMeasurement",
+                            "title": "Gross Domestic Product (GDP)",
+                            "keyFacts": [
+                                "GDP measures total economic output",
+                                "Expenditure approach: C + I + G + (X - M)",
+                                "Income approach: wages + profits + rents + interest",
+                                "Nominal vs real GDP adjustments",
+                                "GDP per capita for living standards"
+                            ]
+                        },
+                        {
+                            "key": "unemploymentTypes",
+                            "title": "Unemployment and Labor Force",
+                            "keyFacts": [
+                                "Frictional unemployment: job search time",
+                                "Structural unemployment: skills mismatch",
+                                "Cyclical unemployment: business cycle related",
+                                "Natural rate of unemployment (NAIRU)",
+                                "Labor force participation rate"
+                            ]
+                        },
+                        {
+                            "key": "inflationMeasurement",
+                            "title": "Inflation and Price Indices",
+                            "keyFacts": [
+                                "Consumer Price Index (CPI) basket approach",
+                                "GDP deflator measures all goods",
+                                "Core inflation excludes food and energy",
+                                "Real vs nominal interest rates",
+                                "Effects of inflation on different groups"
+                            ]
+                        },
+                        {
+                            "key": "businessCycle",
+                            "title": "Business Cycle and Economic Fluctuations",
+                            "keyFacts": [
+                                "Peak, recession, trough, expansion phases",
+                                "Leading, lagging, and coincident indicators",
+                                "Seasonal vs cyclical patterns",
+                                "Duration and amplitude variations",
+                                "Historical business cycle patterns"
+                            ]
+                        },
+                        {
+                            "key": "economicWellbeing",
+                            "title": "Limitations of Economic Indicators",
+                            "keyFacts": [
+                                "GDP doesn't measure quality of life",
+                                "Underground economy not counted",
+                                "Environmental costs ignored in GDP",
+                                "Income distribution matters for welfare",
+                                "Alternative measures like GNH"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "apmacro",
+                    "overview": "This unit examines how national income and the price level are determined through aggregate demand and supply analysis. Students learn about economic equilibrium and factors that cause shifts in the economy.",
+                    "topics": [
+                        {
+                            "key": "aggregateDemand",
+                            "title": "Aggregate Demand and Components",
+                            "keyFacts": [
+                                "AD = C + I + G + (X - M) components",
+                                "Wealth effect of price level changes",
+                                "Interest rate effect on investment",
+                                "Foreign exchange effect on net exports",
+                                "Factors shifting AD curve"
+                            ]
+                        },
+                        {
+                            "key": "aggregateSupply",
+                            "title": "Aggregate Supply and Production",
+                            "keyFacts": [
+                                "Short-run vs long-run aggregate supply",
+                                "Sticky wages and prices in short run",
+                                "Resource costs affect supply",
+                                "Productivity and technology changes",
+                                "Expected inflation impacts SRAS"
+                            ]
+                        },
+                        {
+                            "key": "macroEquilibrium",
+                            "title": "Macroeconomic Equilibrium",
+                            "keyFacts": [
+                                "Short-run equilibrium AD = SRAS",
+                                "Long-run equilibrium at full employment",
+                                "Recessionary and inflationary gaps",
+                                "Self-correcting mechanism in long run",
+                                "Policy interventions to restore equilibrium"
+                            ]
+                        },
+                        {
+                            "key": "multiplierEffect",
+                            "title": "Multiplier Effects",
+                            "keyFacts": [
+                                "Spending multiplier amplifies initial changes",
+                                "MPC determines multiplier size",
+                                "Tax and balanced budget multipliers",
+                                "Crowding out reduces multiplier effect",
+                                "Time lags in multiplier process"
+                            ]
+                        },
+                        {
+                            "key": "phillipsCurve",
+                            "title": "Phillips Curve Relationship",
+                            "keyFacts": [
+                                "Short-run trade-off between inflation and unemployment",
+                                "Expectations-augmented Phillips curve",
+                                "Long-run Phillips curve is vertical",
+                                "Supply shocks shift the curve",
+                                "Policy implications for central banks"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apmacro",
+                    "overview": "This unit explores the financial sector, including money, banking, and monetary policy. Students learn how the Federal Reserve influences the economy through various monetary policy tools.",
+                    "topics": [
+                        {
+                            "key": "moneyFunctions",
+                            "title": "Money and Its Functions",
+                            "keyFacts": [
+                                "Medium of exchange eliminates barter",
+                                "Unit of account for measuring value",
+                                "Store of value over time",
+                                "M1 and M2 money supply measures",
+                                "Characteristics of good money"
+                            ]
+                        },
+                        {
+                            "key": "bankingSystem",
+                            "title": "Banking and Money Creation",
+                            "keyFacts": [
+                                "Fractional reserve banking system",
+                                "Money multiplier process",
+                                "Reserve requirements limit lending",
+                                "Bank balance sheets and T-accounts",
+                                "FDIC insurance protects deposits"
+                            ]
+                        },
+                        {
+                            "key": "federalReserve",
+                            "title": "Federal Reserve System",
+                            "keyFacts": [
+                                "Central bank with regional structure",
+                                "Board of Governors sets policy",
+                                "FOMC makes interest rate decisions",
+                                "Bank regulation and supervision",
+                                "Lender of last resort function"
+                            ]
+                        },
+                        {
+                            "key": "monetaryPolicy",
+                            "title": "Monetary Policy Tools",
+                            "keyFacts": [
+                                "Open market operations most important tool",
+                                "Discount rate for bank borrowing",
+                                "Reserve requirements affect money supply",
+                                "Interest on excess reserves (IOER)",
+                                "Forward guidance and communication"
+                            ]
+                        },
+                        {
+                            "key": "transmissionMechanism",
+                            "title": "Monetary Policy Transmission",
+                            "keyFacts": [
+                                "Interest rates affect investment and consumption",
+                                "Exchange rate channel for net exports",
+                                "Credit channel through bank lending",
+                                "Asset price effects on wealth",
+                                "Time lags in policy effectiveness"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apmacro",
+                    "overview": "This unit examines the long-run consequences of monetary and fiscal policies. Students learn about the relationships between policy actions and economic outcomes over time.",
+                    "topics": [
+                        {
+                            "key": "fiscalPolicy",
+                            "title": "Fiscal Policy and Government Spending",
+                            "keyFacts": [
+                                "Expansionary vs contractionary fiscal policy",
+                                "Automatic stabilizers vs discretionary policy",
+                                "Government spending multiplier effects",
+                                "Tax policy and economic incentives",
+                                "Budget deficits and surpluses"
+                            ]
+                        },
+                        {
+                            "key": "crowdingOut",
+                            "title": "Crowding Out and Policy Limitations",
+                            "keyFacts": [
+                                "Government borrowing increases interest rates",
+                                "Private investment gets crowded out",
+                                "Complete vs partial crowding out",
+                                "Foreign capital flows and exchange rates",
+                                "Ricardian equivalence theory"
+                            ]
+                        },
+                        {
+                            "key": "debtSustainability",
+                            "title": "Government Debt and Sustainability",
+                            "keyFacts": [
+                                "Debt-to-GDP ratio for sustainability",
+                                "Interest payments on government debt",
+                                "Generational equity and future taxpayers",
+                                "Default risk and credit ratings",
+                                "Monetizing debt through money creation"
+                            ]
+                        },
+                        {
+                            "key": "supplySideEconomics",
+                            "title": "Supply-Side Economics",
+                            "keyFacts": [
+                                "Tax cuts can stimulate economic growth",
+                                "Laffer curve shows tax revenue relationship",
+                                "Incentive effects on work and saving",
+                                "Long-run aggregate supply shifts",
+                                "Evidence on supply-side policies"
+                            ]
+                        },
+                        {
+                            "key": "inflationPolitics",
+                            "title": "Politics and Long-run Growth",
+                            "keyFacts": [
+                                "Political business cycles",
+                                "Time inconsistency of optimal policy",
+                                "Central bank independence",
+                                "Rules vs discretion in policy",
+                                "Institutional factors in growth"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "apmacro",
+                    "overview": "This unit covers international trade and finance, including exchange rates, balance of payments, and the effects of trade policies. Students learn how countries interact economically in the global economy.",
+                    "topics": [
+                        {
+                            "key": "comparativeAdvantageInternational",
+                            "title": "International Trade and Comparative Advantage",
+                            "keyFacts": [
+                                "Countries benefit from specialization and trade",
+                                "Comparative advantage determines trade patterns",
+                                "Gains from trade increase total welfare",
+                                "Terms of trade affect distribution of gains",
+                                "Trade creates winners and losers domestically"
+                            ]
+                        },
+                        {
+                            "key": "exchangeRates",
+                            "title": "Exchange Rates and Currency Markets",
+                            "keyFacts": [
+                                "Supply and demand determine exchange rates",
+                                "Appreciation vs depreciation effects",
+                                "Purchasing power parity theory",
+                                "Interest rate parity relationship",
+                                "Fixed vs floating exchange rate systems"
+                            ]
+                        },
+                        {
+                            "key": "balanceOfPayments",
+                            "title": "Balance of Payments",
+                            "keyFacts": [
+                                "Current account: trade in goods and services",
+                                "Capital account: financial flows",
+                                "Balance of payments always balances",
+                                "Current account deficits and surpluses",
+                                "Relationship to domestic saving and investment"
+                            ]
+                        },
+                        {
+                            "key": "tradePolicies",
+                            "title": "Trade Policies and Protection",
+                            "keyFacts": [
+                                "Tariffs increase domestic prices",
+                                "Quotas limit quantity of imports",
+                                "Deadweight loss from protection",
+                                "Arguments for and against protection",
+                                "WTO and trade liberalization"
+                            ]
+                        },
+                        {
+                            "key": "globalInterdependence",
+                            "title": "Global Economic Interdependence",
+                            "keyFacts": [
+                                "Economic growth spillovers between countries",
+                                "Financial crisis contagion effects",
+                                "Coordination of macroeconomic policies",
+                                "Role of international organizations",
+                                "Challenges of globalization"
+                            ]
+                        }
+                    ]
+                }
+            }
         elif course == "apworld" or course == "world":
             topics_data = {
                 "unit1": {
@@ -4510,37 +4885,38 @@ def socratic_chat():
         print(f"Error calling Socratic AI: {e}")
         return jsonify({"error": "Failed to get response from Socratic AI."}), 500
 
-@app.route("/api/unit-topics", methods=["GET", "OPTIONS"])
-@cross_origin(origins=[
-    "http://localhost:5173",
-    "http://localhost:5174", 
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-    "https://cloudybm05.github.io",
-    "https://aphelper.tech",
-    "https://www.aphelper.tech",
-    "https://ap-helper-2d9f117e9bdb.herokuapp.com"
-], supports_credentials=True, methods=["GET", "OPTIONS"], allow_headers="*")
-def get_unit_topics():
-    """Get list of topics for a specific unit"""
-    try:
-        # Get unit parameter
-        unit = request.args.get('unit', '').strip()
-        course = request.args.get('course', '').strip()
-        
-        if not unit:
-            return jsonify({
-                "error": "Unit parameter is required"
-            }), 400
-        
-        # Normalize unit format
-        if unit and isinstance(unit, str):
-            unit = unit.lower()
-            if "unit " in unit:
-                unit = unit.replace(" ", "")
-        
-        # First try to load study guide content
-        study_content = load_study_guide_content(unit, course)
+# Duplicate endpoint disabled - using the main one above that has all course data
+# @app.route("/api/unit-topics", methods=["GET", "OPTIONS"])
+# @cross_origin(origins=[
+#     "http://localhost:5173",
+#     "http://localhost:5174", 
+#     "http://127.0.0.1:5173",
+#     "http://127.0.0.1:5174",
+#     "https://cloudybm05.github.io",
+#     "https://aphelper.tech",
+#     "https://www.aphelper.tech",
+#     "https://ap-helper-2d9f117e9bdb.herokuapp.com"
+# ], supports_credentials=True, methods=["GET", "OPTIONS"], allow_headers="*")
+# def get_unit_topics():
+#     """Get list of topics for a specific unit"""
+#     try:
+#         # Get unit parameter
+#         unit = request.args.get('unit', '').strip()
+#         course = request.args.get('course', '').strip()
+#         
+#         if not unit:
+#             return jsonify({
+#                 "error": "Unit parameter is required"
+#             }), 400
+#         
+#         # Normalize unit format
+#         if unit and isinstance(unit, str):
+#             unit = unit.lower()
+#             if "unit " in unit:
+#                 unit = unit.replace(" ", "")
+#         
+#         # First try to load study guide content
+#         study_content = load_study_guide_content(unit, course)
         
         # Check if study guide has meaningful content
         has_meaningful_content = (
