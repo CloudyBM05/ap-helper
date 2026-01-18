@@ -2944,6 +2944,443 @@ def get_unit_topics_api():
                 }
                 # Add more AP World units as needed
             }
+        elif course == "aphug":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "aphug",
+                    "overview": "This unit introduces geographic thinking and spatial analysis. Students learn to use maps, analyze geographic data, and understand how location influences human activities and environmental interactions.",
+                    "topics": [
+                        {
+                            "key": "geographicPerspectives",
+                            "title": "Geographic Perspectives and Scale",
+                            "keyFacts": [
+                                "Geographic perspective examines spatial relationships",
+                                "Scale affects how patterns appear and are analyzed",
+                                "Local, regional, national, and global scales interconnect",
+                                "Relative vs absolute location concepts",
+                                "Geographic context influences human decisions"
+                            ]
+                        },
+                        {
+                            "key": "mapsAndSpatialData",
+                            "title": "Maps and Spatial Data Analysis",
+                            "keyFacts": [
+                                "Reference maps show locations and features",
+                                "Thematic maps display geographic patterns",
+                                "GPS and GIS enable precise spatial analysis",
+                                "Map projections distort Earth's surface differently",
+                                "Quantitative and qualitative data mapping"
+                            ]
+                        },
+                        {
+                            "key": "spatialConcepts",
+                            "title": "Spatial Concepts and Relationships",
+                            "keyFacts": [
+                                "Distance decay affects interaction intensity",
+                                "Time-space compression changes accessibility",
+                                "Diffusion spreads phenomena across space",
+                                "Spatial association reveals geographic patterns",
+                                "Boundaries create inclusion and exclusion"
+                            ]
+                        },
+                        {
+                            "key": "humanEnvironmentInteraction",
+                            "title": "Human-Environment Interaction",
+                            "keyFacts": [
+                                "Environmental determinism vs possibilism debate",
+                                "Cultural ecology examines adaptation strategies",
+                                "Environmental modification changes landscapes",
+                                "Sustainability balances development and conservation",
+                                "Climate and topography influence settlement patterns"
+                            ]
+                        },
+                        {
+                            "key": "fieldworkMethods",
+                            "title": "Geographic Fieldwork and Methods",
+                            "keyFacts": [
+                                "Field observation provides primary data",
+                                "Surveys and interviews collect human geographic data",
+                                "Remote sensing monitors environmental changes",
+                                "Spatial statistics analyze geographic relationships",
+                                "Participant observation reveals cultural practices"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "aphug",
+                    "overview": "This unit examines population distribution, demographic changes, and migration patterns. Students analyze population pyramids, demographic transition models, and factors driving human migration.",
+                    "topics": [
+                        {
+                            "key": "populationDistribution",
+                            "title": "Population Distribution and Density",
+                            "keyFacts": [
+                                "Population clustered in favorable environments",
+                                "Arithmetic vs physiological density measures",
+                                "Carrying capacity limits population growth",
+                                "Ecumene represents inhabited areas",
+                                "Climate, topography, and resources affect distribution"
+                            ]
+                        },
+                        {
+                            "key": "demographicTransition",
+                            "title": "Demographic Transition Model",
+                            "keyFacts": [
+                                "Stage 1: High birth and death rates",
+                                "Stage 2: Death rates fall, population grows rapidly",
+                                "Stage 3: Birth rates decline, slower growth",
+                                "Stage 4: Low birth and death rates, stable population",
+                                "Stage 5: Declining population in some countries"
+                            ]
+                        },
+                        {
+                            "key": "populationComposition",
+                            "title": "Population Composition and Structure",
+                            "keyFacts": [
+                                "Population pyramids show age-sex structure",
+                                "Dependency ratios indicate economic burden",
+                                "Life expectancy reflects health and development",
+                                "Gender differences in mortality and migration",
+                                "Aging populations face social challenges"
+                            ]
+                        },
+                        {
+                            "key": "migrationTypes",
+                            "title": "Types and Patterns of Migration",
+                            "keyFacts": [
+                                "Voluntary vs forced migration motives",
+                                "Internal migration within countries",
+                                "International migration crosses borders",
+                                "Step migration occurs in stages",
+                                "Return migration and circular migration patterns"
+                            ]
+                        },
+                        {
+                            "key": "migrationTheories",
+                            "title": "Migration Theories and Factors",
+                            "keyFacts": [
+                                "Push factors encourage leaving origin",
+                                "Pull factors attract to destinations",
+                                "Intervening obstacles impede movement",
+                                "Distance decay reduces migration likelihood",
+                                "Chain migration follows established networks"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "aphug",
+                    "overview": "This unit explores cultural patterns, language families, religious practices, and how culture shapes landscapes. Students examine cultural diffusion, ethnic conflicts, and the geography of languages and religions.",
+                    "topics": [
+                        {
+                            "key": "cultureComponents",
+                            "title": "Components of Culture",
+                            "keyFacts": [
+                                "Culture includes beliefs, values, and practices",
+                                "Material culture consists of physical objects",
+                                "Nonmaterial culture includes ideas and beliefs",
+                                "Cultural traits combine into cultural complexes",
+                                "Culture hearths are origin points of cultural innovation"
+                            ]
+                        },
+                        {
+                            "key": "culturalDiffusion",
+                            "title": "Cultural Diffusion and Change",
+                            "keyFacts": [
+                                "Expansion diffusion spreads from origin point",
+                                "Relocation diffusion moves with people",
+                                "Hierarchical diffusion follows social rankings",
+                                "Contagious diffusion spreads through contact",
+                                "Stimulus diffusion adapts ideas to new contexts"
+                            ]
+                        },
+                        {
+                            "key": "languagePatterns",
+                            "title": "Language Families and Geography",
+                            "keyFacts": [
+                                "Indo-European family dominates Europe and India",
+                                "Sino-Tibetan family includes Chinese languages",
+                                "Language isolates have no known relatives",
+                                "Lingua francas facilitate communication",
+                                "Language extinction threatens cultural diversity"
+                            ]
+                        },
+                        {
+                            "key": "religionGeography",
+                            "title": "Religion and Sacred Spaces",
+                            "keyFacts": [
+                                "Universalizing religions seek converts globally",
+                                "Ethnic religions tie to specific cultures",
+                                "Religious landscapes reflect belief systems",
+                                "Pilgrimage creates sacred geography",
+                                "Religious conflicts often have territorial dimensions"
+                            ]
+                        },
+                        {
+                            "key": "culturalLandscapes",
+                            "title": "Cultural Landscapes and Identity",
+                            "keyFacts": [
+                                "Cultural landscapes show human-environment interaction",
+                                "Traditional landscapes reflect historical practices",
+                                "Postmodern landscapes mix global and local elements",
+                                "Place attachment creates emotional connections",
+                                "Globalization affects local cultural identity"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "aphug",
+                    "overview": "This unit examines political geography, including state formation, boundaries, territorial control, and governance. Students analyze geopolitics, sovereignty, and challenges to state power.",
+                    "topics": [
+                        {
+                            "key": "politicalPower",
+                            "title": "Political Power and Territory",
+                            "keyFacts": [
+                                "States exercise sovereignty over territory",
+                                "Nations are groups with shared identity",
+                                "Nation-states align political and cultural boundaries",
+                                "Multinational states contain multiple nations",
+                                "Stateless nations lack political control"
+                            ]
+                        },
+                        {
+                            "key": "boundaryTypes",
+                            "title": "Political Boundaries and Borders",
+                            "keyFacts": [
+                                "Antecedent boundaries exist before settlement",
+                                "Subsequent boundaries drawn after settlement",
+                                "Superimposed boundaries ignore existing patterns",
+                                "Relic boundaries no longer function politically",
+                                "Physical vs geometric vs cultural boundaries"
+                            ]
+                        },
+                        {
+                            "key": "stateShapes",
+                            "title": "State Shapes and Territorial Issues",
+                            "keyFacts": [
+                                "Compact states have circular shapes",
+                                "Elongated states are stretched out",
+                                "Prorupted states have projecting parts",
+                                "Fragmented states are broken into pieces",
+                                "Perforated states surround other states"
+                            ]
+                        },
+                        {
+                            "key": "geopolitics",
+                            "title": "Geopolitics and Global Power",
+                            "keyFacts": [
+                                "Heartland theory emphasizes continental power",
+                                "Rimland theory focuses on coastal regions",
+                                "Superpowers dominate global politics",
+                                "Buffer states separate major powers",
+                                "Shatterbelt regions experience instability"
+                            ]
+                        },
+                        {
+                            "key": "governanceScales",
+                            "title": "Scales of Governance and Devolution",
+                            "keyFacts": [
+                                "Federal systems divide power across levels",
+                                "Unitary systems concentrate power centrally",
+                                "Devolution transfers power to local levels",
+                                "Supranational organizations transcend states",
+                                "Local governance addresses community needs"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "aphug",
+                    "overview": "This unit focuses on agricultural systems, food production, and rural land use. Students examine the Green Revolution, sustainable agriculture, and the geography of hunger and food security.",
+                    "topics": [
+                        {
+                            "key": "agricultureOrigins",
+                            "title": "Origins and Diffusion of Agriculture",
+                            "keyFacts": [
+                                "Neolithic Revolution began 10,000 years ago",
+                                "Multiple hearths of agricultural innovation",
+                                "Fertile Crescent was earliest agriculture center",
+                                "Seed agriculture vs vegetative planting",
+                                "Domestication changed plants and animals"
+                            ]
+                        },
+                        {
+                            "key": "agricultureSystems",
+                            "title": "Agricultural Production Systems",
+                            "keyFacts": [
+                                "Subsistence agriculture feeds family",
+                                "Commercial agriculture sells to market",
+                                "Intensive agriculture maximizes land use",
+                                "Extensive agriculture uses large areas",
+                                "Mixed farming combines crops and livestock"
+                            ]
+                        },
+                        {
+                            "key": "vonThunenModel",
+                            "title": "Von Thünen Model of Agricultural Land Use",
+                            "keyFacts": [
+                                "Distance to market determines land use",
+                                "Intensive crops near urban markets",
+                                "Extensive grazing in outer zones",
+                                "Transportation costs affect profitability",
+                                "Model assumptions rarely met in reality"
+                            ]
+                        },
+                        {
+                            "key": "greenRevolution",
+                            "title": "Green Revolution and Modernization",
+                            "keyFacts": [
+                                "High-yield varieties increased production",
+                                "Chemical fertilizers and pesticides used",
+                                "Mechanization replaced human labor",
+                                "Irrigation expanded arable land",
+                                "Environmental and social costs emerged"
+                            ]
+                        },
+                        {
+                            "key": "foodSecurity",
+                            "title": "Food Security and Sustainability",
+                            "keyFacts": [
+                                "Food security requires adequate nutrition",
+                                "Undernourishment affects 800 million people",
+                                "Food deserts lack access to fresh food",
+                                "Organic farming avoids synthetic chemicals",
+                                "Sustainable agriculture balances production and environment"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "aphug",
+                    "overview": "This unit examines urban geography, city development, and urban land use patterns. Students analyze urbanization processes, city hierarchies, and challenges facing modern cities.",
+                    "topics": [
+                        {
+                            "key": "urbanization",
+                            "title": "Urbanization Processes and Patterns",
+                            "keyFacts": [
+                                "Urbanization concentrates population in cities",
+                                "First urban revolution created early cities",
+                                "Second urban revolution accompanied industrialization",
+                                "Megacities exceed 10 million people",
+                                "Urban primacy concentrates population in largest city"
+                            ]
+                        },
+                        {
+                            "key": "cityHierarchies",
+                            "title": "Urban Hierarchies and Systems",
+                            "keyFacts": [
+                                "Central place theory explains city spacing",
+                                "Range is maximum distance for service use",
+                                "Threshold is minimum demand for profitability",
+                                "Rank-size rule describes city size distribution",
+                                "Primate cities dominate urban systems"
+                            ]
+                        },
+                        {
+                            "key": "urbanModels",
+                            "title": "Models of Urban Structure",
+                            "keyFacts": [
+                                "Concentric zone model shows rings around CBD",
+                                "Sector model follows transportation corridors",
+                                "Multiple nuclei model has several centers",
+                                "Galactic city model includes edge cities",
+                                "Latin American city model reflects colonial history"
+                            ]
+                        },
+                        {
+                            "key": "urbanChallenges",
+                            "title": "Urban Challenges and Planning",
+                            "keyFacts": [
+                                "Urban sprawl consumes rural land",
+                                "Infrastructure strain affects service delivery",
+                                "Housing shortages create informal settlements",
+                                "Traffic congestion reduces mobility",
+                                "Environmental degradation affects health"
+                            ]
+                        },
+                        {
+                            "key": "sustainableCities",
+                            "title": "Sustainable Urban Development",
+                            "keyFacts": [
+                                "Smart growth concentrates development",
+                                "Transit-oriented development reduces car dependence",
+                                "Green infrastructure provides ecosystem services",
+                                "Mixed-use development combines functions",
+                                "Urban agriculture increases food access"
+                            ]
+                        }
+                    ]
+                },
+                "unit7": {
+                    "unit": "unit7",
+                    "course": "aphug",
+                    "overview": "This unit explores industrial location, economic development theories, and global trade patterns. Students examine development indicators, trade relationships, and spatial patterns of inequality.",
+                    "topics": [
+                        {
+                            "key": "industrialRevolution",
+                            "title": "Industrial Revolution and Location",
+                            "keyFacts": [
+                                "First Industrial Revolution used coal and steam",
+                                "Second Industrial Revolution added electricity and oil",
+                                "Third Industrial Revolution features information technology",
+                                "Weber's model explains industrial location factors",
+                                "Agglomeration creates industrial clusters"
+                            ]
+                        },
+                        {
+                            "key": "economicSectors",
+                            "title": "Economic Sectors and Employment",
+                            "keyFacts": [
+                                "Primary sector extracts natural resources",
+                                "Secondary sector manufactures products",
+                                "Tertiary sector provides services",
+                                "Quaternary sector handles information",
+                                "Quinary sector includes high-level services"
+                            ]
+                        },
+                        {
+                            "key": "developmentTheories",
+                            "title": "Development Theories and Models",
+                            "keyFacts": [
+                                "Rostow's model shows development stages",
+                                "Dependency theory emphasizes exploitation",
+                                "World-systems theory divides core-periphery",
+                                "Wallerstein identifies semi-periphery countries",
+                                "Commodity dependence limits development options"
+                            ]
+                        },
+                        {
+                            "key": "developmentIndicators",
+                            "title": "Development Indicators and Measurement",
+                            "keyFacts": [
+                                "GDP per capita measures economic output",
+                                "HDI combines income, health, and education",
+                                "GII measures gender inequality",
+                                "GNI adjusts for international income",
+                                "PPP accounts for cost of living differences"
+                            ]
+                        },
+                        {
+                            "key": "globalTrade",
+                            "title": "Global Trade and Economic Geography",
+                            "keyFacts": [
+                                "Comparative advantage drives trade specialization",
+                                "Trade blocs reduce barriers between members",
+                                "Transnational corporations span multiple countries",
+                                "Global supply chains connect distant places",
+                                "Just-in-time production reduces inventory costs"
+                            ]
+                        }
+                    ]
+                }
+            }
         elif course == "apbiology":
             topics_data = {
                 "unit1": {
