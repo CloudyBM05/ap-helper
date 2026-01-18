@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es5', // Maximum compatibility
+    target: 'es2018', // Modern target for better compatibility
     rollupOptions: {
       output: {
         format: 'iife', // Use IIFE format instead of ES modules
