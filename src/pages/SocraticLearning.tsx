@@ -121,6 +121,22 @@ const SocraticLearning = () => {
         { id: 5, emoji: '🏛️', title: 'Long-run Consequences of Stabilization Policies', period: 'Policy Effects' },
         { id: 6, emoji: '🌏', title: 'Open Economy-International Trade and Finance', period: 'Global Economics' }
       ]
+    },
+    {
+      id: 'aphug',
+      title: 'AP Human Geography',
+      description: 'Explore patterns of human settlement, cultural landscapes, and spatial relationships',
+      category: 'social',
+      color: 'from-emerald-500 to-cyan-500',
+      units: [
+        { id: 1, emoji: '🗺️', title: 'Thinking Geographically', period: 'Maps & Spatial Concepts' },
+        { id: 2, emoji: '👥', title: 'Population and Migration Patterns', period: 'Demographic Transitions' },
+        { id: 3, emoji: '🎭', title: 'Cultural Patterns and Processes', period: 'Language & Religion' },
+        { id: 4, emoji: '🏛️', title: 'Political Patterns and Processes', period: 'Governance & Boundaries' },
+        { id: 5, emoji: '🌾', title: 'Agriculture and Rural Land-Use', period: 'Food Production' },
+        { id: 6, emoji: '🏙️', title: 'Cities and Urban Land-Use', period: 'Urbanization Patterns' },
+        { id: 7, emoji: '🏭', title: 'Industrial and Economic Development', period: 'Global Economy' }
+      ]
     }
   ];
 

@@ -147,6 +147,18 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Macroeconomics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'aphug') {
+      const unitData = {
+        'unit1': { title: 'AP Human Geography Unit 1: Thinking Geographically', period: 'Maps & Spatial Concepts', emoji: '🗺️' },
+        'unit2': { title: 'AP Human Geography Unit 2: Population and Migration Patterns', period: 'Demographic Transitions', emoji: '👥' },
+        'unit3': { title: 'AP Human Geography Unit 3: Cultural Patterns and Processes', period: 'Language & Religion', emoji: '🎭' },
+        'unit4': { title: 'AP Human Geography Unit 4: Political Patterns and Processes', period: 'Governance & Boundaries', emoji: '🏛️' },
+        'unit5': { title: 'AP Human Geography Unit 5: Agriculture and Rural Land-Use', period: 'Food Production', emoji: '🌾' },
+        'unit6': { title: 'AP Human Geography Unit 6: Cities and Urban Land-Use', period: 'Urbanization Patterns', emoji: '🏙️' },
+        'unit7': { title: 'AP Human Geography Unit 7: Industrial and Economic Development', period: 'Global Economy', emoji: '🏭' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Human Geography ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -522,6 +534,66 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'aphug') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'geographicPerspectives', title: 'Geographic Perspectives and Scale', keyFacts: ['Geographic perspective examines spatial relationships', 'Scale affects how patterns appear', 'Local to global scales interconnect', 'Relative vs absolute location', 'Context influences human decisions'] },
+          { key: 'mapsAndSpatialData', title: 'Maps and Spatial Data Analysis', keyFacts: ['Reference maps show locations', 'Thematic maps display patterns', 'GPS and GIS enable analysis', 'Map projections distort differently', 'Quantitative and qualitative data'] },
+          { key: 'spatialConcepts', title: 'Spatial Concepts and Relationships', keyFacts: ['Distance decay affects interaction', 'Time-space compression changes access', 'Diffusion spreads phenomena', 'Spatial association reveals patterns', 'Boundaries create inclusion/exclusion'] },
+          { key: 'humanEnvironmentInteraction', title: 'Human-Environment Interaction', keyFacts: ['Environmental determinism vs possibilism', 'Cultural ecology adaptation strategies', 'Environmental modification changes landscapes', 'Sustainability balances development', 'Climate influences settlement'] },
+          { key: 'fieldworkMethods', title: 'Geographic Fieldwork and Methods', keyFacts: ['Field observation provides primary data', 'Surveys collect human geographic data', 'Remote sensing monitors changes', 'Spatial statistics analyze relationships', 'Participant observation reveals culture'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'populationDistribution', title: 'Population Distribution and Density', keyFacts: ['Population clusters in favorable areas', 'Arithmetic vs physiological density', 'Carrying capacity limits growth', 'Ecumene represents inhabited areas', 'Environment affects distribution'] },
+          { key: 'demographicTransition', title: 'Demographic Transition Model', keyFacts: ['Stage 1: High birth and death rates', 'Stage 2: Death rates fall rapidly', 'Stage 3: Birth rates decline', 'Stage 4: Low rates, stable population', 'Stage 5: Population decline possible'] },
+          { key: 'populationComposition', title: 'Population Composition and Structure', keyFacts: ['Population pyramids show age-sex structure', 'Dependency ratios indicate burden', 'Life expectancy reflects development', 'Gender differences in demographics', 'Aging populations face challenges'] },
+          { key: 'migrationTypes', title: 'Types and Patterns of Migration', keyFacts: ['Voluntary vs forced migration', 'Internal vs international migration', 'Step migration occurs in stages', 'Return and circular migration', 'Chain migration follows networks'] },
+          { key: 'migrationTheories', title: 'Migration Theories and Factors', keyFacts: ['Push factors encourage leaving', 'Pull factors attract to destinations', 'Intervening obstacles impede movement', 'Distance decay reduces likelihood', 'Networks facilitate movement'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'cultureComponents', title: 'Components of Culture', keyFacts: ['Culture includes beliefs and practices', 'Material vs nonmaterial culture', 'Cultural traits form complexes', 'Culture hearths are innovation centers', 'Cultural diffusion spreads ideas'] },
+          { key: 'culturalDiffusion', title: 'Cultural Diffusion and Change', keyFacts: ['Expansion diffusion spreads from origin', 'Relocation diffusion moves with people', 'Hierarchical diffusion follows rankings', 'Contagious diffusion spreads by contact', 'Stimulus diffusion adapts ideas'] },
+          { key: 'languagePatterns', title: 'Language Families and Geography', keyFacts: ['Indo-European family dominates Europe', 'Sino-Tibetan includes Chinese languages', 'Language isolates have no relatives', 'Lingua francas facilitate communication', 'Language extinction threatens diversity'] },
+          { key: 'religionGeography', title: 'Religion and Sacred Spaces', keyFacts: ['Universalizing religions seek converts', 'Ethnic religions tie to cultures', 'Religious landscapes reflect beliefs', 'Pilgrimage creates sacred geography', 'Religious conflicts have territorial aspects'] },
+          { key: 'culturalLandscapes', title: 'Cultural Landscapes and Identity', keyFacts: ['Cultural landscapes show interaction', 'Traditional landscapes reflect history', 'Postmodern landscapes mix elements', 'Place attachment creates connections', 'Globalization affects identity'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'politicalPower', title: 'Political Power and Territory', keyFacts: ['States exercise territorial sovereignty', 'Nations share cultural identity', 'Nation-states align boundaries', 'Multinational states contain nations', 'Stateless nations lack control'] },
+          { key: 'boundaryTypes', title: 'Political Boundaries and Borders', keyFacts: ['Antecedent boundaries exist before settlement', 'Subsequent boundaries follow settlement', 'Superimposed boundaries ignore patterns', 'Relic boundaries no longer function', 'Different boundary types exist'] },
+          { key: 'stateShapes', title: 'State Shapes and Territorial Issues', keyFacts: ['Compact states have circular shapes', 'Elongated states are stretched', 'Prorupted states have projections', 'Fragmented states are broken', 'Perforated states surround others'] },
+          { key: 'geopolitics', title: 'Geopolitics and Global Power', keyFacts: ['Heartland theory emphasizes continental power', 'Rimland theory focuses on coasts', 'Superpowers dominate globally', 'Buffer states separate powers', 'Shatterbelt regions face instability'] },
+          { key: 'governanceScales', title: 'Scales of Governance and Devolution', keyFacts: ['Federal systems divide power', 'Unitary systems centralize power', 'Devolution transfers power locally', 'Supranational organizations transcend states', 'Local governance addresses communities'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'agricultureOrigins', title: 'Origins and Diffusion of Agriculture', keyFacts: ['Neolithic Revolution 10,000 years ago', 'Multiple agricultural hearths', 'Fertile Crescent earliest center', 'Seed vs vegetative agriculture', 'Domestication changed species'] },
+          { key: 'agricultureSystems', title: 'Agricultural Production Systems', keyFacts: ['Subsistence agriculture feeds family', 'Commercial agriculture sells to market', 'Intensive agriculture maximizes land', 'Extensive agriculture uses large areas', 'Mixed farming combines crops/livestock'] },
+          { key: 'vonThunenModel', title: 'Von Thünen Model of Agricultural Land Use', keyFacts: ['Distance to market determines use', 'Intensive crops near markets', 'Extensive grazing in outer zones', 'Transportation costs affect profitability', 'Assumptions rarely met in reality'] },
+          { key: 'greenRevolution', title: 'Green Revolution and Modernization', keyFacts: ['High-yield varieties increased production', 'Chemical inputs widely used', 'Mechanization replaced labor', 'Irrigation expanded cultivation', 'Environmental costs emerged'] },
+          { key: 'foodSecurity', title: 'Food Security and Sustainability', keyFacts: ['Food security requires adequate nutrition', 'Undernourishment affects millions', 'Food deserts lack fresh food access', 'Organic farming avoids chemicals', 'Sustainable agriculture balances needs'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'urbanization', title: 'Urbanization Processes and Patterns', keyFacts: ['Urbanization concentrates population', 'First urban revolution created cities', 'Second revolution with industrialization', 'Megacities exceed 10 million', 'Urban primacy concentrates population'] },
+          { key: 'cityHierarchies', title: 'Urban Hierarchies and Systems', keyFacts: ['Central place theory explains spacing', 'Range is maximum service distance', 'Threshold is minimum demand', 'Rank-size rule describes distribution', 'Primate cities dominate systems'] },
+          { key: 'urbanModels', title: 'Models of Urban Structure', keyFacts: ['Concentric zone model shows rings', 'Sector model follows corridors', 'Multiple nuclei has several centers', 'Galactic city includes edge cities', 'Latin American model reflects history'] },
+          { key: 'urbanChallenges', title: 'Urban Challenges and Planning', keyFacts: ['Urban sprawl consumes land', 'Infrastructure strain affects services', 'Housing shortages create settlements', 'Traffic congestion reduces mobility', 'Environmental degradation affects health'] },
+          { key: 'sustainableCities', title: 'Sustainable Urban Development', keyFacts: ['Smart growth concentrates development', 'Transit-oriented reduces car dependence', 'Green infrastructure provides services', 'Mixed-use combines functions', 'Urban agriculture increases access'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'industrialRevolution', title: 'Industrial Revolution and Location', keyFacts: ['First revolution used coal/steam', 'Second added electricity/oil', 'Third features information technology', 'Weber model explains location', 'Agglomeration creates clusters'] },
+          { key: 'economicSectors', title: 'Economic Sectors and Employment', keyFacts: ['Primary sector extracts resources', 'Secondary sector manufactures', 'Tertiary sector provides services', 'Quaternary handles information', 'Quinary includes high-level services'] },
+          { key: 'developmentTheories', title: 'Development Theories and Models', keyFacts: ['Rostow model shows stages', 'Dependency theory emphasizes exploitation', 'World-systems divides core-periphery', 'Semi-periphery countries exist', 'Commodity dependence limits options'] },
+          { key: 'developmentIndicators', title: 'Development Indicators and Measurement', keyFacts: ['GDP per capita measures output', 'HDI combines multiple indicators', 'GII measures gender inequality', 'GNI adjusts for income flows', 'PPP accounts for cost differences'] },
+          { key: 'globalTrade', title: 'Global Trade and Economic Geography', keyFacts: ['Comparative advantage drives specialization', 'Trade blocs reduce barriers', 'TNCs span multiple countries', 'Global supply chains connect places', 'Just-in-time reduces inventory'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -561,7 +633,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -584,7 +656,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -693,6 +765,19 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore macroeconomics through guided questions and economic analysis.`;
     }
+    if (course === 'aphug') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Human Geography Unit 1: Thinking Geographically! 🗺️\n\nI'm your Socratic AI tutor. I'll guide your exploration of geographic perspectives and spatial thinking through inquiry.\n\nKey topics: Geographic perspectives • Maps and spatial data • Scale analysis • Human-environment interaction • Fieldwork methods\n\nWhat do you already know about geography as a way of thinking, or what geographic concepts would you like to explore first?",
+        'unit2': "Welcome to AP Human Geography Unit 2: Population and Migration Patterns! 👥\n\nI'm your Socratic AI tutor. Let's examine population distribution, demographic changes, and human migration patterns.\n\nKey topics: Population distribution • Demographic transition • Population composition • Migration types • Push and pull factors\n\nWhat interests you about population patterns, or what questions do you have about human migration?",
+        'unit3': "Welcome to AP Human Geography Unit 3: Cultural Patterns and Processes! 🎭\n\nI'm your Socratic AI tutor. Let's explore how culture shapes landscapes and creates spatial patterns around the world.\n\nKey topics: Culture components • Cultural diffusion • Language geography • Religion and sacred spaces • Cultural landscapes\n\nWhat would you like to understand about culture and geography, or what aspect of cultural patterns interests you most?",
+        'unit4': "Welcome to AP Human Geography Unit 4: Political Patterns and Processes! 🏛️\n\nI'm your Socratic AI tutor. Let's examine political geography, from state formation to boundary disputes.\n\nKey topics: Political power and territory • Boundaries and borders • State shapes • Geopolitics • Governance scales\n\nWhat do you want to learn about political geography, or what questions do you have about how politics shapes space?",
+        'unit5': "Welcome to AP Human Geography Unit 5: Agriculture and Rural Land-Use! 🌾\n\nI'm your Socratic AI tutor. Let's explore agricultural systems, food production, and rural landscapes through geographic analysis.\n\nKey topics: Agriculture origins • Agricultural systems • Von Thünen model • Green Revolution • Food security\n\nWhat interests you about agriculture and food systems, or what would you like to explore about rural geography?",
+        'unit6': "Welcome to AP Human Geography Unit 6: Cities and Urban Land-Use! 🏙️\n\nI'm your Socratic AI tutor. Let's examine urban geography, city development, and the challenges of urbanization.\n\nKey topics: Urbanization processes • Urban hierarchies • Urban structure models • Urban challenges • Sustainable cities\n\nWhat aspects of urban geography interest you most, or what questions do you have about cities and urban life?",
+        'unit7': "Welcome to AP Human Geography Unit 7: Industrial and Economic Development! 🏭\n\nI'm your Socratic AI tutor. Let's explore industrial location, economic development, and global trade patterns through geographic lens.\n\nKey topics: Industrial location • Economic sectors • Development theories • Development indicators • Global trade\n\nWhat would you like to understand about economic geography, or what interests you about global development patterns?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore human geography through guided questions and spatial analysis.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -722,7 +807,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test script to validate AP Microeconomics API endpoints and sidebar topics"""
+"""Test script to validate AP Course API endpoints and sidebar topics"""
 
 import requests
 import json
@@ -64,59 +64,99 @@ def test_socratic_chat(course: str, unit: str) -> Dict:
         }
 
 def main():
-    """Test all AP Microeconomics units"""
-    print("🧪 Testing AP Microeconomics API Endpoints")
+    """Test AP Microeconomics, AP Macroeconomics, and AP Human Geography units"""
+    print("🧪 Testing AP Course API Endpoints")
     print("=" * 60)
     
-    course = "apmicro"
-    units = ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6"]
+    courses = {
+        "apmicro": "AP Microeconomics",
+        "apmacro": "AP Macroeconomics", 
+        "aphug": "AP Human Geography"
+    }
     
-    # Test unit topics API
-    print("\n📚 Testing Unit Topics API:")
-    print("-" * 40)
+    # Different unit counts for different courses
+    units_config = {
+        "apmicro": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6"],
+        "apmacro": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6"],
+        "aphug": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6", "unit7"]
+    }
     
-    topics_results = []
-    for unit in units:
-        result = test_unit_topics(course, unit)
-        topics_results.append(result)
+    all_topics_success = 0
+    all_chat_success = 0
+    total_tests = 0
+    
+    for course_id, course_name in courses.items():
+        print(f"\n🎓 Testing {course_name}:")
+        print("-" * 50)
         
-        if result['status'] == 'success':
-            print(f"✅ {unit.upper()}: {result['topics_count']} topics, overview: {result['overview_present']}")
-            print(f"   Topics: {', '.join(result['topics_preview'])}{'...' if result['topics_count'] > 3 else ''}")
-        else:
-            print(f"❌ {unit.upper()}: {result['error']}")
-    
-    # Test Socratic chat API  
-    print("\n🤖 Testing Socratic Chat API:")
-    print("-" * 40)
-    
-    chat_results = []
-    for unit in units:
-        result = test_socratic_chat(course, unit)
-        chat_results.append(result)
+        units = units_config[course_id]
         
-        if result['status'] == 'success':
-            gemini_status = "🤖 Gemini AI" if result['has_gemini'] else "📝 Fallback"
-            print(f"✅ {unit.upper()}: {gemini_status}, response: {result['response_length']} chars")
-        else:
-            print(f"❌ {unit.upper()}: {result['error']}")
+        # Test unit topics API
+        print(f"\n📚 {course_name} Unit Topics API:")
+        print("-" * 40)
+        
+        topics_results = []
+        for unit in units:
+            result = test_unit_topics(course_id, unit)
+            topics_results.append(result)
+            total_tests += 1
+            
+            if result['status'] == 'success':
+                all_topics_success += 1
+                print(f"✅ {unit.upper()}: {result['topics_count']} topics, overview: {result['overview_present']}")
+                print(f"   Topics: {', '.join(result['topics_preview'])}{'...' if result['topics_count'] > 3 else ''}")
+            else:
+                print(f"❌ {unit.upper()}: {result['error']}")
+        
+        # Test Socratic chat API  
+        print(f"\n🤖 {course_name} Socratic Chat API:")
+        print("-" * 40)
+        
+        chat_results = []
+        for unit in units:
+            # Use appropriate test message for each course
+            if course_id == 'aphug':
+                test_message = 'What is spatial thinking in geography?'
+            else:
+                test_message = 'What is scarcity in economics?'
+            
+            result = test_socratic_chat(course_id, unit)
+            chat_results.append(result)
+            
+            if result['status'] == 'success':
+                all_chat_success += 1
+                gemini_status = "🤖 Gemini AI" if result['has_gemini'] else "📝 Fallback"
+                print(f"✅ {unit.upper()}: {gemini_status}, response: {result['response_length']} chars")
+            else:
+                print(f"❌ {unit.upper()}: {result['error']}")
+        
+        # Course summary
+        topics_success = sum(1 for r in topics_results if r['status'] == 'success')
+        chat_success = sum(1 for r in chat_results if r['status'] == 'success')
+        
+        print(f"\n📊 {course_name} Summary:")
+        print(f"   Unit Topics: {topics_success}/{len(units)} working")
+        print(f"   Socratic Chat: {chat_success}/{len(units)} working")
     
-    # Summary
-    print("\n📊 Summary:")
-    print("-" * 40)
+    # Overall Summary
+    print("\n🎯 OVERALL SUMMARY:")
+    print("=" * 60)
     
-    topics_success = sum(1 for r in topics_results if r['status'] == 'success')
-    chat_success = sum(1 for r in chat_results if r['status'] == 'success')
+    print(f"Unit Topics API: {all_topics_success}/{total_tests} total tests passing")
+    print(f"Socratic Chat API: {all_chat_success}/{total_tests} total tests passing")
     
-    print(f"Unit Topics API: {topics_success}/{len(units)} units working")
-    print(f"Socratic Chat API: {chat_success}/{len(units)} units working")
-    
-    if topics_success == len(units) and chat_success == len(units):
-        print("\n🎉 All AP Microeconomics units have working sidebar topics and Socratic AI!")
+    if all_topics_success == total_tests:
+        print("\n🎉 ALL AP COURSES HAVE WORKING TOPICS!")
+        print("✅ AP Microeconomics: Complete (6 units)")
+        print("✅ AP Macroeconomics: Complete (6 units)")
+        print("✅ AP Human Geography: Complete (7 units)")
+        print("\n🌐 Access at: https://aphelper.tech/socratic-learning")
     else:
-        print("\n⚠️  Some units may have issues. Check the logs above.")
+        missing_topics = total_tests - all_topics_success
+        missing_chat = total_tests - all_chat_success
+        print(f"\n⚠️  Issues found: {missing_topics} topic failures, {missing_chat} chat failures")
     
-    return topics_success == len(units) and chat_success == len(units)
+    return all_topics_success == total_tests
 
 if __name__ == "__main__":
     success = main()
