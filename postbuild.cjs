@@ -25,17 +25,31 @@ if (fs.existsSync(html404Src)) {
   console.log('✓ Copied 404.html to dist/');
 }
 
+// Copy .htaccess to dist for proper MIME types
+const htaccessSrc = path.join(__dirname, 'public', '.htaccess');
+const htaccessDest = path.join(__dirname, 'dist', '.htaccess');
+
+if (fs.existsSync(htaccessSrc)) {
+  fs.copyFileSync(htaccessSrc, htaccessDest);
+  console.log('✓ Copied .htaccess to dist/');
+}
+
 // Fix MIME type issues for GitHub Pages
 const indexHtmlPath = path.join(__dirname, 'dist', 'index.html');
 if (fs.existsSync(indexHtmlPath)) {
   let htmlContent = fs.readFileSync(indexHtmlPath, 'utf8');
   
-  // Remove type="module" attributes to avoid MIME type issues on GitHub Pages
+  // Remove all type="module" attributes and related module syntax
   htmlContent = htmlContent.replace(/type="module"\s+crossorigin\s+/g, '');
   htmlContent = htmlContent.replace(/type="module"\s+/g, '');
+  htmlContent = htmlContent.replace(/\scrossorigin\s+/g, ' ');
+  htmlContent = htmlContent.replace(/\scrossorigin=""/g, '');
+  
+  // Ensure script tags have correct type
+  htmlContent = htmlContent.replace(/<script\s+src="/g, '<script type="application/javascript" src="');
   
   // Move script tags from head to end of body for proper DOM loading order
-  const scriptTagRegex = /(<script[^>]*src="\/assets\/[^"]*\.js"[^>]*><\/script>)/g;
+  const scriptTagRegex = /(<script[^>]*src="[^"]*assets\/[^"]*\.js"[^>]*><\/script>)/g;
   const scriptTags = [];
   
   // Extract script tags

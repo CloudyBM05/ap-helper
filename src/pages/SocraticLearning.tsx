@@ -106,6 +106,21 @@ const SocraticLearning = () => {
         { id: 5, emoji: '👷', title: 'Factor Markets', period: 'Labor & Capital' },
         { id: 6, emoji: '⚖️', title: 'Market Failures & Government Intervention', period: 'Policy Solutions' }
       ]
+    },
+    {
+      id: 'apmacro',
+      title: 'AP Macroeconomics',
+      description: 'Explore economic systems, fiscal policy, monetary policy, and international trade',
+      category: 'stem',
+      color: 'from-blue-500 to-green-500',
+      units: [
+        { id: 1, emoji: '🌍', title: 'Basic Economic Concepts', period: 'Economic Systems' },
+        { id: 2, emoji: '📊', title: 'Economic Indicators and Business Cycle', period: 'Measuring Economy' },
+        { id: 3, emoji: '💰', title: 'National Income and Price Determination', period: 'GDP & Inflation' },
+        { id: 4, emoji: '🏦', title: 'Financial Sector', period: 'Money & Banking' },
+        { id: 5, emoji: '🏛️', title: 'Long-run Consequences of Stabilization Policies', period: 'Policy Effects' },
+        { id: 6, emoji: '🌏', title: 'Open Economy-International Trade and Finance', period: 'Global Economics' }
+      ]
     }
   ];
 

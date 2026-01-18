@@ -136,6 +136,17 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Microeconomics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apmacro') {
+      const unitData = {
+        'unit1': { title: 'AP Macroeconomics Unit 1: Basic Economic Concepts', period: 'Economic Systems', emoji: '🌍' },
+        'unit2': { title: 'AP Macroeconomics Unit 2: Economic Indicators and Business Cycle', period: 'Measuring Economy', emoji: '📊' },
+        'unit3': { title: 'AP Macroeconomics Unit 3: National Income and Price Determination', period: 'GDP & Inflation', emoji: '💰' },
+        'unit4': { title: 'AP Macroeconomics Unit 4: Financial Sector', period: 'Money & Banking', emoji: '🏦' },
+        'unit5': { title: 'AP Macroeconomics Unit 5: Long-run Consequences of Stabilization Policies', period: 'Policy Effects', emoji: '🏛️' },
+        'unit6': { title: 'AP Macroeconomics Unit 6: Open Economy-International Trade and Finance', period: 'Global Economics', emoji: '🌏' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Macroeconomics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -459,6 +470,58 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apmacro') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'economicSystems', title: 'Economic Systems and Resource Allocation', keyFacts: ['Traditional, command, and market systems', 'Mixed economies combine approaches', 'Property rights affect efficiency', 'Role of government varies by system', 'Resource allocation mechanisms differ'] },
+          { key: 'comparativeAdvantage', title: 'Comparative Advantage and Trade', keyFacts: ['Absolute vs comparative advantage', 'Opportunity cost determines trade patterns', 'Specialization increases total output', 'Trade benefits all parties', 'Production possibilities and trade-offs'] },
+          { key: 'marginalAnalysis', title: 'Marginal Analysis and Decision Making', keyFacts: ['Marginal benefit vs marginal cost', 'Optimal decisions at MB = MC', 'Thinking at the margin principle', 'Diminishing marginal utility', 'Rational choice theory'] },
+          { key: 'marketFailures', title: 'Market Failures and Government Role', keyFacts: ['Externalities affect third parties', 'Public goods provision problems', 'Market power distorts outcomes', 'Information asymmetries exist', 'Government intervention rationale'] },
+          { key: 'economicGoals', title: 'Macroeconomic Goals and Trade-offs', keyFacts: ['Full employment objective', 'Price stability importance', 'Economic growth promotion', 'Equity vs efficiency trade-offs', 'Policy goal conflicts'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'gdpMeasurement', title: 'GDP and National Income Accounting', keyFacts: ['GDP measures total production value', 'Expenditure vs income approaches', 'Real vs nominal GDP distinction', 'GDP deflator and inflation', 'Limitations of GDP measurement'] },
+          { key: 'unemploymentTypes', title: 'Unemployment Types and Measurement', keyFacts: ['Frictional unemployment is temporary', 'Structural unemployment from changes', 'Cyclical unemployment varies with economy', 'Natural rate of unemployment', 'Labor force participation rate'] },
+          { key: 'inflationMeasurement', title: 'Inflation and Price Indices', keyFacts: ['CPI measures consumer prices', 'PPI tracks producer prices', 'Core inflation excludes volatiles', 'Hyperinflation destroys currency', 'Deflation causes economic problems'] },
+          { key: 'businessCycles', title: 'Business Cycles and Economic Fluctuations', keyFacts: ['Expansion, peak, recession, trough phases', 'Leading, lagging, coincident indicators', 'Recessions defined as GDP decline', 'Recovery and growth patterns', 'Economic shocks cause cycles'] },
+          { key: 'economicIndicators', title: 'Economic Indicators and Analysis', keyFacts: ['Leading indicators predict changes', 'Lagging indicators confirm trends', 'Real vs nominal distinctions', 'Index numbers and base years', 'Data limitations and revisions'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'aggregateDemand', title: 'Aggregate Demand Model', keyFacts: ['AD shows total spending at price levels', 'Wealth, interest, international effects', 'Consumer, investment, government, exports', 'AD curve slopes downward', 'Shifts vs movements along curve'] },
+          { key: 'aggregateSupply', title: 'Aggregate Supply Model', keyFacts: ['Short-run AS shows price-output relationship', 'Long-run AS is vertical at potential', 'Input prices affect SRAS position', 'Productivity shifts LRAS curve', 'Supply shocks cause stagflation'] },
+          { key: 'macroEquilibrium', title: 'Macroeconomic Equilibrium', keyFacts: ['Equilibrium where AD meets AS', 'Short vs long-run equilibrium', 'Recessionary and inflationary gaps', 'Self-correcting mechanisms exist', 'Policy can speed adjustment'] },
+          { key: 'multiplierEffects', title: 'Multiplier Effects and Spending', keyFacts: ['Spending creates ripple effects', 'MPC determines multiplier size', 'Investment multiplier amplifies changes', 'Tax multiplier is smaller', 'Crowding out reduces effects'] },
+          { key: 'phillipsCurve', title: 'Phillips Curve Trade-offs', keyFacts: ['Short-run inflation-unemployment trade-off', 'Long-run curve is vertical', 'Expectations affect curve position', 'Supply shocks shift curve', 'Natural rate of unemployment'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'moneyFunctions', title: 'Functions and Types of Money', keyFacts: ['Medium of exchange function', 'Store of value over time', 'Unit of account measurement', 'M1, M2, M3 money supplies', 'Commodity vs fiat money'] },
+          { key: 'bankingSystem', title: 'Banking System and Money Creation', keyFacts: ['Fractional reserve banking system', 'Money multiplier process', 'Required vs excess reserves', 'Bank lending creates money', 'Reserve ratio affects multiplier'] },
+          { key: 'federalReserve', title: 'Federal Reserve System', keyFacts: ['Central bank of United States', 'Board of Governors leadership', 'Regional Federal Reserve banks', 'Dual mandate: employment and prices', 'Independence from political pressure'] },
+          { key: 'monetaryPolicy', title: 'Monetary Policy Tools', keyFacts: ['Open market operations primary tool', 'Discount rate for bank borrowing', 'Reserve requirements for banks', 'Forward guidance communication', 'Quantitative easing programs'] },
+          { key: 'policyTransmission', title: 'Monetary Policy Transmission', keyFacts: ['Interest rates affect investment', 'Exchange rates impact trade', 'Asset prices influence wealth', 'Credit availability matters', 'Expectations shape behavior'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'fiscalPolicy', title: 'Fiscal Policy and Government Spending', keyFacts: ['Expansionary vs contractionary policy', 'Automatic vs discretionary measures', 'Government purchases vs transfers', 'Built-in stabilizers exist', 'Timing and implementation lags'] },
+          { key: 'crowdingOut', title: 'Crowding Out Effects', keyFacts: ['Government borrowing raises rates', 'Higher rates reduce private investment', 'Complete vs partial crowding out', 'International capital flows', 'Long-term growth effects'] },
+          { key: 'governmentDebt', title: 'Government Debt and Deficits', keyFacts: ['Annual deficit vs accumulated debt', 'Debt-to-GDP ratio matters', 'Interest payments on debt', 'Sustainability concerns exist', 'Intergenerational equity issues'] },
+          { key: 'supplySide', title: 'Supply-side Economics', keyFacts: ['Tax cuts can boost growth', 'Incentive effects on work', 'Laffer curve tax revenue', 'Long-run growth focus', 'Distributional effects vary'] },
+          { key: 'policyPolitics', title: 'Political Economy of Policy', keyFacts: ['Political constraints on policy', 'Special interests influence', 'Time inconsistency problems', 'Electoral cycle effects', 'Coordination challenges exist'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'internationalTrade', title: 'International Trade Theory', keyFacts: ['Comparative advantage drives trade', 'Gains from trade benefit all', 'Trade creation vs diversion', 'Factor endowments matter', 'Trade agreements reduce barriers'] },
+          { key: 'exchangeRates', title: 'Exchange Rates and Currency', keyFacts: ['Floating vs fixed rate systems', 'Supply and demand determine rates', 'Purchasing power parity theory', 'Real vs nominal exchange rates', 'Currency appreciation and depreciation'] },
+          { key: 'balanceOfPayments', title: 'Balance of Payments Accounting', keyFacts: ['Current account tracks goods/services', 'Capital account tracks investments', 'Balance of payments must balance', 'Current account deficits concern', 'Reserve changes balance accounts'] },
+          { key: 'tradePolicies', title: 'Trade Policies and Protection', keyFacts: ['Tariffs raise import prices', 'Quotas limit import quantities', 'Subsidies help domestic producers', 'Trade wars harm all parties', 'WTO promotes free trade'] },
+          { key: 'globalInterdependence', title: 'Global Economic Interdependence', keyFacts: ['Financial markets are connected', 'Economic crises spread globally', 'Multinational corporations expand', 'Technology enables globalization', 'Environmental externalities global'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -498,7 +561,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -521,7 +584,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -618,6 +681,18 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore microeconomics through guided questions and economic analysis.`;
     }
+    if (course === 'apmacro') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Macroeconomics Unit 1: Basic Economic Concepts! 🌍\n\nI'm your Socratic AI tutor. I'll guide your understanding of economic systems and fundamental macroeconomic principles.\n\nKey topics: Economic systems • Comparative advantage • Marginal analysis • Market failures • Economic goals\n\nWhat do you already know about how economies are organized, or what macroeconomic concepts would you like to explore first?",
+        'unit2': "Welcome to AP Macroeconomics Unit 2: Economic Indicators and Business Cycle! 📊\n\nI'm your Socratic AI tutor. Let's explore how economists measure economic performance and understand economic fluctuations.\n\nKey topics: GDP measurement • Unemployment types • Inflation measurement • Business cycles • Economic indicators\n\nWhat interests you about measuring economic performance, or what questions do you have about the business cycle?",
+        'unit3': "Welcome to AP Macroeconomics Unit 3: National Income and Price Determination! 💰\n\nI'm your Socratic AI tutor. Let's examine how national income and price levels are determined through aggregate supply and demand.\n\nKey topics: Aggregate demand • Aggregate supply • Macroeconomic equilibrium • Multiplier effects • Phillips curve\n\nWhat would you like to understand about how the overall economy works, or what aspect of economic equilibrium interests you most?",
+        'unit4': "Welcome to AP Macroeconomics Unit 4: Financial Sector! 🏦\n\nI'm your Socratic AI tutor. Let's explore money, banking, and how the Federal Reserve influences the economy.\n\nKey topics: Money functions • Banking system • Federal Reserve • Monetary policy • Policy transmission\n\nWhat do you want to learn about money and banking, or what questions do you have about how monetary policy works?",
+        'unit5': "Welcome to AP Macroeconomics Unit 5: Long-run Consequences of Stabilization Policies! 🏛️\n\nI'm your Socratic AI tutor. Let's examine the long-term effects of government fiscal and monetary policies.\n\nKey topics: Fiscal policy • Crowding out • Government debt • Supply-side economics • Policy politics\n\nWhat interests you about government economic policies, or what would you like to explore about policy consequences?",
+        'unit6': "Welcome to AP Macroeconomics Unit 6: Open Economy-International Trade and Finance! 🌏\n\nI'm your Socratic AI tutor. Let's explore how countries interact economically through trade and finance.\n\nKey topics: International trade • Exchange rates • Balance of payments • Trade policies • Global interdependence\n\nWhat aspects of international economics interest you most, or what questions do you have about global trade?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore macroeconomics through guided questions and economic analysis.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -647,7 +722,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID

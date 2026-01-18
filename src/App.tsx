@@ -325,8 +325,10 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/socratic" element={<SocraticLearning />} />
             <Route path="/socratic-learning" element={<SocraticLearning />} />
             <Route path="/socratic-chat/:course/:unit" element={<SocraticChat />} />
+            <Route path="/socratic/:course/:unit" element={<SocraticChat />} />
             <Route path="/ap-gov-study-guide" element={<APGovStudyGuide />} />
             <Route path="/ap-physics-study-guide" element={<APPhysicsStudyGuide />} />
             <Route path="/ap-computer-science-principles-study-guide" element={<APCSPStudyGuide />} />
