@@ -91,6 +91,21 @@ const SocraticLearning = () => {
         { id: 9, emoji: '💊', title: 'Treatment of Disorders', period: 'Therapeutic Approaches' },
         { id: 10, emoji: '👫', title: 'Social Psychology', period: 'Group Behavior' }
       ]
+    },
+    {
+      id: 'apmicro',
+      title: 'AP Microeconomics',
+      description: 'Master market dynamics, consumer behavior, and economic decision-making',
+      category: 'stem',
+      color: 'from-green-500 to-blue-500',
+      units: [
+        { id: 1, emoji: '📊', title: 'Basic Economic Concepts', period: 'Scarcity & Choice' },
+        { id: 2, emoji: '📈', title: 'Supply and Demand', period: 'Market Forces' },
+        { id: 3, emoji: '🏭', title: 'Production, Cost & Perfect Competition', period: 'Firm Behavior' },
+        { id: 4, emoji: '🏢', title: 'Imperfect Competition', period: 'Monopoly & Oligopoly' },
+        { id: 5, emoji: '👷', title: 'Factor Markets', period: 'Labor & Capital' },
+        { id: 6, emoji: '⚖️', title: 'Market Failures & Government Intervention', period: 'Policy Solutions' }
+      ]
     }
   ];
 
