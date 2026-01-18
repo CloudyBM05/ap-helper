@@ -2128,6 +2128,192 @@ def get_unit_topics_api():
                             ]
                         }
                     ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "apmicro",
+                    "overview": "This unit examines how firms make production decisions and compete in perfectly competitive markets. Understanding cost structures and profit maximization is essential for analyzing firm behavior.",
+                    "topics": [
+                        {
+                            "key": "productionFunction",
+                            "title": "Production and Productivity",
+                            "keyFacts": [
+                                "Production function relates inputs to outputs",
+                                "Short run: at least one fixed input",
+                                "Long run: all inputs are variable",
+                                "Law of diminishing marginal returns",
+                                "Total, average, and marginal product relationships"
+                            ]
+                        },
+                        {
+                            "key": "costsOfProduction",
+                            "title": "Costs of Production",
+                            "keyFacts": [
+                                "Fixed costs don't vary with output",
+                                "Variable costs change with production level",
+                                "Marginal cost is additional cost of one more unit",
+                                "Average costs include AFC, AVC, and ATC",
+                                "U-shaped cost curves due to diminishing returns"
+                            ]
+                        },
+                        {
+                            "key": "perfectCompetition",
+                            "title": "Perfect Competition Market Structure",
+                            "keyFacts": [
+                                "Many small firms selling identical products",
+                                "Perfect information and no barriers to entry",
+                                "Firms are price takers",
+                                "P = MR in perfect competition",
+                                "Economic profits attract new firms"
+                            ]
+                        },
+                        {
+                            "key": "profitMaximization",
+                            "title": "Profit Maximization",
+                            "keyFacts": [
+                                "Firms maximize profit where MR = MC",
+                                "Economic profit = total revenue - total cost",
+                                "Shutdown point: price below average variable cost",
+                                "Break-even point: price equals average total cost",
+                                "Long-run equilibrium: zero economic profit"
+                            ]
+                        },
+                        {
+                            "key": "supplyCurveDerivation",
+                            "title": "Supply Curve and Market Outcomes",
+                            "keyFacts": [
+                                "Firm's supply curve is MC above AVC",
+                                "Market supply is horizontal sum of firm supplies",
+                                "Producer surplus measures firm benefits",
+                                "Long-run supply depends on industry costs",
+                                "Entry and exit drive long-run equilibrium"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apmicro",
+                    "overview": "This unit explores imperfectly competitive markets including monopoly, oligopoly, and monopolistic competition. Students learn how market power affects pricing, output, and efficiency.",
+                    "topics": [
+                        {
+                            "key": "monopoly",
+                            "title": "Monopoly Market Structure",
+                            "keyFacts": [
+                                "Single seller with no close substitutes",
+                                "High barriers to entry prevent competition",
+                                "Monopolist is price maker, not price taker",
+                                "Downward-sloping demand curve",
+                                "MR < P for monopolist"
+                            ]
+                        },
+                        {
+                            "key": "monopolyPricing",
+                            "title": "Monopoly Pricing and Output",
+                            "keyFacts": [
+                                "Profit maximization: MR = MC",
+                                "Price determined from demand curve",
+                                "Monopoly price > marginal cost",
+                                "Creates deadweight loss",
+                                "Economic profits possible in long run"
+                            ]
+                        },
+                        {
+                            "key": "priceDiscrimination",
+                            "title": "Price Discrimination",
+                            "keyFacts": [
+                                "Charging different prices for same product",
+                                "First-degree: perfect price discrimination",
+                                "Second-degree: quantity discounts",
+                                "Third-degree: different customer groups",
+                                "Requires market power and prevention of resale"
+                            ]
+                        },
+                        {
+                            "key": "oligopoly",
+                            "title": "Oligopoly and Strategic Behavior",
+                            "keyFacts": [
+                                "Few large firms dominate the market",
+                                "Mutual interdependence in decision making",
+                                "Game theory analyzes strategic interactions",
+                                "Collusion vs. competition trade-offs",
+                                "Kinked demand curve model"
+                            ]
+                        },
+                        {
+                            "key": "monopolisticCompetition",
+                            "title": "Monopolistic Competition",
+                            "keyFacts": [
+                                "Many firms selling differentiated products",
+                                "Some market power from product differentiation",
+                                "Easy entry and exit",
+                                "Short-run profits attract entry",
+                                "Long-run: zero economic profit like perfect competition"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apmicro",
+                    "overview": "This unit examines factor markets where firms hire inputs like labor, land, and capital. Understanding factor demand and wage determination is crucial for analyzing income distribution.",
+                    "topics": [
+                        {
+                            "key": "derivedDemand",
+                            "title": "Derived Demand for Factors",
+                            "keyFacts": [
+                                "Factor demand derives from product demand",
+                                "Marginal revenue product (MRP) determines factor demand",
+                                "MRP = MP × MR for the product",
+                                "Profit-maximizing hiring: MRP = factor price",
+                                "Factor demand shifts with product demand changes"
+                            ]
+                        },
+                        {
+                            "key": "laborMarkets",
+                            "title": "Labor Markets and Wage Determination",
+                            "keyFacts": [
+                                "Labor supply reflects opportunity cost of time",
+                                "Backward-bending labor supply possible",
+                                "Equilibrium wage where labor supply meets demand",
+                                "Minimum wage creates surplus (unemployment)",
+                                "Human capital affects productivity and wages"
+                            ]
+                        },
+                        {
+                            "key": "wageDecisions",
+                            "title": "Factors Affecting Wages",
+                            "keyFacts": [
+                                "Productivity differences affect wages",
+                                "Education and training increase human capital",
+                                "Compensating differentials for job characteristics",
+                                "Geographic mobility affects wage differences",
+                                "Discrimination creates wage gaps"
+                            ]
+                        },
+                        {
+                            "key": "monopsony",
+                            "title": "Monopsony in Factor Markets",
+                            "keyFacts": [
+                                "Single buyer of a factor (e.g., company town)",
+                                "Faces upward-sloping factor supply curve",
+                                "Marginal factor cost > factor price",
+                                "Hires less and pays lower wages than competitive market",
+                                "Creates deadweight loss in factor market"
+                            ]
+                        },
+                        {
+                            "key": "capitalLandMarkets",
+                            "title": "Capital and Land Markets",
+                            "keyFacts": [
+                                "Capital earning depends on marginal revenue product",
+                                "Interest rate represents cost of capital",
+                                "Present value determines investment decisions",
+                                "Land supply is perfectly inelastic",
+                                "Economic rent goes to land owners"
+                            ]
+                        }
+                    ]
                 }
                 # Add more AP Micro units as needed
             }
