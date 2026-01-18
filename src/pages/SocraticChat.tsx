@@ -125,7 +125,7 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Psychology ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
-    if (course === 'apmicroeconomics') {
+    if (course === 'apmicro') {
       const unitData = {
         'unit1': { title: 'AP Microeconomics Unit 1: Basic Economic Concepts', period: 'Economic Foundations', emoji: '📊' },
         'unit2': { title: 'AP Microeconomics Unit 2: Supply and Demand', period: 'Market Forces', emoji: '📈' },
@@ -407,7 +407,7 @@ const SocraticChat = () => {
       }
     }
 
-    if (course === 'apmicroeconomics') {
+    if (course === 'apmicro') {
       if (unit === 'unit1') {
         return [
           { key: 'scarcity', title: 'Scarcity and Choice', keyFacts: ['Resources are limited but wants unlimited', 'Opportunity cost is next best alternative', 'Trade-offs exist in every decision', 'Economic efficiency maximizes benefit', 'All societies face the economic problem'] },
@@ -498,7 +498,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -521,7 +521,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -606,7 +606,7 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore psychology through guided questions and scientific inquiry.`;
     }
-    if (course === 'apmicroeconomics') {
+    if (course === 'apmicro') {
       const unitInfo = getUnitInfo();
       const welcomeMessages = {
         'unit1': "Welcome to AP Microeconomics Unit 1: Basic Economic Concepts! 📊\n\nI'm your Socratic AI tutor. I'll guide your understanding of fundamental economic principles through inquiry and analysis.\n\nKey topics: Scarcity and choice • Opportunity cost • Production possibilities • Economic systems • Marginal analysis\n\nWhat do you already know about economics, or what economic concepts would you like to explore first?",
@@ -647,7 +647,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
@@ -1343,7 +1343,7 @@ const SocraticChat = () => {
                       navigate(`/ap-biology/unit/${unit?.replace('unit', '')}`);
                     } else if (course === 'appsychology') {
                       navigate(`/ap-psychology/unit/${unit?.replace('unit', '')}`);
-                    } else if (course === 'apmicroeconomics') {
+                    } else if (course === 'apmicro') {
                       navigate(`/ap-microeconomics/unit/${unit?.replace('unit', '')}`);
                     } else {
                       // Fallback for any other courses
