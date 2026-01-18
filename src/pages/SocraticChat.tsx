@@ -125,6 +125,17 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Psychology ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apmicroeconomics') {
+      const unitData = {
+        'unit1': { title: 'AP Microeconomics Unit 1: Basic Economic Concepts', period: 'Economic Foundations', emoji: '📊' },
+        'unit2': { title: 'AP Microeconomics Unit 2: Supply and Demand', period: 'Market Forces', emoji: '📈' },
+        'unit3': { title: 'AP Microeconomics Unit 3: Production and Perfect Competition', period: 'Firm Behavior', emoji: '🏭' },
+        'unit4': { title: 'AP Microeconomics Unit 4: Imperfect Competition', period: 'Market Structures', emoji: '🏢' },
+        'unit5': { title: 'AP Microeconomics Unit 5: Factor Markets', period: 'Resource Markets', emoji: '👥' },
+        'unit6': { title: 'AP Microeconomics Unit 6: Market Failures and Government', period: 'Government Intervention', emoji: '🏛️' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Microeconomics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -396,6 +407,58 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apmicroeconomics') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'scarcity', title: 'Scarcity and Choice', keyFacts: ['Resources are limited but wants unlimited', 'Opportunity cost is next best alternative', 'Trade-offs exist in every decision', 'Economic efficiency maximizes benefit', 'All societies face the economic problem'] },
+          { key: 'ppf', title: 'Production Possibilities Frontier', keyFacts: ['Shows maximum production combinations', 'Curved shape shows increasing costs', 'Points inside curve are inefficient', 'Outward shifts indicate growth', 'Illustrates opportunity cost concept'] },
+          { key: 'economicSystems', title: 'Economic Systems and Markets', keyFacts: ['Market systems use price signals', 'Command systems use central planning', 'Mixed economies combine both approaches', 'Specialization increases efficiency', 'Comparative advantage drives trade'] },
+          { key: 'marginalAnalysis', title: 'Marginal Analysis', keyFacts: ['Marginal benefit vs marginal cost', 'Optimal decisions at MB = MC', 'Thinking at the margin', 'Diminishing marginal returns', 'Rational decision making framework'] },
+          { key: 'economicModels', title: 'Economic Models and Assumptions', keyFacts: ['Ceteris paribus assumption', 'Models simplify complex reality', 'Positive vs normative statements', 'Rational self-interest behavior', 'Predictions based on assumptions'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'demandCurve', title: 'Law of Demand and Consumer Behavior', keyFacts: ['Higher price leads to lower quantity', 'Demand curve slopes downward', 'Income and substitution effects', 'Determinants shift demand curve', 'Consumer surplus measures benefit'] },
+          { key: 'supplyCurve', title: 'Law of Supply and Producer Behavior', keyFacts: ['Higher price leads to higher quantity', 'Supply curve slopes upward', 'Production costs affect supply', 'Technology shifts supply curve', 'Producer surplus measures benefit'] },
+          { key: 'marketEquilibrium', title: 'Market Equilibrium', keyFacts: ['Equilibrium where supply meets demand', 'Market clearing eliminates shortages', 'Price signals coordinate markets', 'Changes cause new equilibrium', 'Efficiency maximizes total surplus'] },
+          { key: 'elasticity', title: 'Price Elasticity of Demand', keyFacts: ['Measures responsiveness to price', 'Elastic vs inelastic demand', 'Affects total revenue changes', 'Determinants include substitutes', 'Cross-price elasticity measures'] },
+          { key: 'marketEfficiency', title: 'Market Efficiency and Welfare', keyFacts: ['Free markets maximize welfare', 'Dead weight loss from inefficiency', 'Consumer and producer surplus', 'Allocative efficiency achieved', 'Pareto optimal outcomes'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'productionFunction', title: 'Production and Costs', keyFacts: ['Production function relates inputs/outputs', 'Short run has fixed inputs', 'Long run all inputs variable', 'Diminishing marginal returns', 'Total, average, marginal relationships'] },
+          { key: 'costCurves', title: 'Cost Structure and Curves', keyFacts: ['Fixed costs constant with output', 'Variable costs change with output', 'Marginal cost is additional cost', 'U-shaped average cost curves', 'Economies and diseconomies of scale'] },
+          { key: 'perfectCompetition', title: 'Perfect Competition Market', keyFacts: ['Many small price-taking firms', 'Identical products sold', 'Perfect information available', 'No barriers to entry/exit', 'Price equals marginal revenue'] },
+          { key: 'profitMaximization', title: 'Profit Maximization Rules', keyFacts: ['Maximize where MR = MC', 'Economic vs accounting profit', 'Shutdown if P < AVC', 'Break even when P = ATC', 'Long run zero economic profit'] },
+          { key: 'supplyCurve', title: 'Firm and Market Supply', keyFacts: ['Firm supply is MC above AVC', 'Market supply sums all firms', 'Entry/exit in long run', 'Constant vs increasing cost industries', 'Producer surplus areas'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'monopolyPower', title: 'Monopoly Market Structure', keyFacts: ['Single seller with barriers', 'Price maker not price taker', 'Downward sloping demand curve', 'MR less than price', 'Can earn economic profits'] },
+          { key: 'monopolyPricing', title: 'Monopoly Pricing and Output', keyFacts: ['Profit max where MR = MC', 'Price from demand curve', 'Creates deadweight loss', 'Higher price than competition', 'Lower output than efficient'] },
+          { key: 'priceDiscrimination', title: 'Price Discrimination', keyFacts: ['Different prices for same product', 'First, second, third degree types', 'Requires market separation', 'Captures consumer surplus', 'Can improve efficiency'] },
+          { key: 'oligopoly', title: 'Oligopoly and Game Theory', keyFacts: ['Few large interdependent firms', 'Strategic decision making', 'Game theory analyzes choices', 'Collusion vs competition', 'Nash equilibrium outcomes'] },
+          { key: 'monopolisticCompetition', title: 'Monopolistic Competition', keyFacts: ['Many firms with differentiated products', 'Some pricing power from differences', 'Easy entry and exit', 'Short run profits possible', 'Long run zero economic profit'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'derivedDemand', title: 'Factor Demand Theory', keyFacts: ['Factor demand derives from product demand', 'Marginal revenue product determines demand', 'MRP = MP × MR formula', 'Hire where MRP = factor price', 'Value of marginal product concept'] },
+          { key: 'laborMarkets', title: 'Labor Markets and Wages', keyFacts: ['Labor supply reflects opportunity cost', 'Backward bending supply possible', 'Equilibrium determines wage rate', 'Human capital affects productivity', 'Education increases earning potential'] },
+          { key: 'wageFactors', title: 'Factors Affecting Wages', keyFacts: ['Productivity determines wage levels', 'Education and training matter', 'Compensating differentials exist', 'Geographic mobility affects wages', 'Discrimination creates gaps'] },
+          { key: 'monopsony', title: 'Monopsony in Labor Markets', keyFacts: ['Single buyer of labor', 'Faces upward sloping supply', 'MFC greater than wage', 'Hires less than competitive market', 'Lower wages than competition'] },
+          { key: 'capitalMarkets', title: 'Capital and Land Markets', keyFacts: ['Capital earns based on productivity', 'Interest rate is price of capital', 'Present value guides investment', 'Land supply perfectly inelastic', 'Economic rent to land owners'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'marketFailures', title: 'Types of Market Failure', keyFacts: ['Externalities affect third parties', 'Public goods non-rival and non-excludable', 'Monopoly power reduces efficiency', 'Information asymmetries cause problems', 'Common resources over-used'] },
+          { key: 'externalities', title: 'Externalities and Solutions', keyFacts: ['Negative externalities like pollution', 'Positive externalities like education', 'Private vs social costs differ', 'Pigouvian taxes internalize costs', 'Coase theorem private solutions'] },
+          { key: 'publicGoods', title: 'Public Goods and Free Riders', keyFacts: ['Cannot exclude non-payers', 'One use doesn\'t reduce others', 'Free rider problem exists', 'Government provision may help', 'Examples: defense, lighthouses'] },
+          { key: 'informationProblems', title: 'Information Economics', keyFacts: ['Asymmetric information problems', 'Adverse selection drives out quality', 'Moral hazard changes behavior', 'Principal-agent problems', 'Signaling helps overcome gaps'] },
+          { key: 'governmentPolicy', title: 'Government Intervention', keyFacts: ['Taxes and subsidies correct failures', 'Regulation sets market rules', 'Antitrust prevents monopoly abuse', 'Government failure also possible', 'Cost-benefit analysis guides policy'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -435,7 +498,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -458,7 +521,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -543,6 +606,18 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore psychology through guided questions and scientific inquiry.`;
     }
+    if (course === 'apmicroeconomics') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Microeconomics Unit 1: Basic Economic Concepts! 📊\n\nI'm your Socratic AI tutor. I'll guide your understanding of fundamental economic principles through inquiry and analysis.\n\nKey topics: Scarcity and choice • Opportunity cost • Production possibilities • Economic systems • Marginal analysis\n\nWhat do you already know about economics, or what economic concepts would you like to explore first?",
+        'unit2': "Welcome to AP Microeconomics Unit 2: Supply and Demand! 📈\n\nI'm your Socratic AI tutor. Let's explore how markets work and how prices are determined through guided analysis.\n\nKey topics: Demand and consumer behavior • Supply and producer decisions • Market equilibrium • Price elasticity • Market efficiency\n\nWhat interests you about how markets function, or what questions do you have about supply and demand?",
+        'unit3': "Welcome to AP Microeconomics Unit 3: Production, Cost, and Perfect Competition! 🏭\n\nI'm your Socratic AI tutor. Let's examine how firms make production decisions in competitive markets.\n\nKey topics: Production functions • Costs of production • Perfect competition • Profit maximization • Supply curve derivation\n\nWhat would you like to understand about firm behavior, or what aspect of production costs interests you most?",
+        'unit4': "Welcome to AP Microeconomics Unit 4: Imperfect Competition! 🏢\n\nI'm your Socratic AI tutor. Let's explore different market structures and how firms with market power behave.\n\nKey topics: Monopoly markets • Price discrimination • Oligopoly behavior • Monopolistic competition • Strategic interactions\n\nWhat do you want to learn about market power, or what questions do you have about different market structures?",
+        'unit5': "Welcome to AP Microeconomics Unit 5: Factor Markets! 👥\n\nI'm your Socratic AI tutor. Let's examine how firms hire inputs like labor and how wages are determined.\n\nKey topics: Derived demand • Labor markets • Wage determination • Monopsony power • Capital and land markets\n\nWhat interests you about factor markets, or what would you like to explore about wage determination?",
+        'unit6': "Welcome to AP Microeconomics Unit 6: Market Failures and Government Intervention! 🏛️\n\nI'm your Socratic AI tutor. Let's explore when markets don't work efficiently and what governments can do about it.\n\nKey topics: Types of market failure • Externalities • Public goods • Information asymmetries • Government policy solutions\n\nWhat aspects of market failure interest you most, or what questions do you have about government intervention?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore microeconomics through guided questions and economic analysis.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -572,7 +647,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicroeconomics') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
@@ -1268,6 +1343,8 @@ const SocraticChat = () => {
                       navigate(`/ap-biology/unit/${unit?.replace('unit', '')}`);
                     } else if (course === 'appsychology') {
                       navigate(`/ap-psychology/unit/${unit?.replace('unit', '')}`);
+                    } else if (course === 'apmicroeconomics') {
+                      navigate(`/ap-microeconomics/unit/${unit?.replace('unit', '')}`);
                     } else {
                       // Fallback for any other courses
                       console.log(`Navigation not implemented for course: ${course}`);
