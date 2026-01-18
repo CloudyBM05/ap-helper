@@ -137,6 +137,24 @@ const SocraticLearning = () => {
         { id: 6, emoji: '🏙️', title: 'Cities and Urban Land-Use', period: 'Urbanization Patterns' },
         { id: 7, emoji: '🏭', title: 'Industrial and Economic Development', period: 'Global Economy' }
       ]
+    },
+    {
+      id: 'apstat',
+      title: 'AP Statistics',
+      description: 'Master statistical analysis, probability, and data interpretation for advanced placement',
+      category: 'stem',
+      color: 'from-purple-500 to-pink-500',
+      units: [
+        { id: 1, emoji: '📊', title: 'Exploring One-Variable Data', period: 'Descriptive Statistics' },
+        { id: 2, emoji: '📈', title: 'Exploring Two-Variable Data', period: 'Correlation & Regression' },
+        { id: 3, emoji: '🎯', title: 'Collecting Data', period: 'Sampling & Experiments' },
+        { id: 4, emoji: '🎲', title: 'Probability, Random Variables, and Probability Distributions', period: 'Foundations of Inference' },
+        { id: 5, emoji: '📋', title: 'Sampling Distributions', period: 'Central Limit Theorem' },
+        { id: 6, emoji: '🔍', title: 'Inference for Categorical Data: Proportions', period: 'One & Two Proportions' },
+        { id: 7, emoji: '📏', title: 'Inference for Quantitative Data: Means', period: 'One & Two Means' },
+        { id: 8, emoji: '🧮', title: 'Inference for Categorical Data: Chi-Square', period: 'Goodness of Fit & Independence' },
+        { id: 9, emoji: '📉', title: 'Inference for Quantitative Data: Slopes', period: 'Linear Regression' }
+      ]
     }
   ];
 

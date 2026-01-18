@@ -3381,6 +3381,567 @@ def get_unit_topics_api():
                     ]
                 }
             }
+        elif course == "apstat":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apstat",
+                    "overview": "This unit introduces descriptive statistics and data analysis. Students learn to explore, analyze, and interpret data from one-variable distributions using appropriate statistical measures and graphical displays.",
+                    "topics": [
+                        {
+                            "key": "descriptiveStatistics",
+                            "title": "Describing Distributions of Data",
+                            "keyFacts": [
+                                "Center, spread, and shape describe distributions",
+                                "Mean and median measure center differently",
+                                "Standard deviation measures typical distance from mean",
+                                "Histograms and boxplots visualize distributions",
+                                "Outliers affect measures of center and spread differently"
+                            ]
+                        },
+                        {
+                            "key": "graphicalDisplays",
+                            "title": "Graphical Displays of Data", 
+                            "keyFacts": [
+                                "Dotplots show individual data values clearly",
+                                "Histograms show frequency distributions",
+                                "Boxplots highlight quartiles and outliers",
+                                "Stemplots preserve actual data values",
+                                "Choose display type based on data characteristics"
+                            ]
+                        },
+                        {
+                            "key": "summarizingData",
+                            "title": "Summarizing Distributions Numerically",
+                            "keyFacts": [
+                                "Five-number summary includes min, Q1, median, Q3, max",
+                                "Interquartile range measures spread in middle 50%",
+                                "Mean and standard deviation for symmetric distributions",
+                                "Median and IQR for skewed distributions",
+                                "Z-scores standardize values for comparison"
+                            ]
+                        },
+                        {
+                            "key": "comparingDistributions",
+                            "title": "Comparing Distributions",
+                            "keyFacts": [
+                                "Compare center, spread, shape, and outliers",
+                                "Side-by-side boxplots useful for comparisons",
+                                "Standardizing allows comparison across units",
+                                "Context matters for interpreting differences",
+                                "Consider relative position within distributions"
+                            ]
+                        },
+                        {
+                            "key": "normalDistributions",
+                            "title": "Normal Distributions",
+                            "keyFacts": [
+                                "Bell-shaped and symmetric distribution",
+                                "Empirical rule gives approximate percentages",
+                                "Standard normal distribution has mean 0, SD 1",
+                                "Z-scores find areas and percentiles",
+                                "Normal probability plots check normality assumptions"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apstat",
+                    "overview": "This unit focuses on exploring relationships between two quantitative variables. Students learn about correlation, regression analysis, and how to assess the strength and direction of linear relationships.",
+                    "topics": [
+                        {
+                            "key": "scatterplots",
+                            "title": "Examining Relationships with Scatterplots",
+                            "keyFacts": [
+                                "Scatterplots display two quantitative variables",
+                                "Look for direction, form, and strength of relationship",
+                                "Linear relationships form roughly straight-line patterns",
+                                "Outliers can dramatically affect relationship assessment",
+                                "Distinguish explanatory from response variables"
+                            ]
+                        },
+                        {
+                            "key": "correlation",
+                            "title": "Correlation and Linear Association",
+                            "keyFacts": [
+                                "Correlation measures strength of linear association",
+                                "Values range from -1 to +1",
+                                "Correlation has no units of measurement",
+                                "Correlation does not imply causation",
+                                "Outliers and non-linear patterns affect correlation"
+                            ]
+                        },
+                        {
+                            "key": "leastSquares",
+                            "title": "Least-Squares Regression",
+                            "keyFacts": [
+                                "Regression line minimizes sum of squared residuals",
+                                "Slope shows change in y per unit change in x",
+                                "Y-intercept is predicted y when x equals zero",
+                                "Residuals show differences between observed and predicted",
+                                "Extrapolation beyond data range is dangerous"
+                            ]
+                        },
+                        {
+                            "key": "residualAnalysis", 
+                            "title": "Assessing the Regression Model",
+                            "keyFacts": [
+                                "Residual plots check linear model appropriateness",
+                                "Random scatter in residuals indicates good fit",
+                                "Patterns in residuals suggest model problems",
+                                "R-squared measures proportion of variation explained",
+                                "Standard error measures typical prediction error"
+                            ]
+                        },
+                        {
+                            "key": "transformations",
+                            "title": "Transforming Variables for Linearity",
+                            "keyFacts": [
+                                "Logarithmic transforms can straighten curved relationships",
+                                "Power transformations change relationship form",
+                                "Re-expression can make non-linear data linear",
+                                "Choose transformation based on residual patterns",
+                                "Always interpret results in original context"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3", 
+                    "course": "apstat",
+                    "overview": "This unit covers data collection methods including sampling techniques and experimental design. Students learn to design studies, identify sources of bias, and distinguish between observational studies and experiments.",
+                    "topics": [
+                        {
+                            "key": "samplingMethods",
+                            "title": "Sampling and Survey Methods",
+                            "keyFacts": [
+                                "Simple random sampling gives each unit equal chance",
+                                "Stratified sampling uses homogeneous subgroups",
+                                "Cluster sampling selects groups rather than individuals",
+                                "Systematic sampling uses regular patterns",
+                                "Convenience sampling often introduces bias"
+                            ]
+                        },
+                        {
+                            "key": "biasAndVariability",
+                            "title": "Sources of Bias in Sampling",
+                            "keyFacts": [
+                                "Voluntary response bias from self-selected samples",
+                                "Undercoverage excludes parts of population",
+                                "Nonresponse bias from missing survey responses",
+                                "Response bias from poor question wording",
+                                "Large samples reduce variability but not bias"
+                            ]
+                        },
+                        {
+                            "key": "experiments",
+                            "title": "Designing Experiments",
+                            "keyFacts": [
+                                "Experiments can establish cause-and-effect relationships",
+                                "Random assignment reduces confounding variables",
+                                "Control groups provide comparison baseline",
+                                "Replication increases reliability of results",
+                                "Blocking controls for known sources of variation"
+                            ]
+                        },
+                        {
+                            "key": "experimentalDesign",
+                            "title": "Principles of Experimental Design",
+                            "keyFacts": [
+                                "Randomization eliminates systematic bias",
+                                "Control reduces effects of confounding variables",
+                                "Replication allows assessment of variability",
+                                "Double-blind design prevents bias in assessment",
+                                "Placebo effect can influence treatment outcomes"
+                            ]
+                        },
+                        {
+                            "key": "observationalStudies",
+                            "title": "Observational Studies vs Experiments",
+                            "keyFacts": [
+                                "Observational studies observe existing conditions",
+                                "Experiments impose treatments on subjects",
+                                "Confounding variables affect observational studies",
+                                "Association does not prove causation",
+                                "Lurking variables can create false associations"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apstat", 
+                    "overview": "This unit introduces probability concepts, random variables, and probability distributions. Students learn fundamental probability rules and work with discrete and continuous distributions.",
+                    "topics": [
+                        {
+                            "key": "probabilityRules",
+                            "title": "Basic Probability Rules and Concepts",
+                            "keyFacts": [
+                                "Probability values range from 0 to 1",
+                                "Addition rule for mutually exclusive events",
+                                "Multiplication rule for independent events",
+                                "Complement rule: P(A) + P(A^c) = 1",
+                                "Conditional probability uses given information"
+                            ]
+                        },
+                        {
+                            "key": "randomVariables",
+                            "title": "Random Variables and Distributions",
+                            "keyFacts": [
+                                "Discrete variables have countable values",
+                                "Continuous variables have values in intervals",
+                                "Probability distributions assign probabilities",
+                                "Expected value is long-run average outcome",
+                                "Standard deviation measures spread of distribution"
+                            ]
+                        },
+                        {
+                            "key": "binomialDistribution",
+                            "title": "Binomial Distribution",
+                            "keyFacts": [
+                                "Fixed number of independent trials",
+                                "Two possible outcomes per trial",
+                                "Constant probability of success",
+                                "Mean equals np, variance equals np(1-p)",
+                                "Models counting successes in fixed trials"
+                            ]
+                        },
+                        {
+                            "key": "geometricDistribution", 
+                            "title": "Geometric Distribution",
+                            "keyFacts": [
+                                "Counts trials until first success occurs",
+                                "Independent trials with constant probability",
+                                "Memoryless property applies to geometric",
+                                "Mean equals 1/p for success probability p",
+                                "Models waiting time until event occurs"
+                            ]
+                        },
+                        {
+                            "key": "normalModel",
+                            "title": "Normal Distribution as Probability Model",
+                            "keyFacts": [
+                                "Continuous, symmetric, bell-shaped distribution",
+                                "Completely determined by mean and standard deviation",
+                                "Areas under curve represent probabilities",
+                                "68-95-99.7 rule for standard deviations",
+                                "Central Limit Theorem connects to sampling"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apstat",
+                    "overview": "This unit explores sampling distributions and the Central Limit Theorem. Students learn how sample statistics behave and prepare for statistical inference.",
+                    "topics": [
+                        {
+                            "key": "samplingDistributions",
+                            "title": "Concept of Sampling Distributions",
+                            "keyFacts": [
+                                "Distribution of a sample statistic",
+                                "Center typically equals population parameter",
+                                "Spread decreases as sample size increases",
+                                "Shape approaches normal for large samples",
+                                "Describes variability in repeated sampling"
+                            ]
+                        },
+                        {
+                            "key": "centralLimitTheorem",
+                            "title": "Central Limit Theorem",
+                            "keyFacts": [
+                                "Sample means approach normal distribution",
+                                "Applies regardless of population distribution shape",
+                                "Mean equals population mean μ",
+                                "Standard error equals σ/√n",
+                                "Better approximation with larger sample sizes"
+                            ]
+                        },
+                        {
+                            "key": "samplingDistributionMean",
+                            "title": "Sampling Distribution of Sample Mean",
+                            "keyFacts": [
+                                "Unbiased estimator of population mean",
+                                "Standard error decreases with sample size",
+                                "Normal for large n or normal population",
+                                "Distribution centers at population mean μ",
+                                "Foundation for confidence intervals and tests"
+                            ]
+                        },
+                        {
+                            "key": "samplingDistributionProportion",
+                            "title": "Sampling Distribution of Sample Proportion", 
+                            "keyFacts": [
+                                "Approximately normal for large samples",
+                                "Mean equals population proportion p",
+                                "Standard error equals √[p(1-p)/n]",
+                                "Large sample condition: np ≥ 10 and n(1-p) ≥ 10",
+                                "Used for inference about population proportions"
+                            ]
+                        },
+                        {
+                            "key": "biasAndVariability",
+                            "title": "Bias and Variability in Estimation",
+                            "keyFacts": [
+                                "Bias is systematic error in estimation",
+                                "Variability is random error in sampling", 
+                                "Unbiased estimators center at parameter value",
+                                "Lower variability gives more precise estimates",
+                                "Larger samples reduce variability but not bias"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "apstat",
+                    "overview": "This unit introduces statistical inference for categorical data, focusing on proportions. Students learn confidence intervals, hypothesis testing, and Type I and II errors.",
+                    "topics": [
+                        {
+                            "key": "confidenceIntervals",
+                            "title": "Confidence Intervals for Proportions",
+                            "keyFacts": [
+                                "Interval estimate for population proportion",
+                                "Confidence level indicates long-run success rate",
+                                "Margin of error depends on sample size",
+                                "Larger samples produce narrower intervals",
+                                "Must interpret in context of problem"
+                            ]
+                        },
+                        {
+                            "key": "conditionsForInference",
+                            "title": "Conditions for Statistical Inference",
+                            "keyFacts": [
+                                "Random sampling or random assignment required",
+                                "Independence of observations necessary",
+                                "10% condition for sampling without replacement",
+                                "Large sample condition for normal approximation",
+                                "Check all conditions before proceeding"
+                            ]
+                        },
+                        {
+                            "key": "oneProportion",
+                            "title": "One-Proportion z-Procedures",
+                            "keyFacts": [
+                                "Test claims about single population proportion",
+                                "Use sample proportion as test statistic",
+                                "Compare to hypothesized parameter value",
+                                "Calculate p-value from standard normal",
+                                "Make conclusion in context of problem"
+                            ]
+                        },
+                        {
+                            "key": "twoProportions",
+                            "title": "Two-Proportion z-Procedures",
+                            "keyFacts": [
+                                "Compare proportions from two populations",
+                                "Pool proportions under null hypothesis for test",
+                                "Use difference in sample proportions",
+                                "Standard error accounts for both samples",
+                                "Test for statistically significant difference"
+                            ]
+                        },
+                        {
+                            "key": "errorTypes",
+                            "title": "Type I and Type II Errors",
+                            "keyFacts": [
+                                "Type I error: reject true null hypothesis",
+                                "Type II error: fail to reject false null",
+                                "Significance level α sets Type I error rate",
+                                "Power is probability of rejecting false null",
+                                "Trade-off exists between error types"
+                            ]
+                        }
+                    ]
+                },
+                "unit7": {
+                    "unit": "unit7",
+                    "course": "apstat",
+                    "overview": "This unit covers statistical inference for quantitative data using means. Students learn t-procedures for one-sample, two-sample, and paired data situations.",
+                    "topics": [
+                        {
+                            "key": "tDistribution",
+                            "title": "The t-Distribution",
+                            "keyFacts": [
+                                "Used when population standard deviation unknown",
+                                "More variable than standard normal distribution",
+                                "Degrees of freedom determine exact shape",
+                                "Approaches normal as degrees of freedom increase",
+                                "Has thicker tails than z-distribution"
+                            ]
+                        },
+                        {
+                            "key": "oneSampleT",
+                            "title": "One-Sample t-Procedures",
+                            "keyFacts": [
+                                "Confidence intervals for population mean",
+                                "Hypothesis tests for population mean",
+                                "Requires random sample and approximate normality",
+                                "Use sample standard deviation in calculations",
+                                "Robust to moderate departures from normality"
+                            ]
+                        },
+                        {
+                            "key": "twoSampleT",
+                            "title": "Two-Sample t-Procedures",
+                            "keyFacts": [
+                                "Compare means from two independent groups",
+                                "Can assume equal or unequal population variances",
+                                "Degrees of freedom calculated using complex formula",
+                                "Pooled procedures when variances assumed equal",
+                                "Welch approximation for unequal variances"
+                            ]
+                        },
+                        {
+                            "key": "pairedT",
+                            "title": "Paired t-Procedures",
+                            "keyFacts": [
+                                "Use when observations naturally paired",
+                                "Analyze differences within pairs",
+                                "Reduces variability from individual differences",
+                                "More powerful than two-sample procedures",
+                                "Common in before-after or matched studies"
+                            ]
+                        },
+                        {
+                            "key": "robustness",
+                            "title": "Robustness of t-Procedures",
+                            "keyFacts": [
+                                "t-procedures robust to moderate non-normality",
+                                "Central Limit Theorem helps for large samples",
+                                "Outliers can seriously affect results",
+                                "Check conditions using graphs and statistics",
+                                "Consider transformations for severe skewness"
+                            ]
+                        }
+                    ]
+                },
+                "unit8": {
+                    "unit": "unit8",
+                    "course": "apstat", 
+                    "overview": "This unit focuses on inference for categorical data using chi-square tests. Students learn goodness-of-fit, independence, and homogeneity tests for analyzing categorical relationships.",
+                    "topics": [
+                        {
+                            "key": "chiSquareGOF",
+                            "title": "Chi-Square Goodness-of-Fit Test",
+                            "keyFacts": [
+                                "Tests if sample data fits theoretical distribution",
+                                "Expected counts must be at least 5",
+                                "Degrees of freedom equal categories minus 1",
+                                "Large chi-square values suggest poor fit",
+                                "Used for testing specified proportions"
+                            ]
+                        },
+                        {
+                            "key": "chiSquareIndependence", 
+                            "title": "Chi-Square Test for Independence",
+                            "keyFacts": [
+                                "Tests association between two categorical variables",
+                                "Uses two-way contingency table format",
+                                "Expected counts calculated from marginal totals",
+                                "Degrees of freedom = (rows-1)(columns-1)",
+                                "Significant result suggests dependence between variables"
+                            ]
+                        },
+                        {
+                            "key": "chiSquareHomogeneity",
+                            "title": "Chi-Square Test for Homogeneity",
+                            "keyFacts": [
+                                "Compares distributions across multiple populations",
+                                "Tests if population proportions are equal",
+                                "Similar calculations to independence test",
+                                "Different sampling design and interpretation",
+                                "Useful for comparing treatment effects"
+                            ]
+                        },
+                        {
+                            "key": "expectedCounts",
+                            "title": "Calculating Expected Counts",
+                            "keyFacts": [
+                                "Expected count = (row total × column total) / grand total",
+                                "Represents count expected under null hypothesis",
+                                "All expected counts should be at least 5",
+                                "Low expected counts require combining categories",
+                                "Critical assumption for valid chi-square tests"
+                            ]
+                        },
+                        {
+                            "key": "chiSquareDistribution",
+                            "title": "Properties of Chi-Square Distribution",
+                            "keyFacts": [
+                                "Right-skewed distribution with only positive values",
+                                "Shape determined by degrees of freedom",
+                                "Mean equals degrees of freedom",
+                                "Used for goodness-of-fit and independence tests",
+                                "Always use right-tail for p-values"
+                            ]
+                        }
+                    ]
+                },
+                "unit9": {
+                    "unit": "unit9",
+                    "course": "apstat",
+                    "overview": "This unit covers inference for linear regression and correlation. Students learn to test relationships between quantitative variables and make predictions with uncertainty measures.",
+                    "topics": [
+                        {
+                            "key": "regressionConditions",
+                            "title": "Conditions for Regression Inference",
+                            "keyFacts": [
+                                "Linear relationship between explanatory and response",
+                                "Independent observations required",
+                                "Normal distribution of residuals at each x",
+                                "Equal variance of residuals (homoscedasticity)",
+                                "Check conditions using residual plots"
+                            ]
+                        },
+                        {
+                            "key": "slopeInference",
+                            "title": "Inference for Regression Slope",
+                            "keyFacts": [
+                                "Test if true population slope equals zero",
+                                "Confidence interval for true slope parameter",
+                                "Use t-distribution with n-2 degrees of freedom",
+                                "Standard error of slope from computer output",
+                                "Significant slope suggests linear relationship exists"
+                            ]
+                        },
+                        {
+                            "key": "regressionTTest",
+                            "title": "t-Test for Slope and Correlation",
+                            "keyFacts": [
+                                "Test for statistically significant linear relationship",
+                                "Null hypothesis: true slope = 0 or true correlation = 0",
+                                "Test statistic follows t-distribution",
+                                "Same p-value for slope and correlation tests",
+                                "Reject null suggests evidence of linear association"
+                            ]
+                        },
+                        {
+                            "key": "predictionIntervals",
+                            "title": "Confidence vs Prediction Intervals",
+                            "keyFacts": [
+                                "Confidence interval estimates mean response",
+                                "Prediction interval estimates individual response",
+                                "Prediction intervals always wider than confidence",
+                                "Both intervals wider farther from mean x-value",
+                                "Extrapolation beyond data range dangerous"
+                            ]
+                        },
+                        {
+                            "key": "transformationsRegression",
+                            "title": "Transformations in Regression",
+                            "keyFacts": [
+                                "Transformations can linearize curved relationships",
+                                "Logarithmic transformations common for exponential",
+                                "Power transformations for other non-linear patterns",
+                                "Transform back to original units for interpretation",
+                                "Check linearity conditions after transformation"
+                            ]
+                        }
+                    ]
+                }
+            }
         elif course == "apbiology":
             topics_data = {
                 "unit1": {

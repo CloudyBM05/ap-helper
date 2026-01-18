@@ -159,6 +159,20 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Human Geography ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apstat') {
+      const unitData = {
+        'unit1': { title: 'AP Statistics Unit 1: Exploring One-Variable Data', period: 'Descriptive Statistics', emoji: '📊' },
+        'unit2': { title: 'AP Statistics Unit 2: Exploring Two-Variable Data', period: 'Correlation & Regression', emoji: '📈' },
+        'unit3': { title: 'AP Statistics Unit 3: Collecting Data', period: 'Sampling & Experiments', emoji: '🎯' },
+        'unit4': { title: 'AP Statistics Unit 4: Probability, Random Variables, and Probability Distributions', period: 'Foundations of Inference', emoji: '🎲' },
+        'unit5': { title: 'AP Statistics Unit 5: Sampling Distributions', period: 'Central Limit Theorem', emoji: '📋' },
+        'unit6': { title: 'AP Statistics Unit 6: Inference for Categorical Data: Proportions', period: 'One & Two Proportions', emoji: '🔍' },
+        'unit7': { title: 'AP Statistics Unit 7: Inference for Quantitative Data: Means', period: 'One & Two Means', emoji: '📏' },
+        'unit8': { title: 'AP Statistics Unit 8: Inference for Categorical Data: Chi-Square', period: 'Goodness of Fit & Independence', emoji: '🧮' },
+        'unit9': { title: 'AP Statistics Unit 9: Inference for Quantitative Data: Slopes', period: 'Linear Regression', emoji: '📉' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Statistics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -594,6 +608,82 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apstat') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'descriptiveStatistics', title: 'Describing Distributions of Data', keyFacts: ['Center, spread, and shape describe distributions', 'Mean and median measure center', 'Standard deviation measures spread', 'Histograms and boxplots visualize data', 'Outliers affect measures differently'] },
+          { key: 'graphicalDisplays', title: 'Graphical Displays of Data', keyFacts: ['Dotplots show individual values', 'Histograms show frequency distribution', 'Boxplots highlight quartiles and outliers', 'Stemplots preserve data values', 'Choose appropriate display for data'] },
+          { key: 'summarizingData', title: 'Summarizing Distributions Numerically', keyFacts: ['Five-number summary includes quartiles', 'IQR measures spread in middle 50%', 'Mean and standard deviation for symmetric', 'Median and IQR for skewed', 'Z-scores standardize values'] },
+          { key: 'comparingDistributions', title: 'Comparing Distributions', keyFacts: ['Compare center, spread, shape, outliers', 'Side-by-side boxplots useful', 'Standardizing allows comparison', 'Context matters for interpretation', 'Relative position within distribution'] },
+          { key: 'normalDistributions', title: 'Normal Distributions', keyFacts: ['Bell-shaped, symmetric distribution', 'Empirical rule gives percentages', 'Standard normal has mean 0, SD 1', 'Z-scores find areas and percentiles', 'Normal probability plots check normality'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'scatterplots', title: 'Examining Relationships with Scatterplots', keyFacts: ['Scatterplots display two quantitative variables', 'Look for direction, form, and strength', 'Linear relationships form straight line', 'Outliers affect correlation calculations', 'Explanatory vs response variables'] },
+          { key: 'correlation', title: 'Correlation and Association', keyFacts: ['Correlation measures linear association', 'Values range from -1 to +1', 'Correlation has no units', 'Correlation does not imply causation', 'Outliers can dramatically affect r'] },
+          { key: 'leastSquares', title: 'Least-Squares Regression', keyFacts: ['Regression line minimizes squared residuals', 'Slope shows change in y per unit x', 'Y-intercept is y when x equals zero', 'Residuals show prediction errors', 'Use line only within data range'] },
+          { key: 'residualAnalysis', title: 'Assessing the Regression Model', keyFacts: ['Residual plots check model conditions', 'Random scatter indicates good fit', 'Patterns suggest model problems', 'R-squared measures variation explained', 'Standard error measures typical error'] },
+          { key: 'transformations', title: 'Transforming Data and Re-expressing', keyFacts: ['Logarithmic transforms straighten curves', 'Power transformations change relationships', 'Transformations can linearize data', 'Choose transformation based on pattern', 'Interpret results in original context'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'samplingMethods', title: 'Sampling and Surveys', keyFacts: ['Simple random sample gives equal chance', 'Stratified sampling uses subgroups', 'Cluster sampling selects groups', 'Systematic sampling uses pattern', 'Convenience sampling often biased'] },
+          { key: 'biasAndVariability', title: 'Sources of Bias in Sampling', keyFacts: ['Voluntary response bias affects results', 'Undercoverage excludes population members', 'Nonresponse bias from missing data', 'Response bias from question wording', 'Large samples reduce sampling variability'] },
+          { key: 'experiments', title: 'Designing Experiments', keyFacts: ['Experiments establish causation', 'Random assignment reduces confounding', 'Control groups provide comparison', 'Replication increases reliability', 'Blocking controls for variables'] },
+          { key: 'experimentalDesign', title: 'Experimental Design Principles', keyFacts: ['Randomization eliminates bias', 'Control reduces confounding variables', 'Replication increases precision', 'Double-blind prevents bias', 'Placebo effect affects responses'] },
+          { key: 'observationalStudies', title: 'Observational Studies vs Experiments', keyFacts: ['Observational studies observe existing conditions', 'Experiments impose treatments', 'Confounding variables affect observational studies', 'Correlation does not prove causation', 'Lurking variables hide true relationships'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'probabilityRules', title: 'Basic Probability Rules', keyFacts: ['Probability ranges from 0 to 1', 'Addition rule for mutually exclusive events', 'Multiplication rule for independent events', 'Complement rule: P(A) + P(A^c) = 1', 'Conditional probability uses given information'] },
+          { key: 'randomVariables', title: 'Random Variables and Distributions', keyFacts: ['Discrete variables have countable values', 'Continuous variables have interval values', 'Probability distributions assign probabilities', 'Expected value is long-run average', 'Standard deviation measures variability'] },
+          { key: 'binomialDistribution', title: 'Binomial Distribution', keyFacts: ['Fixed number of independent trials', 'Two possible outcomes per trial', 'Constant probability of success', 'Mean equals np, variance equals np(1-p)', 'Use for counting successes'] },
+          { key: 'geometricDistribution', title: 'Geometric Distribution', keyFacts: ['Counts trials until first success', 'Independent trials with constant probability', 'Memoryless property applies', 'Mean equals 1/p', 'Models waiting time scenarios'] },
+          { key: 'normalModel', title: 'Normal Distribution as Model', keyFacts: ['Continuous, bell-shaped distribution', 'Determined by mean and standard deviation', 'Areas under curve give probabilities', '68-95-99.7 rule for intervals', 'Central Limit Theorem connects to sampling'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'samplingDistributions', title: 'Sampling Distributions', keyFacts: ['Distribution of sample statistics', 'Center equals population parameter', 'Spread decreases with sample size', 'Shape approaches normal for large n', 'Describes variability in sampling'] },
+          { key: 'centralLimitTheorem', title: 'Central Limit Theorem', keyFacts: ['Sample means approach normal distribution', 'Applies regardless of population shape', 'Mean equals population mean', 'Standard error equals σ/√n', 'Larger samples give better approximation'] },
+          { key: 'samplingDistributionMean', title: 'Sampling Distribution of Sample Mean', keyFacts: ['Unbiased estimator of population mean', 'Standard error decreases with sample size', 'Normal for large n or normal population', 'Distribution centers at μ', 'Used for inference about means'] },
+          { key: 'samplingDistributionProportion', title: 'Sampling Distribution of Sample Proportion', keyFacts: ['Approximately normal for large samples', 'Mean equals population proportion p', 'Standard error equals √[p(1-p)/n]', 'Success-failure condition: np ≥ 10, n(1-p) ≥ 10', 'Used for inference about proportions'] },
+          { key: 'biasAndVariability', title: 'Bias and Variability in Sampling', keyFacts: ['Bias is systematic error in estimation', 'Variability is random error in sampling', 'Unbiased estimators center at parameter', 'Lower variability gives more precise estimates', 'Larger samples reduce variability but not bias'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'confidenceIntervals', title: 'Confidence Intervals for Proportions', keyFacts: ['Interval estimate for population proportion', 'Confidence level indicates reliability', 'Margin of error depends on sample size', 'Larger samples give narrower intervals', 'Interpret in context of problem'] },
+          { key: 'conditionsForInference', title: 'Conditions for Inference', keyFacts: ['Random sampling or assignment required', 'Independence of observations necessary', '10% condition for sampling without replacement', 'Success-failure condition for normality', 'Check conditions before proceeding'] },
+          { key: 'oneProportion', title: 'One-Proportion z-Procedures', keyFacts: ['Test claims about single proportion', 'Use sample proportion as test statistic', 'Compare to hypothesized value', 'Calculate p-value from standard normal', 'Make conclusion in context'] },
+          { key: 'twoProportions', title: 'Two-Proportion z-Procedures', keyFacts: ['Compare proportions from two groups', 'Pool proportions under null hypothesis', 'Use difference in sample proportions', 'Standard error accounts for both samples', 'Test for significant difference'] },
+          { key: 'errorTypes', title: 'Type I and Type II Errors', keyFacts: ['Type I error rejects true null hypothesis', 'Type II error fails to reject false null', 'Significance level sets Type I error rate', 'Power is probability of rejecting false null', 'Trade-off exists between error types'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'tDistribution', title: 'The t-Distribution', keyFacts: ['Used when population standard deviation unknown', 'More variable than standard normal', 'Degrees of freedom determine shape', 'Approaches normal as df increases', 'Thicker tails than z-distribution'] },
+          { key: 'oneSampleT', title: 'One-Sample t-Procedures', keyFacts: ['Confidence intervals for population mean', 'Hypothesis tests for population mean', 'Requires random sample and normality', 'Use sample standard deviation', 'Robust to moderate departures from normality'] },
+          { key: 'twoSampleT', title: 'Two-Sample t-Procedures', keyFacts: ['Compare means from two independent groups', 'Assumes equal or unequal variances', 'Degrees of freedom calculated differently', 'Pooled procedures when variances equal', 'Welch approximation for unequal variances'] },
+          { key: 'pairedT', title: 'Paired t-Procedures', keyFacts: ['Use when observations are naturally paired', 'Analyze differences within pairs', 'Reduces variability from individual differences', 'More powerful than two-sample procedures', 'Common in before-after studies'] },
+          { key: 'robustness', title: 'Robustness of t-Procedures', keyFacts: ['t-procedures robust to non-normality', 'Central Limit Theorem helps for large samples', 'Outliers can seriously affect results', 'Check conditions with graphs and statistics', 'Consider transformations for severe skewness'] }
+        ];
+      } else if (unit === 'unit8') {
+        return [
+          { key: 'chiSquareGOF', title: 'Chi-Square Goodness of Fit Test', keyFacts: ['Tests if sample fits theoretical distribution', 'Expected counts must be at least 5', 'Degrees of freedom equal categories minus 1', 'Large chi-square suggests poor fit', 'Use for categorical data analysis'] },
+          { key: 'chiSquareIndependence', title: 'Chi-Square Test for Independence', keyFacts: ['Tests association between two categorical variables', 'Uses contingency table format', 'Expected counts calculated from marginal totals', 'Degrees of freedom = (rows-1)(columns-1)', 'Significant result suggests dependence'] },
+          { key: 'chiSquareHomogeneity', title: 'Chi-Square Test for Homogeneity', keyFacts: ['Compares distributions across populations', 'Tests if proportions equal across groups', 'Similar calculation to independence test', 'Different sampling design and interpretation', 'Useful for comparing treatments'] },
+          { key: 'expectedCounts', title: 'Calculating Expected Counts', keyFacts: ['Expected count = (row total × column total) / grand total', 'Represents count under null hypothesis', 'All expected counts should be at least 5', 'Low expected counts require combining categories', 'Critical for valid chi-square tests'] },
+          { key: 'chiSquareDistribution', title: 'The Chi-Square Distribution', keyFacts: ['Right-skewed distribution for positive values', 'Shape determined by degrees of freedom', 'Mean equals degrees of freedom', 'Used for goodness of fit and independence', 'Always one-tailed tests in this context'] }
+        ];
+      } else if (unit === 'unit9') {
+        return [
+          { key: 'regressionConditions', title: 'Conditions for Regression Inference', keyFacts: ['Linear relationship between variables', 'Independent observations required', 'Normal distribution of residuals', 'Equal variance of residuals', 'Check with residual plots'] },
+          { key: 'slopeInference', title: 'Inference for Regression Slope', keyFacts: ['Test if true slope equals zero', 'Confidence interval for true slope', 'Use t-distribution with n-2 degrees freedom', 'Standard error of slope from software', 'Significant slope suggests linear relationship'] },
+          { key: 'regressionTTest', title: 'T-Test for Correlation and Slope', keyFacts: ['Test for significant linear relationship', 'Null hypothesis: slope = 0 or r = 0', 'T-statistic follows t-distribution', 'Same p-value for slope and correlation tests', 'Reject null suggests linear association'] },
+          { key: 'predictionIntervals', title: 'Prediction vs Confidence Intervals', keyFacts: ['Confidence interval for mean response', 'Prediction interval for individual response', 'Prediction intervals always wider', 'Both depend on distance from mean x', 'Extrapolation beyond data dangerous'] },
+          { key: 'transformationsRegression', title: 'Transformations in Regression', keyFacts: ['Linearize curved relationships', 'Log transformations common', 'Power transformations for other patterns', 'Transform back for interpretation', 'Check linearity after transformation'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -633,7 +723,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -656,7 +746,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -778,6 +868,21 @@ const SocraticChat = () => {
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore human geography through guided questions and spatial analysis.`;
     }
+    if (course === 'apstat') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Statistics Unit 1: Exploring One-Variable Data! 📊\n\nI'm your Socratic AI tutor. I'll guide your exploration of statistical thinking and data analysis through inquiry.\n\nKey topics: Describing distributions • Graphical displays • Numerical summaries • Comparing distributions • Normal distributions\n\nWhat do you already know about statistics, or what interests you about analyzing data?",
+        'unit2': "Welcome to AP Statistics Unit 2: Exploring Two-Variable Data! 📈\n\nI'm your Socratic AI tutor. Let's examine relationships between variables and correlation through guided analysis.\n\nKey topics: Scatterplots • Correlation • Least-squares regression • Residual analysis • Data transformations\n\nWhat interests you about relationships between variables, or what questions do you have about correlation and regression?",
+        'unit3': "Welcome to AP Statistics Unit 3: Collecting Data! 🎯\n\nI'm your Socratic AI tutor. Let's explore how to gather data properly through surveys and experiments.\n\nKey topics: Sampling methods • Bias in sampling • Experimental design • Principles of experimentation • Observational studies vs experiments\n\nWhat would you like to understand about data collection, or what aspect of surveys and experiments interests you most?",
+        'unit4': "Welcome to AP Statistics Unit 4: Probability, Random Variables, and Probability Distributions! 🎲\n\nI'm your Socratic AI tutor. Let's explore the foundations of probability and statistical inference.\n\nKey topics: Probability rules • Random variables • Binomial distribution • Geometric distribution • Normal distribution as model\n\nWhat do you want to learn about probability, or what questions do you have about randomness and distributions?",
+        'unit5': "Welcome to AP Statistics Unit 5: Sampling Distributions! 📋\n\nI'm your Socratic AI tutor. Let's examine how sample statistics behave and the Central Limit Theorem.\n\nKey topics: Sampling distributions • Central Limit Theorem • Distribution of sample means • Distribution of sample proportions • Bias and variability\n\nWhat interests you about sampling distributions, or what would you like to explore about the Central Limit Theorem?",
+        'unit6': "Welcome to AP Statistics Unit 6: Inference for Categorical Data: Proportions! 🔍\n\nI'm your Socratic AI tutor. Let's explore statistical inference for proportions through hypothesis testing and confidence intervals.\n\nKey topics: Confidence intervals for proportions • Conditions for inference • One-proportion z-procedures • Two-proportion z-procedures • Type I and II errors\n\nWhat aspects of statistical inference interest you most, or what questions do you have about hypothesis testing?",
+        'unit7': "Welcome to AP Statistics Unit 7: Inference for Quantitative Data: Means! 📏\n\nI'm your Socratic AI tutor. Let's examine inference procedures for means using the t-distribution.\n\nKey topics: t-distribution • One-sample t-procedures • Two-sample t-procedures • Paired t-procedures • Robustness of procedures\n\nWhat would you like to understand about inference for means, or what interests you about the t-distribution?",
+        'unit8': "Welcome to AP Statistics Unit 8: Inference for Categorical Data: Chi-Square! 🧮\n\nI'm your Socratic AI tutor. Let's explore chi-square tests for categorical data analysis.\n\nKey topics: Chi-square goodness of fit • Chi-square independence test • Chi-square homogeneity test • Expected counts • Chi-square distribution\n\nWhat do you want to learn about chi-square tests, or what questions do you have about analyzing categorical data?",
+        'unit9': "Welcome to AP Statistics Unit 9: Inference for Quantitative Data: Slopes! 📉\n\nI'm your Socratic AI tutor. Let's examine inference for linear regression and correlation.\n\nKey topics: Conditions for regression inference • Inference for slope • t-test for correlation • Prediction vs confidence intervals • Transformations in regression\n\nWhat interests you about regression inference, or what would you like to explore about statistical relationships?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore statistics through guided questions and data analysis.`;
+    }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };
 
@@ -807,7 +912,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
