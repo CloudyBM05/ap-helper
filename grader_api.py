@@ -5838,6 +5838,82 @@ def get_course_context(course, unit):
         }
     }
     
+    # Comprehensive AP Statistics content
+    apstat_content = {
+        'unit1': {
+            'title': 'AP Statistics Unit 1: Exploring One-Variable Data',
+            'overview': '**Describing and analyzing distributions of data** - Learning to summarize and interpret single-variable datasets.',
+            'key_themes': '• **Descriptive Statistics** - Center, spread, and shape of distributions\n• **Data Visualization** - Histograms, boxplots, and dotplots\n• **Normal Distributions** - Bell-shaped patterns in data\n• **Comparing Groups** - Using statistics to make comparisons',
+            'topics_overview': '• How to describe data distributions\n• Creating and interpreting graphs\n• Understanding normal distributions',
+            'main_concepts': ['descriptive statistics', 'data visualization', 'normal distributions', 'measures of center and spread'],
+            'suggested_questions': '• "How do we describe the center of data?"\n• "What\'s the difference between mean and median?"\n• "How do we identify outliers?"\n• "What makes a distribution normal?"'
+        },
+        'unit2': {
+            'title': 'AP Statistics Unit 2: Exploring Two-Variable Data',
+            'overview': '**Examining relationships between variables** - Using scatterplots, correlation, and regression to understand connections.',
+            'key_themes': '• **Scatterplots** - Visualizing relationships between variables\n• **Correlation** - Measuring strength of linear relationships\n• **Regression** - Finding the line of best fit\n• **Residual Analysis** - Checking model quality',
+            'topics_overview': '• Relationship patterns in data\n• Correlation vs causation\n• Predicting with regression lines',
+            'main_concepts': ['scatterplots', 'correlation', 'least squares regression', 'residual analysis'],
+            'suggested_questions': '• "How do we measure the strength of a relationship?"\n• "What\'s the difference between correlation and causation?"\n• "How do we find the best-fit line?"\n• "What do residuals tell us?"'
+        },
+        'unit3': {
+            'title': 'AP Statistics Unit 3: Collecting Data',
+            'overview': '**Designing studies to collect reliable data** - Learning sampling methods, experiments, and avoiding bias.',
+            'key_themes': '• **Sampling Methods** - Random, stratified, cluster sampling\n• **Experimental Design** - Randomization, control, replication\n• **Bias** - Sources of error in data collection\n• **Observational Studies** - When experiments aren\'t possible',
+            'topics_overview': '• How to collect good data\n• Designing fair experiments\n• Avoiding bias in studies',
+            'main_concepts': ['sampling methods', 'experimental design', 'bias and variability', 'randomization'],
+            'suggested_questions': '• "What makes a sample representative?"\n• "How do experiments prove causation?"\n• "What are the main sources of bias?"\n• "Why is randomization important?"'
+        },
+        'unit4': {
+            'title': 'AP Statistics Unit 4: Probability and Random Variables',
+            'overview': '**Understanding randomness and probability** - Building foundations for statistical inference.',
+            'key_themes': '• **Probability Rules** - Basic laws of chance\n• **Random Variables** - Discrete and continuous\n• **Probability Distributions** - Binomial and geometric\n• **Normal Model** - Continuous probability distributions',
+            'topics_overview': '• How probability works\n• Different types of random variables\n• Common probability distributions',
+            'main_concepts': ['probability rules', 'random variables', 'binomial distribution', 'normal distribution'],
+            'suggested_questions': '• "How do we calculate probability?"\n• "What\'s the difference between discrete and continuous variables?"\n• "When do we use the binomial distribution?"\n• "Why is the normal distribution so important?"'
+        },
+        'unit5': {
+            'title': 'AP Statistics Unit 5: Sampling Distributions',
+            'overview': '**Connecting samples to populations** - Understanding how sample statistics behave.',
+            'key_themes': '• **Sampling Distributions** - Distribution of sample statistics\n• **Central Limit Theorem** - Why sample means are normal\n• **Standard Error** - Variability in sampling\n• **Bias and Variability** - Accuracy vs precision in estimation',
+            'topics_overview': '• How sample statistics behave\n• Why sampling distributions are normal\n• Measuring uncertainty in estimates',
+            'main_concepts': ['sampling distributions', 'central limit theorem', 'standard error', 'bias vs variability'],
+            'suggested_questions': '• "What is a sampling distribution?"\n• "Why do sample means follow a normal distribution?"\n• "How does sample size affect variability?"\n• "What\'s the difference between bias and variability?"'
+        },
+        'unit6': {
+            'title': 'AP Statistics Unit 6: Inference for Categorical Data - Proportions',
+            'overview': '**Making conclusions about population proportions** - Confidence intervals and hypothesis tests for proportions.',
+            'key_themes': '• **Confidence Intervals** - Estimating population proportions\n• **Hypothesis Testing** - Testing claims about proportions\n• **One-Proportion Tests** - Single population studies\n• **Two-Proportion Tests** - Comparing two groups',
+            'topics_overview': '• Estimating population proportions\n• Testing claims about proportions\n• Comparing proportions between groups',
+            'main_concepts': ['confidence intervals', 'hypothesis testing', 'one-proportion tests', 'two-proportion tests'],
+            'suggested_questions': '• "How do we estimate a population proportion?"\n• "What does a confidence interval tell us?"\n• "How do we test claims about proportions?"\n• "How do we compare proportions from two groups?"'
+        },
+        'unit7': {
+            'title': 'AP Statistics Unit 7: Inference for Quantitative Data - Means',
+            'overview': '**Making conclusions about population means** - Using the t-distribution for mean-based inference.',
+            'key_themes': '• **t-Distribution** - When population standard deviation is unknown\n• **One-Sample t-Tests** - Testing claims about a single mean\n• **Two-Sample t-Tests** - Comparing means from two groups\n• **Paired t-Tests** - Analyzing matched pairs data',
+            'topics_overview': '• Using the t-distribution\n• Testing claims about means\n• Comparing means between groups',
+            'main_concepts': ['t-distribution', 'one-sample t-tests', 'two-sample t-tests', 'paired t-tests'],
+            'suggested_questions': '• "When do we use the t-distribution?"\n• "How do we test claims about a population mean?"\n• "When do we use paired vs two-sample tests?"\n• "What conditions do we need for t-tests?"'
+        },
+        'unit8': {
+            'title': 'AP Statistics Unit 8: Inference for Categorical Data - Chi-Square',
+            'overview': '**Testing relationships in categorical data** - Chi-square tests for goodness of fit and independence.',
+            'key_themes': '• **Chi-Square Goodness of Fit** - Testing if data fits a model\n• **Chi-Square Independence** - Testing association between variables\n• **Chi-Square Homogeneity** - Comparing distributions across groups\n• **Expected Counts** - What we expect under the null hypothesis',
+            'topics_overview': '• Testing if data fits expected patterns\n• Testing independence between variables\n• Comparing categorical distributions',
+            'main_concepts': ['chi-square goodness of fit', 'chi-square independence', 'expected counts', 'degrees of freedom'],
+            'suggested_questions': '• "How do we test if data fits an expected pattern?"\n• "What does independence mean for categorical variables?"\n• "How do we calculate expected counts?"\n• "When do we use chi-square tests?"'
+        },
+        'unit9': {
+            'title': 'AP Statistics Unit 9: Inference for Quantitative Data - Slopes',
+            'overview': '**Testing significance in regression** - Statistical inference for linear relationships.',
+            'key_themes': '• **Regression Conditions** - Requirements for valid inference\n• **Slope Inference** - Testing and estimating the true slope\n• **Correlation Tests** - Testing for significant linear relationships\n• **Prediction Intervals** - Uncertainty in predictions',
+            'topics_overview': '• Testing significance of regression slopes\n• Making predictions with uncertainty\n• Checking conditions for regression',
+            'main_concepts': ['regression inference', 'slope significance', 'prediction intervals', 'regression conditions'],
+            'suggested_questions': '• "How do we test if a regression slope is significant?"\n• "What\'s the difference between confidence and prediction intervals?"\n• "What conditions do we need for regression inference?"\n• "How do we interpret regression results?"'
+        }
+    }
+    
     # Determine which content to use based on course
     if course == 'apush':
         return apush_content.get(unit, {
@@ -5856,6 +5932,15 @@ def get_course_context(course, unit):
             'topics_overview': '• Political institutions and behaviors',
             'main_concepts': ['american government'],
             'suggested_questions': '• Ask me about government and politics!'
+        })
+    elif course == 'apstat':
+        return apstat_content.get(unit, {
+            'title': f'AP Statistics Unit {unit}',
+            'overview': 'We\'re studying statistical concepts and methods!',
+            'key_themes': '• Statistical analysis and interpretation',
+            'topics_overview': '• Data analysis and statistical inference',
+            'main_concepts': ['statistical methods'],
+            'suggested_questions': '• Ask me about statistical concepts!'
         })
     elif course == 'apworld' or course == 'world':
         return apworld_content.get(unit, {

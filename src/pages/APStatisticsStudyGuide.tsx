@@ -63,6 +63,33 @@ const APStatisticsStudyGuide = () => {
             </div>
           ))}
         </div>
+        {/* Interactive Study Tools */}
+        <div className="max-w-5xl mx-auto mt-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-8 text-white">
+          <h2 className="text-2xl font-bold mb-4 text-center">
+            🤖 AI-Powered Socratic Learning
+          </h2>
+          <p className="text-center mb-6 text-purple-100">
+            Engage with our interactive Socratic AI tutor for deeper understanding of statistical concepts
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => navigate('/socratic-learning')}
+              className="bg-white text-purple-700 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+            >
+              📚 Browse All Units
+            </button>
+            <button
+              onClick={() => navigate('/socratic-chat/apstat/unit1')}
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors border border-purple-400"
+            >
+              🧮 Start with Unit 1
+            </button>
+          </div>
+          <p className="text-center mt-4 text-sm text-purple-200">
+            Available for all 9 units • Personalized learning • Progress tracking
+          </p>
+        </div>
+
         {/* Other Useful Study Tools */}
         <div className="max-w-5xl mx-auto mt-12 flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
           <div className="flex-1 flex items-stretch">
