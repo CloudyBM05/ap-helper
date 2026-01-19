@@ -184,9 +184,7 @@ const SocraticLearning = () => {
         { id: 5, emoji: '🎱', title: 'Momentum', period: 'Collisions & Impulse' },
         { id: 6, emoji: '🌊', title: 'Simple Harmonic Motion', period: 'Springs & Pendulums' },
         { id: 7, emoji: '🌀', title: 'Torque & Rotational Motion', period: 'Angular Dynamics' },
-        { id: 8, emoji: '⚡', title: 'Electric Charge & Force', period: 'Electrostatics' },
-        { id: 9, emoji: '🔌', title: 'DC Circuits', period: 'Current & Resistance' },
-        { id: 10, emoji: '🎵', title: 'Mechanical Waves & Sound', period: 'Wave Properties' }
+        { id: 8, emoji: '💧', title: 'Fluids', period: 'Properties & Flow' }
       ]
     }
   ];
