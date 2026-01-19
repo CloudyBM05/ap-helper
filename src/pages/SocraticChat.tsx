@@ -175,16 +175,14 @@ const SocraticChat = () => {
     }
     if (course === 'apphysics1' || course === 'physics1') {
       const unitData = {
-        'unit1': { title: 'AP Physics 1 Unit 1: Kinematics', period: 'Motion in 1D & 2D', emoji: '📍' },
-        'unit2': { title: 'AP Physics 1 Unit 2: Dynamics', period: 'Forces & Newton\'s Laws', emoji: '💪' },
-        'unit3': { title: 'AP Physics 1 Unit 3: Circular Motion & Gravitation', period: 'Centripetal Force', emoji: '🌍' },
-        'unit4': { title: 'AP Physics 1 Unit 4: Energy', period: 'Work & Conservation', emoji: '⚡' },
-        'unit5': { title: 'AP Physics 1 Unit 5: Momentum', period: 'Collisions & Impulse', emoji: '🎱' },
-        'unit6': { title: 'AP Physics 1 Unit 6: Simple Harmonic Motion', period: 'Springs & Pendulums', emoji: '🌊' },
-        'unit7': { title: 'AP Physics 1 Unit 7: Torque & Rotational Motion', period: 'Angular Dynamics', emoji: '🌀' },
-        'unit8': { title: 'AP Physics 1 Unit 8: Electric Charge & Force', period: 'Electrostatics', emoji: '⚡' },
-        'unit9': { title: 'AP Physics 1 Unit 9: DC Circuits', period: 'Current & Resistance', emoji: '🔌' },
-        'unit10': { title: 'AP Physics 1 Unit 10: Mechanical Waves & Sound', period: 'Wave Properties', emoji: '🎵' }
+        'unit1': { title: 'AP Physics 1 Unit 1: Kinematics', period: 'Position, Velocity, Acceleration', emoji: '🏃‍♂️' },
+        'unit2': { title: 'AP Physics 1 Unit 2: Dynamics (Forces)', period: 'Newton\'s Laws & Forces', emoji: '🏋️' },
+        'unit3': { title: 'AP Physics 1 Unit 3: Circular Motion & Gravitation', period: 'Centripetal Force & Fields', emoji: '�' },
+        'unit4': { title: 'AP Physics 1 Unit 4: Energy', period: 'Work & Conservation', emoji: '🔋' },
+        'unit5': { title: 'AP Physics 1 Unit 5: Momentum', period: 'Impulse & Collisions', emoji: '🎱' },
+        'unit6': { title: 'AP Physics 1 Unit 6: Simple Harmonic Motion', period: 'Springs & Oscillations', emoji: '�' },
+        'unit7': { title: 'AP Physics 1 Unit 7: Torque & Rotational Motion', period: 'Angular Dynamics', emoji: '🔧' },
+        'unit8': { title: 'AP Physics 1 Unit 8: Fluids', period: 'Pressure & Density', emoji: '💧' }
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Physics 1 ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
@@ -764,17 +762,17 @@ const SocraticChat = () => {
         ];
       } else if (unit === 'unit2') {
         return [
-          { key: 'newtonsFirstLaw', title: 'Newton\'s First Law (Inertia)', keyFacts: ['Objects at rest stay at rest without net force', 'Objects in motion continue at constant velocity', 'Inertia is resistance to motion changes', 'Mass measures amount of inertia', 'Net force of zero means equilibrium'] },
-          { key: 'newtonsSecondLaw', title: 'Newton\'s Second Law (F = ma)', keyFacts: ['Net force equals mass times acceleration', 'Force and acceleration are vectors', 'Acceleration direction matches net force', 'More mass means less acceleration for same force', 'Force measured in Newtons (kg⋅m/s²)'] },
-          { key: 'newtonsThirdLaw', title: 'Newton\'s Third Law (Action-Reaction)', keyFacts: ['Every action has equal opposite reaction', 'Action-reaction pairs act on different objects', 'Forces always occur in pairs', 'Same type of force in each pair', 'Pairs don\'t cancel because different objects'] },
-          { key: 'freeBodyDiagrams', title: 'Free Body Diagrams and Force Analysis', keyFacts: ['Isolate object and show all forces', 'Use arrows to represent force vectors', 'Don\'t include forces object exerts', 'Essential for solving force problems', 'Identify all contact and field forces'] },
-          { key: 'commonForces', title: 'Types of Forces in Mechanics', keyFacts: ['Weight always points toward Earth center', 'Normal force perpendicular to surface', 'Friction opposes relative motion', 'Tension directed along string or rope', 'Applied forces can point any direction'] }
+          { key: 'systems', title: 'Systems and Boundaries', keyFacts: ['System is set of objects chosen for analysis', 'Boundaries determine internal vs external forces', 'Internal forces don\'t change total momentum', 'External forces can change total momentum', 'Choose boundaries to simplify calculations'] },
+          { key: 'gravitationalField', title: 'Gravitational Field and Force', keyFacts: ['Every mass attracts every other mass', 'Gravitational field g = F_g/m near Earth', 'Universal gravitation F = G(m₁m₂)/r²', 'Field strength g ≈ 9.8 m/s² near Earth', 'Gravitational and inertial mass are equivalent'] },
+          { key: 'contactForces', title: 'Contact Forces and Interactions', keyFacts: ['Normal force perpendicular to surface', 'Static friction f_s ≤ μ_s F_N resists motion start', 'Kinetic friction f_k = μ_k F_N opposes motion', 'Tension force in ropes and strings', 'Applied forces can point any direction'] },
+          { key: 'newtonsLaws', title: 'Newton\'s Three Laws of Motion', keyFacts: ['First Law: Objects resist motion changes (inertia)', 'Second Law: F_net = ma relates force and acceleration', 'Third Law: Action-reaction pairs on different objects', 'Free body diagrams show all forces on object', 'Net force determines acceleration direction'] }
         ];
       } else if (unit === 'unit3') {
         return [
-          { key: 'centripetal', title: 'Centripetal Force and Acceleration', keyFacts: ['Centripetal acceleration points toward center', 'Acceleration magnitude equals v²/r', 'Centripetal force provides required acceleration', 'Not a new type of force', 'Any force can serve as centripetal'] },
-          { key: 'gravitation', title: 'Universal Gravitation', keyFacts: ['Every mass attracts every other mass', 'Force follows inverse square law', 'F = Gm₁m₂/r² gives gravitational force', 'Always attractive force', 'Strength depends on masses and distance'] },
-          { key: 'orbitalMotion', title: 'Orbital Motion and Satellites', keyFacts: ['Gravity provides centripetal force for orbits', 'Orbital speed depends on central mass and radius', 'Higher orbits have slower speeds', 'Satellites don\'t fall due to sideways motion', 'Escape velocity needed to leave orbit'] }
+          { key: 'vectorFields', title: 'Vector Fields in Physics', keyFacts: ['Vector field assigns vector to every point in space', 'Gravitational field points toward mass creating it', 'Electric field points away from positive charges', 'Field strength g = F_g/m and E = F_e/q', 'Fields allow action at a distance'] },
+          { key: 'fundamentalForces', title: 'Four Fundamental Forces', keyFacts: ['Gravitational: weakest, always attractive, long range', 'Weak nuclear: radioactive decay, short range', 'Electromagnetic: attractive/repulsive, medium strength', 'Strong nuclear: strongest, holds nucleus together'] },
+          { key: 'gravElectricForces', title: 'Gravitational and Electric Forces', keyFacts: ['Universal gravitation: F_g = G(m₁m₂)/r²', 'Coulomb\'s law: F_e = k(q₁q₂)/r²', 'Both follow inverse square law', 'Gravity always attractive, electric can repel', 'Both proportional to product of properties'] },
+          { key: 'gravitationalField', title: 'Gravitational Field Variation', keyFacts: ['Field strength g = GM/r² varies with planet', 'Larger mass or smaller radius gives stronger gravity', 'Earth\'s g ≈ 9.81 m/s²', 'Free fall acceleration same for all objects', 'Different planets have different g values'] }
         ];
       } else if (unit === 'unit4') {
         return [
@@ -807,25 +805,10 @@ const SocraticChat = () => {
         ];
       } else if (unit === 'unit8') {
         return [
-          { key: 'electricCharge', title: 'Electric Charge Properties', keyFacts: ['Two types: positive and negative charge', 'Like charges repel, opposites attract', 'Charge conserved in all interactions', 'Measured in coulombs (C)', 'Fundamental property of matter'] },
-          { key: 'coulombsLaw', title: 'Coulomb\'s Law and Electric Force', keyFacts: ['F = kq₁q₂/r² gives force between charges', 'Inverse square law like gravity', 'k is Coulomb\'s constant', 'Force along line connecting charges', 'Attractive for opposites, repulsive for like'] },
-          { key: 'electricField', title: 'Electric Field Concept', keyFacts: ['Electric field is force per unit charge', 'E = F/q defines field strength', 'Field points away from positive charges', 'Field points toward negative charges', 'Allows action at a distance'] },
-          { key: 'conductorsInsulators', title: 'Electrical Properties of Materials', keyFacts: ['Conductors allow charge movement', 'Insulators prevent charge flow', 'Metals are typically conductors', 'Glass and plastic are insulators', 'Semiconductors have intermediate properties'] }
-        ];
-      } else if (unit === 'unit9') {
-        return [
-          { key: 'currentVoltageResistance', title: 'Basic Circuit Quantities', keyFacts: ['Current is flow of charge (amperes)', 'Voltage is potential difference (volts)', 'Resistance opposes current (ohms)', 'Higher voltage drives more current', 'Higher resistance reduces current'] },
-          { key: 'ohmsLaw', title: 'Ohm\'s Law and Applications', keyFacts: ['V = IR relates voltage, current, resistance', 'Applies to ohmic materials', 'Can solve for any unknown quantity', 'Fundamental for circuit analysis', 'Some materials don\'t obey Ohm\'s law'] },
-          { key: 'seriesParallel', title: 'Series and Parallel Circuits', keyFacts: ['Series: single path for current', 'Parallel: multiple paths for current', 'Series circuits have same current everywhere', 'Parallel circuits have same voltage across branches', 'Different rules for combining resistances'] },
-          { key: 'electricalPower', title: 'Power in Electrical Circuits', keyFacts: ['P = IV = I²R = V²/R', 'Power is energy per unit time', 'Measured in watts', 'Higher power means more energy usage', 'Power determines heating effects'] }
-        ];
-      } else if (unit === 'unit10') {
-        return [
-          { key: 'waveProperties', title: 'Fundamental Wave Properties', keyFacts: ['Waves transfer energy without transferring matter', 'Amplitude is maximum displacement', 'Wavelength is distance between identical points', 'Frequency is oscillations per second', 'Wave speed = frequency × wavelength'] },
-          { key: 'waveTypes', title: 'Types of Mechanical Waves', keyFacts: ['Transverse waves: perpendicular displacement', 'Longitudinal waves: parallel displacement', 'Sound waves are longitudinal pressure waves', 'Water waves have both components', 'Both types transfer energy through medium'] },
-          { key: 'waveBehavior', title: 'Wave Behavior and Interactions', keyFacts: ['Reflection: waves bounce off boundaries', 'Refraction: waves bend entering new medium', 'Interference: waves add when they meet', 'Constructive interference increases amplitude', 'Destructive interference decreases amplitude'] },
-          { key: 'standingWaves', title: 'Standing Wave Patterns', keyFacts: ['Formed by interference of traveling waves', 'Nodes are points of zero displacement', 'Antinodes are points of maximum displacement', 'String instruments use standing waves', 'Different harmonics have different frequencies'] },
-          { key: 'soundWaves', title: 'Sound and Doppler Effect', keyFacts: ['Sound requires medium for transmission', 'Speed depends on medium properties', 'Doppler effect changes frequency with motion', 'Moving source or observer affects frequency', 'Applications in medical and weather radar'] }
+          { key: 'fluidProperties', title: 'Properties of Fluids', keyFacts: ['Fluids include both liquids and gases', 'Flow and take shape of container', 'Liquids have definite volume, gases don\'t', 'Density ρ = m/V is key property', 'Viscosity measures resistance to flow'] },
+          { key: 'pressure', title: 'Pressure in Fluids', keyFacts: ['Pressure is force per unit area (P = F/A)', 'Units include Pascals, atmospheres, torr', 'Atmospheric pressure ≈ 101,325 Pa at sea level', 'Hydrostatic pressure P = ρgh in fluids', 'Pascal\'s principle: pressure transmitted equally'] },
+          { key: 'buoyancy', title: 'Buoyancy and Floating', keyFacts: ['Archimedes\' principle: buoyant force equals displaced fluid weight', 'Objects float when buoyant force equals weight', 'Density comparison determines floating or sinking', 'Displacement varies with object density', 'Buoyant force acts upward through fluid'] },
+          { key: 'fluidFlow', title: 'Fluid Flow Principles', keyFacts: ['Continuity equation: A₁v₁ = A₂v₂', 'Flow speed inversely related to area', 'Bernoulli\'s principle relates pressure and speed', 'Faster flow means lower pressure', 'Applications in airplane wings and plumbing'] }
         ];
       }
     }

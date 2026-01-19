@@ -6483,87 +6483,283 @@ def get_course_context(course, unit):
         }
     }
     
-    # Comprehensive AP Physics 1 content
+    # Comprehensive AP Physics 1 content - matched exactly to study guide
     apphysics1_content = {
         'unit1': {
             'title': 'AP Physics 1 Unit 1: Kinematics',
-            'overview': '**Motion in one and two dimensions** - Describing how objects move without considering the forces that cause motion.',
-            'key_themes': '• **Position and Displacement** - Where objects are and how far they move\n• **Velocity and Acceleration** - How fast and how speed changes\n• **Kinematic Equations** - Mathematical relationships for motion\n• **Projectile Motion** - Objects moving under gravity alone\n• **Relative Motion** - Motion from different reference frames',
-            'topics_overview': '• Describing motion mathematically\n• Analyzing graphs of motion\n• Solving projectile motion problems',
-            'main_concepts': ['position', 'velocity', 'acceleration', 'kinematic equations', 'projectile motion'],
-            'suggested_questions': '• "What\'s the difference between distance and displacement?"\n• "How do we read position vs time graphs?"\n• "Why do projectiles follow parabolic paths?"\n• "How does relative motion work?"'
+            'overview': '**Motion in one and two dimensions** - Position, velocity, acceleration, and motion representations.',
+            'key_themes': '• **Position, Velocity, and Acceleration** - Understanding the fundamentals of motion\n• **BIG FIVE Kinematic Equations** - Mathematical tools for uniformly accelerated motion\n• **Projectile Motion** - Objects moving under gravity in 2D\n• **Representations of Motion** - Graphs, diagrams, and mathematical descriptions',
+            'detailed_content': {
+                '1.1': {
+                    'title': 'Position, Velocity, and Acceleration',
+                    'concepts': [
+                        'Distance vs Displacement: Distance is total path (scalar), displacement is change in position (vector)',
+                        'Scalar vs Vector: Scalars have magnitude only, vectors have magnitude and direction',
+                        'Position: Location relative to reference point, slope of position-time graph = velocity',
+                        'Speed vs Velocity: Speed is scalar (how fast), velocity is vector (rate of position change)',
+                        'Acceleration: Rate of change of velocity (a = Δv/Δt), can be positive or negative',
+                        'Free Fall: Special case with g ≈ 9.8 m/s² downward'
+                    ]
+                },
+                '1.2': {
+                    'title': 'BIG FIVE Equations for Uniformly Accelerated Motion',
+                    'concepts': [
+                        'Kinematic Equations: v = u + at, s = ut + ½at², v² = u² + 2as, s = ½(u + v)t, a = (v - u)/t',
+                        'Variables: u = initial velocity, v = final velocity, a = acceleration, s = displacement, t = time',
+                        'Problem solving: Choose appropriate equation based on known and unknown variables'
+                    ]
+                },
+                '1.3': {
+                    'title': 'Projectile Motion',
+                    'concepts': [
+                        'Basic Concepts: Object launched into air under gravity, parabolic path',
+                        'Independent motions: Horizontal and vertical components analyzed separately',
+                        'Key formulas: Max height h = (v₀sinθ)²/2g, Range R = v₀²sin2θ/g',
+                        'Components: vₓ = v₀cosθ (constant), vᵧ = v₀sinθ - gt (changes due to gravity)'
+                    ]
+                },
+                '1.4': {
+                    'title': 'Representations of Motion',
+                    'concepts': [
+                        'Multiple representations: Words, diagrams, graphs, equations',
+                        'Motion diagrams: Series of images showing position at equal time intervals',
+                        'Position-time graphs: Slope = velocity',
+                        'Velocity-time graphs: Slope = acceleration, area under curve = displacement',
+                        'Vector diagrams: Break motion into components for analysis'
+                    ]
+                }
+            },
+            'main_concepts': ['position', 'displacement', 'velocity', 'acceleration', 'kinematic equations', 'projectile motion', 'motion graphs'],
+            'suggested_questions': '• "What\'s the difference between distance and displacement?"\n• "How do kinematic equations help solve motion problems?"\n• "Why do projectiles follow parabolic paths?"\n• "How do we read and interpret motion graphs?"'
         },
         'unit2': {
-            'title': 'AP Physics 1 Unit 2: Dynamics',
+            'title': 'AP Physics 1 Unit 2: Dynamics (Forces)',
             'overview': '**Forces and Newton\'s Laws** - Understanding what causes objects to accelerate and how forces work.',
-            'key_themes': '• **Newton\'s First Law** - Objects at rest stay at rest, objects in motion stay in motion\n• **Newton\'s Second Law** - F = ma, force equals mass times acceleration\n• **Newton\'s Third Law** - For every action, there is an equal and opposite reaction\n• **Free Body Diagrams** - Visual representation of forces\n• **Common Forces** - Weight, normal, friction, tension',
-            'topics_overview': '• Understanding Newton\'s three laws\n• Drawing and analyzing free body diagrams\n• Solving force problems',
-            'main_concepts': ['newtons laws', 'free body diagrams', 'net force', 'friction', 'tension'],
-            'suggested_questions': '• "Why do objects resist changes in motion?"\n• "How does F = ma work in practice?"\n• "What are action-reaction pairs?"\n• "How do we analyze forces on objects?"'
+            'key_themes': '• **Systems** - Defining boundaries and identifying internal vs external forces\n• **Gravitational Field** - Force per unit mass, universal gravitation\n• **Contact Forces** - Normal force, friction, tension, and other contact interactions\n• **Newton\'s Laws** - Three fundamental laws governing force and motion',
+            'detailed_content': {
+                '2.1': {
+                    'title': 'Systems',
+                    'concepts': [
+                        'System definition: Set of objects chosen for analysis',
+                        'System boundaries: Determine internal vs external forces',
+                        'Internal forces: Between objects in system, don\'t change total momentum',
+                        'External forces: From outside system, can change total momentum',
+                        'Problem-solving strategy: Choose boundaries to simplify calculations'
+                    ]
+                },
+                '2.2': {
+                    'title': 'The Gravitational Field',
+                    'concepts': [
+                        'Gravity basics: Every mass attracts every other mass',
+                        'Gravitational field: Force per unit mass (g ≈ 9.8 m/s² near Earth)',
+                        'Newton\'s Law of Gravitation: F = G(m₁m₂)/r²',
+                        'Gravitational vs inertial mass: Different concepts but experimentally identical',
+                        'Equivalence principle: Foundation of general relativity'
+                    ]
+                },
+                '2.3': {
+                    'title': 'Contact Forces',
+                    'concepts': [
+                        'Normal force: Perpendicular to surface, balances weight component',
+                        'Friction: Static (f_s ≤ μ_s F_N) and kinetic (f_k = μ_k F_N)',
+                        'Tension: Force in ropes and strings when pulled taut',
+                        'Other forces: Compression, applied force, contact force components'
+                    ]
+                }
+            },
+            'main_concepts': ['systems', 'gravitational field', 'normal force', 'friction', 'tension', 'newtons laws'],
+            'suggested_questions': '• "How do we define a system in physics problems?"\n• "What\'s the difference between gravitational and inertial mass?"\n• "How do contact forces work?"\n• "Why does friction depend on the normal force?"'
         },
         'unit3': {
-            'title': 'AP Physics 1 Unit 3: Circular Motion and Gravitation',
-            'overview': '**Objects moving in circles** - Centripetal force, planetary motion, and universal gravitation.',
-            'key_themes': '• **Centripetal Force** - Force toward the center of circular motion\n• **Centripetal Acceleration** - Acceleration toward the center\n• **Universal Gravitation** - Every mass attracts every other mass\n• **Orbital Motion** - How planets and satellites stay in orbit\n• **Banking and Curves** - Real-world applications of circular motion',
-            'topics_overview': '• Analyzing circular motion\n• Understanding gravitational force\n• Explaining orbital mechanics',
-            'main_concepts': ['centripetal force', 'centripetal acceleration', 'universal gravitation', 'orbital motion'],
-            'suggested_questions': '• "What keeps objects moving in circles?"\n• "Why don\'t satellites fall to Earth?"\n• "How does gravity work between any two masses?"\n• "Why do we feel heavier on some planets?"'
+            'title': 'AP Physics 1 Unit 3: Circular Motion & Gravitation',
+            'overview': '**Objects moving in circles** - Vector fields, fundamental forces, and circular motion analysis.',
+            'key_themes': '• **Vector Fields** - Gravitational and electric fields in space\n• **Fundamental Forces** - Four basic forces in nature\n• **Gravitational and Electric Forces** - Inverse square law forces\n• **Circular Motion** - Centripetal acceleration and force analysis',
+            'detailed_content': {
+                '3.1': {
+                    'title': 'Vector Fields',
+                    'concepts': [
+                        'Vector field definition: Assigns vector to every point in space',
+                        'Gravitational field: Points toward mass, g = F_g/m near Earth',
+                        'Electric field: Points away from positive, toward negative charges, E = F_e/q',
+                        'Field visualization: Arrow diagrams showing direction and magnitude'
+                    ]
+                },
+                '3.2': {
+                    'title': 'Fundamental Forces',
+                    'concepts': [
+                        'Four forces (weakest to strongest): Gravitational, weak nuclear, electromagnetic, strong nuclear',
+                        'Gravitational: Always attractive, dominates at large scales',
+                        'Electromagnetic: Can be attractive or repulsive, much stronger than gravity',
+                        'Nuclear forces: Short range, act within atomic nucleus'
+                    ]
+                },
+                '3.3': {
+                    'title': 'Gravitational and Electric Forces',
+                    'concepts': [
+                        'Universal gravitation: F_g = G(m₁m₂)/r², always attractive',
+                        'Coulomb\'s law: F_e = k(q₁q₂)/r², can be attractive or repulsive',
+                        'Inverse square law: Both forces decrease with square of distance',
+                        'Field strength varies with distance from source'
+                    ]
+                },
+                '3.4': {
+                    'title': 'Gravitational Field on Different Planets',
+                    'concepts': [
+                        'Field strength: g = GM/r² depends on planet mass and radius',
+                        'Earth\'s gravity: g ≈ 9.81 m/s²',
+                        'Variation: Different planets have different g values',
+                        'Free fall: All objects fall with same acceleration regardless of mass'
+                    ]
+                }
+            },
+            'main_concepts': ['vector fields', 'fundamental forces', 'universal gravitation', 'coulombs law', 'gravitational field'],
+            'suggested_questions': '• "What is a vector field and how do we visualize it?"\n• "Why are there only four fundamental forces?"\n• "How are gravitational and electric forces similar?"\n• "Why does gravity vary on different planets?"'
         },
         'unit4': {
             'title': 'AP Physics 1 Unit 4: Energy',
-            'overview': '**Energy and its conservation** - Work, kinetic energy, potential energy, and the work-energy theorem.',
-            'key_themes': '• **Kinetic Energy** - Energy of motion (KE = ½mv²)\n• **Potential Energy** - Stored energy (gravitational and elastic)\n• **Work-Energy Theorem** - Work equals change in kinetic energy\n• **Conservation of Energy** - Energy cannot be created or destroyed\n• **Power** - Rate of energy transfer or work done',
-            'topics_overview': '• Understanding different forms of energy\n• Applying conservation of energy\n• Calculating work and power',
-            'main_concepts': ['kinetic energy', 'potential energy', 'work-energy theorem', 'conservation of energy', 'power'],
-            'suggested_questions': '• "What\'s the difference between kinetic and potential energy?"\n• "How does the work-energy theorem work?"\n• "Why is energy always conserved?"\n• "What happens to \'lost\' energy?"'
+            'overview': '**Energy and its conservation** - Work, kinetic energy, potential energy, and energy conservation.',
+            'key_themes': '• **Open and Closed Systems** - Energy exchange with surroundings\n• **Work and Mechanical Energy** - Energy transfer through force and displacement\n• **Conservation of Energy** - Energy cannot be created or destroyed\n• **Power** - Rate of energy transfer or work done',
+            'detailed_content': {
+                '4.1': {
+                    'title': 'Open and Closed Systems: Energy',
+                    'concepts': [
+                        'Energy definition: Ability to do work or produce change',
+                        'Open systems: Exchange energy and matter with surroundings',
+                        'Closed systems: Exchange energy only, not matter',
+                        'Mechanical energy: Sum of kinetic and potential energy (E = K + U)',
+                        'Energy forms: Kinetic (KE = ½mv²), potential (PE = mgh)'
+                    ]
+                },
+                '4.2': {
+                    'title': 'Work and Mechanical Energy',
+                    'concepts': [
+                        'Work definition: Energy transfer when force applied over distance',
+                        'Work formula: W = Fd cos θ (θ = angle between force and displacement)',
+                        'Work-energy theorem: Net work = change in kinetic energy (W_net = ΔKE)',
+                        'Units: Joules (J) for both work and energy'
+                    ]
+                },
+                '4.3': {
+                    'title': 'Conservation of Energy',
+                    'concepts': [
+                        'Conservation principle: Total energy remains constant in closed system',
+                        'Without friction: K_i + U_i = K_f + U_f',
+                        'With nonconservative forces: K_i + U_i + W_other = K_f + U_f',
+                        'Power: P = W/t = energy transfer rate (watts)'
+                    ]
+                }
+            },
+            'main_concepts': ['mechanical energy', 'kinetic energy', 'potential energy', 'work-energy theorem', 'conservation of energy', 'power'],
+            'suggested_questions': '• "What\'s the difference between open and closed systems?"\n• "How does the work-energy theorem work?"\n• "Why is energy conserved in isolated systems?"\n• "How do we calculate power in different situations?"'
         },
         'unit5': {
             'title': 'AP Physics 1 Unit 5: Momentum',
-            'overview': '**Momentum and collisions** - Conservation of momentum, impulse, and analyzing collisions.',
-            'key_themes': '• **Momentum** - Mass times velocity (p = mv)\n• **Conservation of Momentum** - Total momentum stays constant in isolated systems\n• **Impulse** - Change in momentum equals force times time\n• **Elastic Collisions** - Kinetic energy is conserved\n• **Inelastic Collisions** - Objects stick together after collision',
-            'topics_overview': '• Understanding momentum conservation\n• Analyzing different types of collisions\n• Relating impulse to change in momentum',
-            'main_concepts': ['momentum', 'conservation of momentum', 'impulse', 'elastic collisions', 'inelastic collisions'],
-            'suggested_questions': '• "What is momentum and why is it important?"\n• "Why is momentum always conserved?"\n• "What\'s the difference between elastic and inelastic collisions?"\n• "How does impulse relate to safety features in cars?"'
+            'overview': '**Momentum and collisions** - Conservation of momentum, impulse, and analyzing different types of collisions.',
+            'key_themes': '• **Momentum and Impulse** - Quantity of motion and change in momentum\n• **Representations of Momentum Changes** - Graphical and mathematical analysis\n• **Conservation of Momentum** - Fundamental conservation law\n• **Collisions** - Elastic and inelastic collision analysis',
+            'detailed_content': {
+                '5.1': {
+                    'title': 'Momentum and Impulse',
+                    'concepts': [
+                        'Momentum definition: Measure of object\'s resistance to motion change (p = mv)',
+                        'Vector quantity: Has magnitude and direction (units: kg·m/s)',
+                        'Impulse definition: Change in momentum due to force over time (J = FΔt)',
+                        'Impulse units: N·s, equivalent to kg·m/s',
+                        'Impulse-momentum theorem: J = Δp connects force-time to momentum change',
+                        'Conservation: Total momentum constant in closed system'
+                    ]
+                },
+                '5.2': {
+                    'title': 'Representations of Changes in Momentum',
+                    'concepts': [
+                        'Multiple representations: Equations, graphs, vector diagrams',
+                        'Force-time graphs: Area under curve = impulse',
+                        'Vector diagrams: Show initial and final momentum directions',
+                        'Graphical analysis: Interpret velocity changes and collision outcomes'
+                    ]
+                }
+            },
+            'main_concepts': ['momentum', 'impulse', 'conservation of momentum', 'force-time graphs', 'vector diagrams'],
+            'suggested_questions': '• "What is momentum and why is it important?"\n• "How does impulse relate to momentum change?"\n• "Why is momentum conserved in collisions?"\n• "How do we analyze collisions using graphs and diagrams?"'
         },
         'unit6': {
             'title': 'AP Physics 1 Unit 6: Simple Harmonic Motion',
-            'overview': '**Oscillatory motion** - Springs, pendulums, and periodic motion with restoring forces.',
-            'key_themes': '• **Hooke\'s Law** - Force is proportional to displacement (F = -kx)\n• **Simple Harmonic Motion** - Periodic motion with restoring force\n• **Period and Frequency** - Time for one cycle and cycles per second\n• **Pendulums** - Oscillation under gravitational restoring force\n• **Energy in SHM** - Conversion between kinetic and potential energy',
-            'topics_overview': '• Understanding oscillatory motion\n• Analyzing springs and pendulums\n• Energy transformations in periodic motion',
-            'main_concepts': ['hookes law', 'simple harmonic motion', 'period', 'frequency', 'restoring force'],
-            'suggested_questions': '• "What causes oscillatory motion?"\n• "How do springs and pendulums relate?"\n• "Why do pendulum clocks keep time?"\n• "How does energy change during oscillation?"'
+            'overview': '**Oscillatory motion** - Periodic motion with restoring forces, including springs and pendulums.',
+            'key_themes': '• **Period of Simple Harmonic Oscillators** - Time for one complete cycle\n• **Energy in Simple Harmonic Motion** - Kinetic and potential energy transformations\n• **Mathematical Models** - Sinusoidal functions describing oscillatory motion',
+            'detailed_content': {
+                '6.1': {
+                    'title': 'Period of Simple Harmonic Oscillators',
+                    'concepts': [
+                        'SHM definition: Periodic motion where restoring force ∝ displacement',
+                        'Characteristics: Acceleration toward equilibrium, sinusoidal motion',
+                        'Examples: Mass on spring, pendulum (small angles)',
+                        'Mathematical equations: x = A cos(ωt + φ), v = -Aω sin(ωt + φ)',
+                        'Hooke\'s law: F = -kx (restoring force)',
+                        'Amplitude: Maximum displacement from equilibrium',
+                        'Period independence: T independent of amplitude for ideal SHM'
+                    ]
+                }
+            },
+            'main_concepts': ['simple harmonic motion', 'hookes law', 'amplitude', 'period', 'frequency', 'restoring force'],
+            'suggested_questions': '• "What makes motion \'simple harmonic\'?"\n• "How do springs and pendulums demonstrate SHM?"\n• "Why is the period independent of amplitude?"\n• "How does energy transform during oscillation?"'
         },
         'unit7': {
-            'title': 'AP Physics 1 Unit 7: Torque and Rotational Motion',
-            'overview': '**Rotational dynamics** - Torque, angular motion, and rotational equilibrium.',
-            'key_themes': '• **Torque** - Rotational effect of force (τ = rF sin θ)\n• **Angular Velocity** - How fast objects rotate\n• **Angular Acceleration** - Change in angular velocity\n• **Rotational Equilibrium** - When net torque is zero\n• **Center of Mass** - Balance point of objects',
-            'topics_overview': '• Understanding rotational motion\n• Calculating torque and equilibrium\n• Finding centers of mass',
-            'main_concepts': ['torque', 'angular velocity', 'angular acceleration', 'rotational equilibrium', 'center of mass'],
-            'suggested_questions': '• "What makes objects rotate?"\n• "Why is it easier to open a door by the handle?"\n• "How do we find the center of mass?"\n• "What conditions are needed for rotational equilibrium?"'
+            'title': 'AP Physics 1 Unit 7: Torque & Rotational Motion',
+            'overview': '**Rotational dynamics** - Angular motion, torque, and rotational equilibrium.',
+            'key_themes': '• **Rotational Kinematics** - Angular displacement, velocity, and acceleration\n• **Torque and Angular Acceleration** - Rotational analog of Newton\'s second law\n• **Angular Momentum** - Rotational analog of linear momentum\n• **Rotational Equilibrium** - Conditions for balance',
+            'detailed_content': {
+                '7.1': {
+                    'title': 'Rotational Kinematics',
+                    'concepts': [
+                        'Rotational motion: Motion around axis or fixed point',
+                        'Angular displacement: θ = s/r (measured in radians)',
+                        'Angular velocity: ω = θ/t (rad/s)',
+                        'Angular acceleration: α = Δω/Δt (rad/s²)',
+                        'Linear-angular relationships: v = rω, a = rα',
+                        'Applications: Mechanics, astronomy, engineering'
+                    ]
+                },
+                '7.2': {
+                    'title': 'Torque and Angular Acceleration',
+                    'concepts': [
+                        'Torque definition: Rotational effect of force (τ = rF sin θ)',
+                        'Factors affecting torque: Force magnitude, distance from axis, angle',
+                        'Right-hand rule: Determines torque direction',
+                        'Rotational equilibrium: Net torque = 0'
+                    ]
+                }
+            },
+            'main_concepts': ['rotational kinematics', 'angular velocity', 'angular acceleration', 'torque', 'rotational equilibrium'],
+            'suggested_questions': '• "How is rotational motion similar to linear motion?"\n• "What factors determine the magnitude of torque?"\n• "Why is it easier to open a door by the handle?"\n• "What conditions are needed for rotational equilibrium?"'
         },
         'unit8': {
-            'title': 'AP Physics 1 Unit 8: Electric Charge and Electric Force',
-            'overview': '**Electrostatics** - Electric charge, Coulomb\'s law, and electric fields.',
-            'key_themes': '• **Electric Charge** - Fundamental property of matter\n• **Coulomb\'s Law** - Force between electric charges\n• **Electric Field** - Force per unit charge in space\n• **Electric Potential Energy** - Energy stored in charge configurations\n• **Conductors and Insulators** - How materials respond to electric fields',
-            'topics_overview': '• Understanding electric charge and force\n• Analyzing electric fields\n• Working with conductors and insulators',
-            'main_concepts': ['electric charge', 'coulombs law', 'electric field', 'electric potential energy', 'conductors'],
-            'suggested_questions': '• "What is electric charge?"\n• "How does distance affect electric force?"\n• "What creates electric fields?"\n• "Why do some materials conduct electricity?"'
-        },
-        'unit9': {
-            'title': 'AP Physics 1 Unit 9: DC Circuits',
-            'overview': '**Electric circuits** - Current, voltage, resistance, and analyzing simple circuits.',
-            'key_themes': '• **Electric Current** - Flow of electric charge\n• **Voltage** - Electric potential difference\n• **Resistance** - Opposition to current flow\n• **Ohm\'s Law** - V = IR relationship\n• **Circuit Analysis** - Series and parallel circuits\n• **Power in Circuits** - P = IV energy dissipation',
-            'topics_overview': '• Understanding current, voltage, and resistance\n• Analyzing series and parallel circuits\n• Calculating power in electrical devices',
-            'main_concepts': ['electric current', 'voltage', 'resistance', 'ohms law', 'series circuits', 'parallel circuits'],
-            'suggested_questions': '• "What\'s the difference between current and voltage?"\n• "How does Ohm\'s law work?"\n• "What\'s the difference between series and parallel circuits?"\n• "How do we calculate power consumption?"'
-        },
-        'unit10': {
-            'title': 'AP Physics 1 Unit 10: Mechanical Waves and Sound',
-            'overview': '**Wave motion and sound** - Properties of waves, wave behavior, and sound phenomena.',
-            'key_themes': '• **Wave Properties** - Amplitude, wavelength, frequency, speed\n• **Wave Types** - Transverse and longitudinal waves\n• **Wave Behavior** - Reflection, refraction, interference\n• **Standing Waves** - Waves confined to specific patterns\n• **Sound Waves** - Pressure waves in air and other media\n• **Doppler Effect** - Frequency changes with relative motion',
-            'topics_overview': '• Understanding wave properties and behavior\n• Analyzing standing wave patterns\n• Explaining sound phenomena',
-            'main_concepts': ['wave properties', 'standing waves', 'wave interference', 'sound waves', 'doppler effect'],
-            'suggested_questions': '• "What makes a wave a wave?"\n• "How do standing waves form?"\n• "Why do sounds change pitch when sources move?"\n• "What happens when waves meet?"'
+            'title': 'AP Physics 1 Unit 8: Fluids',
+            'overview': '**Fluid mechanics** - Properties of liquids and gases, pressure, buoyancy, and fluid flow.',
+            'key_themes': '• **Internal Structure and Density** - Fluid properties and characteristics\n• **Pressure** - Force per unit area in fluids\n• **Buoyancy** - Archimedes\' principle and floating objects\n• **Fluid Flow** - Continuity equation and Bernoulli\'s principle',
+            'detailed_content': {
+                '8.1': {
+                    'title': 'Internal Structure and Density',
+                    'concepts': [
+                        'Fluids: Include liquids and gases, flow and take container shape',
+                        'Liquid properties: Definite volume, no fixed shape',
+                        'Gas properties: No fixed volume or shape',
+                        'Density: ρ = m/V (kg/m³), key for buoyancy and pressure',
+                        'Viscosity: Resistance to flow or shear stress',
+                        'Compressibility: Volume change under pressure (gases >> liquids)'
+                    ]
+                },
+                '8.2': {
+                    'title': 'Pressure',
+                    'concepts': [
+                        'Pressure definition: Force per unit area (P = F/A)',
+                        'Units: Pascals (Pa), atmospheres (atm), torr',
+                        'Atmospheric pressure: ~101,325 Pa at sea level',
+                        'Hydrostatic pressure: P = ρgh in fluids',
+                        'Pressure transmission: Pascal\'s principle'
+                    ]
+                }
+            },
+            'main_concepts': ['fluids', 'density', 'pressure', 'viscosity', 'hydrostatic pressure', 'pascal principle'],
+            'suggested_questions': '• "What makes something a fluid?"\n• "How does pressure vary with depth in fluids?"\n• "Why do objects float or sink?"\n• "How do hydraulic systems work?"'
         }
     }
     
@@ -6841,7 +7037,7 @@ def handle_cultural_questions(msg, course, unit, course_info):
     }
 
 def handle_physics_questions(msg, course, unit, course_info):
-    """Handle questions about physics concepts for AP Physics 1"""
+    """Handle questions about physics concepts for AP Physics 1 using study guide content"""
     if course != 'apphysics1' and course != 'physics1':
         return {
             'response': f"**That's an interesting question about {course_info['title']}!** 🤔\n\nWhat specifically would you like to explore about that topic?",
@@ -6851,57 +7047,164 @@ def handle_physics_questions(msg, course, unit, course_info):
             'progress_update': {}
         }
     
-    # Handle motion and kinematics questions
-    if any(word in msg for word in ['motion', 'velocity', 'acceleration', 'position', 'displacement', 'kinematics']):
-        if unit in ['unit1']:
+    # Get the detailed content for this unit
+    unit_content = course_info.get('detailed_content', {})
+    unit_concepts = course_info.get('main_concepts', [])
+    
+    # Handle motion and kinematics questions (Unit 1)
+    if any(word in msg for word in ['motion', 'velocity', 'acceleration', 'position', 'displacement', 'kinematics', 'projectile']):
+        if unit == 'unit1':
             return {
-                'response': "**Motion is everywhere around us!** 🚗\n\n**Key motion concepts:**\n• **Position** - Where an object is located\n• **Velocity** - How fast and in what direction it moves\n• **Acceleration** - How velocity changes over time\n• **Displacement** - Change in position (vector quantity)\n\n**Think about this:** What's the difference between speed and velocity? Why does direction matter in physics?",
-                'topic': 'kinematics',
+                'response': "**Welcome to kinematics - the study of motion!** 🏃‍♂️\n\n**From our Unit 1 content:**\n• **Distance vs Displacement** - Distance is total path (scalar), displacement is change in position (vector)\n• **Velocity vs Speed** - Speed is how fast (scalar), velocity includes direction (vector)\n• **Acceleration** - Rate of change of velocity (a = Δv/Δt)\n• **Kinematic Equations** - Mathematical tools like v = u + at\n\n**Think about this:** A car drives around a circular track and returns to the starting point. What's the distance vs displacement? Why does this difference matter in physics?",
+                'topic': 'kinematics_detailed',
                 'source': 'conversational_socratic',
-                'concepts_introduced': ['position', 'velocity', 'acceleration', 'displacement'],
-                'progress_update': {'kinematics': {'introduced': True}}
+                'concepts_introduced': ['distance', 'displacement', 'velocity', 'acceleration', 'kinematic equations'],
+                'progress_update': {'kinematics': {'detailed_study': True}}
             }
         else:
             return {
-                'response': "**Motion connects to many physics concepts!** 🌟\n\nWe can describe motion mathematically, analyze forces that cause it, or study energy changes during motion.\n\nWhat aspect of motion interests you most - describing it, what causes it, or how energy is involved?",
-                'topic': 'motion_general',
+                'response': "**Motion is fundamental to understanding physics!** 🌟\n\nWe study motion in Unit 1 (kinematics), but it connects to forces (Unit 2), energy (Unit 4), and momentum (Unit 5).\n\nWhat aspect interests you - describing motion mathematically, understanding what causes it, or analyzing energy during motion?",
+                'topic': 'motion_connections',
                 'source': 'conversational_socratic',
                 'concepts_introduced': ['motion analysis'],
-                'progress_update': {'motion_concepts': {'introduced': True}}
+                'progress_update': {'motion_concepts': {'connected': True}}
             }
     
-    # Handle force questions
-    elif any(word in msg for word in ['force', 'newton', 'friction', 'gravity', 'tension', 'normal']):
-        if unit in ['unit2', 'unit3']:
+    # Handle force questions (Unit 2 & 3)
+    elif any(word in msg for word in ['force', 'newton', 'friction', 'gravity', 'tension', 'normal', 'dynamics']):
+        if unit == 'unit2':
             return {
-                'response': "**Forces are pushes and pulls that change motion!** 💪\n\n**Newton's insights:**\n• **First Law** - Objects resist changes in motion (inertia)\n• **Second Law** - Force equals mass times acceleration (F = ma)\n• **Third Law** - Forces always come in pairs\n• **Common forces** - Weight, normal, friction, tension\n\n**Here's the key question:** If forces always come in pairs, how can there ever be a net force to accelerate objects?",
-                'topic': 'forces_newtons_laws',
+                'response': "**Forces and Newton's Laws - the heart of dynamics!** 💪\n\n**From our Unit 2 study guide:**\n• **Systems** - Defining boundaries helps identify internal vs external forces\n• **Gravitational Field** - g = 9.8 m/s² near Earth, universal gravitation F = G(m₁m₂)/r²\n• **Contact Forces** - Normal force (perpendicular to surface), friction (f_s ≤ μ_s F_N), tension\n• **Newton's Laws** - Foundation of force analysis\n\n**Key insight:** Forces are interactions between objects. Why do we need to define a \"system\" when analyzing forces? What's the difference between internal and external forces?",
+                'topic': 'forces_dynamics',
                 'source': 'conversational_socratic',
-                'concepts_introduced': ['newtons laws', 'force types', 'net force'],
-                'progress_update': {'forces': {'introduced': True}}
+                'concepts_introduced': ['systems', 'gravitational field', 'contact forces', 'newtons laws'],
+                'progress_update': {'dynamics': {'study_guide_content': True}}
+            }
+        elif unit == 'unit3':
+            return {
+                'response': "**Vector fields and fundamental forces!** ⚡\n\n**From Unit 3 of our study guide:**\n• **Vector Fields** - Assign vectors to every point in space (gravitational, electric)\n• **Four Fundamental Forces** - Gravitational (weakest), weak nuclear, electromagnetic, strong nuclear (strongest)\n• **Inverse Square Laws** - Both gravity (F_g = G(m₁m₂)/r²) and electric force (F_e = k(q₁q₂)/r²)\n• **Field Strength** - g = GM/r² varies on different planets\n\n**Fascinating question:** Why do both gravitational and electric forces follow the same mathematical pattern (inverse square law)? What does this tell us about the nature of space?",
+                'topic': 'fields_fundamental_forces',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['vector fields', 'fundamental forces', 'inverse square law', 'field strength'],
+                'progress_update': {'forces_fields': {'comprehensive_understanding': True}}
             }
         else:
             return {
-                'response': "**Forces are fundamental to understanding physics!** ⚡\n\nForces cause acceleration, they come in pairs, and understanding them helps explain everything from walking to planetary motion.\n\nWhat would you like to explore - how forces cause motion, different types of forces, or how we analyze force problems?",
-                'topic': 'forces_general',
+                'response': "**Forces are everywhere in physics!** ⚡\n\nWe study forces in Unit 2 (dynamics) and Unit 3 (circular motion & gravitation), and they connect to energy (Unit 4) and momentum (Unit 5).\n\nWhat interests you - how forces cause motion, different types of forces, or the fundamental nature of forces?",
+                'topic': 'forces_overview',
                 'source': 'conversational_socratic',
                 'concepts_introduced': ['forces'],
-                'progress_update': {'force_concepts': {'introduced': True}}
+                'progress_update': {'force_concepts': {'overview': True}}
             }
     
-    # Handle energy questions
+    # Handle energy questions (Unit 4)
     elif any(word in msg for word in ['energy', 'kinetic', 'potential', 'work', 'power', 'conservation']):
-        if unit in ['unit4']:
+        if unit == 'unit4':
             return {
-                'response': "**Energy is the ability to cause change!** ⚡\n\n**Types of energy:**\n• **Kinetic Energy** - Energy of motion (KE = ½mv²)\n• **Potential Energy** - Stored energy (gravitational, elastic)\n• **Work** - Force applied over distance transfers energy\n• **Conservation** - Energy can't be created or destroyed, only transformed\n\n**Amazing fact:** A moving car has kinetic energy, but where does it go when the car stops? What happens to that energy?",
-                'topic': 'energy_conservation',
+                'response': "**Energy - one of the most powerful concepts in physics!** ⚡\n\n**From our Unit 4 study guide:**\n• **Open vs Closed Systems** - Exchange of energy and matter with surroundings\n• **Mechanical Energy** - Sum of kinetic (KE = ½mv²) and potential (PE = mgh)\n• **Work-Energy Theorem** - Net work equals change in kinetic energy (W_net = ΔKE)\n• **Conservation of Energy** - Energy cannot be created or destroyed, only transformed\n• **Power** - Rate of energy transfer (P = W/t)\n\n**Deep question:** When you lift a book and place it on a shelf, you do work against gravity. Where does that energy go? How is it \"stored\" and how can it be recovered?",
+                'topic': 'energy_systems',
                 'source': 'conversational_socratic',
-                'concepts_introduced': ['kinetic energy', 'potential energy', 'work', 'energy conservation'],
-                'progress_update': {'energy': {'introduced': True}}
+                'concepts_introduced': ['mechanical energy', 'work-energy theorem', 'conservation of energy', 'power'],
+                'progress_update': {'energy': {'comprehensive_study': True}}
             }
         else:
             return {
-                'response': "**Energy is one of the most important concepts in physics!** 🌟\n\nEnergy explains why things happen - from a ball rolling down a hill to a spring bouncing back to its original shape.\n\nWhat interests you most - how energy is stored, how it moves between objects, or why it's always conserved?",
+                'response': "**Energy connects everything in physics!** 🌟\n\nEnergy concepts appear throughout AP Physics 1 - in motion (Unit 1), forces (Units 2-3), momentum (Unit 5), oscillations (Unit 6), and rotation (Unit 7).\n\nWhat aspect interests you - how energy is stored and transferred, conservation principles, or energy transformations?",
+                'topic': 'energy_connections',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['energy conservation'],
+                'progress_update': {'energy_concepts': {'connected': True}}
+            }
+    
+    # Handle momentum questions (Unit 5)
+    elif any(word in msg for word in ['momentum', 'impulse', 'collision', 'conservation of momentum']):
+        if unit == 'unit5':
+            return {
+                'response': "**Momentum - the quantity of motion!** 🎱\n\n**From our Unit 5 study guide:**\n• **Momentum Definition** - Resistance to motion change, p = mv (vector quantity)\n• **Impulse** - Change in momentum due to force over time (J = FΔt = Δp)\n• **Conservation** - Total momentum constant in closed systems\n• **Force-Time Graphs** - Area under curve equals impulse\n• **Vector Analysis** - Direction matters in momentum problems\n\n**Critical thinking:** Why is momentum conserved in collisions even when kinetic energy isn't? What makes momentum such a fundamental quantity in physics?",
+                'topic': 'momentum_impulse',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['momentum', 'impulse', 'conservation of momentum', 'force-time graphs'],
+                'progress_update': {'momentum': {'detailed_analysis': True}}
+            }
+        else:
+            return {
+                'response': "**Momentum is a key physics concept!** 🎯\n\nMomentum conservation helps us analyze collisions, explosions, and interactions between objects throughout physics.\n\nWhat interests you - how momentum is calculated, why it's conserved, or how we use it to solve collision problems?",
+                'topic': 'momentum_overview',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['momentum'],
+                'progress_update': {'momentum_concepts': {'introduced': True}}
+            }
+    
+    # Handle oscillation questions (Unit 6)
+    elif any(word in msg for word in ['oscillation', 'harmonic', 'spring', 'pendulum', 'period', 'frequency']):
+        if unit == 'unit6':
+            return {
+                'response': "**Simple Harmonic Motion - beautiful periodic motion!** 🎶\n\n**From our Unit 6 study guide:**\n• **SHM Definition** - Restoring force proportional to displacement (F = -kx)\n• **Characteristics** - Acceleration toward equilibrium, sinusoidal motion\n• **Examples** - Mass on spring, pendulum (small angles)\n• **Mathematical Models** - x = A cos(ωt + φ), periodic functions\n• **Period Independence** - T doesn't depend on amplitude for ideal SHM\n\n**Beautiful insight:** Why do so many natural systems oscillate? What makes a pendulum keep accurate time, and why doesn't the amplitude affect the period?",
+                'topic': 'simple_harmonic_motion',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['simple harmonic motion', 'restoring force', 'period', 'amplitude'],
+                'progress_update': {'oscillations': {'comprehensive_study': True}}
+            }
+        else:
+            return {
+                'response': "**Oscillatory motion appears everywhere in nature!** 🌊\n\nFrom pendulum clocks to vibrating strings to atomic motion, periodic behavior is fundamental to physics.\n\nWhat interests you - what causes oscillations, how we describe them mathematically, or energy changes during oscillation?",
+                'topic': 'oscillation_overview',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['oscillations'],
+                'progress_update': {'oscillation_concepts': {'introduced': True}}
+            }
+    
+    # Handle rotation questions (Unit 7)
+    elif any(word in msg for word in ['rotation', 'torque', 'angular', 'spin', 'rotational']):
+        if unit == 'unit7':
+            return {
+                'response': "**Rotational Motion - spinning and turning!** 🌪️\n\n**From our Unit 7 study guide:**\n• **Rotational Kinematics** - Angular displacement (θ), velocity (ω), acceleration (α)\n• **Linear-Angular Relationships** - v = rω, a = rα connect linear and rotational\n• **Torque** - Rotational effect of force (τ = rF sin θ)\n• **Equilibrium** - Net torque = 0 for rotational balance\n• **Applications** - Mechanics, astronomy, engineering\n\n**Intriguing question:** Why is it easier to open a door by pushing on the handle rather than near the hinges? What does this tell us about the relationship between force, distance, and rotational effect?",
+                'topic': 'rotational_dynamics',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['rotational kinematics', 'torque', 'angular motion', 'rotational equilibrium'],
+                'progress_update': {'rotation': {'comprehensive_analysis': True}}
+            }
+        else:
+            return {
+                'response': "**Rotational motion is all around us!** 🔄\n\nFrom spinning wheels to planetary motion to molecular rotation, understanding how things turn and spin is crucial in physics.\n\nWhat aspect interests you - the mathematics of rotation, what causes rotational motion, or applications in engineering?",
+                'topic': 'rotation_overview',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['rotational motion'],
+                'progress_update': {'rotation_concepts': {'introduced': True}}
+            }
+    
+    # Handle fluid questions (Unit 8)
+    elif any(word in msg for word in ['fluid', 'pressure', 'density', 'buoyancy', 'flow', 'liquid', 'gas']):
+        if unit == 'unit8':
+            return {
+                'response': "**Fluids - the study of liquids and gases!** 💧\n\n**From our Unit 8 study guide:**\n• **Fluid Properties** - Flow and take container shape, include liquids and gases\n• **Density** - ρ = m/V (kg/m³), key for buoyancy and pressure calculations\n• **Pressure** - Force per unit area (P = F/A), varies with depth\n• **Viscosity** - Resistance to flow (honey vs water)\n• **Hydrostatic Pressure** - P = ρgh in fluid columns\n\n**Fascinating question:** Why do objects float or sink? How does the pressure at the bottom of a swimming pool compare to the pressure at the surface, and what causes this difference?",
+                'topic': 'fluid_mechanics',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['fluids', 'density', 'pressure', 'viscosity', 'hydrostatic pressure'],
+                'progress_update': {'fluids': {'detailed_study': True}}
+            }
+        else:
+            return {
+                'response': "**Fluid behavior is everywhere in our world!** 🌊\n\nFrom the air we breathe to the water we drink, understanding how fluids behave helps explain many everyday phenomena.\n\nWhat interests you - why objects float, how pressure changes with depth, or the difference between liquids and gases?",
+                'topic': 'fluids_overview',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['fluids'],
+                'progress_update': {'fluid_concepts': {'introduced': True}}
+            }
+    
+    # Default physics response using unit info
+    else:
+        unit_title = course_info.get('title', 'AP Physics 1')
+        overview = course_info.get('overview', '')
+        key_themes = course_info.get('key_themes', '')
+        
+        return {
+            'response': f"**Welcome to {unit_title}!** 🔬\n\n{overview}\n\n{key_themes}\n\n**What would you like to explore?** Ask me about any concept that interests you - I'll help you understand it step by step!",
+            'topic': f'unit_{unit}_introduction',
+            'source': 'conversational_socratic',
+            'concepts_introduced': unit_concepts,
+            'progress_update': {f'{unit}_introduction': {'started': True}}
+        }
                 'topic': 'energy_general',
                 'source': 'conversational_socratic',
                 'concepts_introduced': ['energy concepts'],
