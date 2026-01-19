@@ -3942,6 +3942,552 @@ def get_unit_topics_api():
                     ]
                 }
             }
+        elif course == "apphysics1":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apphysics1",
+                    "overview": "This unit focuses on kinematics - describing motion without considering the forces that cause it. Students learn to analyze motion in one and two dimensions using mathematical relationships.",
+                    "topics": [
+                        {
+                            "key": "positionVelocity",
+                            "title": "Position, Velocity, and Acceleration",
+                            "keyFacts": [
+                                "Position is location relative to a reference point",
+                                "Displacement is change in position (vector quantity)",
+                                "Velocity is rate of change of position",
+                                "Acceleration is rate of change of velocity",
+                                "Average vs instantaneous quantities differ"
+                            ]
+                        },
+                        {
+                            "key": "kinematicEquations",
+                            "title": "Kinematic Equations",
+                            "keyFacts": [
+                                "v = v₀ + at for constant acceleration",
+                                "x = x₀ + v₀t + ½at² relates position and time",
+                                "v² = v₀² + 2a(x - x₀) eliminates time",
+                                "These equations only work for constant acceleration",
+                                "Choose equation based on given and unknown variables"
+                            ]
+                        },
+                        {
+                            "key": "graphicalAnalysis",
+                            "title": "Graphical Analysis of Motion",
+                            "keyFacts": [
+                                "Position vs time graphs show motion patterns",
+                                "Slope of position graph gives velocity",
+                                "Slope of velocity graph gives acceleration",
+                                "Area under velocity graph gives displacement",
+                                "Curved lines indicate changing quantities"
+                            ]
+                        },
+                        {
+                            "key": "projectileMotion",
+                            "title": "Projectile Motion",
+                            "keyFacts": [
+                                "Horizontal and vertical motions are independent",
+                                "Horizontal velocity remains constant (no air resistance)",
+                                "Vertical motion has constant downward acceleration (g)",
+                                "Trajectory is parabolic shape",
+                                "Range depends on launch angle and initial speed"
+                            ]
+                        },
+                        {
+                            "key": "relativeMotion",
+                            "title": "Relative Motion",
+                            "keyFacts": [
+                                "Motion depends on reference frame chosen",
+                                "Velocities add vectorially for relative motion",
+                                "Observer's motion affects perceived motion of objects",
+                                "No absolute reference frame exists",
+                                "Vector addition crucial for relative velocity"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apphysics1",
+                    "overview": "This unit introduces forces and Newton's laws of motion. Students learn to analyze how forces cause acceleration and apply Newton's laws to solve dynamics problems.",
+                    "topics": [
+                        {
+                            "key": "newtonsFirstLaw",
+                            "title": "Newton's First Law (Inertia)",
+                            "keyFacts": [
+                                "Objects at rest stay at rest unless acted upon by net force",
+                                "Objects in motion stay in motion unless acted upon by net force",
+                                "Inertia is tendency to resist changes in motion",
+                                "Mass measures amount of inertia an object has",
+                                "Net force of zero means constant velocity (or rest)"
+                            ]
+                        },
+                        {
+                            "key": "newtonsSecondLaw",
+                            "title": "Newton's Second Law (F = ma)",
+                            "keyFacts": [
+                                "Net force equals mass times acceleration (F = ma)",
+                                "Force and acceleration are vector quantities",
+                                "Acceleration is in same direction as net force",
+                                "Larger mass means smaller acceleration for same force",
+                                "Force is measured in Newtons (kg⋅m/s²)"
+                            ]
+                        },
+                        {
+                            "key": "newtonsThirdLaw",
+                            "title": "Newton's Third Law (Action-Reaction)",
+                            "keyFacts": [
+                                "For every action, there's equal and opposite reaction",
+                                "Action-reaction pairs act on different objects",
+                                "Forces always come in pairs",
+                                "Action and reaction forces are same type of force",
+                                "These pairs don't cancel because they act on different objects"
+                            ]
+                        },
+                        {
+                            "key": "freeBodyDiagrams",
+                            "title": "Free Body Diagrams",
+                            "keyFacts": [
+                                "Isolate object and show all forces acting on it",
+                                "Use arrows to represent force vectors",
+                                "Label each force with appropriate name",
+                                "Don't include forces the object exerts on other things",
+                                "Essential tool for solving force problems"
+                            ]
+                        },
+                        {
+                            "key": "commonForces",
+                            "title": "Common Types of Forces",
+                            "keyFacts": [
+                                "Weight force always points toward Earth's center",
+                                "Normal force perpendicular to contact surface",
+                                "Friction opposes motion (or potential motion)",
+                                "Tension force directed along rope or string",
+                                "Applied forces can point in any direction"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3",
+                    "course": "apphysics1",
+                    "overview": "This unit explores circular motion and universal gravitation. Students learn about centripetal force, orbital motion, and how gravity works between any two masses.",
+                    "topics": [
+                        {
+                            "key": "centripetal",
+                            "title": "Centripetal Force and Acceleration",
+                            "keyFacts": [
+                                "Centripetal acceleration points toward center of circle",
+                                "Centripetal acceleration = v²/r for uniform circular motion",
+                                "Centripetal force provides the centripetal acceleration",
+                                "Centripetal force is not a new type of force",
+                                "Any force can serve as centripetal force"
+                            ]
+                        },
+                        {
+                            "key": "gravitation",
+                            "title": "Universal Gravitation",
+                            "keyFacts": [
+                                "Every mass attracts every other mass",
+                                "Gravitational force follows inverse square law",
+                                "F = Gm₁m₂/r² where G is gravitational constant",
+                                "Gravitational force is always attractive",
+                                "Strength depends on both masses and distance"
+                            ]
+                        },
+                        {
+                            "key": "orbitalMotion",
+                            "title": "Orbital Motion",
+                            "keyFacts": [
+                                "Gravity provides centripetal force for orbital motion",
+                                "Orbital speed depends on central mass and orbital radius",
+                                "Satellites don't fall because they move sideways fast enough",
+                                "Higher orbits have slower orbital speeds",
+                                "Escape velocity needed to leave gravitational field completely"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apphysics1",
+                    "overview": "This unit focuses on energy concepts including kinetic energy, potential energy, work, and conservation of energy. Students learn to analyze physical systems using energy methods.",
+                    "topics": [
+                        {
+                            "key": "workEnergy",
+                            "title": "Work and Energy",
+                            "keyFacts": [
+                                "Work equals force times displacement in direction of force",
+                                "Work = F⋅d⋅cos(θ) where θ is angle between F and d",
+                                "Work can be positive, negative, or zero",
+                                "Energy is ability to do work",
+                                "Work-energy theorem: work equals change in kinetic energy"
+                            ]
+                        },
+                        {
+                            "key": "kineticEnergy",
+                            "title": "Kinetic Energy",
+                            "keyFacts": [
+                                "Kinetic energy is energy of motion",
+                                "KE = ½mv² for translational motion",
+                                "Kinetic energy is always positive",
+                                "Kinetic energy increases with mass and speed",
+                                "Doubling speed quadruples kinetic energy"
+                            ]
+                        },
+                        {
+                            "key": "potentialEnergy",
+                            "title": "Potential Energy",
+                            "keyFacts": [
+                                "Potential energy is stored energy",
+                                "Gravitational PE = mgh near Earth's surface",
+                                "Elastic PE = ½kx² for springs (Hooke's law)",
+                                "Potential energy depends on position",
+                                "Reference point for PE can be chosen arbitrarily"
+                            ]
+                        },
+                        {
+                            "key": "conservationEnergy",
+                            "title": "Conservation of Energy",
+                            "keyFacts": [
+                                "Total mechanical energy conserved when only conservative forces act",
+                                "KE + PE = constant in conservative systems",
+                                "Energy is never created or destroyed, only transformed",
+                                "Non-conservative forces cause mechanical energy to decrease",
+                                "Energy analysis often simpler than force analysis"
+                            ]
+                        },
+                        {
+                            "key": "power",
+                            "title": "Power",
+                            "keyFacts": [
+                                "Power is rate of energy transfer or work done",
+                                "P = work/time = energy/time",
+                                "P = F⋅v for constant force and velocity",
+                                "Power measured in watts (joules per second)",
+                                "More power means faster energy transfer"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apphysics1",
+                    "overview": "This unit covers momentum and its conservation, impulse, and collision analysis. Students learn to apply conservation of momentum to solve collision problems.",
+                    "topics": [
+                        {
+                            "key": "momentum",
+                            "title": "Momentum and Impulse",
+                            "keyFacts": [
+                                "Momentum is mass times velocity (p = mv)",
+                                "Momentum is a vector quantity",
+                                "Impulse equals change in momentum",
+                                "Impulse = force × time (J = F⋅Δt)",
+                                "Large force for short time = small force for long time"
+                            ]
+                        },
+                        {
+                            "key": "conservationMomentum",
+                            "title": "Conservation of Momentum",
+                            "keyFacts": [
+                                "Total momentum conserved in isolated systems",
+                                "No external forces means momentum is conserved",
+                                "Internal forces come in action-reaction pairs",
+                                "Momentum before collision equals momentum after",
+                                "Works in all directions simultaneously"
+                            ]
+                        },
+                        {
+                            "key": "collisions",
+                            "title": "Types of Collisions",
+                            "keyFacts": [
+                                "Elastic collisions conserve both momentum and kinetic energy",
+                                "Inelastic collisions conserve momentum but not kinetic energy",
+                                "Perfectly inelastic: objects stick together after collision",
+                                "Explosion: objects start together then separate",
+                                "Real collisions are usually somewhere between elastic and inelastic"
+                            ]
+                        },
+                        {
+                            "key": "centerMass",
+                            "title": "Center of Mass",
+                            "keyFacts": [
+                                "Center of mass is balance point of system",
+                                "External forces accelerate the center of mass",
+                                "Internal forces don't affect center of mass motion",
+                                "CM moves at constant velocity if no external forces",
+                                "Useful for analyzing complex systems"
+                            ]
+                        }
+                    ]
+                },
+                "unit6": {
+                    "unit": "unit6",
+                    "course": "apphysics1",
+                    "overview": "This unit introduces simple harmonic motion including springs, pendulums, and energy in oscillating systems. Students learn about periodic motion and restoring forces.",
+                    "topics": [
+                        {
+                            "key": "hookesLaw",
+                            "title": "Hooke's Law and Springs",
+                            "keyFacts": [
+                                "Force proportional to displacement from equilibrium",
+                                "F = -kx where k is spring constant",
+                                "Negative sign indicates restoring force",
+                                "Stiffer springs have larger spring constants",
+                                "Spring force leads to oscillatory motion"
+                            ]
+                        },
+                        {
+                            "key": "simpleHarmonic",
+                            "title": "Simple Harmonic Motion",
+                            "keyFacts": [
+                                "Motion where restoring force proportional to displacement",
+                                "Results in sinusoidal position vs time",
+                                "Amplitude is maximum displacement from equilibrium",
+                                "Period is time for one complete oscillation",
+                                "Frequency is oscillations per unit time"
+                            ]
+                        },
+                        {
+                            "key": "pendulums",
+                            "title": "Simple Pendulums",
+                            "keyFacts": [
+                                "Period depends only on length and gravity (for small angles)",
+                                "T = 2π√(L/g) for simple pendulum",
+                                "Period independent of mass and amplitude (small angles)",
+                                "Restoring force comes from gravity component",
+                                "Widely used for timekeeping historically"
+                            ]
+                        },
+                        {
+                            "key": "energySHM",
+                            "title": "Energy in Simple Harmonic Motion",
+                            "keyFacts": [
+                                "Total mechanical energy remains constant",
+                                "Energy continuously converts between kinetic and potential",
+                                "Maximum KE at equilibrium position",
+                                "Maximum PE at maximum displacement",
+                                "Total energy proportional to square of amplitude"
+                            ]
+                        }
+                    ]
+                },
+                "unit7": {
+                    "unit": "unit7",
+                    "course": "apphysics1",
+                    "overview": "This unit covers rotational motion including torque, angular kinematics, and rotational equilibrium. Students learn to analyze rotating objects and systems in equilibrium.",
+                    "topics": [
+                        {
+                            "key": "angularKinematics",
+                            "title": "Angular Motion",
+                            "keyFacts": [
+                                "Angular displacement measured in radians",
+                                "Angular velocity is rate of change of angular position",
+                                "Angular acceleration is rate of change of angular velocity",
+                                "Kinematic equations apply to rotational motion",
+                                "Linear and angular quantities related by radius"
+                            ]
+                        },
+                        {
+                            "key": "torque",
+                            "title": "Torque",
+                            "keyFacts": [
+                                "Torque is rotational effect of force",
+                                "τ = r × F = rF sin(θ)",
+                                "Torque depends on force magnitude and lever arm",
+                                "Lever arm is perpendicular distance from axis to force line",
+                                "Torque can be clockwise or counterclockwise"
+                            ]
+                        },
+                        {
+                            "key": "equilibrium",
+                            "title": "Rotational Equilibrium",
+                            "keyFacts": [
+                                "Object in equilibrium has zero net force and zero net torque",
+                                "Sum of clockwise torques equals sum of counterclockwise torques",
+                                "Choice of rotation axis affects individual torques but not equilibrium condition",
+                                "Static equilibrium means object remains at rest",
+                                "Dynamic equilibrium means object moves with constant velocity"
+                            ]
+                        },
+                        {
+                            "key": "centerMassBalance",
+                            "title": "Center of Mass and Balance",
+                            "keyFacts": [
+                                "Center of mass is point where object balances",
+                                "Object stable when center of mass above base of support",
+                                "Lower center of mass makes object more stable",
+                                "Center of mass may be outside the object",
+                                "Weight force acts at center of mass"
+                            ]
+                        }
+                    ]
+                },
+                "unit8": {
+                    "unit": "unit8",
+                    "course": "apphysics1",
+                    "overview": "This unit introduces electrostatics including electric charge, electric force, and electric fields. Students learn about fundamental electrical interactions.",
+                    "topics": [
+                        {
+                            "key": "electricCharge",
+                            "title": "Electric Charge",
+                            "keyFacts": [
+                                "Two types of charge: positive and negative",
+                                "Like charges repel, opposite charges attract",
+                                "Charge is conserved in all interactions",
+                                "Charge measured in coulombs (C)",
+                                "Electrons carry negative charge, protons positive"
+                            ]
+                        },
+                        {
+                            "key": "coulombsLaw",
+                            "title": "Coulomb's Law",
+                            "keyFacts": [
+                                "Electric force between charges follows inverse square law",
+                                "F = kq₁q₂/r² where k is Coulomb's constant",
+                                "Force is attractive for opposite charges",
+                                "Force is repulsive for like charges",
+                                "Force acts along line connecting the charges"
+                            ]
+                        },
+                        {
+                            "key": "electricField",
+                            "title": "Electric Field",
+                            "keyFacts": [
+                                "Electric field is force per unit positive charge",
+                                "E = F/q defines electric field strength",
+                                "Field points away from positive charges",
+                                "Field points toward negative charges",
+                                "Field allows action-at-a-distance interactions"
+                            ]
+                        },
+                        {
+                            "key": "conductorsInsulators",
+                            "title": "Conductors and Insulators",
+                            "keyFacts": [
+                                "Conductors allow charges to move freely",
+                                "Insulators prevent charge movement",
+                                "Metals are generally good conductors",
+                                "Glass, plastic, rubber are insulators",
+                                "Semiconductors have intermediate properties"
+                            ]
+                        }
+                    ]
+                },
+                "unit9": {
+                    "unit": "unit9",
+                    "course": "apphysics1",
+                    "overview": "This unit covers DC circuits including current, voltage, resistance, and circuit analysis. Students learn to analyze simple electrical circuits.",
+                    "topics": [
+                        {
+                            "key": "currentVoltageResistance",
+                            "title": "Current, Voltage, and Resistance",
+                            "keyFacts": [
+                                "Current is flow of electric charge (measured in amperes)",
+                                "Voltage is electric potential difference (measured in volts)",
+                                "Resistance opposes current flow (measured in ohms)",
+                                "Higher voltage drives more current",
+                                "Higher resistance reduces current"
+                            ]
+                        },
+                        {
+                            "key": "ohmsLaw",
+                            "title": "Ohm's Law",
+                            "keyFacts": [
+                                "V = IR relates voltage, current, and resistance",
+                                "Applies to ohmic materials at constant temperature",
+                                "Can rearrange to find any unknown quantity",
+                                "Fundamental relationship for circuit analysis",
+                                "Not all materials obey Ohm's law"
+                            ]
+                        },
+                        {
+                            "key": "seriesParallel",
+                            "title": "Series and Parallel Circuits",
+                            "keyFacts": [
+                                "Series: components connected end-to-end in single path",
+                                "Parallel: components connected across same voltage source",
+                                "Series circuits have same current through all components",
+                                "Parallel circuits have same voltage across all components",
+                                "Total resistance differs in series vs parallel"
+                            ]
+                        },
+                        {
+                            "key": "electricalPower",
+                            "title": "Electrical Power",
+                            "keyFacts": [
+                                "Power is rate of energy dissipation",
+                                "P = IV = I²R = V²/R",
+                                "Power measured in watts",
+                                "Energy = Power × time",
+                                "Higher power means more energy use per time"
+                            ]
+                        }
+                    ]
+                },
+                "unit10": {
+                    "unit": "unit10",
+                    "course": "apphysics1",
+                    "overview": "This unit introduces mechanical waves and sound including wave properties, wave behavior, and sound phenomena. Students learn about wave motion and acoustic physics.",
+                    "topics": [
+                        {
+                            "key": "waveProperties",
+                            "title": "Wave Properties",
+                            "keyFacts": [
+                                "Waves transfer energy without transferring matter",
+                                "Amplitude measures maximum displacement",
+                                "Wavelength is distance between identical points",
+                                "Frequency is oscillations per unit time",
+                                "Wave speed = frequency × wavelength"
+                            ]
+                        },
+                        {
+                            "key": "waveTypes",
+                            "title": "Types of Waves",
+                            "keyFacts": [
+                                "Transverse waves: displacement perpendicular to wave direction",
+                                "Longitudinal waves: displacement parallel to wave direction",
+                                "Sound waves are longitudinal pressure waves",
+                                "Light waves are transverse electromagnetic waves",
+                                "Both types transfer energy through medium"
+                            ]
+                        },
+                        {
+                            "key": "waveBehavior",
+                            "title": "Wave Behavior",
+                            "keyFacts": [
+                                "Reflection: waves bounce off boundaries",
+                                "Refraction: waves change direction when entering new medium",
+                                "Interference: waves add together when they meet",
+                                "Constructive interference increases amplitude",
+                                "Destructive interference decreases amplitude"
+                            ]
+                        },
+                        {
+                            "key": "standingWaves",
+                            "title": "Standing Waves",
+                            "keyFacts": [
+                                "Formed when waves reflect back on themselves",
+                                "Nodes are points of zero displacement",
+                                "Antinodes are points of maximum displacement",
+                                "String instruments use standing wave patterns",
+                                "Different harmonics produce different frequencies"
+                            ]
+                        },
+                        {
+                            "key": "soundWaves",
+                            "title": "Sound and Doppler Effect",
+                            "keyFacts": [
+                                "Sound needs medium to travel through",
+                                "Sound speed depends on medium properties",
+                                "Doppler effect changes frequency with relative motion",
+                                "Moving source or observer affects perceived frequency",
+                                "Applications in radar, sonar, medical imaging"
+                            ]
+                        }
+                    ]
+                }
+            }
         elif course == "apcsp":
             topics_data = {
                 "unit1": {
@@ -5430,7 +5976,7 @@ def socratic_chat_send():
 
     try:
         # Always try Gemini AI first for courses with topic definitions
-        courses_with_topics = ['apbiology', 'appsychology', 'apgov', 'apmicro', 'aphug', 'apstat', 'apcsp', 'apush', 'apworld']
+        courses_with_topics = ['apbiology', 'appsychology', 'apgov', 'apmicro', 'aphug', 'apstat', 'apcsp', 'apush', 'apworld', 'apphysics1']
         
         socratic_data = None
         
@@ -5544,6 +6090,25 @@ Student's message: "{user_input}"
 Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
 
 If the student asks about a psychological concept, start with "**[Topic Name]**" and provide 3-4 bullet points of key psychological information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
+        elif course == "apphysics1" or course == "physics1":
+            context = f"""You are an expert AP Physics 1 tutor for {course.upper()} {unit.upper()}. 
+
+INSTRUCTION: For any question about physics, provide clear scientific explanations with bullet points when helpful, then ask ONE follow-up question.
+
+Your teaching approach:
+- Give clear, scientifically accurate physics information
+- Use bullet points for key concepts and equations
+- Follow information with ONE thoughtful question
+- Be educational first, Socratic second
+- Focus on fundamental physics principles and real-world applications
+- Connect concepts to everyday phenomena when relevant
+- Include relevant equations and units when appropriate
+
+Student's message: "{user_input}"
+
+Previous conversation: {str(conversation_history[-2:]) if conversation_history else 'First question'}
+
+If the student asks about a physics concept, start with "**[Topic Name]**" and provide 3-4 bullet points of key physics information, then ask ONE question to guide deeper thinking. Keep under 250 words."""
         else:
             # History courses
             context = f"""You are an expert history tutor for {course.upper()} {unit.upper()}. 
@@ -5669,6 +6234,10 @@ def get_socratic_response(user_input, course, unit, conversation_history):
     # Handle cultural/social questions
     if any(word in msg for word in ['cultural', 'culture', 'religion', 'social', 'art', 'literature', 'movement']):
         return handle_cultural_questions(msg, course, unit, course_info)
+    
+    # Handle physics questions (for AP Physics 1)
+    if any(word in msg for word in ['force', 'motion', 'energy', 'wave', 'electric', 'gravity', 'acceleration', 'velocity', 'momentum', 'physics', 'circuit', 'charge']):
+        return handle_physics_questions(msg, course, unit, course_info)
     
     # For unclear or off-topic responses, guide gently
     return {
@@ -5914,6 +6483,90 @@ def get_course_context(course, unit):
         }
     }
     
+    # Comprehensive AP Physics 1 content
+    apphysics1_content = {
+        'unit1': {
+            'title': 'AP Physics 1 Unit 1: Kinematics',
+            'overview': '**Motion in one and two dimensions** - Describing how objects move without considering the forces that cause motion.',
+            'key_themes': '• **Position and Displacement** - Where objects are and how far they move\n• **Velocity and Acceleration** - How fast and how speed changes\n• **Kinematic Equations** - Mathematical relationships for motion\n• **Projectile Motion** - Objects moving under gravity alone\n• **Relative Motion** - Motion from different reference frames',
+            'topics_overview': '• Describing motion mathematically\n• Analyzing graphs of motion\n• Solving projectile motion problems',
+            'main_concepts': ['position', 'velocity', 'acceleration', 'kinematic equations', 'projectile motion'],
+            'suggested_questions': '• "What\'s the difference between distance and displacement?"\n• "How do we read position vs time graphs?"\n• "Why do projectiles follow parabolic paths?"\n• "How does relative motion work?"'
+        },
+        'unit2': {
+            'title': 'AP Physics 1 Unit 2: Dynamics',
+            'overview': '**Forces and Newton\'s Laws** - Understanding what causes objects to accelerate and how forces work.',
+            'key_themes': '• **Newton\'s First Law** - Objects at rest stay at rest, objects in motion stay in motion\n• **Newton\'s Second Law** - F = ma, force equals mass times acceleration\n• **Newton\'s Third Law** - For every action, there is an equal and opposite reaction\n• **Free Body Diagrams** - Visual representation of forces\n• **Common Forces** - Weight, normal, friction, tension',
+            'topics_overview': '• Understanding Newton\'s three laws\n• Drawing and analyzing free body diagrams\n• Solving force problems',
+            'main_concepts': ['newtons laws', 'free body diagrams', 'net force', 'friction', 'tension'],
+            'suggested_questions': '• "Why do objects resist changes in motion?"\n• "How does F = ma work in practice?"\n• "What are action-reaction pairs?"\n• "How do we analyze forces on objects?"'
+        },
+        'unit3': {
+            'title': 'AP Physics 1 Unit 3: Circular Motion and Gravitation',
+            'overview': '**Objects moving in circles** - Centripetal force, planetary motion, and universal gravitation.',
+            'key_themes': '• **Centripetal Force** - Force toward the center of circular motion\n• **Centripetal Acceleration** - Acceleration toward the center\n• **Universal Gravitation** - Every mass attracts every other mass\n• **Orbital Motion** - How planets and satellites stay in orbit\n• **Banking and Curves** - Real-world applications of circular motion',
+            'topics_overview': '• Analyzing circular motion\n• Understanding gravitational force\n• Explaining orbital mechanics',
+            'main_concepts': ['centripetal force', 'centripetal acceleration', 'universal gravitation', 'orbital motion'],
+            'suggested_questions': '• "What keeps objects moving in circles?"\n• "Why don\'t satellites fall to Earth?"\n• "How does gravity work between any two masses?"\n• "Why do we feel heavier on some planets?"'
+        },
+        'unit4': {
+            'title': 'AP Physics 1 Unit 4: Energy',
+            'overview': '**Energy and its conservation** - Work, kinetic energy, potential energy, and the work-energy theorem.',
+            'key_themes': '• **Kinetic Energy** - Energy of motion (KE = ½mv²)\n• **Potential Energy** - Stored energy (gravitational and elastic)\n• **Work-Energy Theorem** - Work equals change in kinetic energy\n• **Conservation of Energy** - Energy cannot be created or destroyed\n• **Power** - Rate of energy transfer or work done',
+            'topics_overview': '• Understanding different forms of energy\n• Applying conservation of energy\n• Calculating work and power',
+            'main_concepts': ['kinetic energy', 'potential energy', 'work-energy theorem', 'conservation of energy', 'power'],
+            'suggested_questions': '• "What\'s the difference between kinetic and potential energy?"\n• "How does the work-energy theorem work?"\n• "Why is energy always conserved?"\n• "What happens to \'lost\' energy?"'
+        },
+        'unit5': {
+            'title': 'AP Physics 1 Unit 5: Momentum',
+            'overview': '**Momentum and collisions** - Conservation of momentum, impulse, and analyzing collisions.',
+            'key_themes': '• **Momentum** - Mass times velocity (p = mv)\n• **Conservation of Momentum** - Total momentum stays constant in isolated systems\n• **Impulse** - Change in momentum equals force times time\n• **Elastic Collisions** - Kinetic energy is conserved\n• **Inelastic Collisions** - Objects stick together after collision',
+            'topics_overview': '• Understanding momentum conservation\n• Analyzing different types of collisions\n• Relating impulse to change in momentum',
+            'main_concepts': ['momentum', 'conservation of momentum', 'impulse', 'elastic collisions', 'inelastic collisions'],
+            'suggested_questions': '• "What is momentum and why is it important?"\n• "Why is momentum always conserved?"\n• "What\'s the difference between elastic and inelastic collisions?"\n• "How does impulse relate to safety features in cars?"'
+        },
+        'unit6': {
+            'title': 'AP Physics 1 Unit 6: Simple Harmonic Motion',
+            'overview': '**Oscillatory motion** - Springs, pendulums, and periodic motion with restoring forces.',
+            'key_themes': '• **Hooke\'s Law** - Force is proportional to displacement (F = -kx)\n• **Simple Harmonic Motion** - Periodic motion with restoring force\n• **Period and Frequency** - Time for one cycle and cycles per second\n• **Pendulums** - Oscillation under gravitational restoring force\n• **Energy in SHM** - Conversion between kinetic and potential energy',
+            'topics_overview': '• Understanding oscillatory motion\n• Analyzing springs and pendulums\n• Energy transformations in periodic motion',
+            'main_concepts': ['hookes law', 'simple harmonic motion', 'period', 'frequency', 'restoring force'],
+            'suggested_questions': '• "What causes oscillatory motion?"\n• "How do springs and pendulums relate?"\n• "Why do pendulum clocks keep time?"\n• "How does energy change during oscillation?"'
+        },
+        'unit7': {
+            'title': 'AP Physics 1 Unit 7: Torque and Rotational Motion',
+            'overview': '**Rotational dynamics** - Torque, angular motion, and rotational equilibrium.',
+            'key_themes': '• **Torque** - Rotational effect of force (τ = rF sin θ)\n• **Angular Velocity** - How fast objects rotate\n• **Angular Acceleration** - Change in angular velocity\n• **Rotational Equilibrium** - When net torque is zero\n• **Center of Mass** - Balance point of objects',
+            'topics_overview': '• Understanding rotational motion\n• Calculating torque and equilibrium\n• Finding centers of mass',
+            'main_concepts': ['torque', 'angular velocity', 'angular acceleration', 'rotational equilibrium', 'center of mass'],
+            'suggested_questions': '• "What makes objects rotate?"\n• "Why is it easier to open a door by the handle?"\n• "How do we find the center of mass?"\n• "What conditions are needed for rotational equilibrium?"'
+        },
+        'unit8': {
+            'title': 'AP Physics 1 Unit 8: Electric Charge and Electric Force',
+            'overview': '**Electrostatics** - Electric charge, Coulomb\'s law, and electric fields.',
+            'key_themes': '• **Electric Charge** - Fundamental property of matter\n• **Coulomb\'s Law** - Force between electric charges\n• **Electric Field** - Force per unit charge in space\n• **Electric Potential Energy** - Energy stored in charge configurations\n• **Conductors and Insulators** - How materials respond to electric fields',
+            'topics_overview': '• Understanding electric charge and force\n• Analyzing electric fields\n• Working with conductors and insulators',
+            'main_concepts': ['electric charge', 'coulombs law', 'electric field', 'electric potential energy', 'conductors'],
+            'suggested_questions': '• "What is electric charge?"\n• "How does distance affect electric force?"\n• "What creates electric fields?"\n• "Why do some materials conduct electricity?"'
+        },
+        'unit9': {
+            'title': 'AP Physics 1 Unit 9: DC Circuits',
+            'overview': '**Electric circuits** - Current, voltage, resistance, and analyzing simple circuits.',
+            'key_themes': '• **Electric Current** - Flow of electric charge\n• **Voltage** - Electric potential difference\n• **Resistance** - Opposition to current flow\n• **Ohm\'s Law** - V = IR relationship\n• **Circuit Analysis** - Series and parallel circuits\n• **Power in Circuits** - P = IV energy dissipation',
+            'topics_overview': '• Understanding current, voltage, and resistance\n• Analyzing series and parallel circuits\n• Calculating power in electrical devices',
+            'main_concepts': ['electric current', 'voltage', 'resistance', 'ohms law', 'series circuits', 'parallel circuits'],
+            'suggested_questions': '• "What\'s the difference between current and voltage?"\n• "How does Ohm\'s law work?"\n• "What\'s the difference between series and parallel circuits?"\n• "How do we calculate power consumption?"'
+        },
+        'unit10': {
+            'title': 'AP Physics 1 Unit 10: Mechanical Waves and Sound',
+            'overview': '**Wave motion and sound** - Properties of waves, wave behavior, and sound phenomena.',
+            'key_themes': '• **Wave Properties** - Amplitude, wavelength, frequency, speed\n• **Wave Types** - Transverse and longitudinal waves\n• **Wave Behavior** - Reflection, refraction, interference\n• **Standing Waves** - Waves confined to specific patterns\n• **Sound Waves** - Pressure waves in air and other media\n• **Doppler Effect** - Frequency changes with relative motion',
+            'topics_overview': '• Understanding wave properties and behavior\n• Analyzing standing wave patterns\n• Explaining sound phenomena',
+            'main_concepts': ['wave properties', 'standing waves', 'wave interference', 'sound waves', 'doppler effect'],
+            'suggested_questions': '• "What makes a wave a wave?"\n• "How do standing waves form?"\n• "Why do sounds change pitch when sources move?"\n• "What happens when waves meet?"'
+        }
+    }
+    
     # Determine which content to use based on course
     if course == 'apush':
         return apush_content.get(unit, {
@@ -5941,6 +6594,15 @@ def get_course_context(course, unit):
             'topics_overview': '• Data analysis and statistical inference',
             'main_concepts': ['statistical methods'],
             'suggested_questions': '• Ask me about statistical concepts!'
+        })
+    elif course == 'apphysics1' or course == 'physics1':
+        return apphysics1_content.get(unit, {
+            'title': f'AP Physics 1 Unit {unit}',
+            'overview': 'We\'re studying fundamental physics concepts!',
+            'key_themes': '• Physics principles and applications',
+            'topics_overview': '• Motion, forces, energy, and waves',
+            'main_concepts': ['physics fundamentals'],
+            'suggested_questions': '• Ask me about physics concepts!'
         })
     elif course == 'apworld' or course == 'world':
         return apworld_content.get(unit, {
@@ -6173,6 +6835,140 @@ def handle_cultural_questions(msg, course, unit, course_info):
     return {
         'response': f"**Cultural aspects of {course_info['title']} are fascinating!** 🎨\n\nCulture - the ideas, beliefs, arts, and customs of societies - both shapes and is shaped by political and economic changes.\n\nWhat interests you most - how cultures develop, how they interact with each other, or how they change over time?",
         'topic': 'culture_general',
+        'source': 'conversational_socratic',
+        'concepts_introduced': [],
+        'progress_update': {}
+    }
+
+def handle_physics_questions(msg, course, unit, course_info):
+    """Handle questions about physics concepts for AP Physics 1"""
+    if course != 'apphysics1' and course != 'physics1':
+        return {
+            'response': f"**That's an interesting question about {course_info['title']}!** 🤔\n\nWhat specifically would you like to explore about that topic?",
+            'topic': 'general_inquiry',
+            'source': 'conversational_socratic',
+            'concepts_introduced': [],
+            'progress_update': {}
+        }
+    
+    # Handle motion and kinematics questions
+    if any(word in msg for word in ['motion', 'velocity', 'acceleration', 'position', 'displacement', 'kinematics']):
+        if unit in ['unit1']:
+            return {
+                'response': "**Motion is everywhere around us!** 🚗\n\n**Key motion concepts:**\n• **Position** - Where an object is located\n• **Velocity** - How fast and in what direction it moves\n• **Acceleration** - How velocity changes over time\n• **Displacement** - Change in position (vector quantity)\n\n**Think about this:** What's the difference between speed and velocity? Why does direction matter in physics?",
+                'topic': 'kinematics',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['position', 'velocity', 'acceleration', 'displacement'],
+                'progress_update': {'kinematics': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Motion connects to many physics concepts!** 🌟\n\nWe can describe motion mathematically, analyze forces that cause it, or study energy changes during motion.\n\nWhat aspect of motion interests you most - describing it, what causes it, or how energy is involved?",
+                'topic': 'motion_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['motion analysis'],
+                'progress_update': {'motion_concepts': {'introduced': True}}
+            }
+    
+    # Handle force questions
+    elif any(word in msg for word in ['force', 'newton', 'friction', 'gravity', 'tension', 'normal']):
+        if unit in ['unit2', 'unit3']:
+            return {
+                'response': "**Forces are pushes and pulls that change motion!** 💪\n\n**Newton's insights:**\n• **First Law** - Objects resist changes in motion (inertia)\n• **Second Law** - Force equals mass times acceleration (F = ma)\n• **Third Law** - Forces always come in pairs\n• **Common forces** - Weight, normal, friction, tension\n\n**Here's the key question:** If forces always come in pairs, how can there ever be a net force to accelerate objects?",
+                'topic': 'forces_newtons_laws',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['newtons laws', 'force types', 'net force'],
+                'progress_update': {'forces': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Forces are fundamental to understanding physics!** ⚡\n\nForces cause acceleration, they come in pairs, and understanding them helps explain everything from walking to planetary motion.\n\nWhat would you like to explore - how forces cause motion, different types of forces, or how we analyze force problems?",
+                'topic': 'forces_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['forces'],
+                'progress_update': {'force_concepts': {'introduced': True}}
+            }
+    
+    # Handle energy questions
+    elif any(word in msg for word in ['energy', 'kinetic', 'potential', 'work', 'power', 'conservation']):
+        if unit in ['unit4']:
+            return {
+                'response': "**Energy is the ability to cause change!** ⚡\n\n**Types of energy:**\n• **Kinetic Energy** - Energy of motion (KE = ½mv²)\n• **Potential Energy** - Stored energy (gravitational, elastic)\n• **Work** - Force applied over distance transfers energy\n• **Conservation** - Energy can't be created or destroyed, only transformed\n\n**Amazing fact:** A moving car has kinetic energy, but where does it go when the car stops? What happens to that energy?",
+                'topic': 'energy_conservation',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['kinetic energy', 'potential energy', 'work', 'energy conservation'],
+                'progress_update': {'energy': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Energy is one of the most important concepts in physics!** 🌟\n\nEnergy explains why things happen - from a ball rolling down a hill to a spring bouncing back to its original shape.\n\nWhat interests you most - how energy is stored, how it moves between objects, or why it's always conserved?",
+                'topic': 'energy_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['energy concepts'],
+                'progress_update': {'energy_concepts': {'introduced': True}}
+            }
+    
+    # Handle wave questions
+    elif any(word in msg for word in ['wave', 'sound', 'frequency', 'wavelength', 'amplitude', 'doppler']):
+        if unit in ['unit10']:
+            return {
+                'response': "**Waves are everywhere!** 🌊\n\n**Wave essentials:**\n• **Amplitude** - Maximum displacement (relates to volume/brightness)\n• **Wavelength** - Distance between identical points\n• **Frequency** - Oscillations per second (relates to pitch/color)\n• **Wave speed** = frequency × wavelength\n• **Interference** - Waves can add or cancel when they meet\n\n**Think about this:** Why do you hear different pitches when an ambulance passes by? What's changing about the sound waves?",
+                'topic': 'wave_properties',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['wave properties', 'frequency', 'wavelength', 'doppler effect'],
+                'progress_update': {'waves': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Waves transfer energy without transferring matter!** 🎵\n\nFrom sound waves carrying music to your ears to water waves moving energy across the ocean.\n\nWhat fascinates you about waves - how they travel, their different properties, or how they behave when they meet other waves?",
+                'topic': 'waves_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['wave motion'],
+                'progress_update': {'wave_concepts': {'introduced': True}}
+            }
+    
+    # Handle electricity questions
+    elif any(word in msg for word in ['electric', 'charge', 'current', 'voltage', 'resistance', 'circuit', 'ohm']):
+        if unit in ['unit8', 'unit9']:
+            return {
+                'response': "**Electricity powers our modern world!** ⚡\n\n**Electric fundamentals:**\n• **Electric charge** - Fundamental property (positive/negative)\n• **Electric current** - Flow of charge (measured in amperes)\n• **Voltage** - Electric potential difference (measured in volts)\n• **Resistance** - Opposition to current flow (measured in ohms)\n• **Ohm's Law** - V = IR relates voltage, current, resistance\n\n**Fascinating question:** How is electricity similar to water flowing through pipes? What are the similarities and differences?",
+                'topic': 'electricity_circuits',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['electric charge', 'current', 'voltage', 'resistance', 'ohms law'],
+                'progress_update': {'electricity': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Electricity is a fundamental force of nature!** 🔌\n\nFrom the tiny charges in atoms to the circuits in your phone, electric phenomena are everywhere.\n\nWhat interests you most - how electric charges behave, how we use electricity in circuits, or how electricity relates to magnetism?",
+                'topic': 'electricity_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['electricity'],
+                'progress_update': {'electric_concepts': {'introduced': True}}
+            }
+    
+    # Handle momentum questions
+    elif any(word in msg for word in ['momentum', 'collision', 'impulse', 'conservation']):
+        if unit in ['unit5']:
+            return {
+                'response': "**Momentum is mass in motion!** 🎱\n\n**Momentum concepts:**\n• **Momentum** = mass × velocity (p = mv)\n• **Conservation of momentum** - Total momentum stays constant in isolated systems\n• **Impulse** = force × time = change in momentum\n• **Collisions** - Elastic (bouncy) vs inelastic (sticky)\n\n**Real-world connection:** Why do airbags save lives? How do they use the impulse-momentum relationship to protect passengers?",
+                'topic': 'momentum_collisions',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['momentum', 'conservation of momentum', 'impulse', 'collisions'],
+                'progress_update': {'momentum': {'introduced': True}}
+            }
+        else:
+            return {
+                'response': "**Momentum helps explain collisions and explosions!** 💥\n\nMomentum is always conserved - whether it's pool balls colliding or rockets launching into space.\n\nWhat would you like to explore - what momentum is, why it's conserved, or how we use it to analyze collisions?",
+                'topic': 'momentum_general',
+                'source': 'conversational_socratic',
+                'concepts_introduced': ['momentum'],
+                'progress_update': {'momentum_concepts': {'introduced': True}}
+            }
+    
+    # General physics response
+    return {
+        'response': f"**Great physics question!** 🔬\n\n**{course_info['title']}** covers fundamental physics principles that explain how our world works.\n\n**Key areas we explore:**\n{course_info['topics_overview']}\n\nWhat specific physics concept would you like to dive into? I can help you understand the how and why behind the physics!",
+        'topic': 'physics_general',
         'source': 'conversational_socratic',
         'concepts_introduced': [],
         'progress_update': {}

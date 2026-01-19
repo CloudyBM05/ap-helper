@@ -169,6 +169,25 @@ const SocraticLearning = () => {
         { id: 4, emoji: '🌐', title: 'Computer Systems and Networks', period: 'Hardware & Connectivity' },
         { id: 5, emoji: '🔒', title: 'Impact of Computing', period: 'Society, Ethics & Security' }
       ]
+    },
+    {
+      id: 'apphysics1',
+      title: 'AP Physics 1',
+      description: 'Master fundamental physics concepts through inquiry-based learning and problem solving',
+      category: 'stem',
+      color: 'from-cyan-500 to-blue-500',
+      units: [
+        { id: 1, emoji: '📍', title: 'Kinematics', period: 'Motion in 1D & 2D' },
+        { id: 2, emoji: '💪', title: 'Dynamics', period: 'Forces & Newton\'s Laws' },
+        { id: 3, emoji: '🌍', title: 'Circular Motion & Gravitation', period: 'Centripetal Force' },
+        { id: 4, emoji: '⚡', title: 'Energy', period: 'Work & Conservation' },
+        { id: 5, emoji: '🎱', title: 'Momentum', period: 'Collisions & Impulse' },
+        { id: 6, emoji: '🌊', title: 'Simple Harmonic Motion', period: 'Springs & Pendulums' },
+        { id: 7, emoji: '🌀', title: 'Torque & Rotational Motion', period: 'Angular Dynamics' },
+        { id: 8, emoji: '⚡', title: 'Electric Charge & Force', period: 'Electrostatics' },
+        { id: 9, emoji: '🔌', title: 'DC Circuits', period: 'Current & Resistance' },
+        { id: 10, emoji: '🎵', title: 'Mechanical Waves & Sound', period: 'Wave Properties' }
+      ]
     }
   ];
 

@@ -173,6 +173,21 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Statistics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apphysics1' || course === 'physics1') {
+      const unitData = {
+        'unit1': { title: 'AP Physics 1 Unit 1: Kinematics', period: 'Motion in 1D & 2D', emoji: '📍' },
+        'unit2': { title: 'AP Physics 1 Unit 2: Dynamics', period: 'Forces & Newton\'s Laws', emoji: '💪' },
+        'unit3': { title: 'AP Physics 1 Unit 3: Circular Motion & Gravitation', period: 'Centripetal Force', emoji: '🌍' },
+        'unit4': { title: 'AP Physics 1 Unit 4: Energy', period: 'Work & Conservation', emoji: '⚡' },
+        'unit5': { title: 'AP Physics 1 Unit 5: Momentum', period: 'Collisions & Impulse', emoji: '🎱' },
+        'unit6': { title: 'AP Physics 1 Unit 6: Simple Harmonic Motion', period: 'Springs & Pendulums', emoji: '🌊' },
+        'unit7': { title: 'AP Physics 1 Unit 7: Torque & Rotational Motion', period: 'Angular Dynamics', emoji: '🌀' },
+        'unit8': { title: 'AP Physics 1 Unit 8: Electric Charge & Force', period: 'Electrostatics', emoji: '⚡' },
+        'unit9': { title: 'AP Physics 1 Unit 9: DC Circuits', period: 'Current & Resistance', emoji: '🔌' },
+        'unit10': { title: 'AP Physics 1 Unit 10: Mechanical Waves & Sound', period: 'Wave Properties', emoji: '🎵' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Physics 1 ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     if (course === 'apcsp') {
       const unitData = {
         'unit1': { title: 'AP Computer Science Principles Unit 1: Creative Development', period: 'Programming & Innovation', emoji: '💻' },
@@ -738,6 +753,83 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apphysics1' || course === 'physics1') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'positionVelocity', title: 'Position, Velocity, and Acceleration', keyFacts: ['Position is location relative to reference', 'Velocity is rate of change of position', 'Acceleration is rate of change of velocity', 'Vector quantities have magnitude and direction', 'Average vs instantaneous quantities'] },
+          { key: 'kinematicEquations', title: 'Kinematic Equations for Motion', keyFacts: ['v = v₀ + at for constant acceleration', 'x = x₀ + v₀t + ½at² for position', 'v² = v₀² + 2a(x - x₀) eliminates time', 'Equations only work for constant acceleration', 'Choose equation based on known variables'] },
+          { key: 'graphicalAnalysis', title: 'Graphical Analysis of Motion', keyFacts: ['Position-time graphs show motion patterns', 'Slope of position graph gives velocity', 'Velocity-time graphs show acceleration', 'Area under velocity curve gives displacement', 'Curved lines indicate changing quantities'] },
+          { key: 'projectileMotion', title: 'Projectile Motion Principles', keyFacts: ['Horizontal and vertical motions independent', 'Horizontal velocity remains constant', 'Vertical motion has constant acceleration g', 'Trajectory forms parabolic path', 'Range depends on angle and initial speed'] },
+          { key: 'relativeMotion', title: 'Relative Motion and Reference Frames', keyFacts: ['Motion depends on chosen reference frame', 'Relative velocities add vectorially', 'No absolute reference frame exists', 'Observer motion affects measurements', 'Vector addition crucial for analysis'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'newtonsFirstLaw', title: 'Newton\'s First Law (Inertia)', keyFacts: ['Objects at rest stay at rest without net force', 'Objects in motion continue at constant velocity', 'Inertia is resistance to motion changes', 'Mass measures amount of inertia', 'Net force of zero means equilibrium'] },
+          { key: 'newtonsSecondLaw', title: 'Newton\'s Second Law (F = ma)', keyFacts: ['Net force equals mass times acceleration', 'Force and acceleration are vectors', 'Acceleration direction matches net force', 'More mass means less acceleration for same force', 'Force measured in Newtons (kg⋅m/s²)'] },
+          { key: 'newtonsThirdLaw', title: 'Newton\'s Third Law (Action-Reaction)', keyFacts: ['Every action has equal opposite reaction', 'Action-reaction pairs act on different objects', 'Forces always occur in pairs', 'Same type of force in each pair', 'Pairs don\'t cancel because different objects'] },
+          { key: 'freeBodyDiagrams', title: 'Free Body Diagrams and Force Analysis', keyFacts: ['Isolate object and show all forces', 'Use arrows to represent force vectors', 'Don\'t include forces object exerts', 'Essential for solving force problems', 'Identify all contact and field forces'] },
+          { key: 'commonForces', title: 'Types of Forces in Mechanics', keyFacts: ['Weight always points toward Earth center', 'Normal force perpendicular to surface', 'Friction opposes relative motion', 'Tension directed along string or rope', 'Applied forces can point any direction'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'centripetal', title: 'Centripetal Force and Acceleration', keyFacts: ['Centripetal acceleration points toward center', 'Acceleration magnitude equals v²/r', 'Centripetal force provides required acceleration', 'Not a new type of force', 'Any force can serve as centripetal'] },
+          { key: 'gravitation', title: 'Universal Gravitation', keyFacts: ['Every mass attracts every other mass', 'Force follows inverse square law', 'F = Gm₁m₂/r² gives gravitational force', 'Always attractive force', 'Strength depends on masses and distance'] },
+          { key: 'orbitalMotion', title: 'Orbital Motion and Satellites', keyFacts: ['Gravity provides centripetal force for orbits', 'Orbital speed depends on central mass and radius', 'Higher orbits have slower speeds', 'Satellites don\'t fall due to sideways motion', 'Escape velocity needed to leave orbit'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'workEnergy', title: 'Work and Energy Concepts', keyFacts: ['Work equals force times displacement', 'Work = F⋅d⋅cos(θ) with angle', 'Work can be positive, negative, or zero', 'Energy is capacity to do work', 'Work-energy theorem connects both'] },
+          { key: 'kineticEnergy', title: 'Kinetic Energy and Motion', keyFacts: ['KE = ½mv² for translational motion', 'Always positive quantity', 'Increases with mass and speed', 'Doubling speed quadruples kinetic energy', 'Related to motion of object'] },
+          { key: 'potentialEnergy', title: 'Potential Energy Storage', keyFacts: ['Gravitational PE = mgh near Earth', 'Elastic PE = ½kx² for springs', 'Depends on position or configuration', 'Can choose reference point arbitrarily', 'Stored energy due to position'] },
+          { key: 'conservationEnergy', title: 'Conservation of Mechanical Energy', keyFacts: ['Total mechanical energy conserved without friction', 'KE + PE = constant in conservative systems', 'Energy transformed, never created or destroyed', 'Non-conservative forces remove mechanical energy', 'Powerful tool for solving problems'] },
+          { key: 'power', title: 'Power and Energy Transfer', keyFacts: ['Power is rate of energy transfer', 'P = work/time = energy/time', 'P = F⋅v for constant force and velocity', 'Measured in watts (joules per second)', 'Higher power means faster energy transfer'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'momentum', title: 'Momentum and Impulse', keyFacts: ['Momentum equals mass times velocity (p = mv)', 'Vector quantity with direction', 'Impulse equals change in momentum', 'J = F⋅Δt = Δp connects force and time', 'Large force briefly equals small force longer'] },
+          { key: 'conservationMomentum', title: 'Conservation of Momentum', keyFacts: ['Total momentum conserved in isolated systems', 'No external forces means momentum conserved', 'Internal forces come in action-reaction pairs', 'Works in all directions simultaneously', 'Momentum before equals momentum after'] },
+          { key: 'collisions', title: 'Types of Collisions', keyFacts: ['Elastic collisions conserve kinetic energy too', 'Inelastic collisions lose kinetic energy', 'Perfectly inelastic: objects stick together', 'Real collisions usually partially elastic', 'Momentum always conserved in collisions'] },
+          { key: 'centerMass', title: 'Center of Mass and Systems', keyFacts: ['Center of mass is balance point', 'External forces accelerate center of mass', 'Internal forces don\'t affect CM motion', 'CM moves at constant velocity if no external forces', 'Useful for analyzing complex motions'] }
+        ];
+      } else if (unit === 'unit6') {
+        return [
+          { key: 'hookesLaw', title: 'Hooke\'s Law and Springs', keyFacts: ['Force proportional to displacement: F = -kx', 'Spring constant k measures stiffness', 'Negative sign indicates restoring force', 'Stiffer springs have larger k values', 'Restoring force causes oscillation'] },
+          { key: 'simpleHarmonic', title: 'Simple Harmonic Motion', keyFacts: ['Restoring force proportional to displacement', 'Results in sinusoidal motion', 'Amplitude is maximum displacement', 'Period is time for one complete cycle', 'Frequency is cycles per unit time'] },
+          { key: 'pendulums', title: 'Simple Pendulum Motion', keyFacts: ['Period T = 2π√(L/g) for small angles', 'Independent of mass and amplitude', 'Gravity provides restoring force', 'Longer pendulums have longer periods', 'Used historically for timekeeping'] },
+          { key: 'energySHM', title: 'Energy in Oscillatory Motion', keyFacts: ['Total mechanical energy conserved', 'Continuous conversion between KE and PE', 'Maximum KE at equilibrium position', 'Maximum PE at maximum displacement', 'Energy proportional to amplitude squared'] }
+        ];
+      } else if (unit === 'unit7') {
+        return [
+          { key: 'angularKinematics', title: 'Angular Motion and Kinematics', keyFacts: ['Angular displacement measured in radians', 'Angular velocity is rate of rotation', 'Angular acceleration is change in angular velocity', 'Linear and angular quantities related by radius', 'Kinematic equations apply to rotation'] },
+          { key: 'torque', title: 'Torque and Rotational Force', keyFacts: ['Torque is rotational effect of force', 'τ = r × F = rF sin(θ)', 'Lever arm is perpendicular distance', 'Torque can be clockwise or counterclockwise', 'Units are Newton⋅meters'] },
+          { key: 'equilibrium', title: 'Rotational Equilibrium', keyFacts: ['Zero net force and zero net torque', 'Sum of clockwise equals counterclockwise torques', 'Choice of rotation axis affects calculation', 'Static equilibrium means object at rest', 'Dynamic equilibrium means constant motion'] },
+          { key: 'centerMassBalance', title: 'Center of Mass and Balance', keyFacts: ['Center of mass is balance point', 'Object stable when CM over base', 'Lower CM increases stability', 'CM may be outside object', 'Weight acts at center of mass'] }
+        ];
+      } else if (unit === 'unit8') {
+        return [
+          { key: 'electricCharge', title: 'Electric Charge Properties', keyFacts: ['Two types: positive and negative charge', 'Like charges repel, opposites attract', 'Charge conserved in all interactions', 'Measured in coulombs (C)', 'Fundamental property of matter'] },
+          { key: 'coulombsLaw', title: 'Coulomb\'s Law and Electric Force', keyFacts: ['F = kq₁q₂/r² gives force between charges', 'Inverse square law like gravity', 'k is Coulomb\'s constant', 'Force along line connecting charges', 'Attractive for opposites, repulsive for like'] },
+          { key: 'electricField', title: 'Electric Field Concept', keyFacts: ['Electric field is force per unit charge', 'E = F/q defines field strength', 'Field points away from positive charges', 'Field points toward negative charges', 'Allows action at a distance'] },
+          { key: 'conductorsInsulators', title: 'Electrical Properties of Materials', keyFacts: ['Conductors allow charge movement', 'Insulators prevent charge flow', 'Metals are typically conductors', 'Glass and plastic are insulators', 'Semiconductors have intermediate properties'] }
+        ];
+      } else if (unit === 'unit9') {
+        return [
+          { key: 'currentVoltageResistance', title: 'Basic Circuit Quantities', keyFacts: ['Current is flow of charge (amperes)', 'Voltage is potential difference (volts)', 'Resistance opposes current (ohms)', 'Higher voltage drives more current', 'Higher resistance reduces current'] },
+          { key: 'ohmsLaw', title: 'Ohm\'s Law and Applications', keyFacts: ['V = IR relates voltage, current, resistance', 'Applies to ohmic materials', 'Can solve for any unknown quantity', 'Fundamental for circuit analysis', 'Some materials don\'t obey Ohm\'s law'] },
+          { key: 'seriesParallel', title: 'Series and Parallel Circuits', keyFacts: ['Series: single path for current', 'Parallel: multiple paths for current', 'Series circuits have same current everywhere', 'Parallel circuits have same voltage across branches', 'Different rules for combining resistances'] },
+          { key: 'electricalPower', title: 'Power in Electrical Circuits', keyFacts: ['P = IV = I²R = V²/R', 'Power is energy per unit time', 'Measured in watts', 'Higher power means more energy usage', 'Power determines heating effects'] }
+        ];
+      } else if (unit === 'unit10') {
+        return [
+          { key: 'waveProperties', title: 'Fundamental Wave Properties', keyFacts: ['Waves transfer energy without transferring matter', 'Amplitude is maximum displacement', 'Wavelength is distance between identical points', 'Frequency is oscillations per second', 'Wave speed = frequency × wavelength'] },
+          { key: 'waveTypes', title: 'Types of Mechanical Waves', keyFacts: ['Transverse waves: perpendicular displacement', 'Longitudinal waves: parallel displacement', 'Sound waves are longitudinal pressure waves', 'Water waves have both components', 'Both types transfer energy through medium'] },
+          { key: 'waveBehavior', title: 'Wave Behavior and Interactions', keyFacts: ['Reflection: waves bounce off boundaries', 'Refraction: waves bend entering new medium', 'Interference: waves add when they meet', 'Constructive interference increases amplitude', 'Destructive interference decreases amplitude'] },
+          { key: 'standingWaves', title: 'Standing Wave Patterns', keyFacts: ['Formed by interference of traveling waves', 'Nodes are points of zero displacement', 'Antinodes are points of maximum displacement', 'String instruments use standing waves', 'Different harmonics have different frequencies'] },
+          { key: 'soundWaves', title: 'Sound and Doppler Effect', keyFacts: ['Sound requires medium for transmission', 'Speed depends on medium properties', 'Doppler effect changes frequency with motion', 'Moving source or observer affects frequency', 'Applications in medical and weather radar'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -777,7 +869,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat' || course === 'apcsp') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat' || course === 'apcsp' || course === 'apphysics1' || course === 'physics1') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -800,7 +892,7 @@ const SocraticChat = () => {
       }
       
       // Instead of setting empty array, let's provide fallback topics for known courses
-      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') {
+      if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat' || course === 'apphysics1' || course === 'physics1') {
         console.log('Providing fallback topics for', course, unit);
         const fallbackTopics = getFallbackTopics(course, unit);
         setUnitTopics(fallbackTopics);
@@ -977,7 +1069,7 @@ const SocraticChat = () => {
 
   // Initialize conversation with welcome message and memory system
   useEffect(() => {
-    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') && unit && !authLoading) {
+    if ((course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat' || course === 'apphysics1' || course === 'physics1') && unit && !authLoading) {
       // Handle authenticated users with memory system
       if (user) {
         const userId = user.uid; // Use Firebase user ID
