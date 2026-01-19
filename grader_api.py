@@ -4326,163 +4326,50 @@ def get_unit_topics_api():
                 "unit8": {
                     "unit": "unit8",
                     "course": "apphysics1",
-                    "overview": "This unit introduces electrostatics including electric charge, electric force, and electric fields. Students learn about fundamental electrical interactions.",
+                    "overview": "This unit introduces fluid mechanics including the properties of fluids, pressure, buoyancy, and fluid flow. Students learn about the behavior of liquids and gases.",
                     "topics": [
                         {
-                            "key": "electricCharge",
-                            "title": "Electric Charge",
+                            "key": "fluidProperties",
+                            "title": "Properties of Fluids",
                             "keyFacts": [
-                                "Two types of charge: positive and negative",
-                                "Like charges repel, opposite charges attract",
-                                "Charge is conserved in all interactions",
-                                "Charge measured in coulombs (C)",
-                                "Electrons carry negative charge, protons positive"
+                                "Fluids include both liquids and gases",
+                                "Flow and take shape of container",
+                                "Liquids have definite volume, gases don't",
+                                "Density ρ = m/V is key property (kg/m³)",
+                                "Viscosity measures resistance to flow"
                             ]
                         },
                         {
-                            "key": "coulombsLaw",
-                            "title": "Coulomb's Law",
+                            "key": "pressure",
+                            "title": "Pressure in Fluids", 
                             "keyFacts": [
-                                "Electric force between charges follows inverse square law",
-                                "F = kq₁q₂/r² where k is Coulomb's constant",
-                                "Force is attractive for opposite charges",
-                                "Force is repulsive for like charges",
-                                "Force acts along line connecting the charges"
+                                "Pressure is force per unit area (P = F/A)",
+                                "Units include Pascals (Pa), atmospheres, torr",
+                                "Atmospheric pressure ≈ 101,325 Pa at sea level",
+                                "Hydrostatic pressure P = ρgh in fluids",
+                                "Pascal's principle: pressure transmitted equally"
                             ]
                         },
                         {
-                            "key": "electricField",
-                            "title": "Electric Field",
+                            "key": "buoyancy",
+                            "title": "Buoyancy and Floating",
                             "keyFacts": [
-                                "Electric field is force per unit positive charge",
-                                "E = F/q defines electric field strength",
-                                "Field points away from positive charges",
-                                "Field points toward negative charges",
-                                "Field allows action-at-a-distance interactions"
+                                "Archimedes' principle: buoyant force equals displaced fluid weight",
+                                "Objects float when buoyant force equals weight",
+                                "Density comparison determines floating or sinking",
+                                "Displacement varies with object density",
+                                "Buoyant force acts upward through fluid"
                             ]
                         },
                         {
-                            "key": "conductorsInsulators",
-                            "title": "Conductors and Insulators",
+                            "key": "fluidFlow",
+                            "title": "Fluid Flow Principles",
                             "keyFacts": [
-                                "Conductors allow charges to move freely",
-                                "Insulators prevent charge movement",
-                                "Metals are generally good conductors",
-                                "Glass, plastic, rubber are insulators",
-                                "Semiconductors have intermediate properties"
-                            ]
-                        }
-                    ]
-                },
-                "unit9": {
-                    "unit": "unit9",
-                    "course": "apphysics1",
-                    "overview": "This unit covers DC circuits including current, voltage, resistance, and circuit analysis. Students learn to analyze simple electrical circuits.",
-                    "topics": [
-                        {
-                            "key": "currentVoltageResistance",
-                            "title": "Current, Voltage, and Resistance",
-                            "keyFacts": [
-                                "Current is flow of electric charge (measured in amperes)",
-                                "Voltage is electric potential difference (measured in volts)",
-                                "Resistance opposes current flow (measured in ohms)",
-                                "Higher voltage drives more current",
-                                "Higher resistance reduces current"
-                            ]
-                        },
-                        {
-                            "key": "ohmsLaw",
-                            "title": "Ohm's Law",
-                            "keyFacts": [
-                                "V = IR relates voltage, current, and resistance",
-                                "Applies to ohmic materials at constant temperature",
-                                "Can rearrange to find any unknown quantity",
-                                "Fundamental relationship for circuit analysis",
-                                "Not all materials obey Ohm's law"
-                            ]
-                        },
-                        {
-                            "key": "seriesParallel",
-                            "title": "Series and Parallel Circuits",
-                            "keyFacts": [
-                                "Series: components connected end-to-end in single path",
-                                "Parallel: components connected across same voltage source",
-                                "Series circuits have same current through all components",
-                                "Parallel circuits have same voltage across all components",
-                                "Total resistance differs in series vs parallel"
-                            ]
-                        },
-                        {
-                            "key": "electricalPower",
-                            "title": "Electrical Power",
-                            "keyFacts": [
-                                "Power is rate of energy dissipation",
-                                "P = IV = I²R = V²/R",
-                                "Power measured in watts",
-                                "Energy = Power × time",
-                                "Higher power means more energy use per time"
-                            ]
-                        }
-                    ]
-                },
-                "unit10": {
-                    "unit": "unit10",
-                    "course": "apphysics1",
-                    "overview": "This unit introduces mechanical waves and sound including wave properties, wave behavior, and sound phenomena. Students learn about wave motion and acoustic physics.",
-                    "topics": [
-                        {
-                            "key": "waveProperties",
-                            "title": "Wave Properties",
-                            "keyFacts": [
-                                "Waves transfer energy without transferring matter",
-                                "Amplitude measures maximum displacement",
-                                "Wavelength is distance between identical points",
-                                "Frequency is oscillations per unit time",
-                                "Wave speed = frequency × wavelength"
-                            ]
-                        },
-                        {
-                            "key": "waveTypes",
-                            "title": "Types of Waves",
-                            "keyFacts": [
-                                "Transverse waves: displacement perpendicular to wave direction",
-                                "Longitudinal waves: displacement parallel to wave direction",
-                                "Sound waves are longitudinal pressure waves",
-                                "Light waves are transverse electromagnetic waves",
-                                "Both types transfer energy through medium"
-                            ]
-                        },
-                        {
-                            "key": "waveBehavior",
-                            "title": "Wave Behavior",
-                            "keyFacts": [
-                                "Reflection: waves bounce off boundaries",
-                                "Refraction: waves change direction when entering new medium",
-                                "Interference: waves add together when they meet",
-                                "Constructive interference increases amplitude",
-                                "Destructive interference decreases amplitude"
-                            ]
-                        },
-                        {
-                            "key": "standingWaves",
-                            "title": "Standing Waves",
-                            "keyFacts": [
-                                "Formed when waves reflect back on themselves",
-                                "Nodes are points of zero displacement",
-                                "Antinodes are points of maximum displacement",
-                                "String instruments use standing wave patterns",
-                                "Different harmonics produce different frequencies"
-                            ]
-                        },
-                        {
-                            "key": "soundWaves",
-                            "title": "Sound and Doppler Effect",
-                            "keyFacts": [
-                                "Sound needs medium to travel through",
-                                "Sound speed depends on medium properties",
-                                "Doppler effect changes frequency with relative motion",
-                                "Moving source or observer affects perceived frequency",
-                                "Applications in radar, sonar, medical imaging"
+                                "Continuity equation: A₁v₁ = A₂v₂",
+                                "Flow speed inversely related to area",
+                                "Bernoulli's principle relates pressure and speed",
+                                "Faster flow means lower pressure",
+                                "Applications in airplane wings and plumbing"
                             ]
                         }
                     ]
