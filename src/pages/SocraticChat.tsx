@@ -173,6 +173,16 @@ const SocraticChat = () => {
       };
       return unitData[unit as keyof typeof unitData] || { title: `AP Statistics ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
     }
+    if (course === 'apcsp') {
+      const unitData = {
+        'unit1': { title: 'AP Computer Science Principles Unit 1: Creative Development', period: 'Programming & Innovation', emoji: '💻' },
+        'unit2': { title: 'AP Computer Science Principles Unit 2: Data', period: 'Collection, Organization & Analysis', emoji: '📊' },
+        'unit3': { title: 'AP Computer Science Principles Unit 3: Algorithms and Programming', period: 'Logic & Implementation', emoji: '🔢' },
+        'unit4': { title: 'AP Computer Science Principles Unit 4: Computer Systems and Networks', period: 'Hardware & Connectivity', emoji: '🌐' },
+        'unit5': { title: 'AP Computer Science Principles Unit 5: Impact of Computing', period: 'Society, Ethics & Security', emoji: '🔒' }
+      };
+      return unitData[unit as keyof typeof unitData] || { title: `AP Computer Science Principles ${unit?.toUpperCase()}`, period: '', emoji: '📚' };
+    }
     return { title: 'Unknown Unit', period: '', emoji: '📚' };
   };
 
@@ -684,6 +694,50 @@ const SocraticChat = () => {
       }
     }
 
+    if (course === 'apcsp') {
+      if (unit === 'unit1') {
+        return [
+          { key: 'creativeDevelopment', title: 'Creative Development Process', keyFacts: ['Iterative development cycle improves programs', 'User feedback guides design decisions', 'Testing identifies and fixes bugs', 'Collaboration enhances creativity', 'Documentation makes code maintainable'] },
+          { key: 'programmingFundamentals', title: 'Programming Fundamentals', keyFacts: ['Variables store and manipulate data', 'Functions organize code into reusable blocks', 'Control structures direct program flow', 'Data types determine variable capabilities', 'Syntax rules govern program structure'] },
+          { key: 'designThinking', title: 'Design Thinking and Planning', keyFacts: ['User-centered design meets real needs', 'Wireframes and prototypes visualize ideas', 'Planning reduces development time', 'Accessibility ensures inclusive design', 'Iterative improvement refines solutions'] },
+          { key: 'collaboration', title: 'Collaboration in Development', keyFacts: ['Version control manages code changes', 'Pair programming improves code quality', 'Code reviews catch errors and improve style', 'Documentation facilitates team understanding', 'Communication prevents misunderstandings'] },
+          { key: 'innovation', title: 'Innovation and Technology', keyFacts: ['Technology enables creative expression', 'Innovation solves real-world problems', 'Existing technologies inspire new solutions', 'Constraints often spark creativity', 'Digital tools democratize creation'] }
+        ];
+      } else if (unit === 'unit2') {
+        return [
+          { key: 'dataCollection', title: 'Data Collection Methods', keyFacts: ['Sensors automatically gather environmental data', 'Surveys collect user preferences and opinions', 'Web scraping extracts online information', 'APIs provide structured data access', 'Data quality affects analysis accuracy'] },
+          { key: 'dataOrganization', title: 'Data Organization and Representation', keyFacts: ['Databases organize data for efficient retrieval', 'Tables use rows and columns structure', 'Data formats include CSV, JSON, and XML', 'Metadata describes data characteristics', 'Normalization reduces data redundancy'] },
+          { key: 'dataAnalysis', title: 'Data Analysis and Insights', keyFacts: ['Filtering isolates relevant data subsets', 'Sorting arranges data by specified criteria', 'Aggregation summarizes large datasets', 'Visualization reveals patterns and trends', 'Statistical analysis quantifies relationships'] },
+          { key: 'dataPrivacy', title: 'Data Privacy and Security', keyFacts: ['Personal data requires protection measures', 'Encryption secures data transmission', 'Access controls limit data exposure', 'Data anonymization protects individual privacy', 'Legal regulations govern data usage'] },
+          { key: 'bigDataImpact', title: 'Big Data and Societal Impact', keyFacts: ['Big data enables predictive analytics', 'Data-driven decisions improve outcomes', 'Bias in data leads to unfair results', 'Data ownership raises ethical questions', 'Surveillance capabilities affect privacy'] }
+        ];
+      } else if (unit === 'unit3') {
+        return [
+          { key: 'algorithmicThinking', title: 'Algorithmic Thinking', keyFacts: ['Algorithms are step-by-step problem solutions', 'Decomposition breaks problems into parts', 'Pattern recognition identifies similarities', 'Abstraction focuses on essential features', 'Algorithms can solve similar problems'] },
+          { key: 'programmingLanguages', title: 'Programming Languages and Tools', keyFacts: ['High-level languages are human-readable', 'Different languages suit different purposes', 'IDEs provide development environments', 'Libraries extend language capabilities', 'Syntax varies across programming languages'] },
+          { key: 'controlStructures', title: 'Control Structures and Logic', keyFacts: ['Sequence executes instructions in order', 'Selection chooses between alternatives', 'Iteration repeats instructions', 'Boolean logic controls program flow', 'Conditional statements implement decisions'] },
+          { key: 'dataStructures', title: 'Data Structures and Variables', keyFacts: ['Lists store ordered collections of items', 'Arrays provide indexed data access', 'Variables hold values that can change', 'Data types define variable capabilities', 'Scope determines variable accessibility'] },
+          { key: 'algorithmEfficiency', title: 'Algorithm Efficiency and Optimization', keyFacts: ['Running time measures algorithm speed', 'Space complexity indicates memory usage', 'Different algorithms solve same problems', 'Optimization improves performance', 'Trade-offs exist between time and space'] }
+        ];
+      } else if (unit === 'unit4') {
+        return [
+          { key: 'computerSystems', title: 'Computer Systems Architecture', keyFacts: ['CPU executes program instructions', 'Memory stores data and programs', 'Input/output devices interface with users', 'Operating systems manage hardware resources', 'Hardware and software work together'] },
+          { key: 'networks', title: 'Networks and the Internet', keyFacts: ['Internet connects global computer networks', 'Protocols enable communication standards', 'IP addresses identify network devices', 'Routers direct network traffic', 'Bandwidth affects data transmission speed'] },
+          { key: 'internetProtocols', title: 'Internet Protocols and Standards', keyFacts: ['HTTP transfers web page content', 'TCP/IP ensures reliable data delivery', 'DNS translates domain names to addresses', 'Packets carry data across networks', 'Standards enable global interoperability'] },
+          { key: 'cybersecurity', title: 'Cybersecurity Fundamentals', keyFacts: ['Authentication verifies user identity', 'Encryption protects data confidentiality', 'Firewalls block unauthorized access', 'Malware threatens system security', 'Security requires multiple layers'] },
+          { key: 'digitalDivide', title: 'Digital Divide and Access', keyFacts: ['Unequal access limits opportunities', 'Geographic location affects connectivity', 'Economic factors influence technology access', 'Digital literacy affects effective usage', 'Policy decisions impact internet access'] }
+        ];
+      } else if (unit === 'unit5') {
+        return [
+          { key: 'computingInnovations', title: 'Computing Innovations and Society', keyFacts: ['Computing transforms how we work and live', 'Innovations create new opportunities and challenges', 'Technology adoption varies across populations', 'Digital systems enable global collaboration', 'Computing solutions address societal problems'] },
+          { key: 'ethicalComputing', title: 'Ethical Issues in Computing', keyFacts: ['Privacy concerns arise from data collection', 'Algorithmic bias affects fairness', 'Intellectual property protects digital creations', 'Digital rights and responsibilities matter', 'Ethical decision-making guides technology use'] },
+          { key: 'legalIssues', title: 'Legal and Policy Issues', keyFacts: ['Copyright protects creative digital works', 'Fair use allows limited content usage', 'Digital piracy violates intellectual property', 'Government regulations affect technology', 'International laws vary across countries'] },
+          { key: 'socialImpact', title: 'Social Impact of Computing', keyFacts: ['Social media changes communication patterns', 'Automation affects employment markets', 'Digital platforms enable new business models', 'Technology can increase or decrease inequality', 'Computing influences political processes'] },
+          { key: 'globalImpact', title: 'Global Impact and Digital Citizenship', keyFacts: ['Internet enables global information sharing', 'Digital citizenship requires responsible behavior', 'Technology bridges and creates cultural divides', 'Global collaboration solves complex problems', 'Digital footprints have lasting consequences'] }
+        ];
+      }
+    }
+
     return [];
   };
 
@@ -723,7 +777,7 @@ const SocraticChat = () => {
       
       // If API returns no topics, use fallback topics for known courses
       if (!data.topics || data.topics.length === 0) {
-        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat') {
+        if (course === 'apush' || course === 'apgov' || course === 'apworld' || course === 'world' || course === 'apbiology' || course === 'appsychology' || course === 'apmicro' || course === 'apmacro' || course === 'aphug' || course === 'apstat' || course === 'apcsp') {
           console.log('API returned no topics, providing fallback topics for', course, unit);
           const fallbackTopics = getFallbackTopics(course, unit);
           setUnitTopics(fallbackTopics);
@@ -882,6 +936,17 @@ const SocraticChat = () => {
         'unit9': "Welcome to AP Statistics Unit 9: Inference for Quantitative Data: Slopes! 📉\n\nI'm your Socratic AI tutor. Let's examine inference for linear regression and correlation.\n\nKey topics: Conditions for regression inference • Inference for slope • t-test for correlation • Prediction vs confidence intervals • Transformations in regression\n\nWhat interests you about regression inference, or what would you like to explore about statistical relationships?"
       };
       return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore statistics through guided questions and data analysis.`;
+    }
+    if (course === 'apcsp') {
+      const unitInfo = getUnitInfo();
+      const welcomeMessages = {
+        'unit1': "Welcome to AP Computer Science Principles Unit 1: Creative Development! 💻\n\nI'm your Socratic AI tutor. I'll guide your exploration of programming and innovation through inquiry and hands-on thinking.\n\nKey topics: Creative development process • Programming fundamentals • Design thinking • Collaboration in development • Innovation and technology\n\nWhat interests you about programming and creative development, or what would you like to explore about the development process?",
+        'unit2': "Welcome to AP Computer Science Principles Unit 2: Data! 📊\n\nI'm your Socratic AI tutor. Let's explore how data is collected, organized, and analyzed to gain insights and solve problems.\n\nKey topics: Data collection methods • Data organization • Data analysis and insights • Data privacy and security • Big data and societal impact\n\nWhat would you like to understand about data and its role in computing, or what questions do you have about data analysis?",
+        'unit3': "Welcome to AP Computer Science Principles Unit 3: Algorithms and Programming! 🔢\n\nI'm your Socratic AI tutor. Let's examine algorithmic thinking, programming concepts, and how to implement solutions through code.\n\nKey topics: Algorithmic thinking • Programming languages and tools • Control structures • Data structures and variables • Algorithm efficiency\n\nWhat interests you about algorithms and programming logic, or what programming concepts would you like to explore?",
+        'unit4': "Welcome to AP Computer Science Principles Unit 4: Computer Systems and Networks! 🌐\n\nI'm your Socratic AI tutor. Let's explore how computer systems work and how they connect to form global networks.\n\nKey topics: Computer systems architecture • Networks and the Internet • Internet protocols • Cybersecurity fundamentals • Digital divide and access\n\nWhat do you want to learn about computer systems and networks, or what questions do you have about how the Internet works?",
+        'unit5': "Welcome to AP Computer Science Principles Unit 5: Impact of Computing! 🔒\n\nI'm your Socratic AI tutor. Let's examine the societal, ethical, and global implications of computing technologies.\n\nKey topics: Computing innovations and society • Ethical issues in computing • Legal and policy issues • Social impact of computing • Global impact and digital citizenship\n\nWhat interests you about the impact of computing on society, or what ethical questions about technology would you like to explore?"
+      };
+      return welcomeMessages[unit as keyof typeof welcomeMessages] || `Welcome to ${unitInfo.title}! I'm your Socratic AI tutor, ready to help you explore computer science principles through guided questions and computational thinking.`;
     }
     return "Welcome! I'm your Socratic AI tutor, ready to help you learn through guided discussion.";
   };

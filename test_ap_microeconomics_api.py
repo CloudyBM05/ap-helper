@@ -64,21 +64,25 @@ def test_socratic_chat(course: str, unit: str) -> Dict:
         }
 
 def main():
-    """Test AP Microeconomics, AP Macroeconomics, and AP Human Geography units"""
+    """Test AP Microeconomics, AP Macroeconomics, AP Human Geography, AP Statistics, and AP Computer Science Principles units"""
     print("🧪 Testing AP Course API Endpoints")
     print("=" * 60)
     
     courses = {
         "apmicro": "AP Microeconomics",
         "apmacro": "AP Macroeconomics", 
-        "aphug": "AP Human Geography"
+        "aphug": "AP Human Geography",
+        "apstat": "AP Statistics",
+        "apcsp": "AP Computer Science Principles"
     }
     
     # Different unit counts for different courses
     units_config = {
         "apmicro": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6"],
         "apmacro": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6"],
-        "aphug": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6", "unit7"]
+        "aphug": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6", "unit7"],
+        "apstat": ["unit1", "unit2", "unit3", "unit4", "unit5", "unit6", "unit7", "unit8", "unit9"],
+        "apcsp": ["unit1", "unit2", "unit3", "unit4", "unit5"]
     }
     
     all_topics_success = 0
@@ -117,6 +121,10 @@ def main():
             # Use appropriate test message for each course
             if course_id == 'aphug':
                 test_message = 'What is spatial thinking in geography?'
+            elif course_id == 'apstat':
+                test_message = 'What is a statistical distribution?'
+            elif course_id == 'apcsp':
+                test_message = 'What is algorithmic thinking in computer science?'
             else:
                 test_message = 'What is scarcity in economics?'
             
@@ -150,6 +158,8 @@ def main():
         print("✅ AP Microeconomics: Complete (6 units)")
         print("✅ AP Macroeconomics: Complete (6 units)")
         print("✅ AP Human Geography: Complete (7 units)")
+        print("✅ AP Statistics: Complete (9 units)")
+        print("✅ AP Computer Science Principles: Complete (5 units)")
         print("\n🌐 Access at: https://aphelper.tech/socratic-learning")
     else:
         missing_topics = total_tests - all_topics_success

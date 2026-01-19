@@ -3942,6 +3942,319 @@ def get_unit_topics_api():
                     ]
                 }
             }
+        elif course == "apcsp":
+            topics_data = {
+                "unit1": {
+                    "unit": "unit1",
+                    "course": "apcsp",
+                    "overview": "This unit focuses on the creative development process in programming. Students learn to design, implement, and refine programs through iterative development while considering user needs and collaboration.",
+                    "topics": [
+                        {
+                            "key": "creativeDevelopment",
+                            "title": "Creative Development Process",
+                            "keyFacts": [
+                                "Iterative development cycle improves programs through repeated testing",
+                                "User feedback guides design decisions and improvements",
+                                "Testing identifies bugs and validates functionality",
+                                "Collaboration enhances creativity and problem-solving",
+                                "Documentation makes code maintainable and understandable"
+                            ]
+                        },
+                        {
+                            "key": "programmingFundamentals",
+                            "title": "Programming Fundamentals",
+                            "keyFacts": [
+                                "Variables store and manipulate data in programs",
+                                "Functions organize code into reusable, modular blocks",
+                                "Control structures direct program flow and logic",
+                                "Data types determine what operations variables can perform",
+                                "Syntax rules govern how programming languages are structured"
+                            ]
+                        },
+                        {
+                            "key": "designThinking",
+                            "title": "Design Thinking and Planning",
+                            "keyFacts": [
+                                "User-centered design focuses on meeting real user needs",
+                                "Wireframes and prototypes help visualize ideas before coding",
+                                "Planning and design reduce development time and errors",
+                                "Accessibility ensures programs are inclusive for all users",
+                                "Iterative improvement refines solutions based on feedback"
+                            ]
+                        },
+                        {
+                            "key": "collaboration",
+                            "title": "Collaboration in Development",
+                            "keyFacts": [
+                                "Version control systems manage and track code changes",
+                                "Pair programming improves code quality through collaboration",
+                                "Code reviews help catch errors and improve coding style",
+                                "Clear documentation facilitates team understanding",
+                                "Effective communication prevents misunderstandings"
+                            ]
+                        },
+                        {
+                            "key": "innovation",
+                            "title": "Innovation and Technology",
+                            "keyFacts": [
+                                "Technology enables creative expression and problem-solving",
+                                "Innovation often involves solving real-world problems",
+                                "Existing technologies can inspire new solutions",
+                                "Constraints and limitations often spark creative solutions",
+                                "Digital tools democratize creation and innovation"
+                            ]
+                        }
+                    ]
+                },
+                "unit2": {
+                    "unit": "unit2",
+                    "course": "apcsp",
+                    "overview": "This unit explores data collection, organization, and analysis techniques. Students learn how data is gathered, stored, and processed to extract meaningful insights while considering privacy and security implications.",
+                    "topics": [
+                        {
+                            "key": "dataCollection",
+                            "title": "Data Collection Methods",
+                            "keyFacts": [
+                                "Sensors automatically gather environmental and physical data",
+                                "Surveys collect user preferences, opinions, and behaviors",
+                                "Web scraping extracts information from online sources",
+                                "APIs provide structured access to data from services",
+                                "Data quality and accuracy affect analysis reliability"
+                            ]
+                        },
+                        {
+                            "key": "dataOrganization",
+                            "title": "Data Organization and Representation",
+                            "keyFacts": [
+                                "Databases organize data for efficient storage and retrieval",
+                                "Tables use rows and columns to structure information",
+                                "Data formats include CSV, JSON, XML for different needs",
+                                "Metadata provides information about data characteristics",
+                                "Normalization reduces redundancy and improves consistency"
+                            ]
+                        },
+                        {
+                            "key": "dataAnalysis",
+                            "title": "Data Analysis and Insights",
+                            "keyFacts": [
+                                "Filtering isolates relevant subsets from large datasets",
+                                "Sorting arranges data by specified criteria for analysis",
+                                "Aggregation summarizes large datasets into meaningful patterns",
+                                "Visualization reveals trends and patterns in data",
+                                "Statistical analysis quantifies relationships between variables"
+                            ]
+                        },
+                        {
+                            "key": "dataPrivacy",
+                            "title": "Data Privacy and Security",
+                            "keyFacts": [
+                                "Personal data requires protection measures and encryption",
+                                "Encryption secures data during transmission and storage",
+                                "Access controls limit who can view sensitive information",
+                                "Data anonymization protects individual privacy",
+                                "Legal regulations govern how data can be collected and used"
+                            ]
+                        },
+                        {
+                            "key": "bigDataImpact",
+                            "title": "Big Data and Societal Impact",
+                            "keyFacts": [
+                                "Big data enables predictive analytics and forecasting",
+                                "Data-driven decisions can improve outcomes and efficiency",
+                                "Bias in data leads to unfair or discriminatory results",
+                                "Data ownership raises ethical questions about control",
+                                "Surveillance capabilities affect privacy and civil liberties"
+                            ]
+                        }
+                    ]
+                },
+                "unit3": {
+                    "unit": "unit3", 
+                    "course": "apcsp",
+                    "overview": "This unit focuses on algorithmic thinking and programming implementation. Students learn to break down problems, design solutions, and implement them using programming languages and tools.",
+                    "topics": [
+                        {
+                            "key": "algorithmicThinking",
+                            "title": "Algorithmic Thinking",
+                            "keyFacts": [
+                                "Algorithms are step-by-step procedures for solving problems",
+                                "Decomposition breaks complex problems into manageable parts",
+                                "Pattern recognition identifies similarities across problems",
+                                "Abstraction focuses on essential features while hiding details",
+                                "Well-designed algorithms can solve classes of similar problems"
+                            ]
+                        },
+                        {
+                            "key": "programmingLanguages",
+                            "title": "Programming Languages and Tools",
+                            "keyFacts": [
+                                "High-level languages are human-readable and easier to learn",
+                                "Different programming languages suit different purposes",
+                                "IDEs provide integrated development environments for coding",
+                                "Libraries and frameworks extend language capabilities",
+                                "Syntax varies across programming languages but concepts transfer"
+                            ]
+                        },
+                        {
+                            "key": "controlStructures",
+                            "title": "Control Structures and Logic",
+                            "keyFacts": [
+                                "Sequence executes instructions in order from top to bottom",
+                                "Selection uses conditional statements to choose between alternatives",
+                                "Iteration repeats instructions using loops and recursion",
+                                "Boolean logic controls program flow with true/false conditions",
+                                "Conditional statements implement decision-making in programs"
+                            ]
+                        },
+                        {
+                            "key": "dataStructures",
+                            "title": "Data Structures and Variables",
+                            "keyFacts": [
+                                "Lists store ordered collections of related items",
+                                "Arrays provide indexed access to data elements",
+                                "Variables hold values that can change during execution",
+                                "Data types define what operations variables can perform",
+                                "Scope determines where variables can be accessed in code"
+                            ]
+                        },
+                        {
+                            "key": "algorithmEfficiency",
+                            "title": "Algorithm Efficiency and Optimization",
+                            "keyFacts": [
+                                "Running time measures how fast an algorithm completes",
+                                "Space complexity indicates how much memory algorithm uses",
+                                "Different algorithms can solve the same problem differently",
+                                "Optimization improves performance but may increase complexity",
+                                "Trade-offs exist between time efficiency and space usage"
+                            ]
+                        }
+                    ]
+                },
+                "unit4": {
+                    "unit": "unit4",
+                    "course": "apcsp", 
+                    "overview": "This unit explores computer systems architecture and networking. Students learn how computers work internally and how they connect to form global networks like the Internet.",
+                    "topics": [
+                        {
+                            "key": "computerSystems",
+                            "title": "Computer Systems Architecture",
+                            "keyFacts": [
+                                "CPU executes program instructions and controls operations",
+                                "Memory stores data and programs for quick access",
+                                "Input/output devices allow interaction between users and computers",
+                                "Operating systems manage hardware resources and provide services",
+                                "Hardware and software components work together to enable computing"
+                            ]
+                        },
+                        {
+                            "key": "networks",
+                            "title": "Networks and the Internet",
+                            "keyFacts": [
+                                "Internet connects millions of computer networks worldwide",
+                                "Protocols enable different devices to communicate effectively",
+                                "IP addresses uniquely identify devices on networks",
+                                "Routers direct network traffic between different networks",
+                                "Bandwidth affects how fast data can be transmitted"
+                            ]
+                        },
+                        {
+                            "key": "internetProtocols",
+                            "title": "Internet Protocols and Standards",
+                            "keyFacts": [
+                                "HTTP/HTTPS protocols transfer web page content securely",
+                                "TCP/IP ensures reliable data delivery across networks",
+                                "DNS translates human-readable domain names to IP addresses",
+                                "Data packets carry information across network infrastructure",
+                                "Standards enable global interoperability between systems"
+                            ]
+                        },
+                        {
+                            "key": "cybersecurity",
+                            "title": "Cybersecurity Fundamentals",
+                            "keyFacts": [
+                                "Authentication verifies user identity before system access",
+                                "Encryption protects data confidentiality during transmission",
+                                "Firewalls monitor and block unauthorized network access",
+                                "Malware poses security threats to computer systems",
+                                "Effective security requires multiple protective layers"
+                            ]
+                        },
+                        {
+                            "key": "digitalDivide",
+                            "title": "Digital Divide and Access",
+                            "keyFacts": [
+                                "Unequal technology access limits educational and economic opportunities",
+                                "Geographic location affects quality of internet connectivity",
+                                "Economic factors influence ability to access modern technology",
+                                "Digital literacy affects how effectively people use technology",
+                                "Policy decisions impact internet access and net neutrality"
+                            ]
+                        }
+                    ]
+                },
+                "unit5": {
+                    "unit": "unit5",
+                    "course": "apcsp",
+                    "overview": "This unit examines the societal, ethical, and legal implications of computing. Students explore how technology affects individuals, communities, and society while considering responsible digital citizenship.",
+                    "topics": [
+                        {
+                            "key": "computingInnovations", 
+                            "title": "Computing Innovations and Society",
+                            "keyFacts": [
+                                "Computing transforms how people work, communicate, and live",
+                                "Technological innovations create new opportunities and challenges",
+                                "Technology adoption varies across different populations",
+                                "Digital systems enable global collaboration and information sharing",
+                                "Computing solutions can address complex societal problems"
+                            ]
+                        },
+                        {
+                            "key": "ethicalComputing",
+                            "title": "Ethical Issues in Computing",
+                            "keyFacts": [
+                                "Privacy concerns arise from extensive data collection practices",
+                                "Algorithmic bias can perpetuate unfairness and discrimination",
+                                "Intellectual property laws protect digital creations and innovations",
+                                "Digital rights and responsibilities apply to all technology users",
+                                "Ethical decision-making should guide technology development and use"
+                            ]
+                        },
+                        {
+                            "key": "legalIssues",
+                            "title": "Legal and Policy Issues",
+                            "keyFacts": [
+                                "Copyright laws protect creative digital works and content",
+                                "Fair use doctrine allows limited use of copyrighted material",
+                                "Digital piracy violates intellectual property rights",
+                                "Government regulations increasingly affect technology companies",
+                                "International laws vary across countries and jurisdictions"
+                            ]
+                        },
+                        {
+                            "key": "socialImpact",
+                            "title": "Social Impact of Computing",
+                            "keyFacts": [
+                                "Social media platforms change how people communicate",
+                                "Automation affects employment markets and job availability",
+                                "Digital platforms enable new business models and markets",
+                                "Technology can either increase or decrease social inequality",
+                                "Computing influences political processes and democratic participation"
+                            ]
+                        },
+                        {
+                            "key": "globalImpact",
+                            "title": "Global Impact and Digital Citizenship",
+                            "keyFacts": [
+                                "Internet enables instant global information sharing",
+                                "Digital citizenship requires responsible online behavior",
+                                "Technology can both bridge and create cultural divides",
+                                "Global collaboration solves complex international problems",
+                                "Digital footprints have long-lasting consequences"
+                            ]
+                        }
+                    ]
+                }
+            }
         elif course == "apbiology":
             topics_data = {
                 "unit1": {
@@ -5117,7 +5430,7 @@ def socratic_chat_send():
 
     try:
         # Always try Gemini AI first for courses with topic definitions
-        courses_with_topics = ['apbiology', 'appsychology', 'apgov', 'apmicro', 'aphug', 'apstat', 'apush', 'apworld']
+        courses_with_topics = ['apbiology', 'appsychology', 'apgov', 'apmicro', 'aphug', 'apstat', 'apcsp', 'apush', 'apworld']
         
         socratic_data = None
         

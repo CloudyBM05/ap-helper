@@ -155,6 +155,20 @@ const SocraticLearning = () => {
         { id: 8, emoji: '🧮', title: 'Inference for Categorical Data: Chi-Square', period: 'Goodness of Fit & Independence' },
         { id: 9, emoji: '📉', title: 'Inference for Quantitative Data: Slopes', period: 'Linear Regression' }
       ]
+    },
+    {
+      id: 'apcsp',
+      title: 'AP Computer Science Principles',
+      description: 'Explore computational thinking, programming fundamentals, and the impact of computing',
+      category: 'stem',
+      color: 'from-indigo-500 to-purple-500',
+      units: [
+        { id: 1, emoji: '💻', title: 'Creative Development', period: 'Programming & Innovation' },
+        { id: 2, emoji: '📊', title: 'Data', period: 'Collection, Organization & Analysis' },
+        { id: 3, emoji: '🔢', title: 'Algorithms and Programming', period: 'Logic & Implementation' },
+        { id: 4, emoji: '🌐', title: 'Computer Systems and Networks', period: 'Hardware & Connectivity' },
+        { id: 5, emoji: '🔒', title: 'Impact of Computing', period: 'Society, Ethics & Security' }
+      ]
     }
   ];
 
