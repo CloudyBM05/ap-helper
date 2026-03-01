@@ -1,6 +1,6 @@
 # AP Helper – AI-Powered AP Study Platform
 
-AP Helper is a full-stack web application designed to help students prepare for Advanced Placement (AP) courses through AI-guided learning, practice exams, and performance analytics.
+AP Helper is a full-stack web application designed to help students prepare for Advanced Placement (AP) courses through AI-guided learning, practice exams, progress tracking, and analytics.
 
 This project is an early-stage MVP. Core functionality is implemented, with ongoing improvements to UI polish, testing, and feature expansion.
 
@@ -64,18 +64,17 @@ This project is an early-stage MVP. Core functionality is implemented, with ongo
 
 This approach emphasizes critical thinking by using the AI as a tutor rather than a calculator.
 
-def generate_socratic_response(question, context, difficulty):
+    def generate_socratic_response(question, context, difficulty):
     prompt = f"""
-    You are an AP-level Socratic tutor. 
+    You are an AP-level Socratic tutor.
     Guide the student through this {difficulty}-level question: {question}
 
     Context: {context}
 
-    Ask guiding questions that help them reason toward the answer.
+    Ask guiding questions that help the student reason toward the answer.
     Do not provide the final solution directly.
     """
     return llm_api.generate(prompt)
-
 ---
 
 ## 🛠️ Local Setup
@@ -119,3 +118,4 @@ Built by **Brandon**, a student developer focused on AI-powered educational tool
 * Python + FastAPI
 * LLM Integration & Prompt Engineering
 * Cloud Deployment Workflows
+
