@@ -11,7 +11,7 @@ A comprehensive, AI-powered study platform designed to help students excel in Ad
 
 ## 🚀 Live Demo
 
-Visit the platform at: **[AP Helper](https://aphelper.netlify.app/)**
+Visit the platform at: **[AP Helper](aphelper.tech)**
 
 ## ✨ Key Features
 
@@ -315,5 +315,6 @@ This project demonstrates advanced proficiency in:
 ---
 
 *Building the future of education through intelligent technology and innovative design.*
+
 
 
