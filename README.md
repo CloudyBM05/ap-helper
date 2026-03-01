@@ -1,3 +1,7 @@
+Here is the single, clean code block for your README.md. I have fixed the formatting of the file trees and the setup instructions so they render perfectly on GitHub.
+
+Markdown
+
 # AP Helper – AI-Powered AP Study Platform
 
 AP Helper is a full-stack web application designed to help students prepare for Advanced Placement (AP) courses through AI-guided learning, practice exams, and performance analytics.
@@ -8,72 +12,69 @@ This project is an early-stage MVP. Core functionality is implemented, with ongo
 
 ## 🚀 Live Demo
 
-🔗 https://aphelper.tech
+🔗 **[https://aphelper.tech](https://aphelper.tech)**
 
 ---
 
 ## ✨ Core Features
 
 ### 🧠 Socratic AI Tutoring
-- Integrates OpenAI GPT-4 and Google Gemini APIs
-- Guides students using Socratic questioning (avoids direct answer dumping)
-- Maintains conversational context across sessions
-- Generates adaptive hints based on difficulty and student responses
+* **LLM Integration**: Integrates OpenAI GPT-4 and Google Gemini APIs.
+* **Guided Discovery**: Uses Socratic methodology to help students reason through problems (avoids direct answer dumping).
+* **Context Awareness**: Maintains conversational history across sessions.
+* **Adaptive Hints**: Generates progressive hints based on difficulty and student responses.
 
 ### 📚 Practice & Assessment
-- AP-style multiple choice and free response practice
-- AI-assisted FRQ grading
-- Unit-based study organization aligned with official AP structures
+* **Exam Formats**: AP-style multiple choice and free-response (FRQ) practice.
+* **AI Grading**: Automated, rubric-based FRQ grading for instant feedback.
+* **Curriculum Alignment**: Unit-based study organization aligned with official AP course structures.
 
 ### 📊 Progress Tracking
-- Firebase-authenticated user accounts
-- Study session tracking and quiz analytics
-- Personalized dashboard based on selected subjects
+* **Secure Auth**: Firebase-authenticated user accounts with Google Sign-In.
+* **Analytics**: Study session tracking and quiz performance metrics.
+* **Personalized Dashboard**: Customized experience based on user-selected subjects.
 
 ---
 
 ## 🏗️ Technical Architecture
 
-### Frontend
-- React 18 (functional components + hooks)
-- TypeScript for type safety
-- Context API for state management
-- Firebase SDK for authentication
-- Responsive CSS design
+### Frontend (React + TypeScript)
+* **Framework**: React 18 (functional components + hooks)
+* **State Management**: Context API
+* **Backend Integration**: Firebase SDK & Fetch API
+* **UI**: Responsive CSS with custom animations
 
-
+```text
 src/
-├── components/
-├── pages/
-├── context/
-├── hooks/
-└── utils/
+├── components/      # Reusable UI elements
+├── pages/           # Application views
+├── context/         # Global state management
+├── hooks/           # Custom React logic
+└── utils/           # Helper functions
+Backend (Python + FastAPI)
+Framework: FastAPI for high-performance async processing.
 
+AI Engine: OpenAI & Gemini API integration.
 
-### Backend
-- Python + FastAPI
-- RESTful API design
-- OpenAI & Gemini API integration
-- JSON-based persistence layer
-- CORS middleware configuration
+Data Layer: JSON-based persistence (migrating to SQL).
 
+Security: CORS middleware and Firebase token verification.
+
+Plaintext
 
 backend/
-├── grader_api.py
-├── auth_api.py
-└── utils/
+├── grader_api.py    # Main API endpoints
+├── auth_api.py      # Authentication logic
+└── utils/           # AI prompt logic & helpers
+🧠 Example: Socratic Prompt Logic
+This approach emphasizes critical thinking by using the AI as a tutor rather than a calculator.
 
+Python
 
----
-
-## 🧠 Example: Socratic Prompt Logic
-
-```python
 def generate_socratic_response(question, context, difficulty):
     prompt = f"""
-    You are an AP-level Socratic tutor.
-    Guide the student through this {difficulty}-level question:
-    {question}
+    You are an AP-level Socratic tutor. 
+    Guide the student through this {difficulty}-level question: {question}
 
     Context: {context}
 
@@ -81,68 +82,51 @@ def generate_socratic_response(question, context, difficulty):
     Do not provide the final solution directly.
     """
     return llm_api.generate(prompt)
-
-This approach emphasizes reasoning and critical thinking rather than answer delivery.
-
 🛠️ Local Setup
 Prerequisites
-
-Node.js 18+
+Node.js 18+ & npm
 
 Python 3.9+
 
-OpenAI API key
+API Keys: OpenAI, Google Gemini, and Firebase project credentials.
 
-Google Gemini API key
+Installation
+Clone the Repo:
+git clone https://github.com/CloudyBM05/ap-helper.git
 
-Firebase project
+Frontend Setup:
+cd ap-helper && npm install && npm run dev
 
-Frontend
-npm install
-npm run dev
-Backend
-pip install -r requirements.txt
-uvicorn grader_api:app --reload
+Backend Setup:
+cd backend && pip install -r requirements.txt && uvicorn grader_api:app --reload
+
 🧩 Design Decisions
+FastAPI: Chosen for lightweight asynchronous development and strong schema validation.
 
-FastAPI chosen for lightweight async API development and strong schema validation.
+TypeScript: Implemented to reduce runtime bugs and improve long-term maintainability.
 
-TypeScript used to reduce runtime bugs and improve maintainability.
+Socratic AI: Designed to encourage conceptual mastery rather than passive answer consumption.
 
-Socratic AI design encourages conceptual mastery rather than passive answer consumption.
-
-Modular frontend/backend separation improves scalability and maintainability.
-
-📌 Current Status
-
-Core tutoring flow implemented
-
-Multi-subject support functional
-
-Authentication and dashboard complete
-
-Ongoing work: testing coverage, analytics expansion, UI refinement
+Modular Design: Strict separation of concerns between frontend and backend for better scalability.
 
 🛣️ Future Improvements
+[ ] Improved adaptive difficulty modeling using historical student data.
 
-Improved adaptive difficulty modeling
+[ ] Expanded FRQ grading rubric intelligence.
 
-Expanded FRQ grading rubric intelligence
+[ ] Migration from JSON storage to a production-grade database (PostgreSQL).
 
-Database-backed persistence (migrating from JSON storage)
-
-Performance optimization and caching layer
+[ ] Performance optimization and caching layer for frequent AI queries.
 
 👨‍💻 About the Developer
-
 Built by Brandon, a student developer focused on AI-powered educational tools and full-stack systems.
 
-Tech focus:
+Tech Focus:
 
 React + TypeScript
 
 Python + FastAPI
 
-LLM integration & prompt engineering
+LLM Integration & Prompt Engineering
 
-Cloud deployment workflows
+Cloud Deployment Workflows
