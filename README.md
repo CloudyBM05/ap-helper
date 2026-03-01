@@ -1,7 +1,3 @@
-Here is the single, clean code block for your README.md. I have fixed the formatting of the file trees and the setup instructions so they render perfectly on GitHub.
-
-Markdown
-
 # AP Helper – AI-Powered AP Study Platform
 
 AP Helper is a full-stack web application designed to help students prepare for Advanced Placement (AP) courses through AI-guided learning, practice exams, and performance analytics.
@@ -44,32 +40,29 @@ This project is an early-stage MVP. Core functionality is implemented, with ongo
 * **Backend Integration**: Firebase SDK & Fetch API
 * **UI**: Responsive CSS with custom animations
 
-```text
-src/
-├── components/      # Reusable UI elements
-├── pages/           # Application views
-├── context/         # Global state management
-├── hooks/           # Custom React logic
-└── utils/           # Helper functions
-Backend (Python + FastAPI)
-Framework: FastAPI for high-performance async processing.
+📁 src/
+├── 📁 components/      # Reusable UI elements
+├── 📁 pages/           # Application views
+├── 📁 context/         # Global state management
+├── 📁 hooks/           # Custom React logic
+└── 📁 utils/           # Helper functions
 
-AI Engine: OpenAI & Gemini API integration.
+### Backend (Python + FastAPI)
+* **Framework**: FastAPI for high-performance async processing.
+* **AI Engine**: OpenAI & Gemini API integration.
+* **Data Layer**: JSON-based persistence (migrating to SQL).
+* **Security**: CORS middleware and Firebase token verification.
 
-Data Layer: JSON-based persistence (migrating to SQL).
-
-Security: CORS middleware and Firebase token verification.
-
-Plaintext
-
-backend/
+📁 backend/
 ├── grader_api.py    # Main API endpoints
 ├── auth_api.py      # Authentication logic
-└── utils/           # AI prompt logic & helpers
-🧠 Example: Socratic Prompt Logic
-This approach emphasizes critical thinking by using the AI as a tutor rather than a calculator.
+└── 📁 utils/        # AI prompt logic & helpers
 
-Python
+---
+
+## 🧠 Example: Socratic Prompt Logic
+
+This approach emphasizes critical thinking by using the AI as a tutor rather than a calculator.
 
 def generate_socratic_response(question, context, difficulty):
     prompt = f"""
@@ -82,51 +75,47 @@ def generate_socratic_response(question, context, difficulty):
     Do not provide the final solution directly.
     """
     return llm_api.generate(prompt)
-🛠️ Local Setup
-Prerequisites
-Node.js 18+ & npm
 
-Python 3.9+
+---
 
-API Keys: OpenAI, Google Gemini, and Firebase project credentials.
+## 🛠️ Local Setup
 
-Installation
-Clone the Repo:
-git clone https://github.com/CloudyBM05/ap-helper.git
+### Prerequisites
+* **Node.js 18+** & npm
+* **Python 3.9+**
+* **API Keys**: OpenAI, Google Gemini, and Firebase project credentials.
 
-Frontend Setup:
-cd ap-helper && npm install && npm run dev
+### Installation
+1. **Clone the Repo**: 
+   `git clone https://github.com/CloudyBM05/ap-helper.git`
+2. **Frontend Setup**:
+   `cd ap-helper && npm install && npm run dev`
+3. **Backend Setup**:
+   `cd backend && pip install -r requirements.txt && uvicorn grader_api:app --reload`
 
-Backend Setup:
-cd backend && pip install -r requirements.txt && uvicorn grader_api:app --reload
+---
 
-🧩 Design Decisions
-FastAPI: Chosen for lightweight asynchronous development and strong schema validation.
+## 🧩 Design Decisions
+* **FastAPI**: Chosen for lightweight asynchronous development and strong schema validation.
+* **TypeScript**: Implemented to reduce runtime bugs and improve long-term maintainability.
+* **Socratic AI**: Designed to encourage conceptual mastery rather than passive answer consumption.
+* **Modular Design**: Strict separation of concerns between frontend and backend for better scalability.
 
-TypeScript: Implemented to reduce runtime bugs and improve long-term maintainability.
+---
 
-Socratic AI: Designed to encourage conceptual mastery rather than passive answer consumption.
+## 🛣️ Future Improvements
+- [ ] Improved adaptive difficulty modeling using historical student data.
+- [ ] Expanded FRQ grading rubric intelligence.
+- [ ] Migration from JSON storage to a production-grade database (PostgreSQL).
+- [ ] Performance optimization and caching layer for frequent AI queries.
 
-Modular Design: Strict separation of concerns between frontend and backend for better scalability.
+---
 
-🛣️ Future Improvements
-[ ] Improved adaptive difficulty modeling using historical student data.
+## 👨‍💻 About the Developer
+Built by **Brandon**, a student developer focused on AI-powered educational tools and full-stack systems.
 
-[ ] Expanded FRQ grading rubric intelligence.
-
-[ ] Migration from JSON storage to a production-grade database (PostgreSQL).
-
-[ ] Performance optimization and caching layer for frequent AI queries.
-
-👨‍💻 About the Developer
-Built by Brandon, a student developer focused on AI-powered educational tools and full-stack systems.
-
-Tech Focus:
-
-React + TypeScript
-
-Python + FastAPI
-
-LLM Integration & Prompt Engineering
-
-Cloud Deployment Workflows
+**Tech Focus:**
+* React + TypeScript
+* Python + FastAPI
+* LLM Integration & Prompt Engineering
+* Cloud Deployment Workflows
