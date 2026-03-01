@@ -98,6 +98,15 @@ const studyGuides = [
     tags: ['Big Ideas 1-5', 'Programming', 'Data & Analysis', 'Algorithms']
   },
   {
+    id: 'apcsa',
+    title: 'AP Computer Science A Study Guide',
+    description: 'Comprehensive guide for AP CSA, including Java programming, object-oriented design, and data structures.',
+    category: 'stem',
+    link: '/apcsa-study-guide',
+    color: 'from-orange-500 to-red-500',
+    tags: ['Units 1-4', 'Java Programming', 'OOP', 'Algorithms']
+  },
+  {
     id: 'apbiology',
     title: 'AP Biology Study Guide',
     description: 'Comprehensive guide for AP Biology, including all units, molecular biology, ecology, and laboratory practices.',
@@ -180,6 +189,8 @@ const StudyGuides: React.FC = () => {
                         ? 'linear-gradient(to right, #14b8a6, #06b6d4)' // teal-cyan
                         : guide.id === 'apcsp'
                         ? 'linear-gradient(to right, #8b5cf6, #a855f7)' // violet-purple
+                        : guide.id === 'apcsa'
+                        ? 'linear-gradient(to right, #f97316, #ef4444)' // orange-red
                         : guide.id === 'apbiology'
                         ? 'linear-gradient(to right, #84cc16, #22c55e)' // lime-green
                         : '#fff',

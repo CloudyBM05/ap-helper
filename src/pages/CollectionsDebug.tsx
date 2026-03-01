@@ -134,31 +134,7 @@ const CollectionsDebug: React.FC = () => {
               }}
             >
               Test Pack Opening
-            </button>
-
-            <button 
-              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors ml-4"
-              onClick={() => {
-                try {
-                  import('../utils/cardCollectionManager').then((module) => {
-                    const testUserId = 'test-user-123';
-                    
-                    // Add debug coins
-                    module.CardCollectionManager.addScholarCoins(testUserId, 1000);
-                    
-                    console.log('Added 1000 coins for debugging');
-                    alert('Added 1000 Scholar Coins for debugging! You can now test different packs.');
-                  });
-                } catch (error) {
-                  console.error('Add coins error:', error);
-                  alert('Add coins failed: ' + error);
-                }
-              }}
-            >
-              Add Debug Coins (1000)
-            </button>
-
-            <button 
+            </button>            <button 
               className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition-colors ml-4"
               onClick={() => {
                 try {

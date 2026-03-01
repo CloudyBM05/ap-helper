@@ -152,17 +152,6 @@ const Collections: React.FC<CollectionsProps> = ({ userId }) => {
             >
               🎁 Open Card Packs
             </button>
-            
-            {/* Debug Coin Button */}
-            <button
-              onClick={() => {
-                CardCollectionManager.addScholarCoins(userId, 500);
-                loadCollection();
-              }}
-              className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              🪙 Add 500 Coins (Debug)
-            </button>
           </div>
         )}
 
@@ -246,16 +235,6 @@ const Collections: React.FC<CollectionsProps> = ({ userId }) => {
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-lg mr-4"
                 >
                   🎁 Open Daily Free Pack!
-                </button>
-                
-                <button
-                  onClick={() => {
-                    CardCollectionManager.addScholarCoins(userId, 500);
-                    loadCollection();
-                  }}
-                  className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-lg"
-                >
-                  🪙 Get Debug Coins
                 </button>
                 <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
                   Daily Pack: 2 Common Cards • FREE • Resets at Midnight

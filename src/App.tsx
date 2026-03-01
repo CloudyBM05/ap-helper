@@ -301,6 +301,15 @@ import CollectionsPage from './pages/CollectionsPage';
 import CollectionsDebug from './pages/CollectionsDebug';
 import CollectionsTest from './pages/CollectionsTest';
 import Arena from './pages/Arena';
+import APCSAStudyGuide from './pages/APCSAStudyGuide';
+import APCSAUnit1 from './pages/APCSAUnit1';
+import APCSAUnit1Quiz from './pages/APCSAUnit1Quiz';
+import APCSAUnit2 from './pages/APCSAUnit2';
+import APCSAUnit2Quiz from './pages/APCSAUnit2Quiz';
+import APCSAUnit3 from './pages/APCSAUnit3';
+import APCSAUnit3Quiz from './pages/APCSAUnit3Quiz';
+import APCSAUnit4 from './pages/APCSAUnit4';
+import APCSAUnit4Quiz from './pages/APCSAUnit4Quiz';
 
 function App() {
   const [showAuth, setShowAuth] = React.useState(false);
@@ -370,45 +379,15 @@ function App() {
             <Route path="/ap-csp-practice-exam/mcq" element={<APCSPMCQOptions />} />
             <Route path="/ap-csp-practice-exam/mcq/2016" element={<APCSP2016PracticeExamMCQ />} />
             <Route path="/ap-csp-practice-exam/mcq/practice-book" element={<APCSPPracticeExamMCQPracticeBook />} />
-            <Route path="/ap-physics/unit/1" element={<APPhysicsUnit1 />} />
-            <Route path="/ap-physics/unit/1/quiz" element={<APPhysicsUnit1Quiz />} />
-            <Route path="/ap-physics/unit/2" element={<APPhysicsUnit2 />} />
-            <Route path="/ap-physics/unit/2/quiz" element={<APPhysicsUnit2Quiz />} />
-            <Route path="/ap-physics/unit/3" element={<APPhysicsUnit3 />} />
-            <Route path="/ap-physics/unit/3/quiz" element={<APPhysicsUnit3Quiz />} />
-            <Route path="/ap-physics/unit/4" element={<APPhysicsUnit4 />} />
-            <Route path="/ap-physics/unit/4/quiz" element={<APPhysicsUnit4Quiz />} />
-            <Route path="/ap-physics/unit/5" element={<APPhysicsUnit5 />} />
-            <Route path="/ap-physics/unit/5/quiz" element={<APPhysicsUnit5Quiz />} />
-            <Route path="/ap-physics/unit/6" element={<APPhysicsUnit6 />} />
-            <Route path="/ap-physics/unit/6/quiz" element={<APPhysicsUnit6Quiz />} />
-            <Route path="/ap-physics/unit/7" element={<APPhysicsUnit7 />} />
-            <Route path="/ap-physics/unit/7/quiz" element={<APPhysicsUnit7Quiz />} />
-            <Route path="/ap-physics/unit/8" element={<APPhysicsUnit8 />} />
-            <Route path="/ap-physics/unit/8/quiz" element={<APPhysicsUnit8Quiz />} />
-            <Route path="/ap-physics-practice-exam/mcq" element={<APPhysicsMCQSelect />} />
-            <Route path="/ap-physics-practice-exam/mcq/collegeboard-2017" element={<APPhysicsCollegeBoard2017 />} />
-            <Route path="/ap-physics-practice-exam/mcq/mit-workbook" element={<APPhysicsMITWorkbook />} />
-            <Route path="/ap-physics-practice-exam/mcq/physics-lab" element={<APPhysicsLabExperiments />} />
-            <Route path="/ap-physics-practice-exam/mathematical-routines" element={<APPhysicsMathematicalRoutines />} />
-            <Route path="/ap-physics-practice-exam/mathematical-routines/q1" element={<APPhysicsMathematicalRoutinesQ1 />} />
-            <Route path="/ap-physics-practice-exam/translation-representations" element={<APPhysicsTranslationRepresentations />} />
-            <Route path="/ap-physics-practice-exam/translation-representations/q1" element={<APPhysicsTranslationRepresentationsQ1 />} />
-            <Route path="/ap-physics-practice-exam/experimental-design" element={<APPhysicsExperimentalDesign />} />
-            <Route path="/ap-physics-practice-exam/experimental-design/q1" element={<APPhysicsExperimentalDesignQ1 />} />
-            <Route path="/ap-physics-practice-exam/qualitative-quantitative" element={<APPhysicsQualitativeQuantitative />} />
-            <Route path="/ap-physics-practice-exam/qualitative-quantitative/q1" element={<APPhysicsQualitativeQuantitativeQ1 />} />
-            <Route path="/ap-gov-unit/:unitId" element={<APGovUnit />} />
-            <Route path="/ap-gov-study-guide/unit/1" element={<APGovUnit1 />} />
-            <Route path="/ap-gov-study-guide/unit/1/quiz" element={<APGovUnit1QuizPage />} />
-            <Route path="/ap-gov-study-guide/unit/2" element={<APGovUnit2 />} />
-            <Route path="/ap-gov-study-guide/unit/2/quiz" element={<APGovUnit2QuizPage />} />
-            <Route path="/ap-gov-study-guide/unit/3" element={<APGovUnit3 />} />
-            <Route path="/ap-gov-study-guide/unit/3/quiz" element={<APGovUnit3QuizPage />} />
-            <Route path="/ap-gov-study-guide/unit/4" element={<APGovUnit4 />} />
-            <Route path="/ap-gov-study-guide/unit/4/quiz" element={<APGovUnit4QuizPage />} />
-            <Route path="/ap-gov-study-guide/unit/5" element={<APGovUnit5 />} />
-            <Route path="/ap-gov-study-guide/unit/5/quiz" element={<APGovUnit5QuizPage />} />
+            <Route path="/apcsa-study-guide" element={<APCSAStudyGuide />} />
+            <Route path="/apcsa-study-guide/unit/1" element={<APCSAUnit1 />} />
+            <Route path="/apcsa-study-guide/unit/1/quiz" element={<APCSAUnit1Quiz />} />
+            <Route path="/apcsa-study-guide/unit/2" element={<APCSAUnit2 />} />
+            <Route path="/apcsa-study-guide/unit/2/quiz" element={<APCSAUnit2Quiz />} />
+            <Route path="/apcsa-study-guide/unit/3" element={<APCSAUnit3 />} />
+            <Route path="/apcsa-study-guide/unit/3/quiz" element={<APCSAUnit3Quiz />} />
+            <Route path="/apcsa-study-guide/unit/4" element={<APCSAUnit4 />} />
+            <Route path="/apcsa-study-guide/unit/4/quiz" element={<APCSAUnit4Quiz />} />
             {/* APUSH Study Guide and Quizzes */}
             <Route path="/apush-study-guide" element={<APUSHStudyGuide />} />
             <Route path="/apush-study-guide/unit/1" element={<APUSHUnit1StudyGuide />} />
@@ -593,7 +572,6 @@ function App() {
             <Route path="/ap-macroeconomics-practice-exam/mcq/select" element={<APMacroeconomicsMCQOptions />} />
             <Route path="/ap-macroeconomics-practice-exam/mcq/2012" element={<APMacroPracticeExamMCQ2012 />} />
             <Route path="/ap-macroeconomics-practice-exam/mcq/princeton" element={<APMacroPracticeExamMCQPrinceton />} />
-            <Route path="/ap-macroeconomics-practice-exam/mcq/2010" element={<APMacroPracticeExamMCQ2010 />} />
             <Route path="/ap-macro-practice-exam/long-frq" element={<APMacroPracticeExamLongFRQ />} />
             <Route path="/ap-macro-practice-exam/long-frq/:setId" element={<APMacroPracticeExamLongFRQExam />} />
             <Route path="/ap-macroeconomics-practice-exam/long-frq" element={<APMacroPracticeExamLongFRQ />} />
