@@ -25,46 +25,59 @@ if (fs.existsSync(html404Src)) {
   console.log('✓ Copied 404.html to dist/');
 }
 
-// Copy .htaccess to dist for proper MIME types
-const htaccessSrc = path.join(__dirname, 'public', '.htaccess');
+// Create .htaccess for proper MIME types
+const htaccessContent = `# Enable MIME type for ES modules
+AddType text/javascript .js
+AddType text/javascript .mjs
+
+# Enable compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+</IfModule>
+
+# Fallback to index.html for SPA
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]`;
+
 const htaccessDest = path.join(__dirname, 'dist', '.htaccess');
+fs.writeFileSync(htaccessDest, htaccessContent);
+console.log('✓ Created .htaccess with proper MIME types in dist/');
 
-if (fs.existsSync(htaccessSrc)) {
-  fs.copyFileSync(htaccessSrc, htaccessDest);
-  console.log('✓ Copied .htaccess to dist/');
-}
-
-// Fix MIME type issues for GitHub Pages
+// For custom domains, ensure proper HTML structure without breaking ES modules
 const indexHtmlPath = path.join(__dirname, 'dist', 'index.html');
 if (fs.existsSync(indexHtmlPath)) {
   let htmlContent = fs.readFileSync(indexHtmlPath, 'utf8');
   
-  // Remove all type="module" attributes and related module syntax
-  htmlContent = htmlContent.replace(/type="module"\s+crossorigin\s+/g, '');
-  htmlContent = htmlContent.replace(/type="module"\s+/g, '');
-  htmlContent = htmlContent.replace(/\scrossorigin\s+/g, ' ');
-  htmlContent = htmlContent.replace(/\scrossorigin=""/g, '');
-  
-  // Ensure script tags have correct type
-  htmlContent = htmlContent.replace(/<script\s+src="/g, '<script type="application/javascript" src="');
-  
-  // Move script tags from head to end of body for proper DOM loading order
-  const scriptTagRegex = /(<script[^>]*src="[^"]*assets\/[^"]*\.js"[^>]*><\/script>)/g;
-  const scriptTags = [];
-  
-  // Extract script tags
-  htmlContent = htmlContent.replace(scriptTagRegex, (match) => {
-    scriptTags.push(match);
-    return ''; // Remove from current position
-  });
-  
-  // Insert script tags before closing body tag
-  if (scriptTags.length > 0) {
-    htmlContent = htmlContent.replace('</body>', scriptTags.join('\n    ') + '\n  </body>');
-  }
+  // Ensure ES module scripts have proper type attribute
+  htmlContent = htmlContent.replace(
+    /<script\s+(crossorigin\s+)?src="([^"]*\.js)"([^>]*)>/g, 
+    '<script type="module" crossorigin src="$2"$3>'
+  );
   
   fs.writeFileSync(indexHtmlPath, htmlContent);
-  console.log('✓ Fixed MIME type issues and script placement in index.html');
+  console.log('✓ Ensured proper ES module script types in index.html');
 }
 
 console.log('Postbuild complete!');

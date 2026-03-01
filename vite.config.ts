@@ -13,19 +13,17 @@ export default defineConfig({
     },
   },
   build: {
-    target: 'es2018', // Modern target for better compatibility
+    target: 'es2018',
     rollupOptions: {
       output: {
-        format: 'iife', // Use IIFE format instead of ES modules
+        format: 'es', // Use ES modules format - proper for modern browsers
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',
-        manualChunks: undefined, // Disable code splitting for simplicity
       },
     },
-    assetsInlineLimit: 0, // Don't inline any assets
-    minify: 'terser', // Use terser for better compatibility
-    sourcemap: false, // Disable sourcemaps for production
+    minify: 'terser',
+    sourcemap: false,
   },
   optimizeDeps: {
     exclude: ['lucide-react'],

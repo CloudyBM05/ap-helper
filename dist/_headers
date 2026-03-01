@@ -1,8 +1,17 @@
-/*
-  X-Frame-Options: SAMEORIGIN
-  X-Content-Type-Options: nosniff
+# Netlify Headers for AP Helper - MIME Type Fix
 
+/*
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Ensure proper MIME types for JavaScript modules
 /*.js
+  Content-Type: text/javascript; charset=utf-8
+
+# Asset files specifically
+/assets/*.js
   Content-Type: text/javascript; charset=utf-8
 
 /*.mjs  
@@ -19,3 +28,15 @@
 
 /*.html
   Content-Type: text/html; charset=utf-8
+
+# Cache static assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Service Worker
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# HTML files - no cache for SPA
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
