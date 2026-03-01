@@ -19,7 +19,7 @@ We take security seriously at AP Helper. If you discover a security vulnerabilit
 
 **DO NOT** create a public GitHub issue for security vulnerabilities. Instead:
 
-1. **Email us directly**: Send details to `security@aphelper.dev`
+1. **Email us directly**: Send details to `aphelper25@gmail.com`
 2. **Include in your report**:
    - Description of the vulnerability
    - Steps to reproduce the issue
@@ -170,23 +170,10 @@ GEMINI_API_KEY=...
 - **User-Generated Content**: Moderation systems in place
 - **Privacy**: Student progress data is anonymized for analytics
 
-### 📞 Emergency Contact
-
-For critical security issues requiring immediate attention:
-- **Emergency Email**: `urgent-security@aphelper.dev`
-- **Phone**: +1 (555) 123-4567 (Security team on-call)
-
-### 🏆 Responsible Disclosure Recognition
-
-We appreciate security researchers who help keep our platform safe:
-- **Hall of Fame**: Public recognition for responsible disclosure
-- **Swag & Rewards**: AP Helper merchandise for valid reports
-- **References**: Professional references for significant contributions
 
 ### 📖 Additional Resources
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [Firebase Security Guidelines](https://firebase.google.com/docs/rules/security)
 - [FastAPI Security](https://fastapi.tiangolo.com/tutorial/security/)
 - [React Security Best Practices](https://snyk.io/blog/10-react-security-best-practices/)
 
