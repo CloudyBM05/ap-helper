@@ -1,71 +1,99 @@
-# AP Helper Platform
-> A full-stack educational platform leveraging Socratic AI methodologies to optimize Advanced Placement exam preparation.
+# AP Helper - Intelligent Learning Platform
 
-## Project Overview
-AP Helper is a comprehensive educational tool designed for students preparing for rigorous Advanced Placement exams. Built with a **React/TypeScript** frontend and **Python** backend, the platform integrates Google's Gemini AI to provide personalized learning experiences across 15+ AP subjects.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![React](https://img.shields.io/badge/React-18.x-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3.9+-green.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-teal.svg)](https://fastapi.tiangolo.com/)
 
----
+A comprehensive, AI-powered study platform designed to help students excel in Advanced Placement courses through interactive learning, practice exams, and revolutionary Socratic AI tutoring.
 
-## Key Features
+## 🚀 Live Demo
 
-### Socratic Learning Engine
-* **Guided Inquiry:** AI-powered questioning system that leads students to conceptual discovery.
-* **Adaptive Dialogue:** Dynamic conversation flows that adjust based on student comprehension levels.
-* **Subject Integration:** Comprehensive coverage for AP Biology, Psychology, Statistics, and Government.
-* **Knowledge Gap Detection:** Real-time identification of areas requiring further review.
-
-### AI-Graded Assessment System
-* **Automated FRQ Grading:** Rubric-based evaluation for Free Response Questions.
-* **Document Analysis:** Support for DBQs (Document-Based Questions) using historical analysis.
-* **NLP Evaluation:** Essay scoring using advanced Natural Language Processing techniques.
-* **Efficiency Optimization:** Prompt engineering strategies that reduced AI token costs by 40%.
-
-### Practice & Resources
-* **Interactive Guides:** Unit-by-unit study materials for over 15 AP subjects.
-* **Exam Simulation:** Full-length practice tests modeled after official College Board formats.
-* **Performance Analytics:** Data-driven tracking of student progress across all modules.
+Visit the platform at: **[AP Helper](https://aphelper.netlify.app/)**
 
 ---
 
-## Technical Architecture
+## ✨ Key Features
 
-### Frontend Stack
-* **Framework:** React 18.3.1
-* **Language:** TypeScript 5.5.3
-* **Styling:** Tailwind CSS 3.4.1
-* **Tooling:** Vite 5.4.2, React Router 6.30, Lucide React
+### 🧠 AI-Powered Socratic Learning System
+* **Large Language Model Integration**: Leverages OpenAI GPT-4 and Google Gemini models for intelligent tutoring.
+* **Adaptive Questioning**: Uses Socratic methodology to guide students through problem-solving processes.
+* **Context-Aware Conversations**: Maintains conversation history and adapts teaching approach based on student responses.
+* **Dynamic Hint Generation**: Provides progressive hints that encourage critical thinking rather than giving direct answers.
+* **Multi-Subject Support**: Covers AP Biology, Psychology, Statistics, Government, Physics, and more.
 
-### Backend & Infrastructure
-* **Environment:** Python Flask/FastAPI
-* **AI Integration:** Google Generative AI SDK
-* **Database/Auth:** Firebase (Authentication & Firestore)
-* **DevOps:** Docker containerization, CI/CD pipelines, and multi-platform deployment (GitHub Pages/Heroku)
+### 📚 Comprehensive Study Resources
+* **Interactive Study Guides**: Subject-specific guides with visual elements and practice questions.
+* **Practice Exams**: Full-length AP practice tests with instant scoring and detailed explanations.
+* **Free Response Question (FRQ) Practice**: Targeted practice for essay-style questions with AI grading.
+* **Unit-Based Learning**: Organized content following official AP course structures.
 
----
-
-## Professional Competencies Demonstrated
-
-### Engineering & Development
-* **Full-Stack Proficiency:** Management of complex state in React and robust API design in Python.
-* **Type Safety:** Implementation of strict TypeScript patterns across 200+ components.
-* **System Optimization:** Significant reduction in operational costs through intelligent resource management.
-
-### Educational Technology
-* **Pedagogical Integration:** Successful digital implementation of the Socratic Method.
-* **Standardized Alignment:** Mapping AI logic to specific College Board curriculum standards.
+### 👤 Smart User Management
+* **Firebase Authentication**: Secure user accounts with Google Sign-In integration.
+* **Progress Tracking**: Detailed analytics on study sessions, quiz performance, and learning patterns.
+* **Personalized Dashboard**: Customized experience based on user's selected courses and progress.
 
 ---
 
-## Installation & Setup
+## 🏗️ Technical Architecture
 
-1. **Clone Repository:** `git clone https://github.com/CloudyBM05/ap-helper.git`
-2. **Install Dependencies:** `npm install`
-3. **Build Project:** `npm run build`
+### Frontend (React + TypeScript)
+- src/
+  - components/      # Reusable UI components
+  - pages/           # Application pages and views
+  - context/         # React Context for state management
+  - hooks/           # Custom React hooks
+  - utils/           # Utility functions and helpers
+
+### Backend (Python + FastAPI)
+- backend/
+  - grader_api.py       # Main FastAPI application
+  - auth_api.py         # Authentication endpoints
+  - comprehensive_socratic_test.py  # Socratic AI testing logic
+  - deployment_verification.py      # Health checks
 
 ---
 
-## License
-This project is licensed under the MIT License.
+## 💡 Technical Innovations
+
+### 1. Socratic Learning Engine
+Developed custom logic to ensure the AI acts as a tutor rather than a solution generator, utilizing specific prompt engineering to guide students through discovery-based learning.
+
+### 2. Efficiency & Optimization
+* **Token Management**: Optimized prompt structures to reduce AI processing costs by 40%.
+* **Type Safety**: Utilized TypeScript for robust error catching across the entire frontend.
+* **Deployment**: Automated CI/CD pipelines ensure seamless updates to the live platform.
 
 ---
-> **Built with passion for education and technological excellence.**
+
+## 🎯 Supported AP Subjects
+
+| Subject | Study Guides | Practice Exams | Socratic AI |
+| :--- | :---: | :---: | :---: |
+| **AP Biology** | ✅ | ✅ | ✅ |
+| **AP Psychology** | ✅ | ✅ | ✅ |
+| **AP Statistics** | ✅ | ✅ | ✅ |
+| **AP Government** | ✅ | ✅ | ✅ |
+| **AP Physics 1** | ✅ | ✅ | ✅ |
+| **AP Computer Science** | ✅ | ✅ | 🚧 |
+
+---
+
+## 🛠️ Installation & Setup
+
+1. **Clone Repo**: git clone https://github.com/CloudyBM05/ap-helper.git
+2. **Frontend**: Run `npm install` then `npm run dev`
+3. **Backend**: Run `pip install -r requirements.txt` then `python grader_api.py`
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License**.
+
+---
+
+## 👨‍💻 Developer
+**Brandon** *Full-Stack Developer & Educational Technology Innovator* [GitHub Profile](https://github.com/CloudyBM05)
+
+> *Building the future of education through intelligent technology and innovative design.*
